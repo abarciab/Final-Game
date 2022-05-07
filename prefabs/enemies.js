@@ -54,6 +54,9 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         this.body.stop();
         this.setVisible(false);
         this.setPosition(0,0);
+        if (this.owner == null){
+            this.scene.enemy_projectiles.return(this);
+        }
     }
 
     update(){
@@ -77,6 +80,18 @@ class ChargerEnemy extends Phaser.Physics.Arcade.Sprite {
         this.type = "CHARGER";
         this.speed = game_settings.charger_speed;
         this.health = game_settings.charger_health;
+    }
+
+    reset(){
+        this.setActive(true);
+        this.setVisible(true);
+        this.body.setVelocity(0,0);
+        this.health = game_settings.charger_health;
+        this.setAlpha(1);
+    }
+
+    kill(){
+        
     }
 
     //this enemy will just always move toward the player
@@ -108,6 +123,18 @@ class GolemEnemy extends Phaser.Physics.Arcade.Sprite {
         this.health = game_settings.golem_health;
         this.setDrag(0.05);
         this.setDamping(true);
+    }
+
+    reset(){
+        this.setActive(true);
+        this.setVisible(true);
+        this.body.setVelocity(0,0);
+        this.health = game_settings.golem_health;
+        this.setAlpha(1);
+    }
+
+    kill(){
+
     }
 
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
@@ -158,24 +185,37 @@ class ShooterEnemy extends Phaser.Physics.Arcade.Sprite {
         this.loaded = true;
     }
 
+    reset(){
+        this.setActive(true);
+        this.setVisible(true);
+        this.body.setVelocity(0,0);
+        this.health = game_settings.shooter_health;
+        this.setAlpha(1);
+    }
+
+    kill(){
+        this.projectiles.forEach(projectile => {
+            projectile.owner = null;
+            if (projectile.active == false){
+                this.scene.enemy_projectiles.return(projectile);
+            }
+        });   
+    }
+
     //this enemy will try to put space between themselves and the player, then shoot
     update(scene, time, delta){
         let dist = Phaser.Math.Distance.Between(this.x, this.y, scene.player.obj.x, scene.player.obj.y);
         
         if (dist >= game_settings.shooter_min_dist){
-
+            if (this.loaded){    
+                this.loaded = false;
+                this.fire(scene.player.obj);
+                scene.time.delayedCall(game_settings.shooter_reload_time, function () {
+                    this.loaded = true;
+                }, null, this)
+            }
         }
 
-
-        if (this.loaded){    
-            this.loaded = false;
-            this.fire(scene.player.obj);
-
-            scene.time.delayedCall(game_settings.shooter_reload_time, function () {
-                this.loaded = true;
-            }, null, this)
-
-        }
         this.projectiles.forEach(projectile => {
             projectile.update();
         });
