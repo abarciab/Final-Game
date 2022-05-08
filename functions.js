@@ -3,6 +3,7 @@
 function initialize(scene){
     current_scene = scene;
 
+    current_scene = scene;
     game_settings = {
         player_walk_speed: 140,
         player_dash_speed: 1000,
