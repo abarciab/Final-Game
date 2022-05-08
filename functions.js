@@ -1,7 +1,6 @@
 
 //setup functions:
 function Initialize(scene){
-    console.log('initializing');
     current_scene = scene;
 
     game_settings = {
@@ -10,7 +9,7 @@ function Initialize(scene){
         player_max_charge_progress: 1000,
         player_max_health: 5,
 
-        charger_speed: 30,
+        charger_speed: 50,
             charger_health: 1,
         golem_speed: 10,
             golem_health: 4,
@@ -142,16 +141,16 @@ function SetRandomPositionInside(obj){
 }
 
 function SpawnRandomEnemy(){
-    console.log("Spawning random enemy");
     switch(Phaser.Math.Between(1, 3)){
         case 1: 
-            //SpawnEnemy("CHARGER");
-            //break;
+            SpawnEnemy("CHARGER");
+            break;
         case 2: 
             SpawnEnemy("GOLEM");
             break;
         case 3:
-            //SpawnEnemy("SHOOTER");
+            SpawnEnemy("SHOOTER");
+            break;
     }
 }
 
@@ -167,7 +166,7 @@ function SpawnEnemy(type){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ChargerEnemy(200, 900, 'charger').setTint(0xFF0000);
+                new_enemy = new ChargerEnemy(100, 100, 'charger').setTint(0xFF0000);
             }
             SetRandomPositionOutside(new_enemy);
             break;

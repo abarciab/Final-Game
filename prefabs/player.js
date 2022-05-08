@@ -58,16 +58,19 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             return;
         }
 
+    current_scene.cameras.main.shake(150, 0.003);
         this.health-= 1;
         if (this.health == 0){
             current_scene.scene.restart();
-            current_scene.cameras.main.shake(150, 0.003);
             this.setPosition(game.config.width/2, game.config.height/2);
         } else {
             this.speed = game_settings.player_dash_speed/2;
-            this.invulnerable = true;
-            current_scene.time.delayedCall(100, function() {this.invulnerable = false}, null, this);
-            MoveAway(this, source);
+
+            if (source){
+                this.invulnerable = true;
+                current_scene.time.delayedCall(100, function() {this.invulnerable = false}, null, this);
+                MoveAway(this, source);
+            }   
         }
     }
 

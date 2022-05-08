@@ -96,7 +96,6 @@ class ChargerEnemy extends Phaser.Physics.Arcade.Sprite {
             this.Die();
             return;
         }
-        
         this.setAlpha(this.alpha/2);
     }
 
@@ -109,7 +108,7 @@ class ChargerEnemy extends Phaser.Physics.Arcade.Sprite {
 
     //this enemy will just always move toward the player
     Update(time, delta){
-        moveTo(this, current_scene.player);
+        MoveTo(this, current_scene.player);
     }
 }
 

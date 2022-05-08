@@ -25,14 +25,14 @@ class level1FightScene extends Phaser.Scene {
         this.enemy_projectiles = new ProjectileGroup('white arrow');
         SpawnEnemy("CHARGER");    
         SpawnEnemy("GOLEM"); 
-        //SpawnEnemy("SHOOTER"); 
+        SpawnEnemy("SHOOTER"); 
         //infinite enemy spawning:  
         this.time.addEvent({
             delay: game_settings.enemy_spawn_timer,
             callback: SpawnRandomEnemy,
             callbackScope: this,
             loop: true,
-        })   
+        })  
 
         //enemy collisions
         this.physics.add.overlap(this.player, this.enemies, PlayerEnemyCollision.bind(this));
