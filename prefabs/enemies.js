@@ -11,7 +11,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
 
     }
 
-    Borrow(new_owner){
+    borrow(new_owner){
         if (this.num_free == 0){
             this.add(new Projectile(0, 0, this.projectile_texture));
             this.num_free += 1;
@@ -30,7 +30,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
         return project;
     }
 
-    Return(projectile){
+    return(projectile){
         projectile.owner = null;
         this.num_free += 1;
     }
@@ -48,114 +48,154 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         this.deflected = false;
     }
 
-    Reset(){
+    reset(){
         this.setActive(false);
         this.deflected = false;
         this.body.stop();
         this.setVisible(false);
         this.setPosition(0,0);
         if (this.owner == null){
-            this.scene.enemy_projectiles.Return(this);
+            this.scene.enemy_projectiles.return(this);
         }
     }
 
-    Update(){
+    update(){
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
 
         if (this.active && (this.x < -50 || this.x > game.config.width + 50 || this.y < 0 || this.y > game.config.height)){
-            this.Reset();
+            this.reset();
         }
     }
 }
 
-class ChargerEnemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(x, y, texture){
-        super(current_scene, x, y, texture)
+class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
+    constructor(x, y, texture, type) {
+        super(current_scene, x, y, texture);
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
-
-        this.type = "CHARGER";
-        this.speed = game_settings.charger_speed;
-        this.health = game_settings.charger_health;
+        this.type = type;
+        switch(this.type) {
+            case "CHARGER":
+                this.speed = game_settings.charger_speed;
+                this.health = game_settings.charger_health;
+                break;
+            case "GOLEM":
+                this.speed = game_settings.golem_speed;
+                this.health = game_settings.golem_health;
+                break;
+            case "SHOOTER":
+                this.speed = game_settings.shooter_speed;
+                this.health = game_settings.shooter_health;
+                break;
+            default:
+                console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
+                break;
+        }
     }
 
-    Reset(){
+    reset() {
         this.setActive(true);
         this.setVisible(true);
         this.body.setVelocity(0,0);
-        this.health = game_settings.charger_health;
         this.setAlpha(1);
+        switch(this.type) {
+            case "CHARGER":
+                this.health = game_settings.charger_health;
+                break;
+            case "GOLEM":
+                this.health = game_settings.golem_health;
+                break;
+            case "SHOOTER":
+                this.health = game_settings.shooter_health;
+                break;
+            default:
+                console.log("RESET ERROR: INVALID ENEMY TYPE");
+                break;
+        }
     }
 
-    Damage(){
+    damage() {
         this.health -= 1;
         if (this.health <= 0){
-            this.Die();
+            this.die();
             return;
         }
         this.setAlpha(this.alpha/2);
     }
 
-    Die(){
+    die() {
         this.setAlpha(1);
         this.setActive(false);
         this.setVisible(false);
-        this.health = game_settings.charger_health;
-    }
-
-    //this enemy will just always move toward the player
-    Update(time, delta){
-        MoveTo(this, current_scene.player);
+        switch(this.type) {
+            case "CHARGER":
+                this.health = game_settings.charger_health;
+                break;
+            case "GOLEM":
+                this.health = game_settings.golem_health;
+                break;
+            case "SHOOTER":
+                this.health = game_settings.shooter_health;
+                break;
+            default:
+                console.log("RESET ERROR: INVALID ENEMY TYPE");
+                break;
+        }
     }
 }
 
-class GolemEnemy extends Phaser.Physics.Arcade.Sprite {
+class ChargerEnemy extends BaseEnemy {
     constructor(x, y, texture){
-        super(current_scene, x, y, texture)
-        current_scene.physics.world.enableBody(this);
-        current_scene.add.existing(this);
+        super(x, y, texture, "CHARGER");
+    }
 
-        this.type = "GOLEM";
-        this.speed = game_settings.golem_speed;
-        this.health = game_settings.golem_health;
+    reset(){
+        super.reset();
+    }
+
+    damage(){
+        super.damage();
+    }
+
+    die(){
+        super.die();
+    }
+
+    //this enemy will just always move toward the player
+    update(time, delta){
+        moveTo(this, current_scene.player);
+    }
+}
+
+class GolemEnemy extends BaseEnemy {
+    constructor(x, y, texture){
+        super(x, y, texture, "GOLEM");
         this.setDrag(0.05);
         this.setDamping(true);
     }
 
-    Reset(){
-        this.setActive(true);
-        this.setVisible(true);
-        this.body.setVelocity(0,0);
-        this.health = game_settings.golem_health;
-        this.setAlpha(1);
+    reset(){
+        super.reset();
     }
 
-    Damage(){
+    damage(){
         console.log(`golem damaged. health: ${this.health}`);
-        this.health -= 1;
-        if (this.health <= 0){
-            this.Die();
-            return;
-        }
-        this.setAlpha(this.alpha/2);
+        super.damage();
     }
 
-    Die(){
-        this.setAlpha(1);
-        this.health = game_settings.golem_health;
-        this.setActive(false);
-        this.setVisible(false);
+    die(){
+        super.die();
     }
 
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
-    Update(time, delta){
+    update(time, delta){
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
 
         if (dist <= game_settings.golem_agro_range){
-            MoveTo(this, current_scene.player);
+            moveTo(this, current_scene.player);
         } else {
             this.angle += 0.1;
         }
@@ -164,60 +204,42 @@ class GolemEnemy extends Phaser.Physics.Arcade.Sprite {
 
 
 
-class ShooterEnemy extends Phaser.Physics.Arcade.Sprite {
+class ShooterEnemy extends BaseEnemy {
     constructor(x, y, texture){
-        super(current_scene, x, y, texture)
-        current_scene.physics.world.enableBody(this);
-        current_scene.add.existing(this);
-
-        this.type = "SHOOTER";
-        this.speed = game_settings.shooter_speed;
+        super(x, y, texture, "SHOOTER");
         this.shooting_speed = game_settings.shooter_shooting_speed;
-        this.health = game_settings.shooter_health;
 
         this.projectiles = [];
-        this.projectiles.push(current_scene.enemy_projectiles.Borrow(this));
+        this.projectiles.push(current_scene.enemy_projectiles.borrow(this));
         this.loaded = true;
     }
 
-    Reset(){
-        this.setActive(true);
-        this.setVisible(true);
-        this.body.setVelocity(0,0);
-        this.health = game_settings.shooter_health;
-        this.setAlpha(1);
+    reset(){
+        super.reset();
     }
 
-    Damage(){
-        this.health -= 1;
-        if (this.health <= 0){
-            this.Die();
-            return
-        }
-        this.setAlpha(this.alpha/2);
+    damage(){
+        super.damage();
     }
 
-    Die(){
+    die(){
         this.projectiles.forEach(projectile => {
             projectile.owner = null;
             if (projectile.active == false){
-                this.scene.enemy_projectiles.Return(projectile);
+                this.scene.enemy_projectiles.return(projectile);
             }
-        });  
-        this.setAlpha(1);
-        this.setActive(false);
-        this.setVisible(false); 
-        this.health = game_settings.shooter_health;
+        });
+        super.die();
     }
 
     //this enemy will try to put space between themselves and the player, then shoot
-    Update(time, delta){
+    update(time, delta){
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         
         if (dist >= game_settings.shooter_min_dist){
             if (this.loaded){    
                 this.loaded = false;
-                this.Fire(current_scene.player);
+                this.fire(current_scene.player);
                 current_scene.time.delayedCall(game_settings.shooter_reload_time, function () {
                     this.loaded = true;
                 }, null, this)
@@ -225,11 +247,11 @@ class ShooterEnemy extends Phaser.Physics.Arcade.Sprite {
         }
 
         this.projectiles.forEach(projectile => {
-            projectile.Update();
+            projectile.update();
         });
     }
 
-    Fire(target){
+    fire(target){
         let projectile = null;
         for(let i = 0; i < this.projectiles.length; i++){
             if (this.projectiles[i].visible == false){
@@ -238,12 +260,12 @@ class ShooterEnemy extends Phaser.Physics.Arcade.Sprite {
             }
         }
         if (projectile == null){
-            this.projectiles.unshift(this.scene.enemy_projectiles.Borrow(this));
+            this.projectiles.unshift(this.scene.enemy_projectiles.borrow(this));
             projectile = this.projectiles[0]
         }
         
 
-        projectile.Reset();
+        projectile.reset();
         projectile.setActive(true).setVisible(true).setDepth(20);
         projectile.setPosition(this.x, this.y);
         this.scene.physics.moveToObject(projectile, target, 100);

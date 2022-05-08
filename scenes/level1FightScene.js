@@ -15,7 +15,7 @@ class level1FightScene extends Phaser.Scene {
 
     create(){
         //intialize game_settings, current_scene, and setup keys
-        Initialize(this);
+        initialize(this);
 
         //player
         this.player = new Player(game.config.width/2, game.config.height/2, 'white square');
@@ -23,49 +23,54 @@ class level1FightScene extends Phaser.Scene {
         //enemies
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');
-        SpawnEnemy("CHARGER");    
-        SpawnEnemy("GOLEM"); 
-        SpawnEnemy("SHOOTER"); 
+        spawnEnemy("CHARGER");
+        spawnEnemy("GOLEM");
+        spawnEnemy("SHOOTER");
         //infinite enemy spawning:  
         this.time.addEvent({
             delay: game_settings.enemy_spawn_timer,
-            callback: SpawnRandomEnemy,
+            callback: spawnRandomEnemy,
             callbackScope: this,
             loop: true,
         })  
 
         //enemy collisions
-        this.physics.add.overlap(this.player, this.enemies, PlayerEnemyCollision.bind(this));
-        this.physics.add.overlap(this.player, this.enemy_projectiles, PlayerProjectileCollision.bind(this));
-        this.physics.add.overlap(this.enemy_projectiles, this.enemies, ProjectileEnemyCollision.bind(this));
+        this.physics.add.overlap(this.player, this.enemies, playerEnemyCollision.bind(this));
+        this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
+        this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
 
         //UI
         this.score_text = this.add.text(20, 20, "SCORE: 0");
         this.health_text = this.add.text(150, 20, "LIVES: 0");
         this.pauseLayer = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
         this.paused = false;
-        UpdateUI();
+        updateUI();
     }
 
+    /*
+    update: updates scene every frame
+        @ time: timer from when the function was called
+        @ delta: number of milliseconds per frame
+    */
     update(time, delta){
         //pause the game
         if (Phaser.Input.Keyboard.JustDown(key_esc)){
             this.paused = !this.paused;
         }
         if (this.paused){
-            Pause();
+            pause();
             return;
         } else {
-            Resume();
+            resume();
         }
 
         //update player 
-        this.player.Update(time, delta);
+        this.player.update(time, delta);
 
         //update enemies
-        UpdateEnemies(time, delta);
+        updateEnemies(time, delta);
 
         //update UI
-        UpdateUI();
+        updateUI();
     }
 }

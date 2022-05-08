@@ -1,6 +1,6 @@
 
 //setup functions:
-function Initialize(scene){
+function initialize(scene){
     current_scene = scene;
 
     game_settings = {
@@ -24,10 +24,10 @@ function Initialize(scene){
 
     scene.cameras.main.setBackgroundColor('#303030');
     scene.physics.world.setBounds(0, 0, game.config.width, game.config.height);
-    SetupKeys(scene);
+    setupKeys(scene);
 }
 
-function SetupKeys(scene){
+function setupKeys(scene){
     key_left = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     key_right = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     key_up = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -40,20 +40,20 @@ function SetupKeys(scene){
 }
 
 //update functions:
-function UpdateEnemies(time, delta){
+function updateEnemies(time, delta){
     current_scene.enemies.forEach(enemy => {
         if (enemy.active){
-            enemy.Update(time, delta);
+            enemy.update(time, delta);
         }
     });
 }
 
-function UpdateUI(){
+function updateUI(){
     current_scene.score_text.text =  `SCORE: ${current_scene.player.score}`;
     current_scene.health_text.text = `LIVES: ${current_scene.player.health}`;
 }
 
-function Pause(){
+function pause(){
     current_scene.pauseLayer.setVisible(true);
     current_scene.player.body.stop();
     current_scene.enemies.forEach(enemy => {
@@ -65,23 +65,23 @@ function Pause(){
     });
 }
 
-function Resume(){
+function resume(){
     current_scene.pauseLayer.setVisible(false);
 }
 
 //collison functions:
-function ProjectileEnemyCollision(enemy, projectile){
+function projectileEnemyCollision(enemy, projectile){
     if (!enemy.active || !projectile.active){
         return;
     }
 
     if (projectile.deflected){
-        projectile.Reset();
-        enemy.Damage();
+        projectile.reset();
+        enemy.damage();
     }
 }
 
-function PlayerProjectileCollision(playerObj, projectile){
+function playerProjectileCollision(playerObj, projectile){
     console.log(`player projectile colission`);
     if (!projectile.active || !playerObj.active){
         console.log("")
@@ -93,31 +93,31 @@ function PlayerProjectileCollision(playerObj, projectile){
         projectile.body.setVelocity(projectile.body.velocity.x + playerObj.body.velocity.x/2, projectile.body.velocity.y + playerObj.body.velocity.y/2);
         playerObj.body.setVelocity(0,0);
     } else if (!projectile.deflected){
-        projectile.Reset();
-        playerObj.Damage();
+        projectile.reset();
+        playerObj.damage();
     }
 }
 
-function PlayerEnemyCollision(playerObj, enemy){
+function playerEnemyCollision(playerObj, enemy){
     if (!enemy.active || !playerObj.active){
         return;
     }
     playerObj.body.setVelocity(playerObj.body.velocity.x*-1, playerObj.body.velocity.y*-1);
 
     if (current_scene.player.dashing){
-        enemy.Damage();
+        enemy.damage();
     } else {
-        current_scene.player.Damage(enemy);
+        current_scene.player.damage(enemy);
     }
 
 
     playerObj.dashing = false;
     playerObj.clearTint();
-    UpdateUI();
+    updateUI();
 }
 
 //utility functions:
-function SetRandomPositionOutside(obj){
+function setRandomPositionOutside(obj){
     let max = 150;
     switch (Phaser.Math.Between(1, 4)){
         case 1:
@@ -136,25 +136,25 @@ function SetRandomPositionOutside(obj){
     
 }
 
-function SetRandomPositionInside(obj){
+function setRandomPositionInside(obj){
     obj.setPosition(Phaser.Math.Between(0, game.config.width), Phaser.Math.Between(0, game.config.height));
 }
 
-function SpawnRandomEnemy(){
+function spawnRandomEnemy(){
     switch(Phaser.Math.Between(1, 3)){
         case 1: 
-            SpawnEnemy("CHARGER");
+            spawnEnemy("CHARGER");
             break;
         case 2: 
-            SpawnEnemy("GOLEM");
+            spawnEnemy("GOLEM");
             break;
         case 3:
-            SpawnEnemy("SHOOTER");
+            spawnEnemy("SHOOTER");
             break;
     }
 }
 
-function SpawnEnemy(type){
+function spawnEnemy(type){
     let new_enemy = null;
 
     switch(type){
@@ -162,37 +162,37 @@ function SpawnEnemy(type){
             current_scene.enemies.forEach(enemy => {
                 if (enemy.type == type && enemy.active == false){
                     new_enemy = enemy;
-                    enemy.Reset();
+                    enemy.reset();
                 }
             }) 
             if (new_enemy == null){
                 new_enemy = new ChargerEnemy(100, 100, 'charger').setTint(0xFF0000);
             }
-            SetRandomPositionOutside(new_enemy);
+            setRandomPositionOutside(new_enemy);
             break;
         case "GOLEM":
             current_scene.enemies.forEach(enemy => {
                 if (enemy.type == type && enemy.active == false){
                     new_enemy = enemy;
-                    enemy.Reset();
+                    enemy.reset();
                 }
             }) 
             if (new_enemy == null){
                 new_enemy = new GolemEnemy(game.config.width*0.9, 140, 'golem').setTint(0xaaFF00).setScale(1.5);
             }
-            SetRandomPositionInside(new_enemy);
+            setRandomPositionInside(new_enemy);
             break;
         case "SHOOTER":
             current_scene.enemies.forEach(enemy => {
                 if (enemy.type == type && enemy.active == false){
                     new_enemy = enemy;
-                    enemy.Reset();
+                    enemy.reset();
                 }
             }) 
             if (new_enemy == null){
                 new_enemy = new ShooterEnemy(game.config.width/3, 140, 'shooter').setTint(0xaaaa00);
             }
-            SetRandomPositionInside(new_enemy);
+            setRandomPositionInside(new_enemy);
             break;
         default: 
             console.log(`invalid enemy type requested: ${type}`);
@@ -200,7 +200,7 @@ function SpawnEnemy(type){
     current_scene.enemies.push(new_enemy);
 }
 
-function MoveTo(source, target){
+function moveTo(source, target){
     let buffer = 2;
     if (target.x > source.x+buffer){
         source.setVelocityX(source.speed);
@@ -216,7 +216,7 @@ function MoveTo(source, target){
     }
 }
 
-function MoveAway(source, target){
+function moveAway(source, target){
     let buffer = 2;
     if (target.x > source.x+buffer){
         source.setVelocityX(-source.speed);

@@ -13,7 +13,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.invulnerable = false;
     }
 
-    Update(time, delta){
+    update(time, delta){
         //console.log(this);
         if (Math.abs(this.body.velocity.x) <= game_settings.player_walk_speed && Math.abs(this.body.velocity.y) <= game_settings.player_walk_speed){
             this.dashing = false;
@@ -25,7 +25,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
         if (Phaser.Input.Keyboard.JustUp(key_space)){
             if (this.charge_progress > 0){
-                this.Dash();
+                this.dash();
             }
             this.charge_progress = 0;
             this.setAlpha(0.3);
@@ -33,27 +33,27 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         
         //player movement
         if (key_left.isDown){
-            this.MovePlayer("LEFT");
+            this.movePlayer("LEFT");
         }
         if (key_right.isDown){
-            this.MovePlayer("RIGHT");
+            this.movePlayer("RIGHT");
         }
         if (key_up.isDown){
-            this.MovePlayer("UP");
+            this.movePlayer("UP");
         }
         if (key_down.isDown){
-            this.MovePlayer("DOWN");
+            this.movePlayer("DOWN");
         }
     }
 
-    Dash(){
+    dash(){
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
         current_scene.physics.moveToObject(this, current_scene.game.input.mousePointer, speed);
         this.dashing = true;
         this.setTint(0xFF0000);
     }
 
-    Damage(source){
+    damage(source){
         if (this.invulnerable){
             return;
         }
@@ -69,12 +69,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             if (source){
                 this.invulnerable = true;
                 current_scene.time.delayedCall(100, function() {this.invulnerable = false}, null, this);
-                MoveAway(this, source);
+                moveAway(this, source);
             }   
         }
     }
 
-    MovePlayer(dir){
+    movePlayer(dir){
         if (this.invulnerable){
             return;
         }
