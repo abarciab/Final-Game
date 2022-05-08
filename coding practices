@@ -1,0 +1,18 @@
+Naming
+
+■■■ longer more descriptive names are better than short unclear ones ■■■
+all variables are lowercase with underscores - 'some_variable'
+all function names are lowercase, but uppercase with additional words, no underscores - 'someFunction()'
+files are lowercase, but uppercase with additional words, no underscores - 'someImportantFile'
+classes are uppercase - 'SomeClass'
+
+
+Practices
+
+when possible, put functions in functions.js
+    comment for each function you add: what its for and what its preconditions are
+don't pass scene to functions, just use current_scene instead
+when possible, pool and reuse objects instead of deleting them
+
+
+

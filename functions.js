@@ -1,8 +1,8 @@
 
 //setup functions:
 function Initialize(scene){
-    current_scene = scene;
 
+    current_scene = scene;
     game_settings = {
         player_walk_speed: 140,
         player_dash_speed: 1000,
@@ -200,6 +200,7 @@ function SpawnEnemy(type){
     current_scene.enemies.push(new_enemy);
 }
 
+//moves source to target at source.speed 
 function MoveTo(source, target){
     let buffer = 2;
     if (target.x > source.x+buffer){
@@ -216,6 +217,7 @@ function MoveTo(source, target){
     }
 }
 
+//moves source away from target at source.speed
 function MoveAway(source, target){
     let buffer = 2;
     if (target.x > source.x+buffer){
