@@ -10,6 +10,8 @@ function initialize(scene){
         player_max_charge_progress: 1000,
         player_max_health: 5,
 
+        tilemap_scale: 1,
+
         charger_speed: 50,
             charger_health: 1,
         golem_speed: 10,
@@ -112,7 +114,7 @@ function playerEnemyCollision(playerObj, enemy){
     }
 
 
-    playerObj.dashing = false;
+    //playerObj.dashing = false;
     playerObj.clearTint();
     updateUI();
 }
@@ -232,3 +234,13 @@ function moveAway(source, target){
         source.setVelocityY(source.speed);
     }
 }
+
+function getMouseCoords() {
+    // Takes a Camera and updates this Pointer's worldX and worldY values so they are the result of a translation through the given Camera.
+    current_scene.game.input.activePointer.updateWorldPoint(current_scene.cameras.main);
+    const pointer = current_scene.input.activePointer
+    return {
+      x: pointer.worldX,
+      y: pointer.worldY,
+    }
+  }

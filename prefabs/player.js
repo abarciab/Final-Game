@@ -48,7 +48,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
 
     dash(){
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
-        current_scene.physics.moveToObject(this, current_scene.game.input.mousePointer, speed);
+        current_scene.physics.moveToObject(this, getMouseCoords(), speed);
         this.dashing = true;
         this.setTint(0xFF0000);
     }

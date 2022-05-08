@@ -11,19 +11,31 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('charger', './assets/charger.png');
         this.load.image('golem', './assets/golem.png');
         this.load.image('shooter', './assets/shooter.png');
+
+        //tilemap
+        this.load.image('tiles', './assets/tilemaps/tiles.png');
+        this.load.tilemapTiledJSON('map','./assets/tilemaps/map1.json');
     }
 
     create(){
         //intialize game_settings, current_scene, and setup keys
         initialize(this);
 
+        //tilemap
+        const map = this.make.tilemap({key: 'map', tileWidth: 64, tileHeight: 64});
+        const tileset = map.addTilesetImage('tiles 1', 'tiles');
+        const layer0 = map.createLayer('0', tileset, 0, 0).setScale(game_settings.tilemap_scale);
+        const layer1 = map.createLayer('1', tileset, 0, 0).setScale(game_settings.tilemap_scale);
+        const layer2 = map.createLayer('2', tileset, 0, 0).setScale(game_settings.tilemap_scale);
+
         //player
         this.player = new Player(game.config.width/2, game.config.height/2, 'white square');
+        this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
         //enemies
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');
-        spawnEnemy("CHARGER");
+        /*spawnEnemy("CHARGER");
         spawnEnemy("GOLEM");
         spawnEnemy("SHOOTER");
         //infinite enemy spawning:  
@@ -32,7 +44,7 @@ class level1FightScene extends Phaser.Scene {
             callback: spawnRandomEnemy,
             callbackScope: this,
             loop: true,
-        })  
+        })  */
 
         //enemy collisions
         this.physics.add.overlap(this.player, this.enemies, playerEnemyCollision.bind(this));
@@ -49,8 +61,8 @@ class level1FightScene extends Phaser.Scene {
 
     /*
     update: updates scene every frame
-        @ time: timer from when the function was called
-        @ delta: number of milliseconds per frame
+        @ time: total time that the game has been running
+        @ delta: number of milliseconds since update was last called
     */
     update(time, delta){
         //pause the game
@@ -72,5 +84,7 @@ class level1FightScene extends Phaser.Scene {
 
         //update UI
         updateUI();
+
+        //testing
     }
 }

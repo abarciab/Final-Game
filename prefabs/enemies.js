@@ -12,7 +12,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
     }
 
     borrow(new_owner){
-        if (this.num_free == 0){
+        if (this.num_free <= 0){
             this.add(new Projectile(0, 0, this.projectile_texture));
             this.num_free += 1;
         }
