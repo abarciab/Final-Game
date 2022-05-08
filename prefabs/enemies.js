@@ -1,19 +1,19 @@
 class ProjectileGroup extends Phaser.Physics.Arcade.Group {
-    constructor(scene, texture){
-        super(scene.physics.world, scene);
+    constructor(texture){
+        super(current_scene.physics.world, current_scene);
 
-        this.add(new Projectile(scene, 0, 0, texture));
+        this.add(new Projectile(0, 0, texture));
 
-        this.projectileTexture = texture;
+        this.projectile_texture = texture;
         this.runChildUpdate = true;
         //the number of projectiles that aren't being used by a different object
         this.num_free = this.getLength();
 
     }
 
-    borrow(new_owner){
+    Borrow(new_owner){
         if (this.num_free == 0){
-            this.add(new Projectile(this.scene, 0, 0, this.projectileTexture));
+            this.add(new Projectile(0, 0, this.projectile_texture));
             this.num_free += 1;
         }
 
@@ -30,17 +30,17 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
         return project;
     }
 
-    return(projectile){
+    Return(projectile){
         projectile.owner = null;
         this.num_free += 1;
     }
 }
 
 class Projectile extends Phaser.Physics.Arcade.Sprite{
-    constructor(scene, x, y, texture){
-        super(scene, x, y, texture);
-        scene.physics.world.enableBody(this);
-        scene.add.existing(this);
+    constructor(x, y, texture){
+        super(current_scene, x, y, texture);
+        current_scene.physics.world.enableBody(this);
+        current_scene.add.existing(this);
 
         this.owner = null;
         this.setActive(false);
@@ -48,41 +48,41 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         this.deflected = false;
     }
 
-    reset(){
+    Reset(){
         this.setActive(false);
         this.deflected = false;
         this.body.stop();
         this.setVisible(false);
         this.setPosition(0,0);
         if (this.owner == null){
-            this.scene.enemy_projectiles.return(this);
+            this.scene.enemy_projectiles.Return(this);
         }
     }
 
-    update(){
+    Update(){
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
 
         if (this.active && (this.x < -50 || this.x > game.config.width + 50 || this.y < 0 || this.y > game.config.height)){
-            this.reset();
+            this.Reset();
         }
     }
 }
 
 class ChargerEnemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, texture){
-        super(scene, x, y, texture)
-        scene.physics.world.enableBody(this);
-        scene.add.existing(this);
+    constructor(x, y, texture){
+        super(current_scene, x, y, texture)
+        current_scene.physics.world.enableBody(this);
+        current_scene.add.existing(this);
 
         this.type = "CHARGER";
         this.speed = game_settings.charger_speed;
         this.health = game_settings.charger_health;
     }
 
-    reset(){
+    Reset(){
         this.setActive(true);
         this.setVisible(true);
         this.body.setVelocity(0,0);
@@ -90,33 +90,34 @@ class ChargerEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setAlpha(1);
     }
 
-    kill(){
+    Damage(){
+        this.health -= 1;
+        if (this.health <= 0){
+            this.Die();
+            return;
+        }
         
+        this.setAlpha(this.alpha/2);
+    }
+
+    Die(){
+        this.setAlpha(1);
+        this.setActive(false);
+        this.setVisible(false);
+        this.health = game_settings.charger_health;
     }
 
     //this enemy will just always move toward the player
-    update(scene, time, delta){
-        let buffer = 2;
-        if (scene.player.obj.x > this.x+buffer){
-            this.setVelocityX(this.speed);
-        }
-        if (scene.player.obj.x < this.x-buffer){
-            this.setVelocityX(-this.speed);
-        }
-        if (scene.player.obj.y > this.y+buffer){
-            this.setVelocityY(this.speed);
-        }
-        if (scene.player.obj.y < this.y-buffer){
-            this.setVelocityY(-this.speed);
-        }
+    Update(time, delta){
+        moveTo(this, current_scene.player);
     }
 }
 
 class GolemEnemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, texture){
-        super(scene, x, y, texture)
-        scene.physics.world.enableBody(this);
-        scene.add.existing(this);
+    constructor(x, y, texture){
+        super(current_scene, x, y, texture)
+        current_scene.physics.world.enableBody(this);
+        current_scene.add.existing(this);
 
         this.type = "GOLEM";
         this.speed = game_settings.golem_speed;
@@ -125,7 +126,7 @@ class GolemEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setDamping(true);
     }
 
-    reset(){
+    Reset(){
         this.setActive(true);
         this.setVisible(true);
         this.body.setVelocity(0,0);
@@ -133,47 +134,42 @@ class GolemEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setAlpha(1);
     }
 
-    kill(){
+    Damage(){
+        console.log(`golem damaged. health: ${this.health}`);
+        this.health -= 1;
+        if (this.health <= 0){
+            this.Die();
+            return;
+        }
+        this.setAlpha(this.alpha/2);
+    }
 
+    Die(){
+        this.setAlpha(1);
+        this.health = game_settings.golem_health;
+        this.setActive(false);
+        this.setVisible(false);
     }
 
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
-    update(scene, time, delta){
-        let dist = Phaser.Math.Distance.Between(this.x, this.y, scene.player.obj.x, scene.player.obj.y);
+    Update(time, delta){
+        let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
 
         if (dist <= game_settings.golem_agro_range){
-            moveTo(this, scene.player.obj);
+            MoveTo(this, current_scene.player);
         } else {
             this.angle += 0.1;
         }
     }
 }
 
-function moveTo(source, target, moveAway = false){
-    let buffer = 2;
-    if (target.x > source.x+buffer){
-        source.setVelocityX(source.speed);
-        if (moveAway){ source.setVelocityX(-source.speed);}
-    }
-    if (target.x < source.x-buffer){
-        source.setVelocityX(-source.speed);
-        if (moveAway){ source.setVelocityX(source.speed);}
-    }
-    if (target.y > source.y+buffer){
-        source.setVelocityY(source.speed);
-        if (moveAway){ source.setVelocityY(-source.speed);}
-    }
-    if (target.y < source.y-buffer){
-        source.setVelocityY(-source.speed);
-        if (moveAway){ source.setVelocityY(source.speed);}
-    }
-}
+
 
 class ShooterEnemy extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, texture){
-        super(scene, x, y, texture)
-        scene.physics.world.enableBody(this);
-        scene.add.existing(this);
+    constructor(x, y, texture){
+        super(current_scene, x, y, texture)
+        current_scene.physics.world.enableBody(this);
+        current_scene.add.existing(this);
 
         this.type = "SHOOTER";
         this.speed = game_settings.shooter_speed;
@@ -181,11 +177,11 @@ class ShooterEnemy extends Phaser.Physics.Arcade.Sprite {
         this.health = game_settings.shooter_health;
 
         this.projectiles = [];
-        this.projectiles.push(scene.enemy_projectiles.borrow(this));
+        this.projectiles.push(current_scene.enemy_projectiles.Borrow(this));
         this.loaded = true;
     }
 
-    reset(){
+    Reset(){
         this.setActive(true);
         this.setVisible(true);
         this.body.setVelocity(0,0);
@@ -193,35 +189,48 @@ class ShooterEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setAlpha(1);
     }
 
-    kill(){
+    Damage(){
+        this.health -= 1;
+        if (this.health <= 0){
+            this.Die();
+            return
+        }
+        this.setAlpha(this.alpha/2);
+    }
+
+    Die(){
         this.projectiles.forEach(projectile => {
             projectile.owner = null;
             if (projectile.active == false){
-                this.scene.enemy_projectiles.return(projectile);
+                this.scene.enemy_projectiles.Return(projectile);
             }
-        });   
+        });  
+        this.setAlpha(1);
+        this.setActive(false);
+        this.setVisible(false); 
+        this.health = game_settings.shooter_health;
     }
 
     //this enemy will try to put space between themselves and the player, then shoot
-    update(scene, time, delta){
-        let dist = Phaser.Math.Distance.Between(this.x, this.y, scene.player.obj.x, scene.player.obj.y);
+    Update(time, delta){
+        let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         
         if (dist >= game_settings.shooter_min_dist){
             if (this.loaded){    
                 this.loaded = false;
-                this.fire(scene.player.obj);
-                scene.time.delayedCall(game_settings.shooter_reload_time, function () {
+                this.Fire(current_scene.player);
+                current_scene.time.delayedCall(game_settings.shooter_reload_time, function () {
                     this.loaded = true;
                 }, null, this)
             }
         }
 
         this.projectiles.forEach(projectile => {
-            projectile.update();
+            projectile.Update();
         });
     }
 
-    fire(target){
+    Fire(target){
         let projectile = null;
         for(let i = 0; i < this.projectiles.length; i++){
             if (this.projectiles[i].visible == false){
@@ -230,12 +239,12 @@ class ShooterEnemy extends Phaser.Physics.Arcade.Sprite {
             }
         }
         if (projectile == null){
-            this.projectiles.unshift(this.scene.enemy_projectiles.borrow(this));
+            this.projectiles.unshift(this.scene.enemy_projectiles.Borrow(this));
             projectile = this.projectiles[0]
         }
         
 
-        projectile.reset();
+        projectile.Reset();
         projectile.setActive(true).setVisible(true).setDepth(20);
         projectile.setPosition(this.x, this.y);
         this.scene.physics.moveToObject(projectile, target, 100);

@@ -12,5 +12,6 @@ let config = {
 //keys and setup
 let key_left, key_right, key_up, key_down, key_next, key_prev, key_space, key_esc;
 let game_settings;
+let current_scene;
 
 let game = new Phaser.Game(config);
