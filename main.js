@@ -4,7 +4,9 @@ let config = {
     height: 700,
     physics: {
         default: "arcade",
-        arcade: { fps: 60 } 
+        arcade: { fps: 60,
+            //debug: true,
+         },
     },
     scene: [level1FightScene],
 }

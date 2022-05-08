@@ -42,6 +42,31 @@ function setupKeys(scene){
     key_next = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT); 
 }
 
+function setupTilemapCollisions(layer){
+    /*layer.forEachTile(function (tile){
+        var tileWorldPos = layer.tileToWorldXY(tile.x, tile.y);
+        var collisionGroup = current_scene.tileset.getTileCollisionGroup(tile.index);
+
+        if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
+        if (collisionGroup.properties && collisionGroup.properties.isInteractive) {
+            graphics.lineStyle(5, 0x00ff00, 1);
+        }
+        else{
+            graphics.lineStyle(5, 0x00ffff, 1);
+        }
+        var objects = collisionGroup.objects;
+        for (var i = 0; i < objects.length; i++){
+            var object = objects[i];
+            var objectX = tileWorldPos.x + object.x;
+            var objectY = tileWorldPos.y + object.y;
+
+            if (object.rectangle){
+                graphics.strokeRect(objectX, objectY, object.width, object.height);
+            }
+        }
+    });*/
+}
+
 //update functions:
 function updateEnemies(time, delta){
     current_scene.enemies.forEach(enemy => {

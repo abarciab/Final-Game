@@ -15,22 +15,49 @@ class level1FightScene extends Phaser.Scene {
         //tilemap
         this.load.image('tiles', './assets/tilemaps/tiles.png');
         this.load.tilemapTiledJSON('map','./assets/tilemaps/map1.json');
+        
     }
 
     create(){
         //intialize game_settings, current_scene, and setup keys
         initialize(this);
 
+        //player
+        this.player = new Player(game.config.width/3, game.config.height/2, 'white square').setDepth(1);
+        this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+
         //tilemap
         const map = this.make.tilemap({key: 'map', tileWidth: 64, tileHeight: 64});
-        const tileset = map.addTilesetImage('tiles 1', 'tiles');
-        const layer0 = map.createLayer('0', tileset, 0, 0).setScale(game_settings.tilemap_scale);
-        const layer1 = map.createLayer('1', tileset, 0, 0).setScale(game_settings.tilemap_scale);
-        const layer2 = map.createLayer('2', tileset, 0, 0).setScale(game_settings.tilemap_scale);
+        this.tileset = map.addTilesetImage('tiles 1', 'tiles');
+        const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
+        const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
+        const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
+        let collision_rects = [];
 
-        //player
-        this.player = new Player(game.config.width/2, game.config.height/2, 'white square');
-        this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+        layer1.forEachTile(function (tile){
+            var tileWorldPos = layer0.tileToWorldXY(tile.x, tile.y);
+            var collisionGroup = current_scene.tileset.getTileCollisionGroup(tile.index);
+            if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
+
+            var objects = collisionGroup.objects;
+            for (var i = 0; i < objects.length; i++){
+                var object = objects[i];
+                var objectX = tileWorldPos.x + object.x;
+                var objectY = tileWorldPos.y + object.y;
+
+                if (object.rectangle){
+                    let new_rect = current_scene.add.rectangle(objectX, objectY, object.width, object.height, 0xFFFFFF).setOrigin(0).setAlpha(0);
+                    new_rect.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_rect);
+                    current_scene.physics.add.existing(new_rect);
+                    collision_rects.push(new_rect);
+                }
+            }
+        });
+
+        //collisions
+        this.physics.add.collider(this.player, collision_rects);
+       
+        
 
         //enemies
         this.enemies = [];
