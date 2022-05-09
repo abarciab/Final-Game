@@ -32,32 +32,16 @@ class level1FightScene extends Phaser.Scene {
         const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
-        let collision_rects = [];
+        this.collision_rects = [];
+        this.lava_rects = [];
 
-        layer1.forEachTile(function (tile){
-            var tileWorldPos = layer0.tileToWorldXY(tile.x, tile.y);
-            var collisionGroup = current_scene.tileset.getTileCollisionGroup(tile.index);
-            if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
-
-            var objects = collisionGroup.objects;
-            for (var i = 0; i < objects.length; i++){
-                var object = objects[i];
-                var objectX = tileWorldPos.x + object.x;
-                var objectY = tileWorldPos.y + object.y;
-
-                if (object.rectangle){
-                    let new_rect = current_scene.add.rectangle(objectX, objectY, object.width, object.height, 0xFFFFFF).setOrigin(0).setAlpha(0);
-                    new_rect.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_rect);
-                    current_scene.physics.add.existing(new_rect);
-                    collision_rects.push(new_rect);
-                }
-            }
-        });
+        setupTilemapCollisions(layer0);
+        setupTilemapCollisions(layer1);
+        setupTilemapCollisions(layer2);
 
         //collisions
-        this.physics.add.collider(this.player, collision_rects);
-       
-        
+        this.physics.add.collider(this.player, this.collision_rects);
+        this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
 
         //enemies
         this.enemies = [];

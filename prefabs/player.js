@@ -64,7 +64,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             current_scene.scene.restart();
             this.setPosition(game.config.width/2, game.config.height/2);
         } else {
-            this.speed = game_settings.player_dash_speed/2;
+            this.speed = game_settings.player_dash_speed/4;
 
             if (source){
                 this.invulnerable = true;

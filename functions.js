@@ -8,7 +8,7 @@ function initialize(scene){
         player_walk_speed: 140,
         player_dash_speed: 1000,
         player_max_charge_progress: 1000,
-        player_max_health: 5,
+        player_max_health: 50,
 
         tilemap_scale: 1,
 
@@ -43,28 +43,32 @@ function setupKeys(scene){
 }
 
 function setupTilemapCollisions(layer){
-    /*layer.forEachTile(function (tile){
+    layer.forEachTile(function (tile){
         var tileWorldPos = layer.tileToWorldXY(tile.x, tile.y);
         var collisionGroup = current_scene.tileset.getTileCollisionGroup(tile.index);
-
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
-        if (collisionGroup.properties && collisionGroup.properties.isInteractive) {
-            graphics.lineStyle(5, 0x00ff00, 1);
-        }
-        else{
-            graphics.lineStyle(5, 0x00ffff, 1);
-        }
+
         var objects = collisionGroup.objects;
         for (var i = 0; i < objects.length; i++){
             var object = objects[i];
             var objectX = tileWorldPos.x + object.x;
             var objectY = tileWorldPos.y + object.y;
 
+            
+
             if (object.rectangle){
-                graphics.strokeRect(objectX, objectY, object.width, object.height);
+                let new_rect = current_scene.add.rectangle(objectX, objectY, object.width, object.height, 0xFFFFFF).setOrigin(0).setAlpha(0);
+                new_rect.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_rect);
+                current_scene.physics.add.existing(new_rect);
+                if (tile.properties.lava){
+                    new_rect.setFillStyle(0xFF0000);
+                    current_scene.lava_rects.push(new_rect);
+                } else{
+                    current_scene.collision_rects.push(new_rect);
+                }                
             }
         }
-    });*/
+    });
 }
 
 //update functions:
@@ -98,6 +102,12 @@ function resume(){
 }
 
 //collison functions:
+function playerLavaCollision(player, lava_tile){
+    if (!current_scene.player.dashing){
+        current_scene.player.damage(lava_tile);
+    }
+}
+
 function projectileEnemyCollision(enemy, projectile){
     if (!enemy.active || !projectile.active){
         return;
