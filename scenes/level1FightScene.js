@@ -26,36 +26,33 @@ class level1FightScene extends Phaser.Scene {
         this.player = new Player(game.config.width/3, game.config.height/2, 'white square').setDepth(1);
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
+        //enemies
+        this.enemies = [];
+        this.enemy_projectiles = new ProjectileGroup('white arrow');
+        //spawnEnemy("CHARGER");
+        //spawnEnemy("GOLEM");
+        //spawnEnemy("SHOOTER");
+
         //tilemap
         const map = this.make.tilemap({key: 'map', tileWidth: 64, tileHeight: 64});
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
         const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
+        const marker_layer = map.createLayer('markers', this.tileset, 0, 0).setScale(game_settings.tilemap_scale).setAlpha(0);
         this.collision_rects = [];
         this.lava_rects = [];
 
         setupTilemapCollisions(layer0);
         setupTilemapCollisions(layer1);
         setupTilemapCollisions(layer2);
+        setupTilemapCollisions(marker_layer);
 
         //collisions
         this.physics.add.collider(this.player, this.collision_rects);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
 
-        //enemies
-        this.enemies = [];
-        this.enemy_projectiles = new ProjectileGroup('white arrow');
-        /*spawnEnemy("CHARGER");
-        spawnEnemy("GOLEM");
-        spawnEnemy("SHOOTER");
-        //infinite enemy spawning:  
-        this.time.addEvent({
-            delay: game_settings.enemy_spawn_timer,
-            callback: spawnRandomEnemy,
-            callbackScope: this,
-            loop: true,
-        })  */
+        
 
         //enemy collisions
         this.physics.add.overlap(this.player, this.enemies, playerEnemyCollision.bind(this));

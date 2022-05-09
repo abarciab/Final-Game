@@ -53,7 +53,10 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setTint(0xFF0000);
     }
 
-    damage(source){
+    //damages the player. source and redirect are optional
+    //source: what damaged the player
+    //redirect: how the player responds to the damage. if false, or not passed, player moves away from damage at a fixed speed. if true, player reverses their own direciton
+    damage(source, redirect){
         if (this.invulnerable){
             return;
         }
@@ -69,7 +72,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             if (source){
                 this.invulnerable = true;
                 current_scene.time.delayedCall(100, function() {this.invulnerable = false}, null, this);
-                moveAway(this, source);
+                if (redirect){
+                    this.body.setVelocity(this.body.velocity.x*-1, this.body.velocity.y*-1);
+                } else{
+                    moveAway(this, source);
+                }
+                
             }   
         }
     }

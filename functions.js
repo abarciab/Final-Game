@@ -23,6 +23,10 @@ function initialize(scene){
             shooter_reload_time: 6000,
             shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
         enemy_spawn_timer: 8000,
+        //these enemy_name variables are for determining which enemy is spawned when an 'enemy1, enemy2, enemy3', etc tile is found in the tilemap.
+        enemy1_name: "CHARGER",
+        enemy2_name: "GOLEM",
+        enemy3_name: "SHOOTER",
     }
 
     scene.cameras.main.setBackgroundColor('#303030');
@@ -46,6 +50,17 @@ function setupTilemapCollisions(layer){
     layer.forEachTile(function (tile){
         var tileWorldPos = layer.tileToWorldXY(tile.x, tile.y);
         var collisionGroup = current_scene.tileset.getTileCollisionGroup(tile.index);
+
+        if (tile.properties.enemy_1){
+            spawnEnemy(game_settings.enemy1_name, tileWorldPos.x, tileWorldPos.y);
+        } else if (tile.properties.enemy_2){
+            spawnEnemy(game_settings.enemy2_name, tileWorldPos.x, tileWorldPos.y);
+        } else if (tile.properties.enemy_3){
+            spawnEnemy(game_settings.enemy3_name, tileWorldPos.x, tileWorldPos.y);
+        } else if (tile.properties.player_spawn){
+            current_scene.player.setPosition(tileWorldPos.x, tileWorldPos.y);
+        }
+
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
 
         var objects = collisionGroup.objects;
@@ -53,8 +68,6 @@ function setupTilemapCollisions(layer){
             var object = objects[i];
             var objectX = tileWorldPos.x + object.x;
             var objectY = tileWorldPos.y + object.y;
-
-            
 
             if (object.rectangle){
                 let new_rect = current_scene.add.rectangle(objectX, objectY, object.width, object.height, 0xFFFFFF).setOrigin(0).setAlpha(0);
@@ -104,7 +117,7 @@ function resume(){
 //collison functions:
 function playerLavaCollision(player, lava_tile){
     if (!current_scene.player.dashing){
-        current_scene.player.damage(lava_tile);
+        current_scene.player.damage(lava_tile, true);
     }
 }
 
@@ -192,7 +205,7 @@ function spawnRandomEnemy(){
     }
 }
 
-function spawnEnemy(type){
+function spawnEnemy(type, x, y){
     let new_enemy = null;
 
     switch(type){
@@ -204,9 +217,8 @@ function spawnEnemy(type){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ChargerEnemy(100, 100, 'charger').setTint(0xFF0000);
+                new_enemy = new ChargerEnemy(x, y, 'charger').setTint(0xFF0000);
             }
-            setRandomPositionOutside(new_enemy);
             break;
         case "GOLEM":
             current_scene.enemies.forEach(enemy => {
@@ -216,9 +228,8 @@ function spawnEnemy(type){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new GolemEnemy(game.config.width*0.9, 140, 'golem').setTint(0xaaFF00).setScale(1.5);
+                new_enemy = new GolemEnemy(x, y, 'golem').setTint(0xaaFF00).setScale(1.5);
             }
-            setRandomPositionInside(new_enemy);
             break;
         case "SHOOTER":
             current_scene.enemies.forEach(enemy => {
@@ -228,9 +239,8 @@ function spawnEnemy(type){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ShooterEnemy(game.config.width/3, 140, 'shooter').setTint(0xaaaa00);
+                new_enemy = new ShooterEnemy(x, y, 'shooter').setTint(0xaaaa00);
             }
-            setRandomPositionInside(new_enemy);
             break;
         default: 
             console.log(`invalid enemy type requested: ${type}`);
