@@ -118,6 +118,12 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     damage() {
+        //bounces the player out of the enemy if they're stuck
+        if (current_scene.player.invulnerable){
+            current_scene.player.damage(this);
+            return;
+        }
+
         this.health -= 1;
         if (this.health <= 0){
             this.die();
