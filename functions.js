@@ -5,16 +5,18 @@ function initialize(scene){
 
     current_scene = scene;
     game_settings = {
-        player_walk_speed: 140,
+        player_walk_speed: 200,
         player_dash_speed: 1000,
-        player_max_charge_progress: 1000,
+        player_max_charge_progress: 500,
         player_max_health: 50,
+        player_walk_drag: 0.0001,
+        player_dash_drag: 0.1, 
 
         tilemap_scale: 1,
 
         charger_speed: 50,
             charger_health: 1,
-        golem_speed: 10,
+        golem_speed: 0,
             golem_health: 4,
             golem_agro_range: 280,
         shooter_speed: 15,
@@ -117,6 +119,7 @@ function resume(){
 //collison functions:
 function playerLavaCollision(player, lava_tile){
     if (!current_scene.player.dashing){
+        current_scene.player.setPosition(current_scene.player.safe_pos.x, current_scene.player.safe_pos.y);
         current_scene.player.damage(lava_tile, true);
     }
 }
@@ -161,9 +164,7 @@ function playerEnemyCollision(playerObj, enemy){
         current_scene.player.damage(enemy);
     }
 
-
-    //playerObj.dashing = false;
-    playerObj.clearTint();
+    //playerObj.clearTint();
     updateUI();
 }
 

@@ -7,18 +7,23 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.charge_progress = 0;
         this.dashing = false;
         this.health = game_settings.player_max_health;
-        this.setDrag(0.05);
+        this.setDrag(game_settings.player_walk_drag);
         this.setDamping(true);
         this.score = 0;
         this.invulnerable = false;
+        this.safe_pos = {x: this.x, y: this.y};
     }
 
     update(time, delta){
-        //console.log(this);
+        if (!this.invulnerable && !this.dashing){
+            this.safe_pos = {x: this.x, y: this.y};
+        }
+
         if (Math.abs(this.body.velocity.x) <= game_settings.player_walk_speed && Math.abs(this.body.velocity.y) <= game_settings.player_walk_speed){
             this.dashing = false;
+            this.setDrag(game_settings.player_walk_drag);
             this.clearTint();
-        }
+        } 
         if (key_space.isDown && !this.dashing && this.charge_progress < game_settings.player_max_charge_progress){
             this.charge_progress += delta;
             this.setAlpha(this.charge_progress/game_settings.player_max_charge_progress + 0.1);
@@ -32,24 +37,28 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
         
         //player movement
-        if (key_left.isDown){
-            this.movePlayer("LEFT");
+        if (!this.dashing){
+            if (key_left.isDown){
+                this.movePlayer("LEFT");
+            }
+            if (key_right.isDown){
+                this.movePlayer("RIGHT");
+            }
+            if (key_up.isDown){
+                this.movePlayer("UP");
+            }
+            if (key_down.isDown){
+                this.movePlayer("DOWN");
+            }
         }
-        if (key_right.isDown){
-            this.movePlayer("RIGHT");
-        }
-        if (key_up.isDown){
-            this.movePlayer("UP");
-        }
-        if (key_down.isDown){
-            this.movePlayer("DOWN");
-        }
+        
     }
 
     dash(){
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);
         this.dashing = true;
+        this.setDrag(game_settings.player_dash_drag);
         this.setTint(0xFF0000);
     }
 
