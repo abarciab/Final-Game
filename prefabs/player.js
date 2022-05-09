@@ -12,6 +12,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.score = 0;
         this.invulnerable = false;
         this.safe_pos = {x: this.x, y: this.y};
+        this.bouncing = false;  //this is to let the player cancel their bounce after they hit an enemy
     }
 
     update(time, delta){
@@ -21,23 +22,25 @@ class Player extends Phaser.Physics.Arcade.Sprite{
 
         if (Math.abs(this.body.velocity.x) <= game_settings.player_walk_speed && Math.abs(this.body.velocity.y) <= game_settings.player_walk_speed){
             this.dashing = false;
+            this.bouncing = false;
             this.setDrag(game_settings.player_walk_drag);
             this.clearTint();
         } 
-        if (key_space.isDown && !this.dashing && this.charge_progress < game_settings.player_max_charge_progress){
+        if (pointer.isDown && !this.dashing && this.charge_progress < game_settings.player_max_charge_progress){
             this.charge_progress += delta;
             this.setAlpha(this.charge_progress/game_settings.player_max_charge_progress + 0.1);
         }
-        if (Phaser.Input.Keyboard.JustUp(key_space)){
+
+        current_scene.input.on('pointerup', function (pointer) {
             if (this.charge_progress > 0){
                 this.dash();
             }
             this.charge_progress = 0;
             this.setAlpha(0.3);
-        }
+        }, this);
         
         //player movement
-        if (!this.dashing){
+        if (!this.dashing || (this.dashing && this.bouncing)){
             if (key_left.isDown){
                 this.movePlayer("LEFT");
             }
@@ -51,6 +54,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 this.movePlayer("DOWN");
             }
         }
+        
+        
         
     }
 

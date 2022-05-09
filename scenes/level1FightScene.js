@@ -32,6 +32,7 @@ class level1FightScene extends Phaser.Scene {
         //spawnEnemy("CHARGER");
         //spawnEnemy("GOLEM");
         //spawnEnemy("SHOOTER");
+        
 
         //tilemap
         const map = this.make.tilemap({key: 'map', tileWidth: 64, tileHeight: 64});
@@ -42,6 +43,10 @@ class level1FightScene extends Phaser.Scene {
         const marker_layer = map.createLayer('markers', this.tileset, 0, 0).setScale(game_settings.tilemap_scale).setAlpha(0);
         this.collision_rects = [];
         this.lava_rects = [];
+        this.destructibles = [];
+        this.doors = [];
+
+        spawnObject("VASE", game.config.width/2, game.config.height/2);
 
         setupTilemapCollisions(layer0);
         setupTilemapCollisions(layer1);
@@ -51,7 +56,7 @@ class level1FightScene extends Phaser.Scene {
         //collisions
         this.physics.add.collider(this.player, this.collision_rects);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
-
+        this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         
 
         //enemy collisions
