@@ -4,13 +4,13 @@ class level1FightScene extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image('white square', './assets/white square.png');
-        this.load.image('white hexagon', './assets/white hexagon.png');
+        this.load.image('white square', './assets/player/white square.png');
+        this.load.image('white hexagon', './assets/player/white hexagon.png');
         this.load.image('white arrow', './assets/white arrow.png');
 
-        this.load.image('charger', './assets/charger.png');
-        this.load.image('golem', './assets/golem.png');
-        this.load.image('shooter', './assets/shooter.png');
+        this.load.image('charger', './assets/enemies/charger.png');
+        this.load.image('golem', './assets/enemies/golem.png');
+        this.load.image('shooter', './assets/enemies/shooter.png');
 
         //tilemap
         this.load.image('tiles', './assets/tilemaps/tiles.png');
