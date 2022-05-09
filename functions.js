@@ -2,28 +2,33 @@
 //setup functions:
 function initialize(scene){
     current_scene = scene;
+    pointer = current_scene.input.activePointer;
 
-    current_scene = scene;
     game_settings = {
         player_walk_speed: 200,
         player_dash_speed: 1000,
         player_max_charge_progress: 500,
         player_max_health: 50,
         player_walk_drag: 0.0001,
-        player_dash_drag: 0.1, 
+        player_dash_drag: 0.1,
+        player_stun_time: 500,
 
         tilemap_scale: 1,
+        camera_zoom: 1,
 
         charger_speed: 50,
             charger_health: 1,
+            charger_bounce_mod: 0.7,
         golem_speed: 0,
             golem_health: 4,
             golem_agro_range: 280,
+            golem_bounce_mod: 0.1,
         shooter_speed: 15,
             shooter_health: 2,
             shooter_shooting_speed: 1,
             shooter_reload_time: 6000,
             shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
+            shooter_bounce_mod: 0.5,
         enemy_spawn_timer: 8000,
         //these enemy_name variables are for determining which enemy is spawned when an 'enemy1, enemy2, enemy3', etc tile is found in the tilemap.
         enemy1_name: "CHARGER",
@@ -31,6 +36,7 @@ function initialize(scene){
         enemy3_name: "SHOOTER",
     }
 
+    scene.cameras.main.setZoom(game_settings.camera_zoom);
     scene.cameras.main.setBackgroundColor('#303030');
     scene.physics.world.setBounds(0, 0, game.config.width, game.config.height);
     setupKeys(scene);
@@ -61,6 +67,8 @@ function setupTilemapCollisions(layer){
             spawnEnemy(game_settings.enemy3_name, tileWorldPos.x, tileWorldPos.y);
         } else if (tile.properties.player_spawn){
             current_scene.player.setPosition(tileWorldPos.x, tileWorldPos.y);
+        } else if (tile.properties.vase){
+            spawnObject("VASE", tileWorldPos.x, tileWorldPos.y);
         }
 
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
@@ -136,13 +144,10 @@ function projectileEnemyCollision(enemy, projectile){
 }
 
 function playerProjectileCollision(playerObj, projectile){
-    console.log(`player projectile colission`);
     if (!projectile.active || !playerObj.active){
-        console.log("")
         return;
     }
     if (current_scene.player.dashing){
-        console.log(`dashing`);
         projectile.deflected = true;
         projectile.body.setVelocity(projectile.body.velocity.x + playerObj.body.velocity.x/2, projectile.body.velocity.y + playerObj.body.velocity.y/2);
         playerObj.body.setVelocity(0,0);
@@ -157,6 +162,7 @@ function playerEnemyCollision(playerObj, enemy){
         return;
     }
     playerObj.body.setVelocity(playerObj.body.velocity.x*-1, playerObj.body.velocity.y*-1);
+    playerObj.bouncing = true;
 
     if (current_scene.player.dashing){
         enemy.damage();
@@ -166,6 +172,12 @@ function playerEnemyCollision(playerObj, enemy){
 
     //playerObj.clearTint();
     updateUI();
+}
+
+function playerDestructibleCollision(player, destructible){
+    if (player.dashing){
+        destructible.setAlpha(0);
+    }
 }
 
 //utility functions:
@@ -249,6 +261,15 @@ function spawnEnemy(type, x, y){
     current_scene.enemies.push(new_enemy);
 }
 
+function spawnObject(type, x, y){
+    switch(type){
+        case "VASE": 
+            new_obj = current_scene.physics.add.sprite(x, y, 'white square').setTint(0x5fc746).setDepth(1.5);
+            current_scene.destructibles.push(new_obj);
+            break;
+    }
+}
+
 function moveTo(source, target){
     let buffer = 2;
     if (target.x > source.x+buffer){
@@ -284,7 +305,7 @@ function moveAway(source, target){
 function getMouseCoords() {
     // Takes a Camera and updates this Pointer's worldX and worldY values so they are the result of a translation through the given Camera.
     current_scene.game.input.activePointer.updateWorldPoint(current_scene.cameras.main);
-    const pointer = current_scene.input.activePointer
+    
     return {
       x: pointer.worldX,
       y: pointer.worldY,
