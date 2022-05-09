@@ -80,15 +80,18 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         switch(this.type) {
             case "CHARGER":
                 this.speed = game_settings.charger_speed;
-                this.health = game_settings.charger_health;
+                this.base_health = game_settings.charger_health;
+                this.health = this.base_health;
                 break;
             case "GOLEM":
                 this.speed = game_settings.golem_speed;
-                this.health = game_settings.golem_health;
+                this.base_health = game_settings.golem_health;
+                this.health = this.base_health;
                 break;
             case "SHOOTER":
                 this.speed = game_settings.shooter_speed;
-                this.health = game_settings.shooter_health;
+                this.base_health = game_settings.shooter_health;
+                this.health = this.base_health;
                 break;
             default:
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
@@ -101,20 +104,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setVisible(true);
         this.body.setVelocity(0,0);
         this.setAlpha(1);
-        switch(this.type) {
-            case "CHARGER":
-                this.health = game_settings.charger_health;
-                break;
-            case "GOLEM":
-                this.health = game_settings.golem_health;
-                break;
-            case "SHOOTER":
-                this.health = game_settings.shooter_health;
-                break;
-            default:
-                console.log("RESET ERROR: INVALID ENEMY TYPE");
-                break;
-        }
+        this.health = this.base_health;
     }
 
     damage() {
@@ -130,20 +120,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setAlpha(1);
         this.setActive(false);
         this.setVisible(false);
-        switch(this.type) {
-            case "CHARGER":
-                this.health = game_settings.charger_health;
-                break;
-            case "GOLEM":
-                this.health = game_settings.golem_health;
-                break;
-            case "SHOOTER":
-                this.health = game_settings.shooter_health;
-                break;
-            default:
-                console.log("RESET ERROR: INVALID ENEMY TYPE");
-                break;
-        }
+        this.health = this.base_health;
     }
 }
 
