@@ -65,22 +65,25 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         //player movement
         if (!this.dashing || (this.dashing && this.bouncing)){
             this.moving = false;
-            if (key_left.isDown){
-                this.movePlayer("LEFT");
-            }
-            if (key_right.isDown){
-                this.movePlayer("RIGHT");
-            }
             if (key_left.isDown && key_right.isDown) {
                 this.setVelocityX(0);
-                this.anims.play({key: `fran idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
             }
-            if (key_up.isDown){
+            else if (key_left.isDown){
+                this.movePlayer("LEFT");
+            }
+            else if (key_right.isDown){
+                this.movePlayer("RIGHT");
+            }
+            if (key_up.isDown && key_down.isDown) {
+                this.setVelocityY(0);
+            }
+            else if (key_up.isDown){
                 this.movePlayer("UP");
             }
-            if (key_down.isDown){
+            else if (key_down.isDown){
                 this.movePlayer("DOWN");
             }
+            
             if (!this.moving) {
                 this.anims.play({key: `fran idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
             }
