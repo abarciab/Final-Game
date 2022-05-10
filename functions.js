@@ -5,7 +5,7 @@ function initialize(scene){
     pointer = current_scene.input.activePointer;
 
     game_settings = {
-        player_walk_speed: 200,
+        player_walk_speed: 350,
         player_dash_speed: 1000,
         player_max_charge_progress: 500,
         player_max_health: 50,
