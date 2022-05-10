@@ -257,7 +257,9 @@ function spawnEnemy(type, x, y){
             break;
         default: 
             console.log(`invalid enemy type requested: ${type}`);
+            return; // to not run final statement
     }
+    current_scene.physics.add.collider(new_enemy, current_scene.collision_rects);
     current_scene.enemies.push(new_enemy);
 }
 
@@ -295,7 +297,7 @@ function moveAway(source, target){
         source.setVelocityX(source.speed);
     }
     if (target.y > source.y+buffer){
-        source.setVelocityY-(source.speed);
+        source.setVelocityY(-source.speed);
     }
     if (target.y < source.y-buffer){
         source.setVelocityY(source.speed);
