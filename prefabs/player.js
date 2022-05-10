@@ -15,11 +15,14 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.invulnerable = false;
         this.safe_pos = {x: this.x, y: this.y};
         this.bouncing = false;  //this is to let the player cancel their bounce after they hit an enemy
+        this.min_dash_speed = game_settings.player_walk_speed*2;
+        this.dash_cancel_timer = 0;     
+        this.dash_cancel_buffer = 0.1;  // seconds needed to cancel a dash
         this.last_direction_moved = "right";
+        this.dash_direction = this.last_direction_moved;
         this.mouse_direction;
         this.moving = false;
         this.body.setSize(8, 12);
-        //this.body.setOffset(0, 2);
         this.current_frame =  0;
         this.scaleX = 3;
         this.scaleY = 3;
@@ -29,31 +32,51 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         if (!this.invulnerable && !this.dashing){
             this.safe_pos = {x: this.x, y: this.y};
         }
+        this.updateDashPointer();
+        this.doneDashing();
+        this.chargeDash(delta);
+        this.movePlayer(delta);
 
+        // update the animation frame
+        if (this.anims.isPlaying) {
+            this.current_frame = this.anims.currentFrame.index-1;
+        }
+    }
+
+    updateDashPointer() {
+        // set position and angle of dash pointer
         this.dash_pointer.rotation = Phaser.Math.Angle.BetweenPoints(new Phaser.Math.Vector2(this.x, this.y), getMouseCoords());
         this.dash_pointer.x = this.x;
         this.dash_pointer.y = this.y;
+    }
 
-        if (Math.abs(this.body.velocity.x) <= game_settings.player_walk_speed && Math.abs(this.body.velocity.y) <= game_settings.player_walk_speed){
-            this.dashing = false;
-            this.bouncing = false;
-            this.setDrag(game_settings.player_walk_drag);
-            this.clearTint();
-        } 
-        if (pointer.isDown && !this.dashing && this.charge_progress < game_settings.player_max_charge_progress){
-            this.charge_progress += delta;
-            this.dash_pointer.setAlpha(this.charge_progress/game_settings.player_max_charge_progress + 0.1);
+    doneDashing() {
+        if (this.dashing || this.bouncing) {
+            if (Math.abs(this.body.velocity.x) <= game_settings.player_walk_speed && Math.abs(this.body.velocity.y) <= game_settings.player_walk_speed){
+                this.dash_cancel_timer = 0;
+                this.dashing = false;
+                this.bouncing = false;
+                this.setDrag(game_settings.player_walk_drag);
+                this.clearTint();
+            }
         }
-        // if pointer is down, set animation relative to player position
-        if (pointer.isDown) {
+    }
+
+    chargeDash(delta) { 
+        if ((pointer.isDown || key_space.isDown) && !this.dashing){
             if (getMouseCoords().x < this.x) {
                 this.last_direction_moved = "LEFT";
             }
             else {
                 this.last_direction_moved = "RIGHT";
             }
+            if (this.charge_progress < game_settings.player_max_charge_progress) {
+                this.charge_progress += delta;
+                this.dash_pointer.setAlpha(this.charge_progress/game_settings.player_max_charge_progress + 0.1);
+            }
         }
 
+        // on release, dash
         current_scene.input.on('pointerup', function (pointer) {
             if (this.charge_progress > 0){
                 this.dash();
@@ -61,45 +84,55 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.charge_progress = 0;
             this.dash_pointer.setAlpha(0.3);
         }, this);
-        
+
+        // if pointer isn't down and key space is released, dash with space
+        if (this.charge_progress > 0 && !key_space.isDown && !pointer.isDown) {
+            this.dash();
+            this.charge_progress = 0;
+            this.dash_pointer.setAlpha(0.3);
+        }
+    }
+
+    movePlayer(delta) {
         //player movement
-        if (!this.dashing || (this.dashing && this.bouncing)){
+        if (this.bouncing)
+            this.dash_cancel_timer += delta/1000;
+        const can_cancel_dash = (this.dash_cancel_timer >= this.dash_cancel_buffer);
+        if (!this.dashing || can_cancel_dash) {
             this.moving = false;
             if (key_left.isDown && key_right.isDown) {
                 this.setVelocityX(0);
             }
             else if (key_left.isDown){
-                this.movePlayer("LEFT");
+                this.move("LEFT");
             }
             else if (key_right.isDown){
-                this.movePlayer("RIGHT");
+                this.move("RIGHT");
             }
             if (key_up.isDown && key_down.isDown) {
                 this.setVelocityY(0);
             }
             else if (key_up.isDown){
-                this.movePlayer("UP");
+                this.move("UP");
             }
             else if (key_down.isDown){
-                this.movePlayer("DOWN");
+                this.move("DOWN");
             }
-            
-            if (!this.moving) {
+            if (!this.moving && (!this.dashing && !this.bouncing)) {
                 this.anims.play({key: `fran idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
             }
-        }
-
-        if (this.anims.isPlaying) {
-            this.current_frame = this.anims.currentFrame.index-1;
         }
     }
 
     dash(){
+        this.dash_direction = this.last_direction_moved;
+        this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
+        if (speed < this.min_dash_speed) speed = this.min_dash_speed;
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);
         this.dashing = true;
         this.setDrag(game_settings.player_dash_drag);
-        this.setTint(0xFF0000);
+        //this.setTint(0xFF0000);
     }
 
     //damages the player. source and redirect are optional
@@ -110,7 +143,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             return;
         }
 
-    current_scene.cameras.main.shake(150, 0.003);
+        current_scene.cameras.main.shake(150, 0.003);
         this.health-= 1;
         if (this.health == 0){
             current_scene.scene.restart();
@@ -131,7 +164,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
     }
 
-    movePlayer(dir){
+    move(dir){
         if (this.invulnerable){
             return;
         }
@@ -139,7 +172,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.moving = true;
         switch(dir){
             case "LEFT":
-                if (!pointer.isDown)
+                if (!pointer.isDown && !key_space.isDown)
                     this.last_direction_moved = dir;
                 if (this.body.velocity.x > -speed){
                     this.setVelocityX(-speed);
@@ -151,7 +184,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 }
                 break;
             case "RIGHT":
-                if (!pointer.isDown)
+                if (!pointer.isDown && !key_space.isDown)
                     this.last_direction_moved = dir;
                 if (this.body.velocity.x < speed){
                     this.setVelocityX(speed);
