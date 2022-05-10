@@ -161,7 +161,13 @@ function playerEnemyCollision(playerObj, enemy){
     if (!enemy.active || !playerObj.active){
         return;
     }
-    playerObj.body.setVelocity(playerObj.body.velocity.x*-1, playerObj.body.velocity.y*-1);
+    if (Math.abs(playerObj.body.velocity.x) > Math.abs(playerObj.body.velocity.y)) {
+        playerObj.body.setVelocity(playerObj.body.velocity.x*-1, playerObj.body.velocity.y);
+    } else if (Math.abs(playerObj.body.velocity.y) > Math.abs(playerObj.body.velocity.x)) {
+        playerObj.body.setVelocity(playerObj.body.velocity.x, playerObj.body.velocity.y*-1);
+    } else {
+        playerObj.body.setVelocity(playerObj.body.velocity.x*-1, playerObj.body.velocity.y*-1);
+    }
     playerObj.bouncing = true;
 
     if (current_scene.player.dashing){
@@ -260,6 +266,7 @@ function spawnEnemy(type, x, y){
             return; // to not run final statement
     }
     current_scene.physics.add.collider(new_enemy, current_scene.collision_rects);
+    current_scene.physics.add.collider(new_enemy, current_scene.lava_rects);
     current_scene.enemies.push(new_enemy);
 }
 
