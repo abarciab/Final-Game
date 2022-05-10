@@ -76,24 +76,33 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         super(current_scene, x, y, texture);
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
+        this.setDrag(0.05);
+        this.setDamping(true);
         this.type = type;
         switch(this.type) {
             case "CHARGER":
                 this.speed = game_settings.charger_speed;
-                this.health = game_settings.charger_health;
+                this.base_health = game_settings.charger_health;
+                this.health = this.base_health;
+                this.bounce_mod = game_settings.charger_bounce_mod;
                 break;
             case "GOLEM":
                 this.speed = game_settings.golem_speed;
-                this.health = game_settings.golem_health;
+                this.base_health = game_settings.golem_health;
+                this.health = this.base_health;
+                this.bounce_mod = game_settings.golem_bounce_mod;
                 break;
             case "SHOOTER":
                 this.speed = game_settings.shooter_speed;
-                this.health = game_settings.shooter_health;
+                this.base_health = game_settings.shooter_health;
+                this.health = this.base_health;
+                this.bounce_mod = game_settings.shooter_bounce_mod
                 break;
             default:
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
                 break;
         }
+        this.stun_time = 0;
     }
 
     reset() {
@@ -101,50 +110,34 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setVisible(true);
         this.body.setVelocity(0,0);
         this.setAlpha(1);
-        switch(this.type) {
-            case "CHARGER":
-                this.health = game_settings.charger_health;
-                break;
-            case "GOLEM":
-                this.health = game_settings.golem_health;
-                break;
-            case "SHOOTER":
-                this.health = game_settings.shooter_health;
-                break;
-            default:
-                console.log("RESET ERROR: INVALID ENEMY TYPE");
-                break;
-        }
+        this.health = this.base_health;
     }
 
     damage() {
+        //bounces the player out of the enemy if they're stuck
+        if (current_scene.player.invulnerable){
+            current_scene.player.damage(this);
+            return;
+        }
+
+        this.setVelocity(this.body.velocity.x - (current_scene.player.body.velocity.x * (this.bounce_mod)), this.body.velocity.y - (current_scene.player.body.velocity.y* (this.bounce_mod)));
+
         this.health -= 1;
         if (this.health <= 0){
             this.die();
             return;
         }
         this.setAlpha(this.alpha/2);
+        this.stun_time = game_settings.player_stun_time;
     }
 
     die() {
         this.setAlpha(1);
         this.setActive(false);
         this.setVisible(false);
-        switch(this.type) {
-            case "CHARGER":
-                this.health = game_settings.charger_health;
-                break;
-            case "GOLEM":
-                this.health = game_settings.golem_health;
-                break;
-            case "SHOOTER":
-                this.health = game_settings.shooter_health;
-                break;
-            default:
-                console.log("RESET ERROR: INVALID ENEMY TYPE");
-                break;
-        }
+        this.health = this.base_health;
     }
+
 }
 
 class ChargerEnemy extends BaseEnemy {
@@ -166,6 +159,10 @@ class ChargerEnemy extends BaseEnemy {
 
     //this enemy will just always move toward the player
     update(time, delta){
+        this.stun_time -= delta;
+        if (this.stun_time > 0){
+            return;
+        }
         moveTo(this, current_scene.player);
     }
 }
@@ -173,8 +170,7 @@ class ChargerEnemy extends BaseEnemy {
 class GolemEnemy extends BaseEnemy {
     constructor(x, y, texture){
         super(x, y, texture, "GOLEM");
-        this.setDrag(0.05);
-        this.setDamping(true);
+        
     }
 
     reset(){
@@ -182,7 +178,6 @@ class GolemEnemy extends BaseEnemy {
     }
 
     damage(){
-        console.log(`golem damaged. health: ${this.health}`);
         super.damage();
     }
 
@@ -192,6 +187,11 @@ class GolemEnemy extends BaseEnemy {
 
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
     update(time, delta){
+        this.stun_time -= delta;
+        if (this.stun_time > 0){
+            return;
+        }
+
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
 
         if (dist <= game_settings.golem_agro_range){
@@ -234,6 +234,10 @@ class ShooterEnemy extends BaseEnemy {
 
     //this enemy will try to put space between themselves and the player, then shoot
     update(time, delta){
+        this.stun_time -= delta;
+        if (this.stun_time > 0){
+            return;
+        }
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         
         if (dist >= game_settings.shooter_min_dist){

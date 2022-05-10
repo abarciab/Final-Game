@@ -1,7 +1,8 @@
 let config = {
     type: Phaser.AUTO,
-    width: 1000,
-    height: 700,
+    width: 2000,
+    height: 1000,
+    pixelArt: true, 
     physics: {
         default: "arcade",
         arcade: { fps: 60,
@@ -15,5 +16,6 @@ let config = {
 let key_left, key_right, key_up, key_down, key_next, key_prev, key_space, key_esc;
 let game_settings;
 let current_scene;
+let pointer;
 
 let game = new Phaser.Game(config);
