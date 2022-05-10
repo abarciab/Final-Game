@@ -52,8 +52,6 @@ class level1FightScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.collision_rects);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
 
-        
-
         //enemy collisions
         this.physics.add.overlap(this.player, this.enemies, playerEnemyCollision.bind(this));
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));

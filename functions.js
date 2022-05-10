@@ -133,7 +133,6 @@ function projectileEnemyCollision(enemy, projectile){
 }
 
 function playerProjectileCollision(playerObj, projectile){
-    console.log(`player projectile colission`);
     if (!projectile.active || !playerObj.active){
         console.log("")
         return;
@@ -244,7 +243,9 @@ function spawnEnemy(type, x, y){
             break;
         default: 
             console.log(`invalid enemy type requested: ${type}`);
+            return; // to not run final statement
     }
+    current_scene.physics.add.collider(new_enemy, current_scene.collision_rects);
     current_scene.enemies.push(new_enemy);
 }
 
@@ -273,7 +274,7 @@ function moveAway(source, target){
         source.setVelocityX(source.speed);
     }
     if (target.y > source.y+buffer){
-        source.setVelocityY-(source.speed);
+        source.setVelocityY(-source.speed);
     }
     if (target.y < source.y-buffer){
         source.setVelocityY(source.speed);
@@ -283,7 +284,7 @@ function moveAway(source, target){
 function getMouseCoords() {
     // Takes a Camera and updates this Pointer's worldX and worldY values so they are the result of a translation through the given Camera.
     current_scene.game.input.activePointer.updateWorldPoint(current_scene.cameras.main);
-    const pointer = current_scene.input.activePointer
+    const pointer = current_scene.input.activePointer;
     return {
       x: pointer.worldX,
       y: pointer.worldY,
