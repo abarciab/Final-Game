@@ -178,7 +178,6 @@ class GolemEnemy extends BaseEnemy {
     }
 
     damage(){
-        console.log(`golem damaged. health: ${this.health}`);
         super.damage();
     }
 

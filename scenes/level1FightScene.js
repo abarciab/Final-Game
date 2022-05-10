@@ -45,8 +45,14 @@ class level1FightScene extends Phaser.Scene {
         this.lava_rects = [];
         this.destructibles = [];
         this.doors = [];
+        this.buttons = [];
 
-        spawnObject("VASE", game.config.width/2, game.config.height/2);
+        /*let new_door = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setScale(1, 20).setTint(0x0000FF);
+        new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
+        this.doors.push(new_door);
+        let new_button= this.physics.add.sprite(game.config.width/2-120, game.config.height/2, 'white square').setScale(.8).setTint(0x0000aa);
+        this.buttons.push(new_button);
+        this.physics.add.overlap(this.player, this.buttons, function() {current_scene.doors[0].destroy()});*/
 
         setupTilemapCollisions(layer0);
         setupTilemapCollisions(layer1);
@@ -55,6 +61,7 @@ class level1FightScene extends Phaser.Scene {
 
         //collisions
         this.physics.add.collider(this.player, this.collision_rects);
+        this.physics.add.collider(this.player, this.doors);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         
