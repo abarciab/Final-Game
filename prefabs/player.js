@@ -225,11 +225,11 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 moveAway(this, source);
             }
             // if moving right or left
-            if (Math.cos(source.body.angle) < 0) {
-                this.last_direction_moved = "RIGHT";
+            if (this.body.velocity.x < 0) {
+                this.last_direction_moved = "LEFT";
             }
             else {
-                this.last_direction_moved = "LEFT";
+                this.last_direction_moved = "RIGHT";
             }
         }
     }
