@@ -122,7 +122,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }, this);*/
         
         // if pointer isn't down and key space is released, dash with space
-        if (this.charge_progress > 0 && !this.dashing && !key_space.isDown && !pointer.isDown) {
+        if (this.charge_progress > 0 && !key_space.isDown && !pointer.isDown) {
             this.dash();
             this.charge_progress = 0;
             this.dash_pointer.setAlpha(0.3);
@@ -196,9 +196,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             current_scene.enemyCollider.active = false;
             this.stunned = true;
             this.body.bounce.set(1);
-            this.setAlpha(0.3);
             const stun_duration = this.stun_duration * 1000;
             this.charge_progress = 0;
+            this.dash_pointer.setAlpha(0.3);
             current_scene.time.delayedCall(stun_duration, () => {
                 this.setAlpha(0.6);
                 this.body.bounce.set(0);
@@ -221,14 +221,15 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                     const vel_y = redirect_multiplier*(Math.sin(source.body.angle));
                     this.setVelocity(vel_x, vel_y);
                 }
-                if (Math.cos(source.body.angle) < 0) {
-                    this.last_direction_moved = "RIGHT";
-                }
-                else {
-                    this.last_direction_moved = "LEFT";
-                }
             } else {
                 moveAway(this, source);
+            }
+            // if moving right or left
+            if (Math.cos(source.body.angle) < 0) {
+                this.last_direction_moved = "RIGHT";
+            }
+            else {
+                this.last_direction_moved = "LEFT";
             }
         }
     }
