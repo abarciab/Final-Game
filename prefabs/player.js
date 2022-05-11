@@ -13,6 +13,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDamping(true);
         this.score = 0;
         this.invulnerable = false;
+        this.invincible_timer = 1;
         this.safe_pos = new Phaser.Math.Vector2(this.x, this.y);
         this.bouncing = false;  //this is to let the player cancel their bounce after they hit an enemy
         this.min_dash_speed = game_settings.player_walk_speed*2;
@@ -42,7 +43,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(time, delta){
-        if (!this.invulnerable && !this.dashing){
+        if (!this.startInvulnerable && !this.dashing){
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }
@@ -159,7 +160,10 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     dash(){
-        this.body.bounce.set(1)
+        if (this.startInvulnerable || this.invulnerable) {
+            return;
+        }
+        this.body.bounce.set(1);
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
         if (speed < this.min_dash_speed) speed = this.min_dash_speed;
@@ -173,7 +177,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     //source: what damaged the player
     //redirect: how the player responds to the damage. if false, or not passed, player moves away from damage at a fixed speed. if true, player reverses their own direciton
     damage(source, redirect){
-        if (this.invulnerable){
+        if (this.invulnerable || this.startInvulnerable){
             return;
         }
 
@@ -186,20 +190,28 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.speed = game_settings.player_dash_speed/4;
 
             if (source){
-                this.invulnerable = true;
-                current_scene.time.delayedCall(100, function() {this.invulnerable = false}, null, this);
+                current_scene.enemyCollider.active = false;
+                this.startInvulnerable = true;
+                current_scene.time.delayedCall(100, () => {
+                    this.startInvulnerable = false;
+                    this.invulnerable = true;
+                    current_scene.time.delayedCall(2000, () => {
+                        current_scene.enemyCollider.active = true;
+                        this.invulnerable = false;
+                    }, null, this);
+                }, null, this);
                 if (redirect){
                     this.body.setVelocity(this.body.velocity.x*-1, this.body.velocity.y*-1);
                 } else{
                     moveAway(this, source);
                 }
                 
-            }   
+            } 
         }
     }
 
     move(dir){
-        if (this.invulnerable){
+        if (this.startInvulnerable){
             return;
         }
         let speed = game_settings.player_walk_speed;

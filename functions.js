@@ -140,10 +140,10 @@ function playerWallCollision(player, rects) {
 
 //collison functions:
 function playerLavaCollision(player, lava_tile){
-    if (!current_scene.player.dashing){
-        current_scene.player.setPosition(current_scene.player.safe_pos.x, current_scene.player.safe_pos.y);
-        current_scene.player.body.setVelocity(0, 0);
-        current_scene.player.damage(lava_tile, true);
+    if (!player.dashing){
+        player.setPosition(player.safe_pos.x, player.safe_pos.y);
+        player.body.setVelocity(0, 0);
+        player.damage(lava_tile, true);
     }
 }
 
@@ -159,7 +159,7 @@ function projectileEnemyCollision(enemy, projectile){
 }
 
 function playerProjectileCollision(playerObj, projectile){
-    if (!projectile.active || !playerObj.active){
+    if (!projectile.active || !playerObj.active || player.startInvulnerable || player.invulnerable){
         return;
     }
     if (current_scene.player.dashing){
@@ -174,7 +174,7 @@ function playerProjectileCollision(playerObj, projectile){
 
 // called after collision
 function playerEnemyCollision(player, enemy){
-    if (!enemy.active || !player.active){
+    if (!enemy.active || !player.active || player.startInvulnerable || player.invulnerable){
         return;
     }
     player.bouncing = true;
