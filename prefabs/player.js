@@ -110,16 +110,16 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
 
         // on release, dash
-        current_scene.input.on('pointerup', function (pointer) {
+        /*current_scene.input.on('pointerup', function (pointer) {
             if (this.charge_progress > 0){
                 this.dash();
             }
             this.charge_progress = 0;
             this.dash_pointer.setAlpha(0.3);
-        }, this);
-
+        }, this);*/
+        
         // if pointer isn't down and key space is released, dash with space
-        if (this.charge_progress > 0 && !key_space.isDown && !pointer.isDown) {
+        if (this.charge_progress > 0 && !this.dashing && !key_space.isDown && !pointer.isDown) {
             this.dash();
             this.charge_progress = 0;
             this.dash_pointer.setAlpha(0.3);
