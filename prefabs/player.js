@@ -71,16 +71,14 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     doneDashing() {
-        if (this.dashing || this.bouncing) {
-            if (Math.abs(this.body.velocity.x) <= game_settings.player_walk_speed && Math.abs(this.body.velocity.y) <= game_settings.player_walk_speed){
-                this.dash_on_cooldown = true;
-                this.body.bounce.set(0);
-                this.dash_cancel_timer = 0;
-                this.dashing = false;
-                this.bouncing = false;
-                this.setDrag(game_settings.player_walk_drag);
-                this.clearTint();
-            }
+        if ((this.dashing || this.bouncing) && this.curr_speed <= game_settings.player_walk_speed){
+            this.dash_on_cooldown = true;
+            this.body.bounce.set(0);
+            this.dash_cancel_timer = 0;
+            this.dashing = false;
+            this.bouncing = false;
+            this.setDrag(game_settings.player_walk_drag);
+            this.clearTint();
         }
     }
 

@@ -81,6 +81,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setDamping(true);
         this.setCircle(this.width/2);
         this.type = type;
+        this.got_hit = false;
         switch(this.type) {
             case "CHARGER":
                 this.speed = game_settings.charger_speed;
@@ -101,6 +102,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
                 break;
         }
+        this.curr_speed = this.speed;
+        this.bounce_damage = 0;
         this.health = this.base_health;
         this.body.bounce.set(this.bounce_mod);
         this.stun_time = 0;
@@ -115,23 +118,27 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.health = this.base_health;
     }
 
-    damage() {
+    damage(damage_value) {
         //bounces the player out of the enemy if they're stuck
         if (current_scene.player.invulnerable){
             current_scene.player.damage(this);
             return;
         }
-
-        //this.setVelocity(this.body.velocity.x - (current_scene.player.body.velocity.x * (this.bounce_mod)), this.body.velocity.y - (current_scene.player.body.velocity.y* (this.bounce_mod)));
-
-        this.health -= current_scene.player.dash_damage;
-        console.log("deal damage:",current_scene.player.dash_damage);
+        this.health -= damage_value;
+        this.got_hit = true;
+        console.log("deal damage:",damage_value);
         if (this.health <= 0){
             this.die();
             return;
         }
         //this.setAlpha(this.alpha/2);
         this.stun_time = game_settings.player_stun_time;
+    }
+
+    updateGetHit() {
+        if (this.got_hit && this.curr_speed <= game_settings.enemy_stun_threshold) {
+            this.got_hit = false;
+        }
     }
 
     die() {
@@ -141,6 +148,12 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setActive(false);
         this.setVisible(false);
         this.health = this.base_health;
+    }
+
+    update(timer, delta) {
+        this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
+        this.bounce_damage = Math.ceil((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
+        this.updateGetHit();
     }
 
 }
@@ -154,8 +167,8 @@ class ChargerEnemy extends BaseEnemy {
         super.reset();
     }
 
-    damage(){
-        super.damage();
+    damage(damage_value){
+        super.damage(damage_value);
     }
 
     die(){
@@ -164,6 +177,7 @@ class ChargerEnemy extends BaseEnemy {
 
     //this enemy will just always move toward the player
     update(time, delta){
+        super.update(time, delta);
         this.stun_time -= delta;
         if (this.stun_time > 0){
             return;
@@ -182,8 +196,8 @@ class GolemEnemy extends BaseEnemy {
         super.reset();
     }
 
-    damage(){
-        super.damage();
+    damage(damage_value){
+        super.damage(damage_value);
     }
 
     die(){
@@ -192,6 +206,7 @@ class GolemEnemy extends BaseEnemy {
 
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
     update(time, delta){
+        super.update(time, delta);
         this.stun_time -= delta;
         if (this.stun_time > 0){
             return;
@@ -223,8 +238,8 @@ class ShooterEnemy extends BaseEnemy {
         super.reset();
     }
 
-    damage(){
-        super.damage();
+    damage(damage_value){
+        super.damage(damage_value);
     }
 
     die(){
@@ -239,6 +254,7 @@ class ShooterEnemy extends BaseEnemy {
 
     //this enemy will try to put space between themselves and the player, then shoot
     update(time, delta){
+        super.update(time, delta);
         this.stun_time -= delta;
         if (this.stun_time > 0){
             return;

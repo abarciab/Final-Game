@@ -13,8 +13,8 @@ class level1FightScene extends Phaser.Scene {
         this.load.spritesheet('fran idle right', './assets/player/fran_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('fran run left', './assets/player/fran_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('fran run right', './assets/player/fran_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('fran dash right', './assets/player/fran_dash_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
-        this.load.spritesheet('fran dash left', './assets/player/fran_dash_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
+        this.load.spritesheet('fran dash right', './assets/player/fran_dash_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        this.load.spritesheet('fran dash left', './assets/player/fran_dash_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
 
         this.load.image('charger', './assets/enemies/charger.png');
         this.load.image('golem', './assets/enemies/golem.png');
@@ -72,7 +72,7 @@ class level1FightScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.doors);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
-        // this.physics.add.collider(this.enemies, this.enemies, )
+        this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
         
         //enemy collisions
         this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
@@ -112,14 +112,14 @@ class level1FightScene extends Phaser.Scene {
         });
         this.anims.create({
             key: "fran dash left",
-            frameRate: 1,
-            frames: this.anims.generateFrameNumbers("fran dash left", {start: 0, end: 0}),
+            frameRate: 12,
+            frames: this.anims.generateFrameNumbers("fran dash left", {start: 0, end: 5}),
             repeat: -1
         })
         this.anims.create({
             key: "fran dash right",
-            frameRate: 1,
-            frames: this.anims.generateFrameNumbers("fran dash right", {start: 0, end: 0}),
+            frameRate: 12,
+            frames: this.anims.generateFrameNumbers("fran dash right", {start: 0, end: 5}),
             repeat: -1
         })
     }

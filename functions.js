@@ -38,6 +38,7 @@ function initialize(scene){
         shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
         shooter_bounce_mod: 0.5,
 
+        enemy_stun_threshold: 10, // speed to where enemy is no longer stunned
         enemy_spawn_timer: 8000,
         //these enemy_name variables are for determining which enemy is spawned when an 'enemy1, enemy2, enemy3', etc tile is found in the tilemap.
         enemy1_name: "CHARGER",
@@ -154,7 +155,7 @@ function projectileEnemyCollision(enemy, projectile){
 
     if (projectile.deflected){
         projectile.reset();
-        enemy.damage();
+        enemy.damage(10);
     }
 }
 
@@ -180,14 +181,21 @@ function playerEnemyCollision(player, enemy){
     player.bouncing = true;
 
     if (current_scene.player.dashing){
-        enemy.damage();
+        enemy.damage(current_scene.player.dash_damage);
     } else {
         current_scene.player.damage(enemy);
     }
 
-    //playerObj.clearTint();
     updateUI();
 }
+
+// enemy damages other enemy when it bounces into it
+function enemyOnEnemyCollision(enemy1, enemy2) {
+    if (enemy1.got_hit) {
+        enemy2.damage(enemy1.bounce_damage);
+    }
+}
+
 function playerDestructibleCollision(player, destructible){
     if (player.dashing){
         destructible.setAlpha(0);
