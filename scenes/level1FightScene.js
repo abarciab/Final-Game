@@ -68,14 +68,14 @@ class level1FightScene extends Phaser.Scene {
         setupTilemapCollisions(marker_layer);
 
         //collisions
-        this.physics.add.collider(this.player, this.collision_rects);
+        this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
         this.physics.add.collider(this.player, this.doors);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
+        // this.physics.add.collider(this.enemies, this.enemies, )
         
-
         //enemy collisions
-        this.physics.add.overlap(this.player, this.enemies, playerEnemyCollision.bind(this));
+        this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
 

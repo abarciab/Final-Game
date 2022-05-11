@@ -76,33 +76,35 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         super(current_scene, x, y, texture);
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
+
         this.setDrag(0.05);
         this.setDamping(true);
+        this.setCircle(this.width/2);
         this.type = type;
         switch(this.type) {
             case "CHARGER":
                 this.speed = game_settings.charger_speed;
                 this.base_health = game_settings.charger_health;
-                this.health = this.base_health;
                 this.bounce_mod = game_settings.charger_bounce_mod;
                 break;
             case "GOLEM":
                 this.speed = game_settings.golem_speed;
                 this.base_health = game_settings.golem_health;
-                this.health = this.base_health;
                 this.bounce_mod = game_settings.golem_bounce_mod;
                 break;
             case "SHOOTER":
                 this.speed = game_settings.shooter_speed;
                 this.base_health = game_settings.shooter_health;
-                this.health = this.base_health;
-                this.bounce_mod = game_settings.shooter_bounce_mod
+                this.bounce_mod = game_settings.shooter_bounce_mod;
                 break;
             default:
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
                 break;
         }
+        this.health = this.base_health;
+        this.body.bounce.set(this.bounce_mod);
         this.stun_time = 0;
+        this.setMass(1);
     }
 
     reset() {
@@ -120,18 +122,21 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
-        this.setVelocity(this.body.velocity.x - (current_scene.player.body.velocity.x * (this.bounce_mod)), this.body.velocity.y - (current_scene.player.body.velocity.y* (this.bounce_mod)));
+        //this.setVelocity(this.body.velocity.x - (current_scene.player.body.velocity.x * (this.bounce_mod)), this.body.velocity.y - (current_scene.player.body.velocity.y* (this.bounce_mod)));
 
-        this.health -= 1;
+        this.health -= current_scene.player.dash_damage;
+        console.log("deal damage:",current_scene.player.dash_damage);
         if (this.health <= 0){
             this.die();
             return;
         }
-        this.setAlpha(this.alpha/2);
+        //this.setAlpha(this.alpha/2);
         this.stun_time = game_settings.player_stun_time;
     }
 
     die() {
+        this.x = -100;
+        this.y = -100;
         this.setAlpha(1);
         this.setActive(false);
         this.setVisible(false);

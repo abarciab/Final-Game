@@ -5,6 +5,8 @@ function initialize(scene){
     pointer = current_scene.input.activePointer;
 
     game_settings = {
+        // player stats
+        dash_damage: 50,
         player_walk_speed: 350,
         player_dash_speed: 1000,
         player_max_charge_progress: 500,
@@ -12,23 +14,30 @@ function initialize(scene){
         player_walk_drag: 0.0001,
         player_dash_drag: 0.1,
         player_stun_time: 500,
+        player_bounce_mod: 1,
 
         tilemap_scale: 1,
         camera_zoom: 1,
 
+        // charger stats
         charger_speed: 50,
-            charger_health: 1,
-            charger_bounce_mod: 0.7,
+        charger_health: 300,
+        charger_bounce_mod: 0.7,
+
+        // golem stats
         golem_speed: 0,
-            golem_health: 4,
-            golem_agro_range: 280,
-            golem_bounce_mod: 0.1,
+        golem_health: 500,
+        golem_agro_range: 280,
+        golem_bounce_mod: 0.1,
+
+        // shooter stats
         shooter_speed: 15,
-            shooter_health: 2,
-            shooter_shooting_speed: 1,
-            shooter_reload_time: 6000,
-            shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
-            shooter_bounce_mod: 0.5,
+        shooter_health: 200,
+        shooter_shooting_speed: 1,
+        shooter_reload_time: 6000,
+        shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
+        shooter_bounce_mod: 0.5,
+
         enemy_spawn_timer: 8000,
         //these enemy_name variables are for determining which enemy is spawned when an 'enemy1, enemy2, enemy3', etc tile is found in the tilemap.
         enemy1_name: "CHARGER",
@@ -124,10 +133,16 @@ function resume(){
     current_scene.pauseLayer.setVisible(false);
 }
 
+function playerWallCollision(player, rects) {
+    const wall_bounce_mod = 0.8;
+    player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
+}
+
 //collison functions:
 function playerLavaCollision(player, lava_tile){
     if (!current_scene.player.dashing){
         current_scene.player.setPosition(current_scene.player.safe_pos.x, current_scene.player.safe_pos.y);
+        current_scene.player.body.setVelocity(0, 0);
         current_scene.player.damage(lava_tile, true);
     }
 }
@@ -157,18 +172,12 @@ function playerProjectileCollision(playerObj, projectile){
     }
 }
 
-function playerEnemyCollision(playerObj, enemy){
-    if (!enemy.active || !playerObj.active){
+// called after collision
+function playerEnemyCollision(player, enemy){
+    if (!enemy.active || !player.active){
         return;
     }
-    if (Math.abs(playerObj.body.velocity.x) > Math.abs(playerObj.body.velocity.y)) {
-        playerObj.body.setVelocity(playerObj.body.velocity.x*-1, playerObj.body.velocity.y);
-    } else if (Math.abs(playerObj.body.velocity.y) > Math.abs(playerObj.body.velocity.x)) {
-        playerObj.body.setVelocity(playerObj.body.velocity.x, playerObj.body.velocity.y*-1);
-    } else {
-        playerObj.body.setVelocity(playerObj.body.velocity.x*-1, playerObj.body.velocity.y*-1);
-    }
-    playerObj.bouncing = true;
+    player.bouncing = true;
 
     if (current_scene.player.dashing){
         enemy.damage();
@@ -179,7 +188,6 @@ function playerEnemyCollision(playerObj, enemy){
     //playerObj.clearTint();
     updateUI();
 }
-
 function playerDestructibleCollision(player, destructible){
     if (player.dashing){
         destructible.setAlpha(0);

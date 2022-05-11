@@ -13,16 +13,29 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDamping(true);
         this.score = 0;
         this.invulnerable = false;
-        this.safe_pos = {x: this.x, y: this.y};
+        this.safe_pos = new Phaser.Math.Vector2(this.x, this.y);
         this.bouncing = false;  //this is to let the player cancel their bounce after they hit an enemy
         this.min_dash_speed = game_settings.player_walk_speed*2;
-        this.dash_cancel_timer = 0;     
+        this.min_bounce = game_settings.player_dash_speed/2;
+        this.dash_cancel_timer = 0;
         this.dash_cancel_buffer = 0.1;  // seconds needed to cancel a dash
+
+        this.dash_cooldown_timer = 0;
+        this.dash_cooldown_duration = 0.5;
+        this.dash_on_cooldown = false;
+
         this.last_direction_moved = "right";
-        this.dash_direction = this.last_direction_moved;
         this.mouse_direction;
         this.moving = false;
-        this.body.setSize(8, 12);
+        this.curr_speed = 0;
+        this.dash_damage = 0;
+        this.body.bounce.set(1);
+        this.setMass(0.7);
+        
+        // hitbox is circle
+        this.setCircle(8, this.width/2-8, this.height/2-4);
+        console.log(this.width, this.height);
+
         this.current_frame =  0;
         this.scaleX = 3;
         this.scaleY = 3;
@@ -30,12 +43,19 @@ class Player extends Phaser.Physics.Arcade.Sprite{
 
     update(time, delta){
         if (!this.invulnerable && !this.dashing){
-            this.safe_pos = {x: this.x, y: this.y};
+            this.safe_pos.x = this.x;
+            this.safe_pos.y = this.y;
         }
         this.updateDashPointer();
         this.doneDashing();
+        this.updateDashCooldown(delta);
         this.chargeDash(delta);
         this.movePlayer(delta);
+
+        // dash damage is speed/dash_speed * dash_damage;
+        // given: velocity of player and the angles the two objects are going.
+        this.curr_speed = Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
+        this.dash_damage = Math.ceil((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
 
         // update the animation frame
         if (this.anims.isPlaying) {
@@ -53,6 +73,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     doneDashing() {
         if (this.dashing || this.bouncing) {
             if (Math.abs(this.body.velocity.x) <= game_settings.player_walk_speed && Math.abs(this.body.velocity.y) <= game_settings.player_walk_speed){
+                this.dash_on_cooldown = true;
+                this.body.bounce.set(0);
                 this.dash_cancel_timer = 0;
                 this.dashing = false;
                 this.bouncing = false;
@@ -62,7 +84,19 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
     }
 
+    updateDashCooldown(delta) {
+        if (this.dash_on_cooldown) {
+            this.dash_cooldown_timer += delta/1000;
+            if (this.dash_cooldown_timer >= this.dash_cooldown_duration) {
+                this.dash_on_cooldown = false;
+                this.dash_cooldown_timer = 0;
+            }
+        }
+    }
+
     chargeDash(delta) { 
+        if (this.dash_on_cooldown)
+            return;
         if ((pointer.isDown || key_space.isDown) && !this.dashing){
             if (getMouseCoords().x < this.x) {
                 this.last_direction_moved = "LEFT";
@@ -125,7 +159,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     dash(){
-        this.dash_direction = this.last_direction_moved;
+        this.body.bounce.set(1)
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
         if (speed < this.min_dash_speed) speed = this.min_dash_speed;
