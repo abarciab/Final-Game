@@ -39,6 +39,7 @@ function initialize(scene){
         shooter_bounce_mod: 0.5,
 
         enemy_stun_threshold: 10, // speed to where enemy is no longer stunned
+        enemy_stun_time: 0.75,
         enemy_spawn_timer: 8000,
         //these enemy_name variables are for determining which enemy is spawned when an 'enemy1, enemy2, enemy3', etc tile is found in the tilemap.
         enemy1_name: "CHARGER",
@@ -191,7 +192,7 @@ function playerEnemyCollision(player, enemy){
 
 // enemy damages other enemy when it bounces into it
 function enemyOnEnemyCollision(enemy1, enemy2) {
-    if (enemy1.got_hit) {
+    if (enemy1.stunned) {
         enemy2.damage(enemy1.bounce_damage);
     }
 }
@@ -313,17 +314,19 @@ function moveTo(source, target){
 
 function moveAway(source, target){
     let buffer = 2;
+    const move_speed = source.speed;
+    //const move_speed = game_settings.player_walk_speed;
     if (target.x > source.x+buffer){
-        source.setVelocityX(-source.speed);
+        source.setVelocityX(-move_speed);
     }
     if (target.x < source.x-buffer){
-        source.setVelocityX(source.speed);
+        source.setVelocityX(move_speed);
     }
     if (target.y > source.y+buffer){
-        source.setVelocityY(-source.speed);
+        source.setVelocityY(-move_speed);
     }
     if (target.y < source.y-buffer){
-        source.setVelocityY(source.speed);
+        source.setVelocityY(move_speed);
     }
 }
 

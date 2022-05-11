@@ -62,7 +62,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     update(){
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
-        this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
+        //this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
 
         if (this.active && (this.x < -50 || this.x > game.config.width + 50 || this.y < 0 || this.y > game.config.height)){
@@ -80,8 +80,11 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setDrag(0.05);
         this.setDamping(true);
         this.setCircle(this.width/2);
+
+        this.shadow = current_scene.add.image(x, y, "fran shadow").setScale(3).setDepth(1).setAlpha(0.3);
+
         this.type = type;
-        this.got_hit = false;
+        this.stunned = false;
         switch(this.type) {
             case "CHARGER":
                 this.speed = game_settings.charger_speed;
@@ -113,6 +116,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     reset() {
         this.setActive(true);
         this.setVisible(true);
+        this.shadow.setVisible(true);
         this.body.setVelocity(0,0);
         this.setAlpha(1);
         this.health = this.base_health;
@@ -125,21 +129,20 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             return;
         }
         this.health -= damage_value;
-        this.got_hit = true;
+        this.stunned = true;
         console.log("deal damage:",damage_value);
         if (this.health <= 0){
             this.die();
             return;
         }
-        //this.setAlpha(this.alpha/2);
-        this.stun_time = game_settings.player_stun_time;
+        this.stun_time = game_settings.enemy_stun_time;
     }
 
-    updateGetHit() {
-        if (this.got_hit && this.curr_speed <= game_settings.enemy_stun_threshold) {
-            this.got_hit = false;
+    /*updateGetHit() {
+        if (this.stunned && this.curr_speed <= game_settings.enemy_stun_threshold) {
+            this.stunned = false;
         }
-    }
+    }*/
 
     die() {
         this.x = -100;
@@ -147,13 +150,22 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setAlpha(1);
         this.setActive(false);
         this.setVisible(false);
+        this.shadow.setVisible(false);
         this.health = this.base_health;
     }
 
     update(timer, delta) {
+        this.shadow.x = this.x;
+        this.shadow.y = this.y;
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         this.bounce_damage = Math.ceil((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
-        this.updateGetHit();
+        // this.updateGetHit();
+        if (this.stunned) {
+            this.stun_time -= delta/1000;
+            if (this.stun_time < 0){
+                this.stunned = false;
+            }
+        }
     }
 
 }
@@ -178,10 +190,8 @@ class ChargerEnemy extends BaseEnemy {
     //this enemy will just always move toward the player
     update(time, delta){
         super.update(time, delta);
-        this.stun_time -= delta;
-        if (this.stun_time > 0){
-            return;
-        }
+        if (this.stunned) return;
+
         moveTo(this, current_scene.player);
     }
 }
@@ -207,10 +217,7 @@ class GolemEnemy extends BaseEnemy {
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
     update(time, delta){
         super.update(time, delta);
-        this.stun_time -= delta;
-        if (this.stun_time > 0){
-            return;
-        }
+        if (this.stunned) return;
 
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
 
@@ -255,10 +262,8 @@ class ShooterEnemy extends BaseEnemy {
     //this enemy will try to put space between themselves and the player, then shoot
     update(time, delta){
         super.update(time, delta);
-        this.stun_time -= delta;
-        if (this.stun_time > 0){
-            return;
-        }
+        if (this.stunned) return;
+
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         
         if (dist >= game_settings.shooter_min_dist){

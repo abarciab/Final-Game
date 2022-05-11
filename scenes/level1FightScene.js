@@ -8,6 +8,7 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('white hexagon', './assets/player/white hexagon.png');
         this.load.image('white arrow', './assets/white arrow.png');
         this.load.image('dash pointer', './assets/player/dash_pointer.png');
+        this.load.image('fran shadow', './assets/player/fran_shadow.png');
 
         this.load.spritesheet('fran idle left', './assets/player/fran_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('fran idle right', './assets/player/fran_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
@@ -33,7 +34,7 @@ class level1FightScene extends Phaser.Scene {
         initialize(this);
 
         //player
-        this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right').setDepth(1);
+        this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
         //enemies

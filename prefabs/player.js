@@ -5,6 +5,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         current_scene.add.existing(this);
 
         this.dash_pointer = current_scene.add.image(x, y, "dash pointer").setScale(3).setDepth(2).setAlpha(0.3);
+        this.setDepth(5);
 
         this.charge_progress = 0;
         this.dashing = false;
@@ -38,7 +39,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setMass(0.7);
         
         // hitbox is circle
-        this.setCircle(8, this.width/2-8, this.height/2-4);
+        const hitboxRadius = 8;
+        this.setCircle(hitboxRadius, this.width/2-hitboxRadius, this.height/2-hitboxRadius);
         console.log(this.width, this.height);
 
         this.current_frame =  0;
@@ -51,13 +53,14 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }
-        this.updateDashPointer();
         if ((this.dashing || this.bouncing) && this.curr_speed <= game_settings.player_walk_speed){
             this.doneDashing();
         }
         this.updateDashCooldown(delta);
         this.chargeDash(delta);
         this.movePlayer(delta);
+        this.updateDashPointer();
+
 
         // dash damage is speed/dash_speed * dash_damage;
         // given: velocity of player and the angles the two objects are going.
