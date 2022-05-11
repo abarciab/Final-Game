@@ -35,8 +35,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.moving = false;
         this.curr_speed = 0;
         this.dash_damage = 0;
-        this.body.bounce.set(1);
-        this.setMass(0.7);
+
+        this.body.bounce.set(game_settings.player_bounce_mod);
+        this.setMass(game_settings.player_mass);
         
         // hitbox is circle
         const hitboxRadius = 8;

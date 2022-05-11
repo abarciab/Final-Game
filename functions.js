@@ -14,30 +14,32 @@ function initialize(scene){
         player_walk_drag: 0.0001,
         player_dash_drag: 0.1,
         player_stun_time: 500,
+        player_mass: 0.7,
         player_bounce_mod: 1,
 
         tilemap_scale: 1,
         camera_zoom: 1,
 
         // charger stats
-        charger_speed: 50,
+        charger_speed: 75,
         charger_health: 300,
         charger_bounce_mod: 0.7,
 
         // golem stats
-        golem_speed: 0,
+        golem_speed: 30,
         golem_health: 500,
         golem_agro_range: 280,
-        golem_bounce_mod: 0.1,
+        golem_bounce_mod: 0.3,
 
         // shooter stats
-        shooter_speed: 15,
+        shooter_speed: 50,
         shooter_health: 200,
         shooter_shooting_speed: 1,
         shooter_reload_time: 6000,
         shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
         shooter_bounce_mod: 0.5,
 
+        enemy_mass: 1,
         enemy_stun_threshold: 10, // speed to where enemy is no longer stunned
         enemy_stun_time: 0.75,
         enemy_spawn_timer: 8000,
@@ -297,7 +299,11 @@ function spawnObject(type, x, y){
 }
 
 function moveTo(source, target){
-    let buffer = 2;
+    const angle = -Math.atan2(source.x-target.x, source.y-target.y);
+    const vel_x = source.speed * Math.sin(angle);
+    const vel_y = source.speed * -Math.cos(angle);
+    source.setVelocity(vel_x, vel_y);
+    /*let buffer = 2;
     if (target.x > source.x+buffer){
         source.setVelocityX(source.speed);
     }
@@ -309,7 +315,7 @@ function moveTo(source, target){
     }
     if (target.y < source.y-buffer){
         source.setVelocityY(-source.speed);
-    }
+    }*/
 }
 
 function moveAway(source, target){

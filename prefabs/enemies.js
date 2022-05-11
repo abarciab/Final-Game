@@ -110,7 +110,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.health = this.base_health;
         this.body.bounce.set(this.bounce_mod);
         this.stun_time = 0;
-        this.setMass(1);
+        this.setMass(game_settings.enemy_mass);
     }
 
     reset() {
@@ -220,11 +220,8 @@ class GolemEnemy extends BaseEnemy {
         if (this.stunned) return;
 
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
-
         if (dist <= game_settings.golem_agro_range){
             moveTo(this, current_scene.player);
-        } else {
-            this.angle += 0.1;
         }
     }
 }
