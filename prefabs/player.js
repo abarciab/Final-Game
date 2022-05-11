@@ -12,8 +12,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDrag(game_settings.player_walk_drag);
         this.setDamping(true);
         this.score = 0;
+        this.stunned = false;
+        this.invincible = false;
         this.invulnerable = false;
-        this.invincible_timer = 1;
+        this.stun_duration = 0.5;
+        this.invincible_duration = 2;
+
         this.safe_pos = new Phaser.Math.Vector2(this.x, this.y);
         this.bouncing = false;  //this is to let the player cancel their bounce after they hit an enemy
         this.min_dash_speed = game_settings.player_walk_speed*2;
@@ -43,12 +47,14 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(time, delta){
-        if (!this.startInvulnerable && !this.dashing){
+        if (!this.stunned && !this.dashing){
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }
         this.updateDashPointer();
-        this.doneDashing();
+        if ((this.dashing || this.bouncing) && this.curr_speed <= game_settings.player_walk_speed){
+            this.doneDashing();
+        }
         this.updateDashCooldown(delta);
         this.chargeDash(delta);
         this.movePlayer(delta);
@@ -72,15 +78,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     doneDashing() {
-        if ((this.dashing || this.bouncing) && this.curr_speed <= game_settings.player_walk_speed){
-            this.dash_on_cooldown = true;
-            this.body.bounce.set(0);
-            this.dash_cancel_timer = 0;
-            this.dashing = false;
-            this.bouncing = false;
-            this.setDrag(game_settings.player_walk_drag);
-            this.clearTint();
-        }
+        this.dash_on_cooldown = true;
+        this.body.bounce.set(0);
+        this.dash_cancel_timer = 0;
+        this.dashing = false;
+        this.bouncing = false;
+        this.setDrag(game_settings.player_walk_drag);
     }
 
     updateDashCooldown(delta) {
@@ -94,7 +97,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     chargeDash(delta) { 
-        if (this.dash_on_cooldown)
+        if (this.dash_on_cooldown || this.stunned || this.invincible)
             return;
         if ((pointer.isDown || key_space.isDown) && !this.dashing){
             if (getMouseCoords().x < this.x) {
@@ -151,14 +154,17 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             else if (key_down.isDown){
                 this.move("DOWN");
             }
-            if (!this.moving && (!this.dashing && !this.bouncing)) {
+            if (!this.moving && !this.dashing && !this.stunned) {
                 this.anims.play({key: `fran idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+            }
+            else if (this.stunned) {
+                this.anims.play(`fran damage ${this.last_direction_moved.toLowerCase()}`, true);
             }
         }
     }
 
     dash(){
-        if (this.startInvulnerable || this.invulnerable) {
+        if (this.stunned || this.invincible || this.invulnerable) {
             return;
         }
         this.body.bounce.set(1);
@@ -175,7 +181,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     //source: what damaged the player
     //redirect: how the player responds to the damage. if false, or not passed, player moves away from damage at a fixed speed. if true, player reverses their own direciton
     damage(source, redirect){
-        if (this.invulnerable || this.startInvulnerable){
+        if (this.invulnerable || this.stunned){
             return;
         }
 
@@ -187,29 +193,48 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         } else {
             this.speed = game_settings.player_dash_speed/4;
 
-            if (source){
-                current_scene.enemyCollider.active = false;
-                this.startInvulnerable = true;
-                current_scene.time.delayedCall(100, () => {
-                    this.startInvulnerable = false;
-                    this.invulnerable = true;
-                    current_scene.time.delayedCall(2000, () => {
-                        current_scene.enemyCollider.active = true;
-                        this.invulnerable = false;
-                    }, null, this);
+            current_scene.enemyCollider.active = false;
+            this.stunned = true;
+            this.body.bounce.set(1);
+            this.setAlpha(0.3);
+            const stun_duration = this.stun_duration * 1000;
+            this.charge_progress = 0;
+            current_scene.time.delayedCall(stun_duration, () => {
+                this.setAlpha(0.6);
+                this.body.bounce.set(0);
+                this.stunned = false;
+                this.invulnerable = true;
+                this.invincible = true;
+                const invincible_duration = this.invincible_duration * 1000;
+                current_scene.time.delayedCall(invincible_duration, () => {
+                    this.setAlpha(1);
+                    this.invincible = false;
+                    current_scene.enemyCollider.active = true;
+                    this.invulnerable = false;
                 }, null, this);
-                if (redirect){
-                    this.body.setVelocity(this.body.velocity.x*-1, this.body.velocity.y*-1);
-                } else{
-                    moveAway(this, source);
+            }, null, this);
+
+            if (redirect){
+                const redirect_multiplier = game_settings.player_walk_speed*4;
+                if (source.curr_speed < redirect_multiplier) {
+                    const vel_x = redirect_multiplier*(Math.cos(source.body.angle));
+                    const vel_y = redirect_multiplier*(Math.sin(source.body.angle));
+                    this.setVelocity(vel_x, vel_y);
                 }
-                
-            } 
+                if (Math.cos(source.body.angle) < 0) {
+                    this.last_direction_moved = "RIGHT";
+                }
+                else {
+                    this.last_direction_moved = "LEFT";
+                }
+            } else {
+                moveAway(this, source);
+            }
         }
     }
 
     move(dir){
-        if (this.startInvulnerable){
+        if (this.stunned){
             return;
         }
         let speed = game_settings.player_walk_speed;
@@ -220,10 +245,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                     this.last_direction_moved = dir;
                 if (this.body.velocity.x > -speed){
                     this.setVelocityX(-speed);
-                    //this.dash_pointer.setVelocityX(-speed);
-                    if (speed == game_settings.player_walk_speed){
-                        this.dashing = false;
-                        this.clearTint();
+                    if (speed <= game_settings.player_walk_speed && this.dashing){
+                        this.doneDashing();
                     }
                 }
                 break;
@@ -232,30 +255,24 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                     this.last_direction_moved = dir;
                 if (this.body.velocity.x < speed){
                     this.setVelocityX(speed);
-                    //this.dash_pointer.setVelocityX(speed);
-                    if (speed == game_settings.player_walk_speed){
-                        this.dashing = false;
-                        this.clearTint();
+                    if (speed <= game_settings.player_walk_speed && this.dashing){
+                        this.doneDashing();
                     }
                 }
                 break;
             case "UP":
                 if (this.body.velocity.y > -speed){
                     this.setVelocityY(-speed);
-                    //this.dash_pointer.setVelocityY(-speed);
-                    if (speed == game_settings.player_walk_speed){
-                        this.dashing = false;
-                        this.clearTint();
+                    if (speed <= game_settings.player_walk_speed && this.dashing){
+                        this.doneDashing();
                     }
                 }
                 break;
             case "DOWN":
                 if (this.body.velocity.y < speed){
                     this.setVelocityY(speed);
-                    //this.dash_pointer.setVelocityY(speed);
-                    if (speed == game_settings.player_walk_speed){
-                        this.dashing = false;
-                        this.clearTint();
+                    if (speed <= game_settings.player_walk_speed && this.dashing){
+                        this.doneDashing();
                     }
                 }
                 break;

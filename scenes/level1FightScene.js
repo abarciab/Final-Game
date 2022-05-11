@@ -15,6 +15,8 @@ class level1FightScene extends Phaser.Scene {
         this.load.spritesheet('fran run right', './assets/player/fran_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('fran dash right', './assets/player/fran_dash_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('fran dash left', './assets/player/fran_dash_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        this.load.spritesheet('fran damage right', './assets/player/fran_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
+        this.load.spritesheet('fran damage left', './assets/player/fran_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
 
         this.load.image('charger', './assets/enemies/charger.png');
         this.load.image('golem', './assets/enemies/golem.png');
@@ -120,6 +122,18 @@ class level1FightScene extends Phaser.Scene {
             key: "fran dash right",
             frameRate: 12,
             frames: this.anims.generateFrameNumbers("fran dash right", {start: 0, end: 5}),
+            repeat: -1
+        })
+        this.anims.create({
+            key: "fran damage left",
+            frameRate: 12,
+            frames: this.anims.generateFrameNumbers("fran damage left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        this.anims.create({
+            key: "fran damage right",
+            frameRate: 12,
+            frames: this.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
             repeat: -1
         })
     }

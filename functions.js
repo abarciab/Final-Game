@@ -144,7 +144,7 @@ function playerLavaCollision(player, lava_tile){
     if (!player.dashing){
         player.setPosition(player.safe_pos.x, player.safe_pos.y);
         player.body.setVelocity(0, 0);
-        player.damage(lava_tile, true);
+        player.damage(lava_tile, false);
     }
 }
 
@@ -183,7 +183,7 @@ function playerEnemyCollision(player, enemy){
     if (current_scene.player.dashing){
         enemy.damage(current_scene.player.dash_damage);
     } else {
-        current_scene.player.damage(enemy);
+        current_scene.player.damage(enemy, true);
     }
 
     updateUI();
