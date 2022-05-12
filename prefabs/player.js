@@ -42,7 +42,6 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         // hitbox is circle
         const hitboxRadius = 8;
         this.setCircle(hitboxRadius, this.width/2-hitboxRadius, this.height/2-hitboxRadius);
-        console.log(this.width, this.height);
 
         this.current_frame =  0;
         this.scaleX = 3;
@@ -186,7 +185,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         if (this.invulnerable || this.stunned){
             return;
         }
-
+        
         current_scene.cameras.main.shake(150, 0.003);
         this.health-= 1;
         if (this.health == 0){
@@ -217,12 +216,13 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             }, null, this);
 
             if (redirect){
-                const redirect_multiplier = game_settings.player_walk_speed*4;
-                if (source.curr_speed < redirect_multiplier) {
-                    const vel_x = redirect_multiplier*(Math.cos(source.body.angle));
-                    const vel_y = redirect_multiplier*(Math.sin(source.body.angle));
-                    this.setVelocity(vel_x, vel_y);
+                let redirect_multiplier = game_settings.player_walk_speed*4;
+                if (source.curr_speed > redirect_multiplier) {
+                    redirect_multiplier = source.curr_speed;
                 }
+                const vel_x = redirect_multiplier*(Math.cos(source.body.angle));
+                const vel_y = redirect_multiplier*(Math.sin(source.body.angle));
+                this.setVelocity(vel_x, vel_y);
             } else {
                 moveAway(this, source);
             }

@@ -120,7 +120,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     damage(damage_value) {
-        this.body.bounce.set(this.bounce_mod);
+        if (damage_value <= 0) return;
         //bounces the player out of the enemy if they're stuck
         if (current_scene.player.invulnerable){
             current_scene.player.damage(this);
@@ -154,11 +154,11 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     update(timer, delta) {
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         this.bounce_damage = Math.ceil((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
+
         // this.updateGetHit();
         if (this.stunned) {
             this.stun_time -= delta/1000;
             if (this.stun_time < 0){
-                console.log("no longer stunned");
                 this.stunned = false;
             }
         }
