@@ -82,6 +82,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.last_direction_moved = "right";
         this.type = type;
         this.stunned = false;
+        this.current_frame = 0;
         switch(this.type) {
             case "CHARGER":
                 this.speed = game_settings.charger_speed;
@@ -133,7 +134,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             return;
         }
         this.stun_time = game_settings.enemy_stun_time;
-        console.log("stunned for", this.stun_time);
     }
 
     /*updateGetHit() {
@@ -168,8 +168,13 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         else {
             this.last_direction_moved = "left";
         }
+        if (this.anims.isPlaying)
+            this.current_frame = this.anims.currentFrame.index-1;
         if (!this.stunned) {
-            this.anims.play(`${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, true);
+            this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+        }
+        else if (this.stunned) {
+            this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
         }
     }
 
@@ -181,7 +186,6 @@ class ChargerEnemy extends BaseEnemy {
         this.setScale(3);
         const hitbox_radius = 6;
         this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
-
     }
 
     reset(){

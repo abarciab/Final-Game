@@ -154,6 +154,12 @@ function playerLavaCollision(player, lava_tile){
     }
 }
 
+function enemyLavaCollision(enemy, lava_tile) {
+    if (enemy.stunned) {
+        enemy.damage(enemy.bounce_damage);
+    }
+}
+
 function projectileEnemyCollision(enemy, projectile){
     if (!enemy.active || !projectile.active){
         return;
@@ -261,7 +267,7 @@ function spawnEnemy(type, x, y){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ChargerEnemy(x, y, 'charger move right').setTint(0xFF0000);
+                new_enemy = new ChargerEnemy(x, y, 'charger move right');
             }
             break;
         case "GOLEM":
@@ -272,7 +278,7 @@ function spawnEnemy(type, x, y){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new GolemEnemy(x, y, 'golem').setTint(0xaaFF00).setScale(1.5);
+                new_enemy = new GolemEnemy(x, y, 'golem');
             }
             break;
         case "SHOOTER":
@@ -283,7 +289,7 @@ function spawnEnemy(type, x, y){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ShooterEnemy(x, y, 'shooter').setTint(0xaaaa00);
+                new_enemy = new ShooterEnemy(x, y, 'shooter');
             }
             break;
         default: 

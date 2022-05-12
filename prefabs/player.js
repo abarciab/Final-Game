@@ -177,7 +177,6 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);
         this.dashing = true;
         this.setDrag(game_settings.player_dash_drag);
-        //this.setTint(0xFF0000);
     }
 
     //damages the player. source and redirect are optional

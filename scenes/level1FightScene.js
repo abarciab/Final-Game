@@ -22,8 +22,10 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('charger', './assets/enemies/charger.png');
         this.load.spritesheet('charger move left', './assets/enemies/charger_move_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
         this.load.spritesheet('charger move right', './assets/enemies/charger_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
+        this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
+        this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
 
-        this.load.image('golem', './assets/enemies/golem.png');
+        this.load.image('golem move', './assets/enemies/golem.png');
         this.load.image('shooter', './assets/enemies/shooter.png');
 
         //tilemap
@@ -77,6 +79,7 @@ class level1FightScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
         this.physics.add.collider(this.player, this.doors);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
+        this.physics.add.collider(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
         
@@ -150,6 +153,18 @@ class level1FightScene extends Phaser.Scene {
             key: "charger move right",
             frameRate: 12,
             frames: this.anims.generateFrameNumbers("charger move right", {start: 0, end: 5}),
+            repeat: -1
+        })
+        this.anims.create({
+            key: "charger damage left",
+            frameRate: 1,
+            frames: this.anims.generateFrameNumbers("charger damage left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        this.anims.create({
+            key: "charger damage right",
+            frameRate: 1,
+            frames: this.anims.generateFrameNumbers("charger damage right", {start: 0, end: 0}),
             repeat: -1
         })
     }
