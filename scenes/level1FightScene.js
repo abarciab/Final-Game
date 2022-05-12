@@ -20,6 +20,9 @@ class level1FightScene extends Phaser.Scene {
         this.load.spritesheet('fran damage left', './assets/player/fran_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
 
         this.load.image('charger', './assets/enemies/charger.png');
+        this.load.spritesheet('charger move left', './assets/enemies/charger_move_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
+        this.load.spritesheet('charger move right', './assets/enemies/charger_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
+
         this.load.image('golem', './assets/enemies/golem.png');
         this.load.image('shooter', './assets/enemies/shooter.png');
 
@@ -135,6 +138,18 @@ class level1FightScene extends Phaser.Scene {
             key: "fran damage right",
             frameRate: 12,
             frames: this.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
+            repeat: -1
+        })
+        this.anims.create({
+            key: "charger move left",
+            frameRate: 12,
+            frames: this.anims.generateFrameNumbers("charger move left", {start: 0, end: 5}),
+            repeat: -1
+        })
+        this.anims.create({
+            key: "charger move right",
+            frameRate: 12,
+            frames: this.anims.generateFrameNumbers("charger move right", {start: 0, end: 5}),
             repeat: -1
         })
     }

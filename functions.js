@@ -137,12 +137,15 @@ function resume(){
     current_scene.pauseLayer.setVisible(false);
 }
 
+/*
+COLLISION FUNCTIONS
+*/
+
 function playerWallCollision(player, rects) {
     const wall_bounce_mod = 0.8;
     player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
 }
 
-//collison functions:
 function playerLavaCollision(player, lava_tile){
     if (!player.dashing){
         player.setPosition(player.safe_pos.x, player.safe_pos.y);
@@ -255,7 +258,7 @@ function spawnEnemy(type, x, y){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ChargerEnemy(x, y, 'charger').setTint(0xFF0000);
+                new_enemy = new ChargerEnemy(x, y, 'charger move right').setTint(0xFF0000);
             }
             break;
         case "GOLEM":

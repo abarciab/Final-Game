@@ -80,9 +80,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setDrag(0.05);
         this.setDamping(true);
         this.setCircle(this.width/2);
-
-        this.shadow = current_scene.add.image(x, y, "fran shadow").setScale(3).setDepth(1).setAlpha(0.3);
-
+        this.last_direction_moved = "right";
         this.type = type;
         this.stunned = false;
         switch(this.type) {
@@ -116,7 +114,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     reset() {
         this.setActive(true);
         this.setVisible(true);
-        this.shadow.setVisible(true);
         this.body.setVelocity(0,0);
         this.setAlpha(1);
         this.health = this.base_health;
@@ -136,6 +133,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             return;
         }
         this.stun_time = game_settings.enemy_stun_time;
+        console.log("stunned for", this.stun_time);
     }
 
     /*updateGetHit() {
@@ -150,21 +148,28 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setAlpha(1);
         this.setActive(false);
         this.setVisible(false);
-        this.shadow.setVisible(false);
         this.health = this.base_health;
     }
 
     update(timer, delta) {
-        this.shadow.x = this.x;
-        this.shadow.y = this.y;
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         this.bounce_damage = Math.ceil((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
         // this.updateGetHit();
         if (this.stunned) {
             this.stun_time -= delta/1000;
             if (this.stun_time < 0){
+                console.log("no longer stunned");
                 this.stunned = false;
             }
+        }
+        if (this.body.velocity.x >= 0) {
+            this.last_direction_moved = "right";
+        }
+        else {
+            this.last_direction_moved = "left";
+        }
+        if (!this.stunned) {
+            this.anims.play(`${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, true);
         }
     }
 
@@ -173,6 +178,10 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
 class ChargerEnemy extends BaseEnemy {
     constructor(x, y, texture){
         super(x, y, texture, "CHARGER");
+        this.setScale(3);
+        const hitbox_radius = 6;
+        this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
+
     }
 
     reset(){
