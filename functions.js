@@ -200,6 +200,9 @@ function enemyOnEnemyCollision(enemy1, enemy2) {
     if (enemy1.stunned) {
         enemy2.damage(enemy1.bounce_damage);
     }
+    if (enemy2.stunned) {
+        enemy1.damage(enemy2.bounce_damage);
+    }
 }
 
 function playerDestructibleCollision(player, destructible){

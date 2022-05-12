@@ -64,7 +64,6 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         //this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
-
         if (this.active && (this.x < -50 || this.x > game.config.width + 50 || this.y < 0 || this.y > game.config.height)){
             this.reset();
         }
@@ -120,6 +119,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     damage(damage_value) {
+        this.body.bounce.set(this.bounce_mod);
         //bounces the player out of the enemy if they're stuck
         if (current_scene.player.invulnerable){
             current_scene.player.damage(this);
