@@ -6,10 +6,10 @@ let config = {
     physics: {
         default: "arcade",
         arcade: { fps: 60,
-            debug: true,
+            debug: false,
          },
     },
-    scene: [level1FightScene],
+    scene: [titleScene, level1IntroScene, level1FightScene],
 }
 
 //keys and setup

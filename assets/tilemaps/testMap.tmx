@@ -467,13 +467,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="5" name="interact" visible="0">
+ <objectgroup id="5" name="interact">
   <object id="1" gid="13" x="946.246" y="695.62" width="64" height="244">
    <properties>
     <property name="door" type="int" value="0"/>
    </properties>
   </object>
-  <object id="8" gid="5" x="790" y="770" width="64" height="64">
+  <object id="8" gid="5" x="768" y="704" width="64" height="64">
    <properties>
     <property name="button" type="int" value="0"/>
    </properties>
