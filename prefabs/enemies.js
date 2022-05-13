@@ -109,6 +109,9 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.body.bounce.set(this.bounce_mod);
         this.stun_time = 0;
         this.setMass(game_settings.enemy_mass);
+        this.damage_text_array = [current_scene.add.text(0, 0, 0)];
+        this.damage_text_array[0].setVisible(false);
+        this.damage_text_array[0].setFontSize(26);
     }
 
     reset() {
@@ -128,6 +131,20 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         }
         this.health -= damage_value;
         this.stunned = true;
+        for (let i = 0; i < this.damage_text_array.length; i++) {
+            if ((this.damage_text_array[i].visible == true) && (i+1 >= this.damage_text_array.length)) {
+                this.damage_text_array.push(current_scene.add.text(0, 0, damage_value));
+                this.damage_text_array[i+1].setFontSize(26);
+                damageDisplay(this, i+1);
+                this.damage_text_array.splice(i+1, 1);
+                break;
+            } else if (this.damage_text_array[i].visible == false) {
+                this.damage_text_array[i].setText(`${damage_value}`);
+                damageDisplay(this, i);
+                //this.damage_text_array[i].setVisible(false);
+                break;
+            }
+        }
         console.log("deal damage:",damage_value);
         if (this.health <= 0){
             this.die();

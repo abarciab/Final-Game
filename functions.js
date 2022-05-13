@@ -21,7 +21,7 @@ function initialize(scene){
         camera_zoom: 1,
 
         // charger stats
-        charger_speed: 75,
+        charger_speed: 0,
         charger_health: 300,
         charger_bounce_mod: 0.7,
 
@@ -308,6 +308,25 @@ function spawnObject(type, x, y){
             current_scene.destructibles.push(new_obj);
             break;
     }
+}
+
+function damageDisplay(enemy, index) {
+    enemy.damage_text_array[index].setVisible(true);
+    enemy.damage_text_array[index].alpha = 1;
+    enemy.damage_text_array[index].x = enemy.getTopRight().x;
+    enemy.damage_text_array[index].y = enemy.getTopRight().y;
+    current_scene.tweens.add({
+        targets: enemy.damage_text_array[index],
+        alpha: 0,
+        x: enemy.damage_text_array[index].x + 20,
+        y: enemy.damage_text_array[index].y - 20,
+        duration: 500,
+        onComplete: () => { 
+            if (index == 0) {
+                enemy.damage_text_array[index].setVisible(false);
+            }
+        }
+    });
 }
 
 function moveTo(source, target){
