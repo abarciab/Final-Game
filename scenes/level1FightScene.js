@@ -33,12 +33,17 @@ class level1FightScene extends Phaser.Scene {
         //tilemap
         this.load.image('tiles', './assets/tilemaps/tiles.png');
         this.load.tilemapTiledJSON('map','./assets/tilemaps/map1.json');
+
+        this.load.json('scriptData', './scripts/gameScript.json');
         
     }
 
     create(){
         //intialize game_settings, current_scene, and setup keys
         initialize(this);
+
+        const data = this.cache.json.get('scriptData');
+        this.gameScript = new ScriptReader(data);
 
         //player
         this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
@@ -185,6 +190,8 @@ class level1FightScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
             repeat: -1
         })
+
+        this.gameScript.readNextPart();
     }
 
     /*
@@ -213,6 +220,7 @@ class level1FightScene extends Phaser.Scene {
         //update UI
         updateUI();
 
+        updateScript(delta);
         //testing
     }
 }

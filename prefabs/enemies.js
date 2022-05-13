@@ -133,6 +133,16 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         }
         this.health -= damage_value;
         this.stunned = true;
+        this.updateDamageText(damage_value);
+        console.log("deal damage:",damage_value);
+        if (this.health <= 0){
+            this.die();
+            return;
+        }
+        this.stun_time = game_settings.enemy_stun_time;
+    }
+
+    updateDamageText(damage_value) {
         for (let i = 0; i < this.damage_text_array.length; i++) {
             if ((this.damage_text_array[i].visible == true) && (i+1 >= this.damage_text_array.length)) {
                 this.damage_text_array.push(current_scene.add.text(0, 0, damage_value));
@@ -149,12 +159,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 break;
             }
         }
-        console.log("deal damage:",damage_value);
-        if (this.health <= 0){
-            this.die();
-            return;
-        }
-        this.stun_time = game_settings.enemy_stun_time;
     }
 
     /*updateGetHit() {
