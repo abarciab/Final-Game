@@ -1,0 +1,53 @@
+{
+    "InitialPart": "part1",
+    "defaultTextSpeed": 10,
+    "CharacterVariables": {
+        "person1": {
+            "color": "pink",
+            "voice": "female"
+        },
+        "person2": {
+            "color": "blue",
+            "voice": "male"
+        },
+        "person3": {
+            "color": "green",
+            "voice": "male"
+        },
+        "default": {
+            "color": "white",
+            "voice": "make"
+        }
+    },
+
+    "Script": {
+        "level1": {
+            "part1": {
+                "location": "overworld",
+                "body": [
+                    {
+                        "person": "person1",
+                        "body": "test line"
+                    },
+                    {
+                        "person": "person2",
+                        "body": "response to the test line"
+                    },
+                    {
+                        "person": "person3",
+                        "body": "im fucking BALLING"
+                    }
+                ]
+            },
+            "part2": {
+                "location": "hell",
+                "body": [
+                    {
+                        "test": "im fucking balling baby"
+                    }
+                ]
+            }
+
+        }
+    }
+}

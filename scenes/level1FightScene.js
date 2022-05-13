@@ -40,6 +40,8 @@ class level1FightScene extends Phaser.Scene {
         //intialize game_settings, current_scene, and setup keys
         initialize(this);
 
+        this.script = new ScriptReader();
+
         //player
         this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05);

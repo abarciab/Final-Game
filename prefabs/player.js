@@ -36,7 +36,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.curr_speed = 0;
         this.dash_damage = 0;
 
-        this.body.bounce.set(game_settings.player_bounce_mod);
+        this.body.bounce.set(0);
         this.setMass(game_settings.player_mass);
         
         // hitbox is circle
@@ -169,7 +169,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         if (this.stunned || this.invincible || this.invulnerable) {
             return;
         }
-        this.body.bounce.set(1);
+        this.body.bounce.set(game_settings.player_bounce_mod);
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
         if (speed < this.min_dash_speed) speed = this.min_dash_speed;
@@ -196,7 +196,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
 
             current_scene.enemyCollider.active = false;
             this.stunned = true;
-            this.body.bounce.set(1);
+            this.body.bounce.set(game_settings.player_bounce_mod);
             const stun_duration = this.stun_duration * 1000;
             this.charge_progress = 0;
             this.dash_pointer.setAlpha(0.3);
