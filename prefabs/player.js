@@ -209,6 +209,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 const invincible_duration = this.invincible_duration * 1000;
                 current_scene.time.delayedCall(invincible_duration, () => {
                     this.setAlpha(1);
+                    
+                    this.dash_on_cooldown = false;
+                    this.dash_cooldown_timer = 0;
                     this.invincible = false;
                     current_scene.enemyCollider.active = true;
                     this.invulnerable = false;
