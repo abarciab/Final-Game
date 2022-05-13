@@ -25,7 +25,9 @@ class level1FightScene extends Phaser.Scene {
         this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
 
-        this.load.image('golem move', './assets/enemies/golem.png');
+        this.load.spritesheet('golem move left', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+        this.load.spritesheet('golem move right', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+
         this.load.image('shooter', './assets/enemies/shooter.png');
 
         //tilemap
@@ -143,6 +145,8 @@ class level1FightScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
             repeat: -1
         })
+
+        // charger animations
         this.anims.create({
             key: "charger move left",
             frameRate: 12,
@@ -165,6 +169,20 @@ class level1FightScene extends Phaser.Scene {
             key: "charger damage right",
             frameRate: 1,
             frames: this.anims.generateFrameNumbers("charger damage right", {start: 0, end: 0}),
+            repeat: -1
+        })
+
+        // golem animation
+        this.anims.create({
+            key: "golem move right",
+            frameRate: 1,
+            frames: this.anims.generateFrameNumbers("golem move right", {start: 0, end: 0}),
+            repeat: -1
+        })
+        this.anims.create({
+            key: "golem move left",
+            frameRate: 1,
+            frames: this.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
             repeat: -1
         })
     }

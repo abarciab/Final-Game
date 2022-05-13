@@ -156,7 +156,7 @@ function playerLavaCollision(player, lava_tile){
 
 function enemyLavaCollision(enemy, lava_tile) {
     if (enemy.stunned) {
-        enemy.damage(enemy.bounce_damage);
+        enemy.damage(enemy.bounce_damage-1);
     }
 }
 
@@ -203,10 +203,10 @@ function playerEnemyCollision(player, enemy){
 
 // enemy damages other enemy when it bounces into it
 function enemyOnEnemyCollision(enemy1, enemy2) {
-    if (enemy1.stunned) {
+    if (enemy1.stunned && !enemy2.stunned) {
         enemy2.damage(enemy1.bounce_damage);
     }
-    if (enemy2.stunned) {
+    if (enemy2.stunned && !enemy1.stunned) {
         enemy1.damage(enemy2.bounce_damage);
     }
 }
@@ -278,7 +278,7 @@ function spawnEnemy(type, x, y){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new GolemEnemy(x, y, 'golem');
+                new_enemy = new GolemEnemy(x, y, 'golem move right');
             }
             break;
         case "SHOOTER":
