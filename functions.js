@@ -21,7 +21,7 @@ function initialize(scene){
         camera_zoom: 1,
 
         // charger stats
-        charger_speed: 0,
+        charger_speed: 75,
         charger_health: 300,
         charger_bounce_mod: 0.7,
 
