@@ -3,7 +3,7 @@
 function initialize(scene){
     current_scene = scene;
     pointer = current_scene.input.activePointer;
-
+    
     game_settings = {
         // player stats
         dash_damage: 50,
@@ -135,6 +135,11 @@ function pause(){
 
 function resume(){
     current_scene.pauseLayer.setVisible(false);
+}
+
+function updateScript(delta){
+    if (current_scene.gameScript.reading_script)
+        current_scene.gameScript.updateScript(delta);
 }
 
 /*
