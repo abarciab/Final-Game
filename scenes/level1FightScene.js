@@ -32,7 +32,7 @@ class level1FightScene extends Phaser.Scene {
 
         //tilemap
         this.load.image('tiles', './assets/tilemaps/tiles.png');
-        this.load.tilemapTiledJSON('map','./assets/tilemaps/demoMap.json');
+        this.load.tilemapTiledJSON('map','./assets/tilemaps/map1.json');
 
         this.load.json('scriptData', './scripts/gameScript.json');
         
