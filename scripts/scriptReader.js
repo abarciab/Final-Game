@@ -79,11 +79,11 @@ class ScriptReader {
         this.curr_script = [...this.script_sections[`level${this.level}`][`part${this.part}`].body];
 
         this.display_line = "";
-        this.curr_speaker = this.curr_script[this.curr_line_index].speaker.toLowerCase();
+        this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
-        this.speaker_sfx = scene.sound.add(this.character_variables[this.curr_speaker].voice);
-        this.speaker_color = this.character_variables[this.curr_speaker].color;
+        this.speaker_sfx = scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice);
+        this.speaker_color = this.character_variables[this.curr_speaker.toLowerCase()].color;
 
         // this.display_textbox.setVisible(true);
         this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, this.curr_speaker)
@@ -123,8 +123,8 @@ class ScriptReader {
 
         // if the part is not done, return true to indicate still reading
         this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
-        this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker].toLowerCase().voice);
-        this.speaker_color = this.character_variables[this.curr_speaker].color;
+        this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice);
+        this.speaker_color = this.character_variables[this.curr_speaker.toLowerCase()].color;
 
         this.speaker_textbox.setText(this.curr_speaker);
         this.speaker_textbox.setColor(this.speaker_color);
