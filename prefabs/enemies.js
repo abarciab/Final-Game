@@ -184,12 +184,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.stunned = false;
             }
         }
-        if (this.body.velocity.x >= 0) {
-            this.last_direction_moved = "right";
-        }
-        else {
-            this.last_direction_moved = "left";
-        }
         if (this.anims.isPlaying)
             this.current_frame = this.anims.currentFrame.index-1;
         if (!this.stunned) {
@@ -227,6 +221,12 @@ class ChargerEnemy extends BaseEnemy {
         super.update(time, delta);
         if (this.stunned) return;
 
+        const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
+        if (Math.sin(angle) >= 0) 
+            this.last_direction_moved = "right";
+        else 
+            this.last_direction_moved = "left";
+            
         moveTo(this, current_scene.player);
     }
 }

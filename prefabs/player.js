@@ -101,7 +101,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     chargeDash(delta) { 
         if (this.dash_on_cooldown || this.stunned || this.invincible)
             return;
-        if ((pointer.isDown || key_space.isDown) && !this.dashing){
+        if ((pointer.isDown || key_space.isDown) && !this.dashing && !this.invincible){
             if (getMouseCoords().x < this.x) {
                 this.last_direction_moved = "LEFT";
             }
@@ -247,7 +247,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.moving = true;
         switch(dir){
             case "LEFT":
-                if (!pointer.isDown && !key_space.isDown)
+                if (!pointer.isDown && !key_space.isDown || this.invulnerable)
                     this.last_direction_moved = dir;
                 if (this.body.velocity.x > -speed){
                     this.setVelocityX(-speed);
@@ -257,7 +257,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 }
                 break;
             case "RIGHT":
-                if (!pointer.isDown && !key_space.isDown)
+                if (!pointer.isDown && !key_space.isDown || this.invulnerable)
                     this.last_direction_moved = dir;
                 if (this.body.velocity.x < speed){
                     this.setVelocityX(speed);
