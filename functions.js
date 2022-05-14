@@ -137,11 +137,6 @@ function resume(){
     current_scene.pauseLayer.setVisible(false);
 }
 
-function updateScript(delta){
-    if (game_script.reading_script)
-        game_script.updateScript(delta);
-}
-
 /*
 COLLISION FUNCTIONS
 */
