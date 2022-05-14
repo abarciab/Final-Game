@@ -4,10 +4,15 @@ class titleScene extends Phaser.Scene {
     }
 
     preload(){
-
+        this.load.json('scriptData', './scripts/gameScript.json');
     }
 
     create(){
+        const data = this.cache.json.get('scriptData');
+        game_script = new ScriptReader(this, data);
+
+        console.log(game_script.script_data);
+
         this.cameras.main.setBackgroundColor('#FF6666');
 
         this.title_text = this.add.text(game.config.width/2, 200, 'OMGGG, I have to go find something in hell... AGAIN???', {color: '#000000', fontSize: '40px', stroke: '#FFFFFF', strokeThickness: 5}).setOrigin(0.5);

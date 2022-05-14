@@ -138,8 +138,8 @@ function resume(){
 }
 
 function updateScript(delta){
-    if (current_scene.gameScript.reading_script)
-        current_scene.gameScript.updateScript(delta);
+    if (game_script.reading_script)
+        game_script.updateScript(delta);
 }
 
 /*

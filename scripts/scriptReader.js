@@ -7,7 +7,9 @@ first get the script for the level, then start reading a part, then read the bod
 */
 
 class ScriptReader {
-    constructor(script_data) {
+    constructor(scene, script_data) {
+        this.current_scene = scene;
+
         this.script_data = script_data;
         this.script_sections = this.script_data.Script;
 
@@ -38,22 +40,24 @@ class ScriptReader {
 
         this.text_box_y = config.height * 0.6;
 
-        this.display_textbox = current_scene.add.text(this.text_margins, this.text_box_y, "this is a text box\ntest").setFontSize(26).setDepth(10);
+        this.display_textbox = new Phaser.GameObjects.Text(scene, this.text_margins, this.text_box_y, "this is a text box\ntest").setFontSize(26).setDepth(10).setVisible(false);
         this.text_width = this.display_textbox.displayWidth / this.display_textbox.text.length;
         this.text_height = this.display_textbox.displayHeight / this.display_textbox.text.split('\n').length;
 
         this.mouse_held = false;
     }
 
-    readNextPart() {
-        if (!this.script_done)
-            this.readScript(this.level, this.part);
+    readNextPart(scene) {
+        if (!this.script_done) {
+            this.readScript(scene, this.level, this.part);
+        }
         else {
             console.log("no more script to read");
         }
     }
 
-    readScript(level, part) {
+    readScript(scene, level, part) {
+        this.current_scene = scene;
         this.reading_script = true;
         this.line_paused = false;
 
@@ -71,6 +75,7 @@ class ScriptReader {
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
         this.display_textbox.setVisible(true);
+        scene.add.text(this.display_textbox);
     }
 
     // returns true if still reading, false if done reading for now
@@ -162,7 +167,7 @@ class ScriptReader {
         if (/\s/.test(this.curr_line[this.curr_char_index])) {
             const str_copy = this.curr_line.slice(this.curr_char_index);
             const next_word = this.curr_line[this.curr_char_index] + str_copy.replace(/\{(.*?)\}/g, '').split(/\s/)[1];
-            const recent_line_length = this.display_line.split('\n').at(-1).length * this.text_width;
+            const recent_line_length = this.display_line.split('\n')[this.display_line.split('\n').length-1].length * this.text_width;
             const textbox_height = this.text_height * this.display_line.split('\n').length;
 
             // if the new word width extends beyond the margin, add new line
