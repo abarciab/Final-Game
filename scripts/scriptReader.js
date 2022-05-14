@@ -79,18 +79,15 @@ class ScriptReader {
         this.curr_script = [...this.script_sections[`level${this.level}`][`part${this.part}`].body];
 
         this.display_line = "";
-        this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
-        this.speaker_sfx = scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice, {volume: 0.5});
-        this.speaker_color = this.character_variables[this.curr_speaker.toLowerCase()].color;
-
         // this.display_textbox.setVisible(true);
-        this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, this.curr_speaker)
-        .setFontSize(this.font_size).setColor(this.speaker_color).setDepth(10);
-
+        this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, "")
+        .setFontSize(this.font_size).setDepth(10);
         this.display_textbox = scene.add.text(this.text_margins, this.text_box_y, "")
-        .setFontSize(this.font_size).setColor(this.speaker_color).setDepth(10);
+        .setFontSize(this.font_size).setDepth(10);
+
+        this.setText();
     }
 
     // returns true if still reading, false if done reading for now
@@ -120,7 +117,13 @@ class ScriptReader {
             this.speaker_textbox.setVisible(false);
             return false;
         }
+        this.setText();
+        this.curr_line = this.curr_script[this.curr_line_index].text;
 
+        return true;
+    }
+
+    setText() {
         // if the part is not done, return true to indicate still reading
         this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
         this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice, {volume: 0.5});
@@ -129,10 +132,6 @@ class ScriptReader {
         this.speaker_textbox.setText(this.curr_speaker);
         this.speaker_textbox.setColor(this.speaker_color);
         this.display_textbox.setColor(this.speaker_color);
-
-        this.curr_line = this.curr_script[this.curr_line_index].text;
-
-        return true;
     }
 
     updateScript(delta) {

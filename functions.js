@@ -147,6 +147,7 @@ function playerWallCollision(player, rects) {
 }
 
 function playerLavaCollision(player, lava_tile){
+    current_scene.on_lava = true;
     if (!player.dashing){
         player.setPosition(player.safe_pos.x, player.safe_pos.y);
         player.body.setVelocity(0, 0);

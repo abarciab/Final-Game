@@ -13,6 +13,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDrag(game_settings.player_walk_drag);
         this.setDamping(true);
         this.score = 0;
+        this.on_lava = false;
         this.stunned = false;
         this.invincible = false;
         this.invulnerable = false;
@@ -49,7 +50,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(time, delta){
-        if (!this.stunned && !this.dashing){
+        if (!this.stunned && !this.dashing && !this.on_lava){
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }

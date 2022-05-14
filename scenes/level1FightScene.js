@@ -99,8 +99,12 @@ class level1FightScene extends Phaser.Scene {
         this.health_text = this.add.text(150, 20, "LIVES: 0");
         this.pauseLayer = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
         this.paused = false;
+        this.createAnimations();
         updateUI();
+        game_script.readNextPart(this);
+    }
 
+    createAnimations() {
         this.anims.create({
             key: "fran idle left",
             frameRate: 12,
@@ -189,7 +193,6 @@ class level1FightScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
             repeat: -1
         })
-        game_script.readNextPart(this);
     }
 
     /*
@@ -222,6 +225,13 @@ class level1FightScene extends Phaser.Scene {
         //update UI
         updateUI();
 
-        //testing
+        if (this.physics.overlap(this.player, this.lava_rects)) {
+            this.player.on_lava = true;
+            console.log("on lava");
+        }
+        else {
+            this.player.on_lava = false;
+            console.log("not on lava");
+        }
     }
 }
