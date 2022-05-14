@@ -177,7 +177,7 @@ function projectileEnemyCollision(enemy, projectile){
 }
 
 function playerProjectileCollision(playerObj, projectile){
-    if (!projectile.active || !playerObj.active || player.startInvulnerable || player.invulnerable){
+    if (!projectile.active || !playerObj.active || playerObj.startInvulnerable || playerObj.invulnerable){
         return;
     }
     if (current_scene.player.dashing){
@@ -355,6 +355,10 @@ function moveTo(source, target){
 }
 
 function moveAway(source, target){
+    if (!target || !source){
+        return;
+    }
+
     let buffer = 2;
     const move_speed = source.speed;
     //const move_speed = game_settings.player_walk_speed;
