@@ -49,6 +49,7 @@ class level1FightScene extends Phaser.Scene {
         //spawnEnemy("CHARGER");
         //spawnEnemy("GOLEM");
         //spawnEnemy("SHOOTER");
+        this.text_sfx;
         
 
         //tilemap
@@ -184,7 +185,6 @@ class level1FightScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
             repeat: -1
         })
-
         game_script.readNextPart(this);
     }
 
@@ -194,6 +194,10 @@ class level1FightScene extends Phaser.Scene {
         @ delta: number of milliseconds since update was last called
     */
     update(time, delta){
+        if (game_script.reading_script) {
+            game_script.updateScript(delta);
+            return;
+        }
         //pause the game
         if (Phaser.Input.Keyboard.JustDown(key_esc)){
             this.paused = !this.paused;
@@ -214,7 +218,6 @@ class level1FightScene extends Phaser.Scene {
         //update UI
         updateUI();
 
-        updateScript(delta);
         //testing
     }
 }
