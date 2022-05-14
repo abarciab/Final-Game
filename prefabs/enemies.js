@@ -109,11 +109,14 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.body.bounce.set(this.bounce_mod);
         this.stun_time = 0;
         this.setMass(game_settings.enemy_mass);
-        this.damage_text_array = [current_scene.add.text(0, 0, 0)];
-        this.damage_text_array[0].setVisible(false);
-        this.damage_text_array[0].setFontSize(26);
-        this.damage_text_array[0].setColor(`#FFFFFF`);
-        this.damage_text_array[0].setStroke(`#000000`, 3);
+        
+        this.damage_text_array = [
+            current_scene.add.text(0, 0, 0)
+            .setVisible(false)
+            .setFontSize(26)
+            .setColor(`#FFFFFF`)
+            .setStroke(`#000000`, 3)
+        ];
     }
 
     reset() {
@@ -160,12 +163,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             }
         }
     }
-
-    /*updateGetHit() {
-        if (this.stunned && this.curr_speed <= game_settings.enemy_stun_threshold) {
-            this.stunned = false;
-        }
-    }*/
 
     die() {
         this.x = -100;
