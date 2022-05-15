@@ -25,7 +25,7 @@ function initialize(scene){
         // charger stats
         charger_speed: 75,
         charger_health: 300,
-        charger_bounce_mod: 0.7,
+        charger_bounce_mod: 0.8,
 
         // golem stats
         golem_speed: 30,
@@ -184,6 +184,7 @@ function playerWallCollision(player, rects) {
 }
 
 function playerLavaCollision(player, lava_tile){
+    current_scene.on_lava = true;
     if (!player.dashing){
         player.setPosition(player.safe_pos.x, player.safe_pos.y);
         player.body.setVelocity(0, 0);
@@ -192,6 +193,7 @@ function playerLavaCollision(player, lava_tile){
 }
 
 function enemyLavaCollision(enemy, lava_tile) {
+    console.log("enemy hit lava");
     if (enemy.stunned) {
         enemy.damage(enemy.bounce_damage-1);
     }

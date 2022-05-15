@@ -13,6 +13,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDrag(game_settings.player_walk_drag);
         this.setDamping(true);
         this.score = 0;
+        this.on_lava = false;
         this.stunned = false;
         this.invincible = false;
         this.invulnerable = false;
@@ -49,7 +50,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(time, delta){
-        if (!this.stunned && !this.dashing){
+        if (!this.stunned && !this.dashing && !this.on_lava){
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }
@@ -101,7 +102,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     chargeDash(delta) { 
         if (this.dash_on_cooldown || this.stunned || this.invincible)
             return;
-        if ((pointer.isDown || key_space.isDown) && !this.dashing){
+        if ((pointer.isDown || key_space.isDown) && !this.dashing && !this.invincible){
             if (getMouseCoords().x < this.x) {
                 this.last_direction_moved = "LEFT";
             }
@@ -247,7 +248,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.moving = true;
         switch(dir){
             case "LEFT":
-                if (!pointer.isDown && !key_space.isDown)
+                if (!pointer.isDown && !key_space.isDown || this.invulnerable)
                     this.last_direction_moved = dir;
                 if (this.body.velocity.x > -speed){
                     this.setVelocityX(-speed);
@@ -257,7 +258,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 }
                 break;
             case "RIGHT":
-                if (!pointer.isDown && !key_space.isDown)
+                if (!pointer.isDown && !key_space.isDown || this.invulnerable)
                     this.last_direction_moved = dir;
                 if (this.body.velocity.x < speed){
                     this.setVelocityX(speed);
