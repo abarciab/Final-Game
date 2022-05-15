@@ -30,13 +30,15 @@ class level1FightScene extends Phaser.Scene {
 
         this.load.image('shooter', './assets/enemies/shooter.png');
 
-        //tilemap
+        //tilemap and environment sprites
+        this.load.image('door', './assets/objects/door.png');
+        this.load.image('button', './assets/objects/button.png');
         this.load.image('tiles', './assets/tilemaps/tiles.png');
-        this.load.tilemapTiledJSON('map','./assets/tilemaps/map1.json');
+        this.load.tilemapTiledJSON('map','./assets/tilemaps/demoMap.json');
 
+
+        //script
         this.load.json('scriptData', './scripts/gameScript.json');
-        
-        //this.load.tilemapTiledJSON('map','./assets/tilemaps/map1.json');
     }
 
     create(){
@@ -50,12 +52,8 @@ class level1FightScene extends Phaser.Scene {
         //enemies
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');
-        //spawnEnemy("CHARGER");
-        //spawnEnemy("GOLEM");
-        //spawnEnemy("SHOOTER");
         this.text_sfx;
         
-
         //tilemap
         const map = this.make.tilemap({key: 'map', tileWidth: 64, tileHeight: 64});
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
@@ -63,19 +61,10 @@ class level1FightScene extends Phaser.Scene {
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const marker_layer = map.createLayer('markers', this.tileset, 0, 0).setScale(game_settings.tilemap_scale).setAlpha(0);
+        setupDoorsAndButtons(map);
         this.collision_rects = [];
         this.lava_rects = [];
         this.destructibles = [];
-        this.doors = [];
-        this.buttons = [];
-
-        /*let new_door = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setScale(1, 20).setTint(0x0000FF);
-        new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
-        this.doors.push(new_door);
-        let new_button= this.physics.add.sprite(game.config.width/2-120, game.config.height/2, 'white square').setScale(.8).setTint(0x0000aa);
-        this.buttons.push(new_button);
-        this.physics.add.overlap(this.player, this.buttons, function() {current_scene.doors[0].destroy()});*/
-
         setupTilemapCollisions(layer0);
         setupTilemapCollisions(layer1);
         setupTilemapCollisions(layer2);
@@ -83,7 +72,6 @@ class level1FightScene extends Phaser.Scene {
 
         //collisions
         this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
-        this.physics.add.collider(this.player, this.doors);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
         this.physics.add.collider(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));

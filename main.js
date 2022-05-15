@@ -5,7 +5,8 @@ let config = {
     pixelArt: true, 
     physics: {
         default: "arcade",
-        arcade: { fps: 60,
+        arcade: { 
+            fps: 60,
             debug: false,
          },
     },

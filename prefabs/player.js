@@ -17,7 +17,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.invincible = false;
         this.invulnerable = false;
         this.stun_duration = 0.5;
-        this.invincible_duration = 2;
+        this.invincible_duration = game_settings.player_invincible_time;
 
         this.safe_pos = new Phaser.Math.Vector2(this.x, this.y);
         this.bouncing = false;  //this is to let the player cancel their bounce after they hit an enemy
@@ -27,7 +27,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dash_cancel_buffer = 0.1;  // seconds needed to cancel a dash
 
         this.dash_cooldown_timer = 0;
-        this.dash_cooldown_duration = 0.5;
+        this.dash_cooldown_duration = game_settings.player_dash_cooldown;
         this.dash_on_cooldown = false;
 
         this.last_direction_moved = "right";
