@@ -76,7 +76,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
 
-        this.setDrag(0.05);
+        this.base_drag = 0.05;
+        this.setDrag(this.base_drag);
         this.setDamping(true);
         this.setCircle(this.width/2);
         this.last_direction_moved = "right";
@@ -88,16 +89,19 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.speed = game_settings.charger_speed;
                 this.base_health = game_settings.charger_health;
                 this.bounce_mod = game_settings.charger_bounce_mod;
+                this.bounce_drag = game_settings.charger_bounce_drag;
                 break;
             case "GOLEM":
                 this.speed = game_settings.golem_speed;
                 this.base_health = game_settings.golem_health;
                 this.bounce_mod = game_settings.golem_bounce_mod;
+                this.bounce_drag = game_settings.golem_bounce_drag;
                 break;
             case "SHOOTER":
                 this.speed = game_settings.shooter_speed;
                 this.base_health = game_settings.shooter_health;
                 this.bounce_mod = game_settings.shooter_bounce_mod;
+                this.bounce_drag = game_settings.shooter_bounce_drag;
                 break;
             default:
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
@@ -185,7 +189,9 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         // this.updateGetHit();
         if (this.stunned) {
             this.stun_time -= delta/1000;
+            this.setDrag(this.bounce_drag);
             if (this.stun_time < 0){
+                this.setDrag(this.base_drag);
                 this.stunned = false;
             }
         }

@@ -8,7 +8,7 @@ function initialize(scene){
         // player stats
         dash_damage: 50,
         player_walk_speed: 350,
-        player_dash_speed: 1000,
+        player_dash_speed: 1500,
         player_max_charge_progress: 1000,
         player_dash_cooldown: 0.2,
         player_max_health: 50,
@@ -25,13 +25,15 @@ function initialize(scene){
         // charger stats
         charger_speed: 75,
         charger_health: 300,
-        charger_bounce_mod: 0.7,
+        charger_bounce_mod: 1,
+        charger_bounce_drag: 0.01,
 
         // golem stats
         golem_speed: 30,
         golem_health: 500,
         golem_agro_range: 280,
-        golem_bounce_mod: 0.3,
+        golem_bounce_mod: 1,
+        golem_bounce_drag: 0.0001,
 
         // shooter stats
         shooter_speed: 50,
@@ -39,7 +41,8 @@ function initialize(scene){
         shooter_shooting_speed: 1,
         shooter_reload_time: 6000,
         shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
-        shooter_bounce_mod: 0.5,
+        shooter_bounce_mod: 1,
+        shooter_bounce_drag: 0.01,
 
         enemy_mass: 1,
         enemy_stun_threshold: 10, // speed to where enemy is no longer stunned
@@ -226,8 +229,7 @@ function playerProjectileCollision(playerObj, projectile){
 
 // called after collision
 function playerEnemyCollision(player, enemy){
-    console.log("collide");
-
+    if (enemy.stunned) return;
     if (current_scene.player.dashing){
         player.bouncing = true;
         enemy.damage(current_scene.player.dash_damage);
