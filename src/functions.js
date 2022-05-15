@@ -9,15 +9,15 @@ function initialize(scene){
         dash_damage: 50,
         player_walk_speed: 350,
         player_dash_speed: 1000,
-        player_max_charge_progress: 200,
-        player_dash_cooldown: 0,
+        player_max_charge_progress: 1000,
+        player_dash_cooldown: 0.2,
         player_max_health: 50,
         player_walk_drag: 0.0001,
         player_dash_drag: 0.1,
         player_stun_time: 100,
         player_mass: 0.7,
         player_bounce_mod: 1,
-        player_invincible_time: 0.5,
+        player_invincible_time: 1,
 
         tilemap_scale: 1,
         camera_zoom: 1,
@@ -25,7 +25,7 @@ function initialize(scene){
         // charger stats
         charger_speed: 75,
         charger_health: 300,
-        charger_bounce_mod: 0.8,
+        charger_bounce_mod: 0.7,
 
         // golem stats
         golem_speed: 30,
@@ -226,12 +226,10 @@ function playerProjectileCollision(playerObj, projectile){
 
 // called after collision
 function playerEnemyCollision(player, enemy){
-    if (!enemy.active || !player.active || player.startInvulnerable || player.invulnerable){
-        return;
-    }
-    player.bouncing = true;
+    console.log("collide");
 
     if (current_scene.player.dashing){
+        player.bouncing = true;
         enemy.damage(current_scene.player.dash_damage);
     } else {
         current_scene.player.damage(enemy, true);
@@ -373,41 +371,16 @@ function moveTo(source, target){
     const vel_x = source.speed * Math.sin(angle);
     const vel_y = source.speed * -Math.cos(angle);
     source.setVelocity(vel_x, vel_y);
-    /*let buffer = 2;
-    if (target.x > source.x+buffer){
-        source.setVelocityX(source.speed);
-    }
-    if (target.x < source.x-buffer){
-        source.setVelocityX(-source.speed);
-    }
-    if (target.y > source.y+buffer){
-        source.setVelocityY(source.speed);
-    }
-    if (target.y < source.y-buffer){
-        source.setVelocityY(-source.speed);
-    }*/
 }
 
 function moveAway(source, target){
     if (!target || !source){
         return;
     }
-
-    let buffer = 2;
-    const move_speed = source.speed;
-    //const move_speed = game_settings.player_walk_speed;
-    if (target.x > source.x+buffer){
-        source.setVelocityX(-move_speed);
-    }
-    if (target.x < source.x-buffer){
-        source.setVelocityX(move_speed);
-    }
-    if (target.y > source.y+buffer){
-        source.setVelocityY(-move_speed);
-    }
-    if (target.y < source.y-buffer){
-        source.setVelocityY(move_speed);
-    }
+    const angle = -Math.atan2(source.x-target.x, source.y-target.y);
+    const vel_x = source.speed * Math.sin(angle);
+    const vel_y = source.speed * -Math.cos(angle);
+    source.setVelocity(-vel_x, -vel_y);
 }
 
 function getMouseCoords() {
