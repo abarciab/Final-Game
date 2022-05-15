@@ -232,6 +232,7 @@ function playerEnemyCollision(player, enemy){
     if (enemy.stunned) return;
     if (current_scene.player.dashing){
         player.bouncing = true;
+        player.dash_cooldown_timer = player.dash_cooldown_duration;
         enemy.damage(current_scene.player.dash_damage);
     } else {
         current_scene.player.damage(enemy, true);
