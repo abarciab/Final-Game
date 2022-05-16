@@ -34,7 +34,7 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('door', './assets/objects/door.png');
         this.load.image('button', './assets/objects/button.png');
         this.load.image('tiles', './assets/tilemaps/tiles.png');
-        this.load.tilemapTiledJSON('map','./assets/tilemaps/demoMap.json');
+        this.load.tilemapTiledJSON('map','./assets/tilemaps/level1map.json');
         //this.load.tilemapTiledJSON('map','./assets/tilemaps/bounceDemo.json');
 
         //script
