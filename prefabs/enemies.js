@@ -307,7 +307,7 @@ class ShooterEnemy extends BaseEnemy {
                 this.fire(current_scene.player);
                 current_scene.time.delayedCall(game_settings.shooter_reload_time, function () {
                     this.loaded = true;
-                }, null, this)
+                }, null, this);
             }
         }
 
