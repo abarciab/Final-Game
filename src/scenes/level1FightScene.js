@@ -8,7 +8,7 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('white hexagon', './assets/player/white hexagon.png');
         this.load.image('white arrow', './assets/white arrow.png');
         this.load.image('dash pointer', './assets/player/dash_pointer.png');
-        this.load.image('fran shadow', './assets/player/fran_shadow.png');
+        this.load.spritesheet('dash pointer charged', './assets/player/dash_pointer_charged.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
 
         this.load.spritesheet('fran idle left', './assets/player/fran_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('fran idle right', './assets/player/fran_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
@@ -132,6 +132,12 @@ class level1FightScene extends Phaser.Scene {
             frameRate: 12,
             frames: this.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
             repeat: -1
+        })
+        this.anims.create({
+            key: "dash pointer charged",
+            frameRate: 12,
+            frames: this.anims.generateFrameNumbers("dash pointer charged", {start: 0, end: 3}),
+            repeat: 0
         })
 
         // charger animations

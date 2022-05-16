@@ -4,7 +4,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
 
-        this.dash_pointer = current_scene.add.image(x, y, "dash pointer").setScale(3).setDepth(2).setAlpha(0.3);
+        this.dash_pointer = current_scene.add.sprite(x, y, "dash pointer").setScale(3).setDepth(2).setAlpha(0.3);
         this.setDepth(5);
 
         this.charge_progress = 0;
@@ -32,6 +32,10 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dash_cooldown_timer = 0;
         this.dash_cooldown_duration = game_settings.player_dash_cooldown;
         this.dash_on_cooldown = false;
+
+        this.perfect_dash_buffer = 0.3;
+        this.perfect_dash_timer = 0;
+        this.perfect_dash = false;
 
         this.last_direction_moved = "right";
         this.mouse_direction;
@@ -90,6 +94,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dash_on_cooldown = true;
         this.body.bounce.set(0);
         this.dash_cancel_timer = 0;
+        this.perfect_dash_timer = 0;
+
+        this.perfect_dash = false;
         this.dashing = false;
         this.bouncing = false;
         this.setDrag(game_settings.player_walk_drag);
@@ -118,6 +125,18 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             if (this.charge_progress < game_settings.player_max_charge_progress) {
                 this.charge_progress += delta;
                 this.dash_pointer.setAlpha(this.charge_progress/game_settings.player_max_charge_progress + 0.1);
+            }
+            else {
+                if (this.perfect_dash_timer < this.perfect_dash_buffer) {
+                    this.perfect_dash = true;
+                    console.log("can perfect dash");
+                    this.dash_pointer.anims.play("dash pointer charged", true);
+                }
+                else {
+                    this.perfect_dash = false;
+                    this.dash_pointer.texture = "dash pointer";
+                }
+                this.perfect_dash_timer += delta/1000;
             }
         }
         
@@ -172,10 +191,13 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         if (this.invincible) {
             current_scene.enemyCollider.active = true;
         }
-
         this.body.bounce.set(game_settings.player_bounce_mod);
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
+        if (this.perfect_dash) {
+            speed *= 1.5;
+            console.log("perfect dash");
+        }
         if (speed < this.min_dash_speed) speed = this.min_dash_speed;
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);
         this.dashing = true;
