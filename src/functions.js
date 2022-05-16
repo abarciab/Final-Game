@@ -80,7 +80,6 @@ function setupDoorsAndButtons(map){
     current_scene.buttons = [];
 
     for(let i = 0; i < door_sprites.length; i++ ){
-        console.log("DOOR!");
         let new_door = current_scene.add.rectangle(door_sprites[i].x, door_sprites[i].y, door_sprites[i].displayWidth, door_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
         new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
         current_scene.physics.add.existing(new_door);
