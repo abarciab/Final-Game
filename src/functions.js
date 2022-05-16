@@ -8,7 +8,7 @@ function initialize(scene){
         // player stats
         dash_damage: 50,
         player_walk_speed: 350,
-        player_dash_speed: 1500,
+        player_dash_speed: 1200,
         player_max_charge_progress: 1000,
         player_dash_cooldown: 0.2,
         player_max_health: 50,
@@ -80,6 +80,7 @@ function setupDoorsAndButtons(map){
     current_scene.buttons = [];
 
     for(let i = 0; i < door_sprites.length; i++ ){
+        console.log("DOOR!");
         let new_door = current_scene.add.rectangle(door_sprites[i].x, door_sprites[i].y, door_sprites[i].displayWidth, door_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
         new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
         current_scene.physics.add.existing(new_door);
@@ -98,6 +99,10 @@ function setupDoorsAndButtons(map){
     current_scene.physics.add.collider(current_scene.player, current_scene.doors);
     current_scene.physics.add.overlap(current_scene.player, current_scene.buttons, function(player, button) {
         for(let i = 0; i < current_scene.doors.length; i++ ){
+            if (button.data_sprite.data.list.next_level == true){
+                console.log("NEXT!");
+                return;
+            }
             if (button.data_sprite.data.list.circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
                 current_scene.doors[i].data_sprite.setVisible(false);
                 current_scene.doors[i].destroy();
