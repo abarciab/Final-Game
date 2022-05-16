@@ -8,7 +8,7 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('white hexagon', './assets/player/white hexagon.png');
         this.load.image('white arrow', './assets/white arrow.png');
         this.load.image('dash pointer', './assets/player/dash_pointer.png');
-        this.load.image('fran shadow', './assets/player/fran_shadow.png');
+        this.load.spritesheet('dash pointer charged', './assets/player/dash_pointer_charged.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
 
         this.load.spritesheet('fran idle left', './assets/player/fran_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('fran idle right', './assets/player/fran_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
@@ -30,20 +30,20 @@ class level1FightScene extends Phaser.Scene {
 
         this.load.image('shooter', './assets/enemies/shooter.png');
 
-        //tilemap
+        //tilemap and environment sprites
+        this.load.image('door', './assets/objects/door.png');
+        this.load.image('button', './assets/objects/button.png');
         this.load.image('tiles', './assets/tilemaps/tiles.png');
-        this.load.tilemapTiledJSON('map','./assets/tilemaps/map1.json');
+        this.load.tilemapTiledJSON('map','./assets/tilemaps/level1map.json');
+        //this.load.tilemapTiledJSON('map','./assets/tilemaps/bounceDemo.json');
 
+        //script
         this.load.json('scriptData', './scripts/gameScript.json');
-        
     }
 
     create(){
         //intialize game_settings, current_scene, and setup keys
         initialize(this);
-
-        const data = this.cache.json.get('scriptData');
-        this.gameScript = new ScriptReader(data);
 
         //player
         this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
@@ -52,11 +52,8 @@ class level1FightScene extends Phaser.Scene {
         //enemies
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');
-        //spawnEnemy("CHARGER");
-        //spawnEnemy("GOLEM");
-        //spawnEnemy("SHOOTER");
+        this.text_sfx;
         
-
         //tilemap
         const map = this.make.tilemap({key: 'map', tileWidth: 64, tileHeight: 64});
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
@@ -64,36 +61,18 @@ class level1FightScene extends Phaser.Scene {
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const marker_layer = map.createLayer('markers', this.tileset, 0, 0).setScale(game_settings.tilemap_scale).setAlpha(0);
+        setupDoorsAndButtons(map);
         this.collision_rects = [];
         this.lava_rects = [];
         this.destructibles = [];
-        this.doors = [];
-        this.buttons = [];
-
-        /*let new_door = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setScale(1, 20).setTint(0x0000FF);
-        new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
-        this.doors.push(new_door);
-        let new_button= this.physics.add.sprite(game.config.width/2-120, game.config.height/2, 'white square').setScale(.8).setTint(0x0000aa);
-        this.buttons.push(new_button);
-        this.physics.add.overlap(this.player, this.buttons, function() {current_scene.doors[0].destroy()});*/
-
         setupTilemapCollisions(layer0);
         setupTilemapCollisions(layer1);
         setupTilemapCollisions(layer2);
         setupTilemapCollisions(marker_layer);
 
-        //collisions
-        this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
-        this.physics.add.collider(this.player, this.doors);
-        this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
-        this.physics.add.collider(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
-        this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
-        this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
-        
         //enemy collisions
-        this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
-        this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
-        this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
+        this.addColliders();
+        this.createAnimations();
 
         //UI
         this.score_text = this.add.text(20, 20, "SCORE: 0");
@@ -102,6 +81,10 @@ class level1FightScene extends Phaser.Scene {
         this.paused = false;
         updateUI();
 
+        game_script.readNextPart(this);
+    }
+
+    createAnimations() {
         this.anims.create({
             key: "fran idle left",
             frameRate: 12,
@@ -150,6 +133,12 @@ class level1FightScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
             repeat: -1
         })
+        this.anims.create({
+            key: "dash pointer charged",
+            frameRate: 12,
+            frames: this.anims.generateFrameNumbers("dash pointer charged", {start: 0, end: 3}),
+            repeat: 0
+        })
 
         // charger animations
         this.anims.create({
@@ -190,8 +179,20 @@ class level1FightScene extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
             repeat: -1
         })
+    }
 
-        this.gameScript.readNextPart();
+    addColliders() {
+        this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
+        this.physics.add.collider(this.player, this.doors);
+        this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
+        this.physics.add.overlap(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
+        this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
+        this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
+
+        //enemy collisions
+        this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
+        this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
+        this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
     }
 
     /*
@@ -200,6 +201,10 @@ class level1FightScene extends Phaser.Scene {
         @ delta: number of milliseconds since update was last called
     */
     update(time, delta){
+        if (game_script.reading_script) {
+            game_script.updateScript(delta);
+            return;
+        }
         //pause the game
         if (Phaser.Input.Keyboard.JustDown(key_esc)){
             this.paused = !this.paused;
@@ -220,7 +225,13 @@ class level1FightScene extends Phaser.Scene {
         //update UI
         updateUI();
 
-        updateScript(delta);
-        //testing
+        if (this.physics.overlap(this.player, this.lava_rects)) {
+            this.player.on_lava = true;
+            //console.log("on lava");
+        }
+        else {
+            this.player.on_lava = false;
+            //console.log("not on lava");
+        }
     }
 }

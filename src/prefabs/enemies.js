@@ -76,7 +76,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
 
-        this.setDrag(0.05);
+        this.base_drag = 0.05;
+        this.setDrag(this.base_drag);
         this.setDamping(true);
         this.setCircle(this.width/2);
         this.last_direction_moved = "right";
@@ -88,16 +89,19 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.speed = game_settings.charger_speed;
                 this.base_health = game_settings.charger_health;
                 this.bounce_mod = game_settings.charger_bounce_mod;
+                this.bounce_drag = game_settings.charger_bounce_drag;
                 break;
             case "GOLEM":
                 this.speed = game_settings.golem_speed;
                 this.base_health = game_settings.golem_health;
                 this.bounce_mod = game_settings.golem_bounce_mod;
+                this.bounce_drag = game_settings.golem_bounce_drag;
                 break;
             case "SHOOTER":
                 this.speed = game_settings.shooter_speed;
                 this.base_health = game_settings.shooter_health;
                 this.bounce_mod = game_settings.shooter_bounce_mod;
+                this.bounce_drag = game_settings.shooter_bounce_drag;
                 break;
             default:
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
@@ -109,11 +113,14 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.body.bounce.set(this.bounce_mod);
         this.stun_time = 0;
         this.setMass(game_settings.enemy_mass);
-        this.damage_text_array = [current_scene.add.text(0, 0, 0)];
-        this.damage_text_array[0].setVisible(false);
-        this.damage_text_array[0].setFontSize(26);
-        this.damage_text_array[0].setColor(`#FFFFFF`);
-        this.damage_text_array[0].setStroke(`#000000`, 3);
+        
+        this.damage_text_array = [
+            current_scene.add.text(0, 0, 0)
+            .setVisible(false)
+            .setFontSize(26)
+            .setColor(`#FFFFFF`)
+            .setStroke(`#000000`, 3)
+        ];
     }
 
     reset() {
@@ -125,16 +132,21 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     damage(damage_value) {
-        if (damage_value <= 0) return;
+        // if (damage_value <= 0) return;
         //bounces the player out of the enemy if they're stuck
         if (current_scene.player.invulnerable){
             current_scene.player.damage(this);
-            return;
+            if (current_scene.player.invincible) {
+                damage_value = 0;
+            }
+            //return;
         }
         this.health -= damage_value;
         this.stunned = true;
-        this.updateDamageText(damage_value);
-        console.log("deal damage:",damage_value);
+        if (damage_value) {
+            this.updateDamageText(damage_value);
+            console.log("deal damage:",damage_value);
+        }
         if (this.health <= 0){
             this.die();
             return;
@@ -161,12 +173,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    /*updateGetHit() {
-        if (this.stunned && this.curr_speed <= game_settings.enemy_stun_threshold) {
-            this.stunned = false;
-        }
-    }*/
-
     die() {
         this.x = -100;
         this.y = -100;
@@ -183,15 +189,11 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         // this.updateGetHit();
         if (this.stunned) {
             this.stun_time -= delta/1000;
+            this.setDrag(this.bounce_drag);
             if (this.stun_time < 0){
+                this.setDrag(this.base_drag);
                 this.stunned = false;
             }
-        }
-        if (this.body.velocity.x >= 0) {
-            this.last_direction_moved = "right";
-        }
-        else {
-            this.last_direction_moved = "left";
         }
         if (this.anims.isPlaying)
             this.current_frame = this.anims.currentFrame.index-1;
@@ -230,6 +232,12 @@ class ChargerEnemy extends BaseEnemy {
         super.update(time, delta);
         if (this.stunned) return;
 
+        const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
+        if (Math.sin(angle) >= 0) 
+            this.last_direction_moved = "right";
+        else 
+            this.last_direction_moved = "left";
+            
         moveTo(this, current_scene.player);
     }
 }

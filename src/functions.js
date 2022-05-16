@@ -9,13 +9,15 @@ function initialize(scene){
         dash_damage: 50,
         player_walk_speed: 350,
         player_dash_speed: 1000,
-        player_max_charge_progress: 500,
+        player_max_charge_progress: 1000,
+        player_dash_cooldown: 0.2,
         player_max_health: 50,
         player_walk_drag: 0.0001,
         player_dash_drag: 0.1,
-        player_stun_time: 500,
+        player_stun_time: 100,
         player_mass: 0.7,
         player_bounce_mod: 1,
+        player_invincible_time: 1,
 
         tilemap_scale: 1,
         camera_zoom: 1,
@@ -23,13 +25,15 @@ function initialize(scene){
         // charger stats
         charger_speed: 75,
         charger_health: 300,
-        charger_bounce_mod: 0.7,
+        charger_bounce_mod: 1,
+        charger_bounce_drag: 0.01,
 
         // golem stats
         golem_speed: 30,
         golem_health: 500,
         golem_agro_range: 280,
-        golem_bounce_mod: 0.3,
+        golem_bounce_mod: 1,
+        golem_bounce_drag: 0.0001,
 
         // shooter stats
         shooter_speed: 50,
@@ -37,7 +41,8 @@ function initialize(scene){
         shooter_shooting_speed: 1,
         shooter_reload_time: 6000,
         shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
-        shooter_bounce_mod: 0.5,
+        shooter_bounce_mod: 1,
+        shooter_bounce_drag: 0.01,
 
         enemy_mass: 1,
         enemy_stun_threshold: 10, // speed to where enemy is no longer stunned
@@ -65,6 +70,45 @@ function setupKeys(scene){
 
     key_prev = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     key_next = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT); 
+}
+
+function setupDoorsAndButtons(map){
+
+    const door_sprites = map.createFromObjects('interact', {name: 'door', key: 'door'});
+    const button_sprites = map.createFromObjects('interact', {name: 'button', key:'button'});
+    current_scene.doors = [];
+    current_scene.buttons = [];
+
+    for(let i = 0; i < door_sprites.length; i++ ){
+        let new_door = current_scene.add.rectangle(door_sprites[i].x, door_sprites[i].y, door_sprites[i].displayWidth, door_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
+        new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
+        current_scene.physics.add.existing(new_door);
+        new_door.data_sprite = door_sprites[i];
+        current_scene.doors.push(new_door);
+    }
+    
+    for(let i = 0; i < button_sprites.length; i++){
+        let new_button = current_scene.add.rectangle(button_sprites[i].x, button_sprites[i].y, button_sprites[i].displayWidth, button_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
+        new_button.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_button);
+        current_scene.physics.add.existing(new_button);
+        new_button.data_sprite = button_sprites[i];
+        current_scene.buttons.push(new_button);
+    }
+
+    current_scene.physics.add.collider(current_scene.player, current_scene.doors);
+    current_scene.physics.add.overlap(current_scene.player, current_scene.buttons, function(player, button) {
+        for(let i = 0; i < current_scene.doors.length; i++ ){
+            if (button.data_sprite.data.list.next_level == true){
+                console.log("NEXT!");
+                return;
+            }
+            if (button.data_sprite.data.list.circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
+                current_scene.doors[i].data_sprite.setVisible(false);
+                current_scene.doors[i].destroy();
+            }
+        }  
+        button.setActive(false);      
+    })
 }
 
 function setupTilemapCollisions(layer){
@@ -137,11 +181,6 @@ function resume(){
     current_scene.pauseLayer.setVisible(false);
 }
 
-function updateScript(delta){
-    if (current_scene.gameScript.reading_script)
-        current_scene.gameScript.updateScript(delta);
-}
-
 /*
 COLLISION FUNCTIONS
 */
@@ -152,6 +191,7 @@ function playerWallCollision(player, rects) {
 }
 
 function playerLavaCollision(player, lava_tile){
+    current_scene.on_lava = true;
     if (!player.dashing){
         player.setPosition(player.safe_pos.x, player.safe_pos.y);
         player.body.setVelocity(0, 0);
@@ -160,6 +200,7 @@ function playerLavaCollision(player, lava_tile){
 }
 
 function enemyLavaCollision(enemy, lava_tile) {
+    console.log("enemy hit lava");
     if (enemy.stunned) {
         enemy.damage(enemy.bounce_damage-1);
     }
@@ -177,7 +218,7 @@ function projectileEnemyCollision(enemy, projectile){
 }
 
 function playerProjectileCollision(playerObj, projectile){
-    if (!projectile.active || !playerObj.active || player.startInvulnerable || player.invulnerable){
+    if (!projectile.active || !playerObj.active || playerObj.startInvulnerable || playerObj.invulnerable){
         return;
     }
     if (current_scene.player.dashing){
@@ -192,12 +233,10 @@ function playerProjectileCollision(playerObj, projectile){
 
 // called after collision
 function playerEnemyCollision(player, enemy){
-    if (!enemy.active || !player.active || player.startInvulnerable || player.invulnerable){
-        return;
-    }
-    player.bouncing = true;
-
+    if (enemy.stunned) return;
     if (current_scene.player.dashing){
+        player.bouncing = true;
+        player.dash_cooldown_timer = player.dash_cooldown_duration;
         enemy.damage(current_scene.player.dash_damage);
     } else {
         current_scene.player.damage(enemy, true);
@@ -339,37 +378,16 @@ function moveTo(source, target){
     const vel_x = source.speed * Math.sin(angle);
     const vel_y = source.speed * -Math.cos(angle);
     source.setVelocity(vel_x, vel_y);
-    /*let buffer = 2;
-    if (target.x > source.x+buffer){
-        source.setVelocityX(source.speed);
-    }
-    if (target.x < source.x-buffer){
-        source.setVelocityX(-source.speed);
-    }
-    if (target.y > source.y+buffer){
-        source.setVelocityY(source.speed);
-    }
-    if (target.y < source.y-buffer){
-        source.setVelocityY(-source.speed);
-    }*/
 }
 
 function moveAway(source, target){
-    let buffer = 2;
-    const move_speed = source.speed;
-    //const move_speed = game_settings.player_walk_speed;
-    if (target.x > source.x+buffer){
-        source.setVelocityX(-move_speed);
+    if (!target || !source){
+        return;
     }
-    if (target.x < source.x-buffer){
-        source.setVelocityX(move_speed);
-    }
-    if (target.y > source.y+buffer){
-        source.setVelocityY(-move_speed);
-    }
-    if (target.y < source.y-buffer){
-        source.setVelocityY(move_speed);
-    }
+    const angle = -Math.atan2(source.x-target.x, source.y-target.y);
+    const vel_x = source.speed * Math.sin(angle);
+    const vel_y = source.speed * -Math.cos(angle);
+    source.setVelocity(-vel_x, -vel_y);
 }
 
 function getMouseCoords() {

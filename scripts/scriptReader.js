@@ -7,9 +7,14 @@ first get the script for the level, then start reading a part, then read the bod
 */
 
 class ScriptReader {
-    constructor(script_data) {
+    constructor(scene, script_data) {
+        this.current_scene = scene;
+
         this.script_data = script_data;
         this.script_sections = this.script_data.Script;
+        this.character_variables = this.script_data.CharacterVariables;
+        this.speaker_sfx;
+        this.speaker_color;
 
         this.char_update_rate = this.script_data.defaultTextSpeed;
         this.char_update_timer = 0;
@@ -32,30 +37,37 @@ class ScriptReader {
 
         this.curr_speaker = this.curr_script.speaker;
         this.curr_line = this.curr_script[this.curr_line_index].text;
-
         this.text_margins = config.width * 0.3;
         this.textbox_max_height = (config.height * 0.25);
 
         this.text_box_y = config.height * 0.6;
+        this.speaker_y = config.height * 0.5;
+        this.font_size = 26;
 
-        this.display_textbox = current_scene.add.text(this.text_margins, this.text_box_y, "this is a text box\ntest").setFontSize(26).setDepth(10);
+        this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, this.curr_speaker)
+        .setFontSize(this.font_size).setDepth(10).setVisible(false);
+
+        this.display_textbox = scene.add.text(this.text_margins, this.text_box_y, "this is a text box\ntest").setFontSize(this.font_size).setDepth(10).setVisible(false);
         this.text_width = this.display_textbox.displayWidth / this.display_textbox.text.length;
         this.text_height = this.display_textbox.displayHeight / this.display_textbox.text.split('\n').length;
 
         this.mouse_held = false;
     }
 
-    readNextPart() {
-        if (!this.script_done)
-            this.readScript(this.level, this.part);
+    readNextPart(scene) {
+        if (!this.script_done) {
+            this.readScript(scene, this.level, this.part);
+        }
         else {
             console.log("no more script to read");
         }
     }
 
-    readScript(level, part) {
+    readScript(scene, level, part) {
+        this.current_scene = scene;
         this.reading_script = true;
         this.line_paused = false;
+        this.mouse_held = true;
 
         this.level = level;
         this.part = part;
@@ -67,10 +79,15 @@ class ScriptReader {
         this.curr_script = [...this.script_sections[`level${this.level}`][`part${this.part}`].body];
 
         this.display_line = "";
-        this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
-        this.display_textbox.setVisible(true);
+        // this.display_textbox.setVisible(true);
+        this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, "")
+        .setFontSize(this.font_size).setDepth(10);
+        this.display_textbox = scene.add.text(this.text_margins, this.text_box_y, "")
+        .setFontSize(this.font_size).setDepth(10);
+
+        this.setText();
     }
 
     // returns true if still reading, false if done reading for now
@@ -97,14 +114,24 @@ class ScriptReader {
                 }
             }
             this.display_textbox.setVisible(false);
+            this.speaker_textbox.setVisible(false);
             return false;
         }
-
-        // if the part is not done, return true to indicate still reading
-        this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
+        this.setText();
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
         return true;
+    }
+
+    setText() {
+        // if the part is not done, return true to indicate still reading
+        this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
+        this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice, {volume: 0.5});
+        this.speaker_color = this.character_variables[this.curr_speaker.toLowerCase()].color;
+
+        this.speaker_textbox.setText(this.curr_speaker);
+        this.speaker_textbox.setColor(this.speaker_color);
+        this.display_textbox.setColor(this.speaker_color);
     }
 
     updateScript(delta) {
@@ -140,7 +167,6 @@ class ScriptReader {
             }
         }
 
-        console.log(this.curr_speaker, ':', this.display_line);
         this.display_textbox.setText(this.display_line);
     }
 
@@ -148,6 +174,7 @@ class ScriptReader {
         if (this.line_paused) return;
         this.checkForCommand();
         this.display_line += this.curr_line[this.curr_char_index];
+        this.speaker_sfx.play();
         this.checkToAddNewline();
         this.curr_char_index++;
 
@@ -162,7 +189,7 @@ class ScriptReader {
         if (/\s/.test(this.curr_line[this.curr_char_index])) {
             const str_copy = this.curr_line.slice(this.curr_char_index);
             const next_word = this.curr_line[this.curr_char_index] + str_copy.replace(/\{(.*?)\}/g, '').split(/\s/)[1];
-            const recent_line_length = this.display_line.split('\n').at(-1).length * this.text_width;
+            const recent_line_length = this.display_line.split('\n')[this.display_line.split('\n').length-1].length * this.text_width;
             const textbox_height = this.text_height * this.display_line.split('\n').length;
 
             // if the new word width extends beyond the margin, add new line
