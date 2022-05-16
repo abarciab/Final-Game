@@ -150,7 +150,7 @@
          "name":"2",
          "opacity":1,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":60,
          "x":0,
          "y":0
@@ -895,6 +895,40 @@
                 }, 
                 {
                  "id":19,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":63.7849944008959,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":20.8635062834391,
+                             "x":43.0011198208287,
+                             "y":0.0796317033719049
+                            }, 
+                            {
+                             "height":6.68906308324001,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":42.682593007341,
+                             "x":-0.0796317033719049,
+                             "y":57.0959313176558
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"collides",
@@ -904,6 +938,40 @@
                 }, 
                 {
                  "id":20,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":63.7849944008959,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":20.4653477665796,
+                             "x":0.238895110115713,
+                             "y":0.0796317033719049
+                            }, 
+                            {
+                             "height":6.84832648998383,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":42.6825930073411,
+                             "x":21.2616648002986,
+                             "y":57.0959313176558
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"collides",
@@ -1082,6 +1150,29 @@
                 }, 
                 {
                  "id":37,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":37.7454273982829,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":64.2627846211273,
+                             "x":-0.15926340674381,
+                             "y":0.15926340674381
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"collides",
@@ -1091,33 +1182,213 @@
                 }, 
                 {
                  "id":48,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":6.76869478661192,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":24.7654597486624,
+                             "x":38.9399029488615,
+                             "y":55.6625606569616
+                            }, 
+                            {
+                             "height":2.62784621127286,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":26.7562523329601,
+                             "x":38.0639542117706,
+                             "y":61.3960432997387
+                            }, 
+                            {
+                             "height":5.33532412591763,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":15.6078138608934,
+                             "x":48.4957073534901,
+                             "y":50.0087097175563
+                            }, 
+                            {
+                             "height":5.73348264277715,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":11.70586039567,
+                             "x":54.2291899962673,
+                             "y":46.4252830658206
+                            }, 
+                            {
+                             "height":3.82232176185143,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":6.4501679731243,
+                             "x":59.484882418813,
+                             "y":44.5937538882668
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
                  "id":49,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":22.2172452407615,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":63.8646261042678,
+                             "x":0.398158516859525,
+                             "y":41.886275973622
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
                  "id":50,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":3,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":22.2172452407615,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":3.98158516859525,
+                             "x":0.0796317033719049,
+                             "y":42.0455393803658
+                            }, 
+                            {
+                             "height":19.1116088092572,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":7.16685330347145,
+                             "x":5.33532412591763,
+                             "y":44.2752270747792
+                            }, 
+                            {
+                             "height":15.8467089710091,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":5.73348264277716,
+                             "x":12.581809132761,
+                             "y":47.5401269130273
+                            }, 
+                            {
+                             "height":13.7762846833396,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":5.17606071917382,
+                             "x":16.8022894114719,
+                             "y":50.7253950479035
+                            }, 
+                            {
+                             "height":9.23727759114097,
+                             "id":6,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":5.65385093940525,
+                             "x":22.1376135373896,
+                             "y":54.5477168097549
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
                  "id":51,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":20.2264526564639,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":29.0655717307453,
+                             "x":34.7194226701506,
+                             "y":43.558541744432
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1127,6 +1398,29 @@
                 }, 
                 {
                  "id":52,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":21.3412965036705,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":63.9442578076397,
+                             "x":-0.0796317033719049,
+                             "y":42.5233296005972
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1136,6 +1430,29 @@
                 }, 
                 {
                  "id":53,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":24.1284061216872,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":29.4637302476048,
+                             "x":-0.31852681348762,
+                             "y":40.0547467960682
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1144,34 +1461,177 @@
                         }]
                 }, 
                 {
-                 "id":56,
+                 "id":54,
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
                          "value":false
+                        }]
+                }, 
+                {
+                 "id":55,
+                 "properties":[
+                        {
+                         "name":"lava",
+                         "type":"bool",
+                         "value":false
+                        }]
+                }, 
+                {
+                 "id":56,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":63.9442578076397,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":25.8006718924972,
+                             "x":38.3028493218863,
+                             "y":-0.238895110115713
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
+                 "properties":[
+                        {
+                         "name":"lava",
+                         "type":"bool",
+                         "value":true
                         }]
                 }, 
                 {
                  "id":57,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":63.705362697524,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":64.0238895110116,
+                             "x":-0.0796317033719049,
+                             "y":0.15926340674381
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
                  "id":58,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":63.705362697524,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27.9507278835386,
+                             "x":0.0796317033719056,
+                             "y":0.238895110115715
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
                  "id":62,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":63.2275724772925,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27.8710961801667,
+                             "x":-0.159263406743811,
+                             "y":0.0796317033719021
+                            }, 
+                            {
+                             "height":47.4604952096553,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":7.32611671021526,
+                             "x":27.8710961801667,
+                             "y":-0.318526813487622
+                            }, 
+                            {
+                             "height":40.4529053129277,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":9.31690929451288,
+                             "x":35.5157397038696,
+                             "y":-0.398158516859525
+                            }, 
+                            {
+                             "height":35.2768445937539,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":18.5541868856539,
+                             "x":45.1511758118701,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1181,6 +1641,73 @@
                 }, 
                 {
                  "id":63,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":35.7546348139853,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":63.7849944008959,
+                             "x":-0.0796317033719049,
+                             "y":0
+                            }, 
+                            {
+                             "height":27.8710961801667,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":27.8710961801667,
+                             "x":35.8342665173572,
+                             "y":35.7546348139853
+                            }, 
+                            {
+                             "height":17.7578698519348,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":6.92795819335573,
+                             "x":28.5877815105139,
+                             "y":35.6750031106134
+                            }, 
+                            {
+                             "height":5.25569242254572,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":11.4669652855543,
+                             "x":16.9615528182158,
+                             "y":35.993529924101
+                            }, 
+                            {
+                             "height":3.10563643150429,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":4.14084857533906,
+                             "x":23.9691427149434,
+                             "y":41.8066442702501
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1190,33 +1717,224 @@
                 }, 
                 {
                  "id":64,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":17.4393430384472,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":7.80390693044669,
+                             "x":35.9138982207291,
+                             "y":0.398158516859525
+                            }, 
+                            {
+                             "height":7.72427522707478,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":11.7854920990419,
+                             "x":36.7898469578201,
+                             "y":17.5189747418191
+                            }, 
+                            {
+                             "height":5.97237775289287,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":11.1484384720667,
+                             "x":43.1603832275725,
+                             "y":22.5357720542491
+                            }, 
+                            {
+                             "height":13.6966529799677,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":11.9447555057857,
+                             "x":51.7606071917382,
+                             "y":17.3597113350753
+                            }, 
+                            {
+                             "height":7.56501182033097,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":7.64464352370288,
+                             "x":56.0607191738211,
+                             "y":25.3228816722658
+                            }, 
+                            {
+                             "height":22.4561403508772,
+                             "id":6,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":19.9079258429762,
+                             "x":43.9567002612915,
+                             "y":-0.159263406743811
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
                  "id":65,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":33.0471568993406,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":63.705362697524,
+                             "x":0,
+                             "y":0
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
                  "id":66,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":5.09642901580192,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":25.0839865621501,
+                             "x":-0.557421923603336,
+                             "y":0.0796317033719049
+                            }, 
+                            {
+                             "height":9.15764588776907,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":21.0227696901829,
+                             "x":-0.0796317033719056,
+                             "y":5.49458753266144
+                            }, 
+                            {
+                             "height":17.0411845215877,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":4.22048027871096,
+                             "x":-0.238895110115715,
+                             "y":14.8114968271743
+                            }, 
+                            {
+                             "height":13.2984944631081,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":6.52979967649621,
+                             "x":4.37974368545477,
+                             "y":14.9707602339181
+                            }, 
+                            {
+                             "height":7.72427522707478,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":7.48538011695907,
+                             "x":11.2280701754386,
+                             "y":14.6522334204305
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
                  "id":67,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":54.468085106383,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":30.5785740948115,
+                             "x":33.4453154162001,
+                             "y":-0.31852681348762
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1226,6 +1944,29 @@
                 }, 
                 {
                  "id":68,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":53.6717680726639,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":63.5460992907801,
+                             "x":0.15926340674381,
+                             "y":-0.0796317033719021
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1235,6 +1976,29 @@
                 }, 
                 {
                  "id":69,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":54.7866119198706,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":28.3488864003982,
+                             "x":0.238895110115713,
+                             "y":0.0796317033719021
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1244,6 +2008,73 @@
                 }, 
                 {
                  "id":70,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":64.3424163244992,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":28.508149807142,
+                             "x":0,
+                             "y":0
+                            }, 
+                            {
+                             "height":21.2616648002986,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":34.5601592634067,
+                             "x":28.9063083240015,
+                             "y":42.1251710837377
+                            }, 
+                            {
+                             "height":19.1116088092572,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":5.73348264277716,
+                             "x":28.7470449172577,
+                             "y":23.4117207913401
+                            }, 
+                            {
+                             "height":11.7854920990419,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":6.68906308324001,
+                             "x":34.2416324499191,
+                             "y":30.180415577952
+                            }, 
+                            {
+                             "height":7.24648500684335,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":9.23727759114097,
+                             "x":41.5677491601344,
+                             "y":34.321264153291
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
@@ -1253,6 +2084,73 @@
                 }, 
                 {
                  "id":71,
+                 "objectgroup":
+                    {
+                     "draworder":"index",
+                     "id":2,
+                     "name":"",
+                     "objects":[
+                            {
+                             "height":64.1035212143835,
+                             "id":1,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":28.4285181037701,
+                             "x":35.197212890382,
+                             "y":-0.31852681348762
+                            }, 
+                            {
+                             "height":39.338061465721,
+                             "id":2,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":6.3705362697524,
+                             "x":28.7470449172577,
+                             "y":24.2080378250591
+                            }, 
+                            {
+                             "height":21.819086723902,
+                             "id":3,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":28.8266766206296,
+                             "x":-0.15926340674381,
+                             "y":41.8066442702501
+                            }, 
+                            {
+                             "height":10.03359462486,
+                             "id":4,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":6.68906308324002,
+                             "x":21.5005599104143,
+                             "y":31.3748911285305
+                            }, 
+                            {
+                             "height":5.09642901580192,
+                             "id":5,
+                             "name":"",
+                             "rotation":0,
+                             "type":"",
+                             "visible":true,
+                             "width":8.0428020405624,
+                             "x":13.5373895732238,
+                             "y":36.6305835510763
+                            }],
+                     "opacity":1,
+                     "type":"objectgroup",
+                     "visible":true,
+                     "x":0,
+                     "y":0
+                    },
                  "properties":[
                         {
                          "name":"lava",
