@@ -33,7 +33,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dash_cooldown_duration = game_settings.player_dash_cooldown;
         this.dash_on_cooldown = false;
 
-        this.perfect_dash_buffer = 0.3;
+        this.perfect_dash_buffer = game_settings.player_perfect_dash_window;
         this.perfect_dash_timer = 0;
         this.perfect_dash = false;
 

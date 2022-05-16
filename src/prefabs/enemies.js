@@ -119,7 +119,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             .setVisible(false)
             .setFontSize(26)
             .setColor(`#FFFFFF`)
-            .setStroke(`#000000`, 3)
+            .setStroke(`#000000`, 5)
         ];
     }
 
@@ -132,7 +132,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     damage(damage_value) {
-        // if (damage_value <= 0) return;
+        if (damage_value <= 0) return;
         //bounces the player out of the enemy if they're stuck
         if (current_scene.player.invulnerable){
             current_scene.player.damage(this);
@@ -145,12 +145,9 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.stunned = true;
         if (damage_value) {
             this.updateDamageText(damage_value);
-            console.log("deal damage:",damage_value);
+            //console.log("deal damage:",damage_value);
         }
-        if (this.health <= 0){
-            this.die();
-            return;
-        }
+        
         this.stun_time = game_settings.enemy_stun_time;
     }
 
@@ -159,13 +156,24 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             if ((this.damage_text_array[i].visible == true) && (i+1 >= this.damage_text_array.length)) {
                 this.damage_text_array.push(current_scene.add.text(0, 0, damage_value));
                 this.damage_text_array[i+1].setFontSize(26);
-                this.damage_text_array[i+1].setColor(`#FFFFFF`);
-                this.damage_text_array[i+1].setStroke(`#000000`, 3);
+                if (damage_value > game_settings.dash_damage) {
+                    this.damage_text_array[i+1].setColor('#EE4B2B');
+                }
+                else {
+                    this.damage_text_array[i+1].setColor('#FFFFFF');
+                }
+                this.damage_text_array[i+1].setStroke('#000000', 5);
                 damageDisplay(this, i+1);
                 this.damage_text_array.splice(i+1, 1);
                 break;
             } else if (this.damage_text_array[i].visible == false) {
-                this.damage_text_array[i].setText(`${damage_value}`);
+                this.damage_text_array[i].setText(damage_value);
+                if (damage_value > game_settings.dash_damage) {
+                    this.damage_text_array[i].setColor('#EE4B2B');
+                }
+                else {
+                    this.damage_text_array[i].setColor('#FFFFFF');
+                }
                 damageDisplay(this, i);
                 //this.damage_text_array[i].setVisible(false);
                 break;
@@ -184,7 +192,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
 
     update(timer, delta) {
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
-        this.bounce_damage = Math.ceil((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
+        this.bounce_damage = Math.floor((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
 
         // this.updateGetHit();
         if (this.stunned) {
@@ -193,6 +201,10 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             if (this.stun_time < 0){
                 this.setDrag(this.base_drag);
                 this.stunned = false;
+                if (this.health <= 0){
+                    this.die();
+                    return;
+                }
             }
         }
         if (this.anims.isPlaying)

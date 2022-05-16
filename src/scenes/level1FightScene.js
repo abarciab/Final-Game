@@ -34,8 +34,8 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('door', './assets/objects/door.png');
         this.load.image('button', './assets/objects/button.png');
         this.load.image('tiles', './assets/tilemaps/tiles.png');
-        this.load.tilemapTiledJSON('map','./assets/tilemaps/level1map.json');
-        //this.load.tilemapTiledJSON('map','./assets/tilemaps/bounceDemo.json');
+        //this.load.tilemapTiledJSON('map','./assets/tilemaps/level1map.json');
+        this.load.tilemapTiledJSON('map','./assets/tilemaps/bounceDemo.json');
 
         //script
         this.load.json('scriptData', './scripts/gameScript.json');
@@ -47,7 +47,7 @@ class level1FightScene extends Phaser.Scene {
 
         //player
         this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
-        this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+        this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
         //enemies
         this.enemies = [];
@@ -75,11 +75,12 @@ class level1FightScene extends Phaser.Scene {
         this.createAnimations();
 
         //UI
-        this.score_text = this.add.text(20, 20, "SCORE: 0");
-        this.health_text = this.add.text(150, 20, "LIVES: 0");
+       
         this.pauseLayer = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
         this.paused = false;
-        updateUI();
+
+        //updateUI();
+        this.game_UI = new GameUI();
 
         game_script.readNextPart(this);
     }
@@ -135,8 +136,8 @@ class level1FightScene extends Phaser.Scene {
         })
         this.anims.create({
             key: "dash pointer charged",
-            frameRate: 12,
             frames: this.anims.generateFrameNumbers("dash pointer charged", {start: 0, end: 3}),
+            frameRate: 4 * (1/game_settings.player_perfect_dash_window),
             repeat: 0
         })
 
@@ -145,7 +146,7 @@ class level1FightScene extends Phaser.Scene {
             key: "charger move left",
             frameRate: 12,
             frames: this.anims.generateFrameNumbers("charger move left", {start: 0, end: 5}),
-            repeat: -1
+            repeat: -1  
         })
         this.anims.create({
             key: "charger move right",
@@ -223,7 +224,8 @@ class level1FightScene extends Phaser.Scene {
         updateEnemies(time, delta);
 
         //update UI
-        updateUI();
+        //updateUI();
+        this.game_UI.update();
 
         if (this.physics.overlap(this.player, this.lava_rects)) {
             this.player.on_lava = true;
