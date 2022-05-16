@@ -8,7 +8,7 @@ function initialize(scene){
         // player stats
         dash_damage: 50,
         player_walk_speed: 350,
-        player_dash_speed: 1200,
+        player_dash_speed: 1000,
         player_max_charge_progress: 1000,
         player_dash_cooldown: 0.2,
         player_max_health: 50,
