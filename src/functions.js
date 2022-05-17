@@ -394,9 +394,10 @@ function getMouseCoords() {
     }
 }
 
-function getCameraCoords(camera, x_offset, y_offset) {
+function getRelativeCameraCoords(camera, object) {
+    // world view is the coord of top right
     return {
-        x: camera.worldView.x+x_offset,
-        y: camera.worldView.y+y_offset
+        x: object.x-camera.worldView.x,
+        y: object.y-camera.worldView.y
     }
 }

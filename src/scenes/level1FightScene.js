@@ -7,6 +7,9 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('white square', './assets/player/white square.png');
         this.load.image('white hexagon', './assets/player/white hexagon.png');
         this.load.image('white arrow', './assets/white arrow.png');
+        this.load.image('player heart', './assets/player/player_heart.png');
+        this.load.image('player half heart', './assets/player/player_heart_half.png');
+        this.load.image('player empty heart', './assets/player/player_heart_empty.png');
         this.load.image('dash pointer', './assets/player/dash_pointer.png');
         this.load.spritesheet('dash pointer charged', './assets/player/dash_pointer_charged.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
 
@@ -81,6 +84,7 @@ class level1FightScene extends Phaser.Scene {
 
         //updateUI();
         this.game_UI = new GameUI();
+        this.game_UI.setPlayerUI();
 
         game_script.readNextPart(this);
     }
