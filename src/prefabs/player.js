@@ -71,7 +71,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         // dash damage is speed/dash_speed * dash_damage;
         // given: velocity of player and the angles the two objects are going.
         this.speed = Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
-        this.dash_damage = Math.ceil((this.speed/game_settings.player_dash_speed)*game_settings.dash_damage);
+        this.dash_damage = Math.floor((this.speed/game_settings.player_dash_speed)*game_settings.dash_damage);
 
         // update the animation frame
         if (this.anims.isPlaying) {
