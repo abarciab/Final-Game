@@ -11,7 +11,7 @@ function initialize(scene){
         player_dash_speed: 1000,
         player_max_charge_progress: 800,
         player_dash_cooldown: 0.2,
-        player_max_health: 50,
+        player_max_health: 5,
         player_walk_drag: 0.0001,
         player_dash_drag: 0.1,
         player_stun_time: 100,
@@ -394,10 +394,10 @@ function getMouseCoords() {
     }
 }
 
-function getRelativeCameraCoords(camera, object) {
+function getCameraCoords(camera, offset_x, offset_y) {
     // world view is the coord of top right
     return {
-        x: object.x-camera.worldView.x,
-        y: object.y-camera.worldView.y
+        x: camera.worldView.x + offset_x,
+        y: camera.worldView.y + offset_y
     }
 }

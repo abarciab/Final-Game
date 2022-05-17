@@ -213,8 +213,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             return;
         }
         current_scene.cameras.main.shake(150, 0.003);
-        this.health-= 1;
-        if (this.health == 0){
+        this.health-= 0.5;
+        console.log(this.health);
+        if (this.health <= 0){
             current_scene.scene.restart();
             this.setPosition(game.config.width/2, game.config.height/2);
             return;
