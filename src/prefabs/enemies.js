@@ -416,6 +416,7 @@ class ShooterEnemy extends BaseEnemy {
         this.projectiles = [];
         this.projectiles.push(current_scene.enemy_projectiles.borrow(this));
         this.loaded = true;
+        this.ammo = 3;
     }
 
     reset(){
@@ -446,9 +447,10 @@ class ShooterEnemy extends BaseEnemy {
         if (dist >= game_settings.shooter_min_dist){
             if (this.loaded){    
                 this.loaded = false;
-                this.fire(current_scene.player);
+                this.fireAmmo(current_scene.player);
                 current_scene.time.delayedCall(game_settings.shooter_reload_time, function () {
                     this.loaded = true;
+                    this.ammo = 3;
                 }, null, this);
             }
         }
@@ -471,10 +473,19 @@ class ShooterEnemy extends BaseEnemy {
             projectile = this.projectiles[0];
         }
         
-
         projectile.reset();
         projectile.setActive(true).setVisible(true).setDepth(20);
         projectile.setPosition(this.x, this.y);
         this.scene.physics.moveToObject(projectile, target, 100);
+    }
+
+    fireAmmo(target){
+        current_scene.time.delayedCall(game_settings.shooter_ammo_spacing, function () {
+            this.fire(current_scene.player);
+            this.ammo--;
+            if (this.ammo) {
+                this.fireAmmo(target);
+            }
+        }, null, this);
     }
 }

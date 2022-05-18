@@ -40,6 +40,7 @@ function initialize(scene){
         shooter_speed: 50,
         shooter_health: 200,
         shooter_shooting_speed: 1,
+        shooter_ammo_spacing: 500,
         shooter_reload_time: 6000,
         shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
         shooter_bounce_mod: 1,
