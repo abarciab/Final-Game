@@ -202,6 +202,29 @@
                  "width":64,
                  "x":768,
                  "y":701.333
+                }, 
+                {
+                 "gid":5,
+                 "height":64,
+                 "id":6,
+                 "name":"button",
+                 "properties":[
+                        {
+                         "name":"circuit",
+                         "type":"int",
+                         "value":-1
+                        }, 
+                        {
+                         "name":"next_level",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":1774,
+                 "y":129
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -210,7 +233,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":6,
+ "nextobjectid":7,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
