@@ -42,6 +42,7 @@ function initialize(scene){
         shooter_speed: 50,
         shooter_health: 200,
         shooter_shooting_speed: 1,
+        shooter_ammo_spacing: 500,
         shooter_reload_time: 6000,
         shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
         shooter_bounce_mod: 1,
@@ -340,6 +341,14 @@ function playerEnemyCollision(player, enemy){
     } else {
         current_scene.player.damage(enemy, true);
     }
+}
+
+function playerShockwaveCollision(player, shockwave){
+    if (!player.startInvulnerable || !player.invulnerable) {
+        current_scene.player.damage(shockwave, true);
+    }
+
+    updateUI();
 }
 
 // enemy damages other enemy when it bounces into it

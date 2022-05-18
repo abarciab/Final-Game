@@ -62,9 +62,87 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     update(){
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
-        //this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
+        this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
         if (this.active && (this.x < -50 || this.x > game.config.width + 50 || this.y < 0 || this.y > game.config.height)){
+            this.reset();
+        }
+    }
+}
+
+// For shockwave, use animation with sprite to change at the same rate so that hitbox stays accurate
+// probably use tween
+
+class ShockwaveGroup extends Phaser.Physics.Arcade.Group {
+    constructor(texture){
+        super(current_scene.physics.world, current_scene);
+
+        this.add(new Shockwave(0, 0, texture));
+
+        this.shockwave_texture = texture;
+        this.runChildUpdate = true;
+        //the number of shockwaves that aren't being used by a different object
+        this.num_free = this.getLength();
+
+    }
+
+    borrow(new_owner){
+        if (this.num_free <= 0){
+            this.add(new Shockwave(0, 0, this.shockwave_texture));
+            this.num_free += 1;
+        }
+
+        let wave;
+        this.getChildren().forEach(shockwave => {
+            if (shockwave.owner == null){
+                wave = shockwave;
+                return;
+            }
+        });
+
+        wave.owner = new_owner;
+        this.num_free -= 1;
+        return wave;
+    }
+
+    return(shockwave){
+        shockwave.owner = null;
+        this.num_free += 1;
+    }
+}
+
+class Shockwave extends Phaser.Physics.Arcade.Sprite{
+    constructor(x, y, texture) {
+        super(current_scene, x, y, texture);
+        current_scene.physics.world.enableBody(this);
+        current_scene.add.existing(this);
+
+        this.owner = null;
+        this.expanding_width = this.displayWidth*2;
+        this.setActive(false);
+        this.setVisible(false);
+    }
+
+    reset(){
+        this.setActive(false);
+        this.body.stop();
+        this.setVisible(false);
+        this.setPosition(0,0);
+        this.expanding_width = this.displayWidth;
+        this.setCircle(this.expanding_width);
+        if (this.owner == null){
+            this.scene.enemy_shockwaves.return(this);
+        }
+    }
+
+    update(){
+        console.log(this.expanding_width);
+        let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
+        let pos = new Phaser.Math.Vector2(this.x, this.y);
+        this.expanding_width++;
+        this.setCircle(this.expanding_width, this.displayWidth/2-this.expanding_width, this.displayHeight/2-this.expanding_width);
+
+        if (this.expanding_width > 100){
             this.reset();
         }
     }
@@ -258,6 +336,9 @@ class GolemEnemy extends BaseEnemy {
     constructor(x, y, texture){
         super(x, y, texture, "GOLEM");
         
+        this.shockwaves = [];
+        //this.shockwaves.push(current_scene.enemy_shockwaves.borrow(this));
+        this.loaded = true;
     }
 
     reset(){
@@ -269,6 +350,12 @@ class GolemEnemy extends BaseEnemy {
     }
 
     die(){
+        this.shockwaves.forEach(shockwave => {
+            shockwave.owner = null;
+            if (shockwave.active == false){
+                this.scene.enemy_shockwaves.return(shockwave);
+            }
+        });
         super.die();
     }
 
@@ -281,6 +368,41 @@ class GolemEnemy extends BaseEnemy {
         if (dist <= game_settings.golem_agro_range){
             moveTo(this, current_scene.player);
         }
+
+        if (dist <= game_settings.golem_agro_range/2){
+            if (this.loaded){
+                this.loaded = false;
+                this.fire(current_scene.player);
+                this.speed = 0;
+                current_scene.time.delayedCall(game_settings.shooter_reload_time, function () {
+                    this.speed = game_settings.golem_speed;
+                    this.loaded = true;
+                }, null, this);
+            }
+        }
+
+        this.shockwaves.forEach(shockwave => {
+            shockwave.update();
+        });
+    }
+
+    fire(target){
+        let shockwave = null;
+        for(let i = 0; i < this.shockwaves.length; i++){
+            if (this.shockwaves[i].visible == false){
+                shockwave = this.shockwaves[i];
+                break;
+            }
+        }
+        if (shockwave == null){
+            this.shockwaves.unshift(this.scene.enemy_shockwaves.borrow(this));
+            shockwave = this.shockwaves[0];
+        }
+        
+
+        shockwave.reset();
+        shockwave.setActive(true).setVisible(true).setDepth(20);
+        shockwave.setPosition(this.x, this.y);
     }
 }
 
@@ -294,6 +416,7 @@ class ShooterEnemy extends BaseEnemy {
         this.projectiles = [];
         this.projectiles.push(current_scene.enemy_projectiles.borrow(this));
         this.loaded = true;
+        this.ammo = 3;
     }
 
     reset(){
@@ -324,9 +447,10 @@ class ShooterEnemy extends BaseEnemy {
         if (dist >= game_settings.shooter_min_dist){
             if (this.loaded){    
                 this.loaded = false;
-                this.fire(current_scene.player);
+                this.fireAmmo(current_scene.player);
                 current_scene.time.delayedCall(game_settings.shooter_reload_time, function () {
                     this.loaded = true;
+                    this.ammo = 3;
                 }, null, this);
             }
         }
@@ -346,13 +470,22 @@ class ShooterEnemy extends BaseEnemy {
         }
         if (projectile == null){
             this.projectiles.unshift(this.scene.enemy_projectiles.borrow(this));
-            projectile = this.projectiles[0]
+            projectile = this.projectiles[0];
         }
         
-
         projectile.reset();
         projectile.setActive(true).setVisible(true).setDepth(20);
         projectile.setPosition(this.x, this.y);
         this.scene.physics.moveToObject(projectile, target, 100);
+    }
+
+    fireAmmo(target){
+        current_scene.time.delayedCall(game_settings.shooter_ammo_spacing, function () {
+            this.fire(current_scene.player);
+            this.ammo--;
+            if (this.ammo) {
+                this.fireAmmo(target);
+            }
+        }, null, this);
     }
 }
