@@ -9,15 +9,16 @@ function initialize(scene){
         dash_damage: 50,
         player_walk_speed: 350,
         player_dash_speed: 1000,
-        player_max_charge_progress: 1000,
+        player_max_charge_progress: 800,
         player_dash_cooldown: 0.2,
-        player_max_health: 50,
+        player_max_health: 5,
         player_walk_drag: 0.0001,
         player_dash_drag: 0.1,
         player_stun_time: 100,
         player_mass: 0.7,
         player_bounce_mod: 1,
         player_invincible_time: 1,
+        player_perfect_dash_window: 0.3,
 
         tilemap_scale: 1,
         camera_zoom: 1,
@@ -160,11 +161,6 @@ function updateEnemies(time, delta){
     });
 }
 
-function updateUI(){
-    current_scene.score_text.text =  `SCORE: ${current_scene.player.score}`;
-    current_scene.health_text.text = `LIVES: ${current_scene.player.health}`;
-}
-
 function pause(){
     current_scene.pauseLayer.setVisible(true);
     current_scene.player.body.stop();
@@ -241,8 +237,6 @@ function playerEnemyCollision(player, enemy){
     } else {
         current_scene.player.damage(enemy, true);
     }
-
-    updateUI();
 }
 
 function playerShockwaveCollision(player, shockwave){
@@ -406,4 +400,12 @@ function getMouseCoords() {
       x: pointer.worldX,
       y: pointer.worldY,
     }
-  }
+}
+
+function getCameraCoords(camera, offset_x, offset_y) {
+    // world view is the coord of top right
+    return {
+        x: camera.worldView.x + offset_x,
+        y: camera.worldView.y + offset_y
+    }
+}

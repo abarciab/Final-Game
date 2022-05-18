@@ -37,18 +37,23 @@ class ScriptReader {
 
         this.curr_speaker = this.curr_script.speaker;
         this.curr_line = this.curr_script[this.curr_line_index].text;
-        this.text_margins = config.width * 0.3;
         this.textbox_max_height = (config.height * 0.25);
+        this.font_size = 34;
+        this.speaker_font_size = 40;
 
-        this.text_box_y = config.height * 0.6;
-        this.speaker_y = config.height * 0.5;
-        this.font_size = 26;
+        this.speaker_textbox;
+        this.display_textbox = scene.add.text(this.text_margins, this.textbox_y, "this is a text box").setFontSize(this.font_size).setDepth(10).setVisible(false);
+        this.bg_textbox = scene.add.image(0, 0, 'textbox').setDepth(9).setScale(10).setOrigin(0, 0).setVisible(false);
+        this.bg_textbox_x = (config.width-this.bg_textbox.displayWidth)/2;
+        this.bg_textbox_y = config.height-this.bg_textbox.displayHeight;
 
-        this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, this.curr_speaker)
-        .setFontSize(this.font_size).setDepth(10).setVisible(false);
+        this.text_margins = this.bg_textbox_x * 1.4;
+        this.textbox_y = this.bg_textbox_y * 1.6;
+        this.speaker_y = this.bg_textbox_y * 1.4;
+        this.textbox_max_height = this.bg_textbox.displayHeight * 0.5;
 
-        this.display_textbox = scene.add.text(this.text_margins, this.text_box_y, "this is a text box\ntest").setFontSize(this.font_size).setDepth(10).setVisible(false);
         this.text_width = this.display_textbox.displayWidth / this.display_textbox.text.length;
+        this.display_textbox.setText("this is a text box\ntest");
         this.text_height = this.display_textbox.displayHeight / this.display_textbox.text.split('\n').length;
 
         this.mouse_held = false;
@@ -81,11 +86,28 @@ class ScriptReader {
         this.display_line = "";
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
-        // this.display_textbox.setVisible(true);
+        if (scene.camera != undefined) {
+            console.log("is camera:", scene.camera.worldView.x, scene.camera.worldView.y);
+            this.bg_textbox_x =  (config.width-this.bg_textbox.displayWidth)/2 + scene.camera.worldView.x;
+            this.bg_textbox_y = config.height-this.bg_textbox.displayHeight + scene.camera.worldView.y;
+        }
+        else {
+            console.log("no camera");
+            this.bg_textbox_x = (config.width-this.bg_textbox.displayWidth)/2;
+            this.bg_textbox_y = config.height-this.bg_textbox.displayHeight;
+        }
+        this.text_margins = this.bg_textbox_x * 1.4;
+        this.textbox_y = this.bg_textbox_y * 1.6;
+        this.speaker_y = this.bg_textbox_y * 1.4;
+
         this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, "")
-        .setFontSize(this.font_size).setDepth(10);
-        this.display_textbox = scene.add.text(this.text_margins, this.text_box_y, "")
-        .setFontSize(this.font_size).setDepth(10);
+        .setFontSize(this.speaker_font_size).setDepth(10);
+
+        this.display_textbox = scene.add.text(this.text_margins, this.textbox_y, "")
+        .setFontSize(this.font_size).setDepth(10).setOrigin(0, 0);
+
+        this.bg_textbox = scene.add.image(this.bg_textbox_x, this.bg_textbox_y, 'textbox')
+        .setDepth(9).setScale(10).setOrigin(0, 0);
 
         this.setText();
     }
@@ -115,6 +137,7 @@ class ScriptReader {
             }
             this.display_textbox.setVisible(false);
             this.speaker_textbox.setVisible(false);
+            this.bg_textbox.setVisible(false);
             return false;
         }
         this.setText();
@@ -126,8 +149,15 @@ class ScriptReader {
     setText() {
         // if the part is not done, return true to indicate still reading
         this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
-        this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice, {volume: 0.5});
-        this.speaker_color = this.character_variables[this.curr_speaker.toLowerCase()].color;
+        if (this.curr_speaker in this.character_variables) {
+            this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice, {volume: 0.5});
+            this.speaker_color = this.character_variables[this.curr_speaker.toLowerCase()].color;
+        }
+        else {
+            this.speaker_sfx = current_scene.sound.add("male blip", {volume: 0.5});
+            this.speaker_color = "#FFFFFF";
+        }
+
 
         this.speaker_textbox.setText(this.curr_speaker);
         this.speaker_textbox.setColor(this.speaker_color);
@@ -189,11 +219,12 @@ class ScriptReader {
         if (/\s/.test(this.curr_line[this.curr_char_index])) {
             const str_copy = this.curr_line.slice(this.curr_char_index);
             const next_word = this.curr_line[this.curr_char_index] + str_copy.replace(/\{(.*?)\}/g, '').split(/\s/)[1];
-            const recent_line_length = this.display_line.split('\n')[this.display_line.split('\n').length-1].length * this.text_width;
+            const recent_line = this.display_line.split('\n')[this.display_line.split('\n').length-1];
+            const recent_line_length = recent_line.length * this.text_width;
             const textbox_height = this.text_height * this.display_line.split('\n').length;
 
             // if the new word width extends beyond the margin, add new line
-            if (next_word.length*this.text_width+recent_line_length >= config.width-this.text_margins*2) {
+            if (next_word.length*this.text_width+recent_line_length >= config.width-(this.text_margins*2)) {
                 // pause current line until click if the new height is over the max height 
                 if ((textbox_height + this.text_height) >= (this.textbox_max_height)) {
                     this.line_paused = true;
