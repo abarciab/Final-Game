@@ -7,6 +7,8 @@ class GameUI {
         this.health_y = config.height * 0.1;
         this.max_hearts = current_scene.player.health;
         this.hearts = [];
+        this.textbox = current_scene.add.image(0, 0, 'textbox').setVisible(false);
+
 
         // this.score_text = current_scene.add.text(this.score_x, this.score_y, `SCORE: ${current_scene.player.score}`).setVisible(false);
         this.health_text = current_scene.add.text(this.health_x, this.health_y, `LIVES: ${current_scene.player.health}`).setVisible(false);
@@ -19,6 +21,9 @@ class GameUI {
                 ).setScale(2)
             );
         }
+    }
+    showTextbox() {
+        current_scene.add.image(0, 0, 'textbox');
     }
     update() {
         for (let i = 0; i < this.hearts.length; i++) {
