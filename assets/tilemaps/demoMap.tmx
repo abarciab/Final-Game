@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="6">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="7">
  <editorsettings>
   <export target="demoMap.tmj" format="json"/>
  </editorsettings>
@@ -854,6 +854,12 @@
   <object id="5" name="button" gid="5" x="768" y="701.333" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="6" name="button" gid="5" x="1774" y="129" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="-1"/>
+    <property name="next_level" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

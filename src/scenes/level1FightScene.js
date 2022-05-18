@@ -38,9 +38,8 @@ class level1FightScene extends Phaser.Scene {
         this.load.image('door', './assets/objects/door.png');
         this.load.image('button', './assets/objects/button.png');
         this.load.image('tiles', './assets/tilemaps/tiles.png');
-        //this.load.tilemapTiledJSON('map','./assets/tilemaps/level1map.json');
+        this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/demoMap.json');
         //this.load.tilemapTiledJSON('map','./assets/tilemaps/bounceDemo.json');
-        this.load.tilemapTiledJSON('map', './assets/tilemaps/demoMap.json');
 
         //script
         this.load.json('scriptData', './scripts/gameScript.json');
@@ -61,7 +60,7 @@ class level1FightScene extends Phaser.Scene {
         this.text_sfx;
         
         //tilemap
-        const map = this.make.tilemap({key: 'map', tileWidth: 64, tileHeight: 64});
+        const map = this.make.tilemap({key: 'level_1_map', tileWidth: 64, tileHeight: 64});
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
         const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
@@ -78,10 +77,9 @@ class level1FightScene extends Phaser.Scene {
 
         //enemy collisions
         this.addColliders();
-        this.createAnimations();
+        createAnimations();
 
         //UI
-       
         this.pauseLayer = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
         this.paused = false;
 
@@ -89,104 +87,8 @@ class level1FightScene extends Phaser.Scene {
         this.game_UI = new GameUI();
         this.game_UI.setPlayerUI();
 
+        game_settings.next_scene = `level1BossScene`;
         game_script.readNextPart(this);
-    }
-
-    createAnimations() {
-        this.anims.create({
-            key: "fran idle left",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("fran idle left", {start: 0, end: 5}),
-            repeat: -1
-        });
-        this.anims.create({
-            key: "fran idle right",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("fran idle right", {start: 0, end: 5}),
-            repeat: -1  
-        });
-        this.anims.create({
-            key: "fran run left",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("fran run left", {start: 0, end: 5}),
-            repeat: -1
-        });
-        this.anims.create({
-            key: "fran run right",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("fran run right", {start: 0, end: 5}),
-            repeat: -1
-        });
-        this.anims.create({
-            key: "fran dash left",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("fran dash left", {start: 0, end: 5}),
-            repeat: -1
-        })
-        this.anims.create({
-            key: "fran dash right",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("fran dash right", {start: 0, end: 5}),
-            repeat: -1
-        })
-        this.anims.create({
-            key: "fran damage left",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("fran damage left", {start: 0, end: 0}),
-            repeat: -1
-        })
-        this.anims.create({
-            key: "fran damage right",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
-            repeat: -1
-        })
-        this.anims.create({
-            key: "dash pointer charged",
-            frames: this.anims.generateFrameNumbers("dash pointer charged", {start: 0, end: 3}),
-            frameRate: 4 * (1/game_settings.player_perfect_dash_window),
-            repeat: 0
-        })
-
-        // charger animations
-        this.anims.create({
-            key: "charger move left",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("charger move left", {start: 0, end: 5}),
-            repeat: -1  
-        })
-        this.anims.create({
-            key: "charger move right",
-            frameRate: 12,
-            frames: this.anims.generateFrameNumbers("charger move right", {start: 0, end: 5}),
-            repeat: -1
-        })
-        this.anims.create({
-            key: "charger damage left",
-            frameRate: 1,
-            frames: this.anims.generateFrameNumbers("charger damage left", {start: 0, end: 0}),
-            repeat: -1
-        })
-        this.anims.create({
-            key: "charger damage right",
-            frameRate: 1,
-            frames: this.anims.generateFrameNumbers("charger damage right", {start: 0, end: 0}),
-            repeat: -1
-        })
-
-        // golem animation
-        this.anims.create({
-            key: "golem move right",
-            frameRate: 1,
-            frames: this.anims.generateFrameNumbers("golem move right", {start: 0, end: 0}),
-            repeat: -1
-        })
-        this.anims.create({
-            key: "golem move left",
-            frameRate: 1,
-            frames: this.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
-            repeat: -1
-        })
     }
 
     addColliders() {

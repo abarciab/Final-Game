@@ -20,8 +20,10 @@ function initialize(scene){
         player_invincible_time: 1,
         player_perfect_dash_window: 0.3,
 
+        //misc game vars
         tilemap_scale: 1,
         camera_zoom: 1,
+        next_scene: `level1BossScene`,
 
         // charger stats
         charger_speed: 75,
@@ -63,6 +65,10 @@ function initialize(scene){
     setupKeys(scene);
 }
 
+function initBoss1(){
+    game_settings.dog_speed = 250;
+}
+
 function setupKeys(scene){
     key_left = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     key_right = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -73,6 +79,103 @@ function setupKeys(scene){
 
     key_prev = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     key_next = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT); 
+}
+
+function createAnimations() {
+    current_scene.anims.create({
+        key: "fran idle left",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("fran idle left", {start: 0, end: 5}),
+        repeat: -1
+    });
+    current_scene.anims.create({
+        key: "fran idle right",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("fran idle right", {start: 0, end: 5}),
+        repeat: -1  
+    });
+    current_scene.anims.create({
+        key: "fran run left",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("fran run left", {start: 0, end: 5}),
+        repeat: -1
+    });
+    current_scene.anims.create({
+        key: "fran run right",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("fran run right", {start: 0, end: 5}),
+        repeat: -1
+    });
+    current_scene.anims.create({
+        key: "fran dash left",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("fran dash left", {start: 0, end: 5}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "fran dash right",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("fran dash right", {start: 0, end: 5}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "fran damage left",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("fran damage left", {start: 0, end: 0}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "fran damage right",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "dash pointer charged",
+        frames: current_scene.anims.generateFrameNumbers("dash pointer charged", {start: 0, end: 3}),
+        frameRate: 4 * (1/game_settings.player_perfect_dash_window),
+        repeat: 0
+    })
+
+    // charger animations
+    current_scene.anims.create({
+        key: "charger move left",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("charger move left", {start: 0, end: 5}),
+        repeat: -1  
+    })
+    current_scene.anims.create({
+        key: "charger move right",
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("charger move right", {start: 0, end: 5}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "charger damage left",
+        frameRate: 1,
+        frames: current_scene.anims.generateFrameNumbers("charger damage left", {start: 0, end: 0}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "charger damage right",
+        frameRate: 1,
+        frames: current_scene.anims.generateFrameNumbers("charger damage right", {start: 0, end: 0}),
+        repeat: -1
+    })
+
+    // golem animation
+    current_scene.anims.create({
+        key: "golem move right",
+        frameRate: 1,
+        frames: current_scene.anims.generateFrameNumbers("golem move right", {start: 0, end: 0}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "golem move left",
+        frameRate: 1,
+        frames: current_scene.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
+        repeat: -1
+    })
 }
 
 function setupDoorsAndButtons(map){
@@ -102,7 +205,7 @@ function setupDoorsAndButtons(map){
     current_scene.physics.add.overlap(current_scene.player, current_scene.buttons, function(player, button) {
         for(let i = 0; i < current_scene.doors.length; i++ ){
             if (button.data_sprite.data.list.next_level == true){
-                console.log("NEXT!");
+                current_scene.scene.start(game_settings.next_scene);
                 return;
             }
             if (button.data_sprite.data.list.circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
@@ -221,9 +324,9 @@ function playerProjectileCollision(playerObj, projectile){
     }
     if (current_scene.player.dashing){
         projectile.deflected = true;
-        projectile.body.setVelocity(projectile.body.velocity.x + playerObj.body.velocity.x/2, projectile.body.velocity.y + playerObj.body.velocity.y/2);
+        projectile.body.setVelocity(playerObj.body.velocity.x, playerObj.body.velocity.y);
         playerObj.body.setVelocity(0,0);
-    } else if (!projectile.deflected){
+    } else if (!projectile.deflected && projectile.reset){
         projectile.reset();
         playerObj.damage();
     }
