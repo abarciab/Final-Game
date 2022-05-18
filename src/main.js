@@ -7,7 +7,7 @@ let config = {
         default: "arcade",
         arcade: { 
             fps: 60,
-            debug: false,
+            debug: true,
          },
     },
     scene: [titleScene, level1IntroScene, level1FightScene],

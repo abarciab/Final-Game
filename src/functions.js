@@ -245,6 +245,14 @@ function playerEnemyCollision(player, enemy){
     updateUI();
 }
 
+function playerShockwaveCollision(player, shockwave){
+    if (!player.startInvulnerable || !player.invulnerable) {
+        current_scene.player.damage(shockwave, true);
+    }
+
+    updateUI();
+}
+
 // enemy damages other enemy when it bounces into it
 function enemyOnEnemyCollision(enemy1, enemy2) {
     if (enemy1.stunned && !enemy2.stunned) {

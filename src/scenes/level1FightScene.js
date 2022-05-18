@@ -52,6 +52,7 @@ class level1FightScene extends Phaser.Scene {
         //enemies
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');
+        this.enemy_shockwaves = new ShockwaveGroup('white arrow');
         this.text_sfx;
         
         //tilemap
@@ -193,6 +194,8 @@ class level1FightScene extends Phaser.Scene {
         this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
+        this.physics.add.overlap(this.player, this.enemy_shockwaves, playerShockwaveCollision.bind(this));
+        // this.physics.add.overlap(this.enemy_shockwaves, this.enemies, projectileEnemyCollision.bind(this));
     }
 
     /*
