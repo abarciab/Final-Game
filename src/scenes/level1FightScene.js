@@ -50,7 +50,7 @@ class level1FightScene extends Phaser.Scene {
         initialize(this);
 
         //player
-        this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
+        this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
         this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
         //enemies
@@ -224,21 +224,12 @@ class level1FightScene extends Phaser.Scene {
 
         //update player 
         this.player.update(time, delta);
+        checkPlayerLavaCollision();
 
         //update enemies
         updateEnemies(time, delta);
 
         //update UI
-        //updateUI();
         this.game_UI.update();
-
-        if (this.physics.overlap(this.player, this.lava_rects)) {
-            this.player.on_lava = true;
-            //console.log("on lava");
-        }
-        else {
-            this.player.on_lava = false;
-            //console.log("not on lava");
-        }
     }
 }

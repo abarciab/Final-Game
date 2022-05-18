@@ -186,6 +186,17 @@ function playerWallCollision(player, rects) {
     player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
 }
 
+function checkPlayerLavaCollision() {
+    if (current_scene.physics.overlap(current_scene.player, current_scene.lava_rects)) {
+        current_scene.player.on_lava = true;
+        //console.log("on lava");
+    }
+    else {
+        current_scene.player.on_lava = false;
+        //console.log("not on lava");
+    }
+}
+
 function playerLavaCollision(player, lava_tile){
     current_scene.on_lava = true;
     if (!player.dashing){
