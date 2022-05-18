@@ -48,6 +48,7 @@ class ScriptReader {
         .setFontSize(this.font_size).setDepth(10).setVisible(false);
 
         this.display_textbox = scene.add.text(this.text_margins, this.text_box_y, "this is a text box\ntest").setFontSize(this.font_size).setDepth(10).setVisible(false);
+        this.bg_textbox = scene.add.image(this.text_margins, this.text_box_y, 'textbox').setDepth(9);
         this.text_width = this.display_textbox.displayWidth / this.display_textbox.text.length;
         this.text_height = this.display_textbox.displayHeight / this.display_textbox.text.split('\n').length;
 
