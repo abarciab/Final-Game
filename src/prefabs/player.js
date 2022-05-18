@@ -134,7 +134,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 }
                 else {
                     this.perfect_dash = false;
-                    this.dash_pointer.texture = "dash pointer";
+                    this.dash_pointer.setTexture("dash pointer");
                 }
                 this.perfect_dash_timer += delta/1000;
             }
