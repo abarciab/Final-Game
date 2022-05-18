@@ -33,6 +33,7 @@ class level1FightScene extends Phaser.Scene {
 
         this.load.image('shooter', './assets/enemies/shooter.png');
 
+        this.load.image('textbox', './assets/textbox.png');
         //tilemap and environment sprites
         this.load.image('door', './assets/objects/door.png');
         this.load.image('button', './assets/objects/button.png');
