@@ -33,6 +33,7 @@ function initialize(scene){
         golem_speed: 30,
         golem_health: 500,
         golem_agro_range: 280,
+        golem_reload_time: 3000,
         golem_bounce_mod: 1,
         golem_bounce_drag: 0.0001,
 
@@ -244,8 +245,6 @@ function playerShockwaveCollision(player, shockwave){
     if (!player.startInvulnerable || !player.invulnerable) {
         current_scene.player.damage(shockwave, true);
     }
-
-    updateUI();
 }
 
 // enemy damages other enemy when it bounces into it

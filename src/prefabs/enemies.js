@@ -374,7 +374,7 @@ class GolemEnemy extends BaseEnemy {
                 this.loaded = false;
                 this.fire(current_scene.player);
                 this.speed = 0;
-                current_scene.time.delayedCall(game_settings.shooter_reload_time, function () {
+                current_scene.time.delayedCall(game_settings.golem_reload_time, function () {
                     this.speed = game_settings.golem_speed;
                     this.loaded = true;
                 }, null, this);
