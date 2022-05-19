@@ -96,19 +96,26 @@ class level1FightScene extends Phaser.Scene {
     }
 
     addColliders() {
+
+        //player
         this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
         this.physics.add.collider(this.player, this.doors);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
+
+        //enimies
+        this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
         this.physics.add.overlap(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
+        this.physics.add.overlap(this.player, this.enemy_shockwaves, playerShockwaveCollision.bind(this));
 
-        //enemy collisions
-        this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
+        //projectiles
+        this.physics.add.collider(this.enemy_projectiles.getChildren(), this.collision_rects, function(projectile, wall) {
+            console.log(projectile);
+            projectile.reset();
+        });
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
-        this.physics.add.overlap(this.player, this.enemy_shockwaves, playerShockwaveCollision.bind(this));
-        // this.physics.add.overlap(this.enemy_shockwaves, this.enemies, projectileEnemyCollision.bind(this));
     }
 
     /*
