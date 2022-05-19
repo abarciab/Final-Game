@@ -52,7 +52,7 @@ class level1BossScene extends Phaser.Scene {
         this.ball.setDrag(0.9);
         this.ball.setDamping(true);
         this.ball.deflected = false;
-        this.doggo = new Dog(200, 200, 'white square').setScale(0.5);
+        this.doggo = new Dog(200, 200, 'dog idle right');
 
         //hank
         this.hank = new Hank1(800, 350, 'white hexagon').setTint(0xa0a0a0).setScale(1.5);

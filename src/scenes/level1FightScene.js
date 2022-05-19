@@ -31,6 +31,10 @@ class level1FightScene extends Phaser.Scene {
         this.load.spritesheet('golem move left', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
         this.load.spritesheet('golem move right', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
 
+        this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        this.load.spritesheet('dog move left', './assets/enemies/dog_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+        this.load.spritesheet('dog move right', './assets/enemies/dog_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
         this.load.image('shooter', './assets/enemies/shooter.png');
 
         this.load.image('textbox', './assets/textbox.png');

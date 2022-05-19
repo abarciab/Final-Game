@@ -22,6 +22,7 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
         this.body.bounce.set(this.bounce_mod);
         this.stun_time = 0;
         this.setMass(1.2);
+        this.setScale(3);
 
         this.has_ball = false;
     }
@@ -48,8 +49,11 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
         } else if (this.has_ball || current_scene.hank.has_ball == true){
             moveTo(this, current_scene.hank);
         }
-
-        const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
+        let move_to_obj = current_scene.ball;
+        if (this.has_ball) {
+            move_to_obj = current_scene.hank;
+        }
+        const angle = -Math.atan2(this.x-move_to_obj.x, this.y-move_to_obj.y);
         if (Math.sin(angle) >= 0) 
             this.last_direction_moved = "right";
         else 
@@ -59,9 +63,6 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
             this.current_frame = this.anims.currentFrame.index-1;
         if (!this.stunned) {
             this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
-        }
-        else if (this.stunned) {
-            this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
         }
     }
 

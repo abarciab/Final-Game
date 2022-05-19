@@ -176,6 +176,30 @@ function createAnimations() {
         frames: current_scene.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
         repeat: -1
     })
+    current_scene.anims.create({
+        key: "dog idle left",
+        frameRate: 8,
+        frames: current_scene.anims.generateFrameNumbers("dog idle left", {start: 0, end: 3}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "dog idle right",
+        frameRate: 8,
+        frames: current_scene.anims.generateFrameNumbers("dog idle right", {start: 0, end: 3}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "dog move left",
+        frameRate: 6,
+        frames: current_scene.anims.generateFrameNumbers("dog move left", {start: 0, end: 2}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "dog move right",
+        frameRate: 6,
+        frames: current_scene.anims.generateFrameNumbers("dog move right", {start: 0, end: 2}),
+        repeat: -1
+    })
 }
 
 function setupDoorsAndButtons(map){
