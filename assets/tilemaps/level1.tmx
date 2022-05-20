@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="21">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="56">
  <editorsettings>
   <export target="level1map.json" format="json"/>
  </editorsettings>
@@ -92,6 +92,9 @@
    <properties>
     <property name="vase" type="bool" value="true"/>
    </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="12.9003" y="-0.0796317" width="36.2324" height="63.785"/>
+   </objectgroup>
   </tile>
   <tile id="16">
    <properties>
@@ -633,5 +636,40 @@
     <property name="next_level" type="bool" value="true"/>
    </properties>
   </object>
+  <object id="21" name="vase" gid="16" x="345.333" y="823.333" width="64" height="64"/>
+  <object id="22" name="vase" gid="16" x="623" y="150" width="64" height="64"/>
+  <object id="23" name="vase" gid="16" x="557" y="148" width="64" height="64"/>
+  <object id="24" name="vase" gid="16" x="957" y="266" width="64" height="64"/>
+  <object id="25" name="vase" gid="16" x="1183" y="376" width="64" height="64"/>
+  <object id="26" name="vase" gid="16" x="1185" y="296" width="64" height="64"/>
+  <object id="27" name="vase" gid="16" x="1754" y="496" width="64" height="64"/>
+  <object id="28" name="vase" gid="16" x="1678" y="501" width="64" height="64"/>
+  <object id="29" name="vase" gid="16" x="1956" y="336" width="64" height="64"/>
+  <object id="30" name="vase" gid="16" x="1701" y="885" width="64" height="64"/>
+  <object id="31" name="vase" gid="16" x="2099" y="1526" width="64" height="64"/>
+  <object id="32" name="vase" gid="16" x="2084" y="1206" width="64" height="64"/>
+  <object id="33" name="vase" gid="16" x="1825" y="1721" width="64" height="64"/>
+  <object id="34" name="vase" gid="16" x="1891" y="1721" width="64" height="64"/>
+  <object id="35" name="vase" gid="16" x="1958" y="1722" width="64" height="64"/>
+  <object id="36" name="vase" gid="16" x="1508" y="1588" width="64" height="64"/>
+  <object id="37" name="vase" gid="16" x="1311" y="1721" width="64" height="64"/>
+  <object id="38" name="vase" gid="16" x="102.667" y="1205.33" width="64" height="64"/>
+  <object id="39" name="vase" gid="16" x="228" y="2293.33" width="64" height="64"/>
+  <object id="40" name="vase" gid="16" x="37.3333" y="1969.33" width="64" height="64"/>
+  <object id="41" name="vase" gid="16" x="152" y="2220" width="64" height="64"/>
+  <object id="42" name="vase" gid="16" x="936" y="2354.67" width="64" height="64"/>
+  <object id="43" name="vase" gid="16" x="1449.33" y="2354.67" width="64" height="64"/>
+  <object id="44" name="vase" gid="16" x="1518.67" y="2356" width="64" height="64"/>
+  <object id="45" name="vase" gid="16" x="2306.67" y="2417.33" width="64" height="64"/>
+  <object id="46" name="vase" gid="16" x="2148" y="1884" width="64" height="64"/>
+  <object id="47" name="vase" gid="16" x="2342.67" y="1934.67" width="64" height="64"/>
+  <object id="48" name="vase" gid="16" x="2461.33" y="1756" width="64" height="64"/>
+  <object id="49" name="vase" gid="16" x="2402.67" y="1357.33" width="64" height="64"/>
+  <object id="50" name="vase" gid="16" x="2401.33" y="1458.67" width="64" height="64"/>
+  <object id="51" name="vase" gid="16" x="2525.33" y="912" width="64" height="64"/>
+  <object id="52" name="vase" gid="16" x="3069.33" y="401.333" width="64" height="64"/>
+  <object id="53" name="vase" gid="16" x="3433.33" y="1496" width="64" height="64"/>
+  <object id="54" name="vase" gid="16" x="3685.33" y="942.667" width="64" height="64"/>
+  <object id="55" name="vase" gid="16" x="3566.67" y="274.667" width="64" height="64"/>
  </objectgroup>
 </map>

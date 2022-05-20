@@ -28,7 +28,7 @@ class level1BossScene extends Phaser.Scene {
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const marker_layer = map.createLayer('markers', this.tileset, 0, 0).setScale(game_settings.tilemap_scale).setAlpha(0);
-        setupDoorsAndButtons(map);
+        setupInteractables(map);
         this.collision_rects = [];
         this.lava_rects = [];
         this.destructibles = [];

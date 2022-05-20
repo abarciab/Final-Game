@@ -218,12 +218,23 @@ function createAnimations() {
     })
 }
 
-function setupDoorsAndButtons(map){
+function setupInteractables(map){
 
     const door_sprites = map.createFromObjects('interact', {name: 'door', key: 'door'});
     const button_sprites = map.createFromObjects('interact', {name: 'button', key:'button'});
+    const vase_sprites = map.createFromObjects('interact', {name: 'vase', key: 'vase'});
+    current_scene.vases = [];
     current_scene.doors = [];
     current_scene.buttons = [];
+
+    for (let i = 0; i < vase_sprites.length; i++) {
+        let new_vase = current_scene.add.rectangle(vase_sprites[i].x, vase_sprites[i].y, vase_sprites[i].displayWidth, vase_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
+        new_vase.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_vase);
+        current_scene.physics.add.existing(new_vase);
+        new_vase.data_sprite = vase_sprites[i];
+        new_vase.data_sprite.setScale(1);
+        current_scene.vases.push(new_vase);
+    }
 
     for(let i = 0; i < door_sprites.length; i++ ){
         let new_door = current_scene.add.rectangle(door_sprites[i].x, door_sprites[i].y, door_sprites[i].displayWidth, door_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
@@ -283,6 +294,15 @@ function setupDoorsAndButtons(map){
             }
         }  
         button.setActive(false);      
+    })
+    current_scene.physics.add.overlap(current_scene.player, current_scene.vases, function(player, vase){
+        if (player.dashing){
+            if (Phaser.Math.Between(1 ,3) == 2){
+                spawnHealthPickup(vase.data_sprite.x, vase.data_sprite.y);
+            }
+            vase.data_sprite.setVisible(false);
+            vase.destroy();
+        }
     })
 }
 
@@ -443,6 +463,14 @@ function playerDestructibleCollision(player, destructible){
 }
 
 //utility functions:
+function spawnHealthPickup(x, y){
+    let healthPickup = current_scene.physics.add.sprite(x, y, 'player heart').setDepth(3);
+    healthPickup.body.setVelocity(Phaser.Math.Between(-800, 800), Phaser.Math.Between(-800, 800));
+    healthPickup.setDrag(0.001);
+    healthPickup.setDamping(true);
+    current_scene.pickups.push(healthPickup);
+}
+
 function setRandomPositionOutside(obj){
     let max = 150;
     switch (Phaser.Math.Between(1, 4)){
