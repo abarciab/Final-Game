@@ -3,10 +3,6 @@ class level1BossScene extends Phaser.Scene {
         super("level1BossScene");
     }
 
-    preload(){
-        this.load.tilemapTiledJSON('map','./assets/tilemaps/level1BossRoom.json');
-    }
-
     create(){
         //intialize game_settings, current_scene, and setup keys
         initialize(this);
@@ -22,7 +18,7 @@ class level1BossScene extends Phaser.Scene {
         this.text_sfx;
         
         //tilemap
-        const map = this.make.tilemap({key: 'map', tileWidth: 64, tileHeight: 64});
+        const map = this.make.tilemap({key: 'bossMap', tileWidth: 64, tileHeight: 64});
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
         const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);

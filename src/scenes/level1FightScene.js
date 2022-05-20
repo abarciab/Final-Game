@@ -4,55 +4,55 @@ class level1FightScene extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image('white square', './assets/player/white square.png');
-        this.load.image('white hexagon', './assets/player/white hexagon.png');
-        this.load.image('shockwave', './assets/shockwave.png');
-        this.load.image('white arrow', './assets/white arrow.png');
-        this.load.image('player heart', './assets/player/player_heart.png');
-        this.load.image('player half heart', './assets/player/player_heart_half.png');
-        this.load.image('player empty heart', './assets/player/player_heart_empty.png');
-        this.load.image('dash pointer', './assets/player/dash_pointer.png');
-        this.load.image('vase', './assets/objects/vase.png');
-        this.load.spritesheet('dash pointer charged', './assets/player/dash_pointer_charged.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
+        // this.load.image('white square', './assets/player/white square.png');
+        // this.load.image('white hexagon', './assets/player/white hexagon.png');
+        // this.load.image('shockwave', './assets/shockwave.png');
+        // this.load.image('white arrow', './assets/white arrow.png');
+        // this.load.image('player heart', './assets/player/player_heart.png');
+        // this.load.image('player half heart', './assets/player/player_heart_half.png');
+        // this.load.image('player empty heart', './assets/player/player_heart_empty.png');
+        // this.load.image('dash pointer', './assets/player/dash_pointer.png');
+        // this.load.image('vase', './assets/objects/vase.png');
+        // this.load.spritesheet('dash pointer charged', './assets/player/dash_pointer_charged.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
 
-        this.load.spritesheet('fran idle left', './assets/player/fran_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('fran idle right', './assets/player/fran_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('fran run left', './assets/player/fran_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('fran run right', './assets/player/fran_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('fran dash right', './assets/player/fran_dash_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('fran dash left', './assets/player/fran_dash_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('fran damage right', './assets/player/fran_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
-        this.load.spritesheet('fran damage left', './assets/player/fran_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
+        // this.load.spritesheet('fran idle left', './assets/player/fran_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        // this.load.spritesheet('fran idle right', './assets/player/fran_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        // this.load.spritesheet('fran run left', './assets/player/fran_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        // this.load.spritesheet('fran run right', './assets/player/fran_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        // this.load.spritesheet('fran dash right', './assets/player/fran_dash_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        // this.load.spritesheet('fran dash left', './assets/player/fran_dash_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        // this.load.spritesheet('fran damage right', './assets/player/fran_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
+        // this.load.spritesheet('fran damage left', './assets/player/fran_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
 
-        this.load.image('charger', './assets/enemies/charger.png');
-        this.load.spritesheet('charger move left', './assets/enemies/charger_move_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
-        this.load.spritesheet('charger move right', './assets/enemies/charger_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
-        this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
-        this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
+        // this.load.image('charger', './assets/enemies/charger.png');
+        // this.load.spritesheet('charger move left', './assets/enemies/charger_move_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
+        // this.load.spritesheet('charger move right', './assets/enemies/charger_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
+        // this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
+        // this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
 
-        this.load.spritesheet('golem move left', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
-        this.load.spritesheet('golem move right', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+        // this.load.spritesheet('golem move left', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+        // this.load.spritesheet('golem move right', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
 
-        this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
-        this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
-        this.load.spritesheet('dog move left', './assets/enemies/dog_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
-        this.load.spritesheet('dog move right', './assets/enemies/dog_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+        // this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        // this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        // this.load.spritesheet('dog move left', './assets/enemies/dog_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+        // this.load.spritesheet('dog move right', './assets/enemies/dog_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
 
-        this.load.image('shooter', './assets/enemies/shooter.png');
-        this.load.spritesheet('shooter move left', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
-        this.load.spritesheet('shooter move right', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+        // this.load.image('shooter', './assets/enemies/shooter.png');
+        // this.load.spritesheet('shooter move left', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+        // this.load.spritesheet('shooter move right', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
 
 
-        this.load.image('textbox', './assets/textbox.png');
-        //tilemap and environment sprites
-        this.load.image('door', './assets/objects/door.png');
-        this.load.image('button', './assets/objects/button.png');
-        this.load.image('tiles', './assets/tilemaps/tiles.png');
-        this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1Map.json');
-        //this.load.tilemapTiledJSON('map','./assets/tilemaps/bounceDemo.json');
+        // this.load.image('textbox', './assets/textbox.png');
+        // //tilemap and environment sprites
+        // this.load.image('door', './assets/objects/door.png');
+        // this.load.image('button', './assets/objects/button.png');
+        // this.load.image('tiles', './assets/tilemaps/tiles.png');
+        // this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1Map.json');
+        // //this.load.tilemapTiledJSON('map','./assets/tilemaps/bounceDemo.json');
 
-        //script
-        this.load.json('scriptData', './scripts/gameScript.json');
+        // //script
+        // this.load.json('scriptData', './scripts/gameScript.json');
     }
 
     create(){

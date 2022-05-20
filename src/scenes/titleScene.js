@@ -3,28 +3,6 @@ class titleScene extends Phaser.Scene {
         super("titleScene");
     }
 
-    preload(){
-        this.load.audio('male blip', './assets/sounds/sfx/sfx-blipmale.wav');
-        this.load.audio('female blip', './assets/sounds/sfx/sfx-blipfemale.wav');
-        this.load.audio('player hit', './assets/sounds/sfx/player_hit.wav');
-        this.load.audio('player dash', './assets/sounds/sfx/player_dash2.wav');
-        this.load.audio('player super dash', './assets/sounds/sfx/player_super_dash.wav');
-        this.load.audio('footstep', './assets/sounds/sfx/footstep.wav');
-        this.load.audio('dash charge', './assets/sounds/sfx/dash_charge.wav');
-        this.load.audio('finish charge', './assets/sounds/sfx/finished_charging.wav');
-        this.load.audio('enemy hit', './assets/sounds/sfx/enemy_hit.wav');
-        this.load.audio('enemy dead', './assets/sounds/sfx/enemy_dead.wav');
-        this.load.image('textbox', './assets/textbox.png');
-        this.load.json('scriptData', './scripts/gameScript.json');
-
-        this.load.image('title background', './assets/UI/title background.png');
-        this.load.image('start button', './assets/UI/start button.png');
-        this.load.image('level select button', './assets/UI/level select button.png');
-        this.load.image('options button', './assets/UI/options button.png');
-        this.load.image('credits button', './assets/UI/credits button.png');
-        this.load.image('title', './assets/UI/title.png');
-    }
-
     create(){
         current_scene = this;
 
