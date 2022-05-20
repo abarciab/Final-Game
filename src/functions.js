@@ -306,12 +306,12 @@ function resume(){
     current_scene.pauseLayer.setVisible(false);
 }
 
-/*
+    /*
 COLLISION FUNCTIONS
 */
 
 function playerWallCollision(player, rects) {
-    const wall_bounce_mod = 0.8;
+    const wall_bounce_mod = 0.3;
     player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
 }
 
