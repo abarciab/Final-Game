@@ -211,7 +211,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 if (this.footstep_timer >= this.footstep_interval) {
                     this.footstep_timer = 0;
                     //this.player_sfx["step"].play();
-                    current_scene.sound.add("footstep", {volume: 0.3}).play();
+                    current_scene.sound.add("footstep").play();
                     //this.step_sfx.play();
                 }
             }
