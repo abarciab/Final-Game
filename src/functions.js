@@ -2,7 +2,7 @@
 //setup functions:
 function initialize(scene){
     current_scene = scene;
-    pointer = current_scene.input.activePointer;
+    pointer = current_scene.input.activePointer; 
     
     game_settings = {
         // player stats
@@ -57,7 +57,7 @@ function initialize(scene){
         enemy1_name: "CHARGER",
         enemy2_name: "GOLEM",
         enemy3_name: "SHOOTER",
-    }
+    } 
 
     scene.cameras.main.setZoom(game_settings.camera_zoom);
     scene.cameras.main.setBackgroundColor('#303030');
