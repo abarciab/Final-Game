@@ -17,9 +17,16 @@ class Player extends Phaser.Physics.Arcade.Sprite{
 
         this.player_sfx = {
             "dash": current_scene.sound.add('player dash'),
-            "hit": current_scene.sound.add('player hit')
+            "super dash": current_scene.sound.add('player super dash'),
+            "hit": current_scene.sound.add('player hit'),
+            "step": current_scene.sound.add('footstep', {volume: 0.5}),
+            "charge": current_scene.sound.add('dash charge', {volume: 0.5}),
+            "finish charge": current_scene.sound.add('finish charge', {volume: 0.7})
         }
-        
+        this.step_sfx = current_scene.sound.add('footstep');
+        this.footstep_interval = 0.3;
+        this.footstep_timer = this.footstep_interval;
+        this.charge_finished = false;
         // states of invincibility
         this.stunned = false;
         this.invincible = false;
@@ -98,6 +105,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
         this.dash_on_cooldown = true;
         this.body.bounce.set(0);
+        this.footstep_timer = this.footstep_interval;
         this.dash_cancel_timer = 0;
         this.perfect_dash_timer = 0;
 
@@ -105,6 +113,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dashing = false;
         this.bouncing = false;
         this.setDrag(game_settings.player_walk_drag);
+        
     }
 
     updateDashCooldown(delta) {
@@ -128,13 +137,20 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 this.last_direction_moved = "RIGHT";
             }
             if (this.charge_progress < game_settings.player_max_charge_progress) {
+                if (!this.player_sfx["charge"].isPlaying) {
+                    this.player_sfx["charge"].play();
+                }
                 this.charge_progress += delta;
                 this.dash_pointer.setAlpha(this.charge_progress/game_settings.player_max_charge_progress + 0.1);
             }
             else {
+                this.player_sfx["charge"].stop();
+                if (!this.charge_finished) {
+                    this.player_sfx["finish charge"].play();
+                }
+                this.charge_finished = true;
                 if (this.perfect_dash_timer < this.perfect_dash_buffer) {
                     this.perfect_dash = true;
-                    console.log("can perfect dash");
                     this.dash_pointer.anims.play("dash pointer charged", true);
                 }
                 else {
@@ -149,6 +165,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         if (this.charge_progress > 0 && !key_space.isDown && !pointer.isDown) {
             this.dash();
             this.charge_progress = 0;
+            this.player_sfx["charge"].stop();
+            this.charge_finished = false;
             this.dash_pointer.setAlpha(0.3);
         }
     }
@@ -166,25 +184,36 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 this.setVelocityX(0);
             }
             else if (key_left.isDown){
-                this.move("LEFT");
+                this.move("LEFT", delta);
             }
             else if (key_right.isDown){
-                this.move("RIGHT");
+                this.move("RIGHT", delta);
             }
             if (key_up.isDown && key_down.isDown) {
                 this.setVelocityY(0);
             }
             else if (key_up.isDown){
-                this.move("UP");
+                this.move("UP", delta);
             }
             else if (key_down.isDown){
-                this.move("DOWN");
+                this.move("DOWN", delta);
             }
             if (!this.moving && !this.dashing && !this.stunned) {
                 this.anims.play({key: `fran idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+                this.footstep_timer = this.footstep_interval;
             }
             else if (this.stunned) {
                 this.anims.play(`fran damage ${this.last_direction_moved.toLowerCase()}`, true);
+            }
+            else {
+                // update the speed
+                this.footstep_timer += delta/1000;
+                if (this.footstep_timer >= this.footstep_interval) {
+                    this.footstep_timer = 0;
+                    //this.player_sfx["step"].play();
+                    current_scene.sound.add("footstep", {volume: 0.3}).play();
+                    //this.step_sfx.play();
+                }
             }
         }
     }
@@ -196,7 +225,13 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         if (this.invincible) {
             current_scene.enemyCollider.active = true;
         }
-        this.player_sfx["dash"].play();
+        this.charge_finished = false;
+        if (this.perfect_dash) {
+            this.player_sfx["super dash"].play();
+        }
+        else {
+            this.player_sfx["dash"].play();
+        }
         this.body.bounce.set(game_settings.player_bounce_mod);
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
@@ -226,17 +261,20 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.setPosition(game.config.width/2, game.config.height/2);
             return;
         }
-        //this.speed = game_settings.player_dash_speed/4;
 
         current_scene.enemyCollider.active = false;
         this.stunned = true;
         this.invulnerable = true;
         this.body.bounce.set(game_settings.player_bounce_mod);
+        this.player_sfx["charge"].stop();
         this.charge_progress = 0;
+        this.charge_finished = false;
         this.dash_pointer.setAlpha(0.3);
         const stun_duration = this.stun_duration * 1000;
+        this.player_sfx["hit"].play();
         // when stun is over
         current_scene.time.delayedCall(stun_duration, () => {
+            this.footstep_timer = this.footstep_interval;
             this.setAlpha(0.6); 
             this.body.bounce.set(0);
             this.stunned = false;
@@ -272,7 +310,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
     }
 
-    move(dir){
+    move(dir, delta){
         if (this.stunned){
             return;
         }

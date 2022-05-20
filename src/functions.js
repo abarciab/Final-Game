@@ -15,7 +15,7 @@ function initialize(scene){
         player_walk_drag: 0.0001,
         player_dash_drag: 0.1,
         player_stun_time: 100,
-        player_mass: 0.7,
+        player_mass: 0.8,
         player_bounce_mod: 1,
         player_invincible_time: 1,
         player_perfect_dash_window: 0.3,
@@ -176,6 +176,20 @@ function createAnimations() {
         frames: current_scene.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
         repeat: -1
     })
+    // shooter animation
+    current_scene.anims.create({
+        key: "shooter move right",
+        frameRate: 1,
+        frames: current_scene.anims.generateFrameNumbers("shooter move right", {start: 0, end: 0}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "shooter move left",
+        frameRate: 1,
+        frames: current_scene.anims.generateFrameNumbers("shooter move left", {start: 0, end: 0}),
+        repeat: -1
+    })
+    
     current_scene.anims.create({
         key: "dog idle left",
         frameRate: 8,
