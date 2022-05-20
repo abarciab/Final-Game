@@ -41,8 +41,15 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         }
-
-        if (!this.has_ball && current_scene.hank.has_ball != true){
+        if (current_scene.hank.health <= 0 ){
+            if (Phaser.Math.Distance.BetweenPoints(current_scene.player, this) > 100){
+                moveTo(this, current_scene.player);
+            } else{
+                this.setVelocity(this.body.velocity.x * 0.9, this.body.velocity.y * 0.75);
+            }
+            
+        }
+        else if (!this.has_ball && current_scene.hank.has_ball != true){
             moveTo(this, current_scene.ball);
         } else if (this.has_ball || current_scene.hank.has_ball == true){
             moveTo(this, current_scene.hank);

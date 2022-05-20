@@ -16,6 +16,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.speed = game_settings.dog_speed;
         this.bounce_mod = 0.05;
         this.bounce_drag = 0.001;
+        this.health = game_settings.hank_health;
         
         this.curr_speed = this.speed;
         this.bounce_damage = 0;
@@ -55,6 +56,18 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         }
         else if (this.stunned) {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
+        }
+    }
+
+    damage(){
+        if (this.has_ball == false){
+            return;
+        }
+        this.health -= 1;
+        this.setAlpha(this.alpha - 0.3);
+        if (this.health <= 0){
+            this.has_ball = false;
+            console.log("HANK HAS BEEN DEFEATED!");
         }
     }
 

@@ -27,13 +27,13 @@ function initialize(scene){
 
         // charger stats
         charger_speed: 75,
-        charger_health: 300,
+        charger_health: 60,
         charger_bounce_mod: 1,
         charger_bounce_drag: 0.01,
 
         // golem stats
         golem_speed: 30,
-        golem_health: 500,
+        golem_health: 80,
         golem_agro_range: 280,
         golem_reload_time: 3000,
         golem_bounce_mod: 1,
@@ -41,7 +41,7 @@ function initialize(scene){
 
         // shooter stats
         shooter_speed: 50,
-        shooter_health: 200,
+        shooter_health: 70,
         shooter_shooting_speed: 1,
         shooter_ammo_spacing: 500,
         shooter_reload_time: 6000,
@@ -57,7 +57,10 @@ function initialize(scene){
         enemy1_name: "CHARGER",
         enemy2_name: "GOLEM",
         enemy3_name: "SHOOTER",
-    } 
+
+        //hank
+        hank_health: 3,
+    }
 
     scene.cameras.main.setZoom(game_settings.camera_zoom);
     scene.cameras.main.setBackgroundColor('#303030');
@@ -76,7 +79,6 @@ function setupKeys(scene){
     key_down = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     key_space = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     key_esc = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-
     key_prev = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     key_next = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT); 
 }
@@ -246,9 +248,38 @@ function setupDoorsAndButtons(map){
                 current_scene.scene.start(game_settings.next_scene);
                 return;
             }
-            if (button.data_sprite.data.list.circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
-                current_scene.doors[i].data_sprite.setVisible(false);
-                current_scene.doors[i].destroy();
+            if (current_scene.doors[i].data_sprite.data && button.data_sprite.data.list.circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
+                //current_scene.doors[i].data_sprite.setAlpha(0);
+                current_scene.doors[i].data_sprite.x -= 3;
+                let destX = current_scene.doors[i].data_sprite.x + 6
+
+                current_scene.tweens.add({
+                    targets: current_scene.doors[i].data_sprite,
+                    alpha: 0,
+                    scaleY: 0,
+                    duration: 1500,
+                    repeat: 0,
+                    callbackScope: this,
+                    onComplete: function() {current_scene.doors[i].data_sprite.destroy(); current_scene.doors[i].destroy();}
+                });
+
+                current_scene.tweens.add({
+                    targets: current_scene.doors[i].data_sprite,
+                    x: destX-3,
+                    duration: 100,
+                    yoyo: true,
+                    repeat: 15,
+                    callbackScope: this,
+                });
+
+                current_scene.tweens.add({
+                    targets: current_scene.doors[i].data_sprite,
+                    x: destX,
+                    duration: 100,
+                    yoyo: true,
+                    repeat: 15,
+                    callbackScope: this,
+                });
             }
         }  
         button.setActive(false);      
@@ -320,9 +351,7 @@ function resume(){
     current_scene.pauseLayer.setVisible(false);
 }
 
-    /*
-COLLISION FUNCTIONS
-*/
+//COLLISION FUNCTIONS
 
 function playerWallCollision(player, rects) {
     const wall_bounce_mod = 0.3;
@@ -332,11 +361,9 @@ function playerWallCollision(player, rects) {
 function checkPlayerLavaCollision() {
     if (current_scene.physics.overlap(current_scene.player, current_scene.lava_rects)) {
         current_scene.player.on_lava = true;
-        //console.log("on lava");
     }
     else {
         current_scene.player.on_lava = false;
-        //console.log("not on lava");
     }
 }
 
@@ -350,7 +377,7 @@ function playerLavaCollision(player, lava_tile){
 }
 
 function enemyLavaCollision(enemy, lava_tile) {
-    console.log("enemy hit lava");
+    //console.log("enemy hit lava");
     if (enemy.stunned) {
         enemy.damage(enemy.bounce_damage-1);
     }
@@ -373,8 +400,8 @@ function playerProjectileCollision(playerObj, projectile){
     }
     if (current_scene.player.dashing){
         projectile.deflected = true;
-        projectile.body.setVelocity(playerObj.body.velocity.x, playerObj.body.velocity.y);
-        playerObj.body.setVelocity(0,0);
+        projectile.body.setVelocity(playerObj.body.velocity.x * 1.5, playerObj.body.velocity.y * 1.5);
+        playerObj.body.setVelocity(playerObj.body.velocity.x * 0.9, playerObj.body.velocity.y * 0.9);
     } else if (!projectile.deflected && projectile.reset){
         projectile.reset();
         playerObj.damage();
