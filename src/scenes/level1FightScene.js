@@ -32,7 +32,15 @@ class level1FightScene extends Phaser.Scene {
         this.load.spritesheet('golem move left', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
         this.load.spritesheet('golem move right', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
 
+        this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        this.load.spritesheet('dog move left', './assets/enemies/dog_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+        this.load.spritesheet('dog move right', './assets/enemies/dog_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+
         this.load.image('shooter', './assets/enemies/shooter.png');
+        this.load.spritesheet('shooter move left', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+        this.load.spritesheet('shooter move right', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+
 
         this.load.image('textbox', './assets/textbox.png');
         //tilemap and environment sprites
@@ -51,7 +59,7 @@ class level1FightScene extends Phaser.Scene {
         initialize(this);
 
         //player
-        this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
+        this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
         this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
         //enemies
@@ -93,19 +101,26 @@ class level1FightScene extends Phaser.Scene {
     }
 
     addColliders() {
+
+        //player
         this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
         this.physics.add.collider(this.player, this.doors);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
+
+        //enimies
+        this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
         this.physics.add.overlap(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
+        this.physics.add.overlap(this.player, this.enemy_shockwaves, playerShockwaveCollision.bind(this));
 
-        //enemy collisions
-        this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
+        //projectiles
+        this.physics.add.collider(this.enemy_projectiles.getChildren(), this.collision_rects, function(projectile, wall) {
+            //console.log(projectile);
+            projectile.reset();
+        });
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
-        this.physics.add.overlap(this.player, this.enemy_shockwaves, playerShockwaveCollision.bind(this));
-        // this.physics.add.overlap(this.enemy_shockwaves, this.enemies, projectileEnemyCollision.bind(this));
     }
 
     /*
@@ -131,21 +146,12 @@ class level1FightScene extends Phaser.Scene {
 
         //update player 
         this.player.update(time, delta);
+        checkPlayerLavaCollision();
 
         //update enemies
         updateEnemies(time, delta);
 
         //update UI
-        //updateUI();
         this.game_UI.update();
-
-        if (this.physics.overlap(this.player, this.lava_rects)) {
-            this.player.on_lava = true;
-            //console.log("on lava");
-        }
-        else {
-            this.player.on_lava = false;
-            //console.log("not on lava");
-        }
     }
 }

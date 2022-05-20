@@ -121,7 +121,6 @@ class ScriptReader {
         this.char_update_rate = this.script_data.defaultTextSpeed;
         // if the part is done, finish reading for the part and update part/levels and return false
         if (this.curr_line_index >= this.curr_script.length) {
-            console.log("finished reading part");
             this.part++; 
             this.curr_line_index = 0;
             this.reading_script = false;
