@@ -66,7 +66,7 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
 
         if (!this.stunned) {
             if (this.curr_speed >= 10)
-                this.anims.play(`${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`);
+                this.anims.play(`${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, true);
             else {
                 this.anims.play(`${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, true);
             }
