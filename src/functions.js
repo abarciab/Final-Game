@@ -2,7 +2,7 @@
 //setup functions:
 function initialize(scene){
     current_scene = scene;
-    pointer = current_scene.input.activePointer;
+    pointer = current_scene.input.activePointer; 
     
     game_settings = {
         // player stats
