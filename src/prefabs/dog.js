@@ -29,7 +29,6 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
 
     update(timer, delta) {
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
-        
 
         if (this.stun_time > 0) {
             this.stun_time -= delta/1000;
@@ -68,8 +67,13 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
 
         if (this.anims.isPlaying)
             this.current_frame = this.anims.currentFrame.index-1;
+
         if (!this.stunned) {
-            this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+            if (this.curr_speed >= 10)
+                this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+            else {
+                this.anims.play(`${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, true);
+            }
         }
     }
 

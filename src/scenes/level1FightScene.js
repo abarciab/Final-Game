@@ -35,7 +35,11 @@ class level1FightScene extends Phaser.Scene {
         this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
         this.load.spritesheet('dog move left', './assets/enemies/dog_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
         this.load.spritesheet('dog move right', './assets/enemies/dog_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+
         this.load.image('shooter', './assets/enemies/shooter.png');
+        this.load.spritesheet('shooter move left', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+        this.load.spritesheet('shooter move right', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+
 
         this.load.image('textbox', './assets/textbox.png');
         //tilemap and environment sprites
@@ -111,6 +115,7 @@ class level1FightScene extends Phaser.Scene {
 
         //projectiles
         this.physics.add.collider(this.enemy_projectiles.getChildren(), this.collision_rects, function(projectile, wall) {
+            //console.log(projectile);
             projectile.reset();
         });
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));

@@ -136,7 +136,6 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
-        console.log(this.expanding_width);
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.expanding_width++;
@@ -158,6 +157,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setDrag(this.base_drag);
         this.setDamping(true);
         this.setCircle(this.width/2);
+        this.enemy_hit = current_scene.sound.add('enemy hit');
         this.last_direction_moved = "right";
         this.type = type;
         this.stunned = false;
@@ -219,6 +219,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             }
             //return;
         }
+        this.enemy_hit.play();
         this.health -= damage_value;
         this.stunned = true;
         if (damage_value) {
