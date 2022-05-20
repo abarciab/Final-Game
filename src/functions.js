@@ -57,7 +57,7 @@ function initialize(scene){
         enemy1_name: "CHARGER",
         enemy2_name: "GOLEM",
         enemy3_name: "SHOOTER",
-    }
+    } 
 
     scene.cameras.main.setZoom(game_settings.camera_zoom);
     scene.cameras.main.setBackgroundColor('#303030');
