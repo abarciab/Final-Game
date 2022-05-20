@@ -6,6 +6,7 @@ class level1FightScene extends Phaser.Scene {
     preload(){
         this.load.image('white square', './assets/player/white square.png');
         this.load.image('white hexagon', './assets/player/white hexagon.png');
+        this.load.image('shockwave', './assets/shockwave.png');
         this.load.image('white arrow', './assets/white arrow.png');
         this.load.image('player heart', './assets/player/player_heart.png');
         this.load.image('player half heart', './assets/player/player_heart_half.png');
@@ -56,7 +57,7 @@ class level1FightScene extends Phaser.Scene {
         //enemies
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');
-        this.enemy_shockwaves = new ShockwaveGroup('white arrow');
+        this.enemy_shockwaves = new ShockwaveGroup('shockwave');
         this.text_sfx;
         
         //tilemap
