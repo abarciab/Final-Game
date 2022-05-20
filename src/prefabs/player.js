@@ -14,6 +14,11 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDamping(true);
         this.score = 0;
         this.on_lava = false;
+
+        this.player_sfx = {
+            "dash": current_scene.sound.add('player dash'),
+            "hit": current_scene.sound.add('player hit')
+        }
         
         // states of invincibility
         this.stunned = false;
@@ -191,6 +196,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         if (this.invincible) {
             current_scene.enemyCollider.active = true;
         }
+        this.player_sfx["dash"].play();
         this.body.bounce.set(game_settings.player_bounce_mod);
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;

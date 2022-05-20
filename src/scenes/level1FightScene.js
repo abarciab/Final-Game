@@ -111,7 +111,7 @@ class level1FightScene extends Phaser.Scene {
 
         //projectiles
         this.physics.add.collider(this.enemy_projectiles.getChildren(), this.collision_rects, function(projectile, wall) {
-            console.log(projectile);
+            //console.log(projectile);
             projectile.reset();
         });
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));

@@ -6,6 +6,8 @@ class titleScene extends Phaser.Scene {
     preload(){
         this.load.audio('male blip', './assets/sounds/sfx/sfx-blipmale.wav');
         this.load.audio('female blip', './assets/sounds/sfx/sfx-blipfemale.wav');
+        this.load.audio('player hit', './assets/sounds/sfx/player_hit.wav');
+        this.load.audio('player dash', './assets/sounds/sfx/player_dash2.wav');
         this.load.image('textbox', './assets/textbox.png');
         this.load.json('scriptData', './scripts/gameScript.json');
     }
