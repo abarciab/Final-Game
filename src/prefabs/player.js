@@ -56,7 +56,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(time, delta){
-        if (!this.stunned && !this.dashing && !this.on_lava){
+        if (!this.stunned && !this.on_lava){
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }
@@ -246,7 +246,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             }, null, this);
         }, null, this);
 
-        if (redirect){
+        if (redirect && source){
             let redirect_multiplier = game_settings.player_walk_speed*4;
             if (source.speed > redirect_multiplier) {
                 redirect_multiplier = source.speed;
@@ -255,7 +255,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             const vel_y = redirect_multiplier*(Math.sin(source.body.angle));
             this.setVelocity(vel_x, vel_y);
         } else {
-            moveAway(this, source);
+            if (source){
+                moveAway(this, source);
+            }
         }
         // if moving right or left
         if (this.body.velocity.x < 0) {

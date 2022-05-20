@@ -64,34 +64,53 @@ class level1BossScene extends Phaser.Scene {
     }
 
     addColliders() {
+        //player
         this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
         this.physics.add.collider(this.player, this.doors);
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
-        this.physics.add.overlap(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
-        this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
 
-        //enemy collisions
+        //enemy
         this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
+        this.physics.add.overlap(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
+        this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
 
-        //doggo and ball and hank
+        //ball and (player/walls)
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
         this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.player, this.ball, function() {if (current_scene.player.dashing == true){current_scene.ball.deflected = true} });
+        
+        //player and dog
+        this.physics.add.overlap(this.player, this.doggo, function () {
+            if (current_scene.hank.health <= 0){
+                return;
+            }
+            if (current_scene.player.dashing){
+                current_scene.doggo.setVelocity(0, 0);
+                current_scene.doggo.speed = 0;
+                current_scene.time.delayedCall(1000, function(){current_scene.doggo.speed = game_settings.dog_speed})
+                current_scene.player.doneDashing();
+                current_scene.player.body.setVelocity(0,0);
+            } else if (current_scene.doggo.speed > 0 && !current_scene.doggo.has_ball) {
+                current_scene.player.damage(current_scene.doggo);
+            }
+        });
 
+        //ball and dog
         this.physics.add.overlap(this.doggo, this.ball, function() {
             if (current_scene.ball.deflected == true && current_scene.ball.current_speed > 10){
                 return;
             }
             if (current_scene.ball.active == true && current_scene.doggo.speed > 0){
-                //console.log("dog retrieved ball");
                 current_scene.ball.deflected = false;
                 current_scene.doggo.has_ball = true; 
                 current_scene.ball.setActive(false).setVisible(false);
             }
         });
+        
+        //ball and hank
         this.physics.add.overlap(this.ball, this.hank, function() {
             if (current_scene.ball.deflected == true){
                 current_scene.hank.has_ball = true;
@@ -99,11 +118,15 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.ball.setVisible(false);
             }
         });
+
+        //doggo and hank
         this.physics.add.overlap(this.doggo, this.hank, function() {
+            if (current_scene.hank.health <= 0) { return;}
             if (current_scene.doggo.has_ball == true){
                 current_scene.throwBall();
             } else if (current_scene.hank.has_ball){
-                //console.log("DOGGO DAMAGED HANK");
+                console.log("Hank was tackled by the doggo!!! (1 damage) ");
+                current_scene.hank.damage();
                 current_scene.throwBall();
             }
         })
