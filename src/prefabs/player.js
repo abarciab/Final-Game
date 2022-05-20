@@ -19,9 +19,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             "dash": current_scene.sound.add('player dash'),
             "super dash": current_scene.sound.add('player super dash'),
             "hit": current_scene.sound.add('player hit'),
-            "step": current_scene.sound.add('footstep', {volume: 0.5}),
-            "charge": current_scene.sound.add('dash charge', {volume: 0.5}),
-            "finish charge": current_scene.sound.add('finish charge', {volume: 0.7})
+            "step": current_scene.sound.add('footstep', {volume: 0.1}),
+            "charge": current_scene.sound.add('dash charge', {volume: 0.3}),
+            "finish charge": current_scene.sound.add('finish charge', {volume: 0.9})
         }
         this.step_sfx = current_scene.sound.add('footstep');
         this.footstep_interval = 0.3;
