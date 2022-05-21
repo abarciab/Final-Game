@@ -27,7 +27,7 @@ class level1FightScene extends Phaser.Scene {
         
         //tilemap
         //const map = this.make.tilemap({key: 'level_1_map', tileWidth: 64, tileHeight: 64});
-        const map = this.make.tilemap({key: 'demo_map', tileWidth: 64, tileHeight: 64});
+        const map = this.make.tilemap({key: 'level_1_map', tileWidth: 64, tileHeight: 64});
 
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
         const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
@@ -35,6 +35,7 @@ class level1FightScene extends Phaser.Scene {
         const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const marker_layer = map.createLayer('markers', this.tileset, 0, 0).setScale(game_settings.tilemap_scale).setAlpha(0);
         setupInteractables(map);
+        setupEnemies(map);
         this.collision_rects = [];
         this.lava_rects = [];
         this.destructibles = [];
@@ -69,6 +70,7 @@ class level1FightScene extends Phaser.Scene {
 
         //enimies
         this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
+        this.physics.add.collider(this.enemies, this.collision_rects);
         this.physics.add.overlap(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
