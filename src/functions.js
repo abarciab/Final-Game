@@ -27,13 +27,13 @@ function initialize(scene){
 
         // charger stats
         charger_speed: 75,
-        charger_health: 60,
+        charger_health: 100,
         charger_bounce_mod: 1,
         charger_bounce_drag: 0.01,
 
         // golem stats
         golem_speed: 30,
-        golem_health: 80,
+        golem_health: 150,
         golem_agro_range: 280,
         golem_reload_time: 3000,
         golem_bounce_mod: 1,
@@ -426,9 +426,9 @@ function playerLavaCollision(player, lava_tile){
 }
 
 function enemyLavaCollision(enemy, lava_tile) {
-    //console.log("enemy hit lava");
-    if (enemy.stunned) {
-        enemy.damage(enemy.bounce_damage-1);
+    if (enemy.stunned && !enemy.hit_lava && !enemy.is_dead) {
+        enemy.damage(enemy.bounce_damage);
+        enemy.hit_lava = true;
     }
 }
 
