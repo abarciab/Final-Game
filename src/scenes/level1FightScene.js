@@ -39,7 +39,7 @@ class level1FightScene extends Phaser.Scene {
         setupTilemapCollisions(layer0);
         setupTilemapCollisions(layer1);
         setupTilemapCollisions(layer2);
-        setupTilemapCollisions(marker_layer);
+        //setupTilemapCollisions(marker_layer);
 
         //enemy collisions
         this.addColliders();
