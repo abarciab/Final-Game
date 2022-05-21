@@ -80,6 +80,7 @@ class loadingScene extends Phaser.Scene {
         this.load.image('player heart', './assets/player/player_heart.png');
         this.load.image('player half heart', './assets/player/player_heart_half.png');
         this.load.image('player empty heart', './assets/player/player_heart_empty.png');
+        this.load.image('boss health box', './assets/UI/boss health bar.png');
 
         //dialogue
         this.load.json('scriptData', './scripts/gameScript.json');

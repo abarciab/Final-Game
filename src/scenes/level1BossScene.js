@@ -15,6 +15,7 @@ class level1BossScene extends Phaser.Scene {
         //enemies
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');
+        this.enemy_shockwaves = new ShockwaveGroup('shockwave');
         this.text_sfx;
         
         //tilemap
@@ -52,11 +53,15 @@ class level1BossScene extends Phaser.Scene {
 
         //hank
         this.hank = new Hank1(800, 350, 'white hexagon').setTint(0xa0a0a0).setScale(1.5);
+        //this.hank.health = 0;
 
         //enemy collisions
         this.addColliders();
 
-        game_script.readNextPart(this);
+        //UI
+        this.boss_box = this.add.sprite(0, 0, 'boss health box').setScale(6, 1.5).setDepth(0.1);
+        this.boss_bar = this.add.rectangle(0, 0, this.boss_box.displayWidth, this.boss_box.displayHeight, 0xFF0000).setOrigin(0, 0.5);
+        this.endRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0xFFFFFF).setScale(50).setAlpha(0);
     }
 
     addColliders() {
@@ -84,7 +89,7 @@ class level1BossScene extends Phaser.Scene {
                 return;
             }
             if (current_scene.player.dashing){
-                current_scene.stunDog(800);
+                current_scene.stunDog(1500);
                 current_scene.player.doneDashing();
                 current_scene.player.body.setVelocity(0,0);
             } else if (current_scene.doggo.speed > 0 && !current_scene.doggo.has_ball) {
@@ -107,23 +112,42 @@ class level1BossScene extends Phaser.Scene {
         //ball and hank
         this.physics.add.overlap(this.ball, this.hank, function() {
             if (current_scene.ball.deflected == true){
-                current_scene.hank.has_ball = true;
-                current_scene.ball.setActive(false);
-                current_scene.ball.setVisible(false);
+                current_scene.hankCatchBall();
             }
         });
 
         //doggo and hank
         this.physics.add.overlap(this.doggo, this.hank, function() {
-            if (current_scene.hank.health <= 0) { return;}
+            if (current_scene.hank.health <= 0 || current_scene.doggo.stun_time > 0) { return;}
+            
             if (current_scene.doggo.has_ball == true){
-                current_scene.throwBall();
-            } else if (current_scene.hank.has_ball){
-                console.log("Hank was tackled by the doggo!!! (1 damage) ");
+                if (current_scene.hank.stun_time <= 0){
+                    current_scene.hank.stun_time = 800;
+                    current_scene.stunDog(2000);
+                    current_scene.time.delayedCall(700, function(){current_scene.throwBall();})
+                } 
+            } 
+            else if (current_scene.hank.has_ball){
+                console.log("dog damaged hank");
+                current_scene.ball.deflected = false;
+                current_scene.boss_bar.displayWidth -= 144.75;
+                current_scene.stunDog(2000);
                 current_scene.hank.damage();
-                current_scene.throwBall();
+                current_scene.hank.has_ball = false;
+                current_scene.hank.stun_time = 800;
+                current_scene.time.delayedCall(700, function(){current_scene.throwBall();})
             }
         })
+
+        //hank and wall and lava
+        this.physics.add.collider(this.hank, this.collision_rects, function(){current_scene.hank.pickNewDestination()});
+        this.physics.add.collider(this.hank, this.lava_rects, function(){current_scene.hank.pickNewDestination()});
+    }
+
+    hankCatchBall(){
+        current_scene.hank.has_ball = true;
+        current_scene.ball.setActive(false);
+        current_scene.ball.setVisible(false);
     }
 
     throwBall(){
@@ -154,12 +178,44 @@ class level1BossScene extends Phaser.Scene {
         @ delta: number of milliseconds since update was last called
     */
     update(time, delta){
+        //update player 
+        this.player.update(time, delta);
+
+        //update enemies
+        this.doggo.update(time, delta);
+
+        //update ball
         this.ball.current_speed = Math.sqrt(Math.pow(this.ball.body.velocity.y, 2) + Math.pow(this.ball.body.velocity.x, 2));
 
-        if (game_script.reading_script) {
-            game_script.updateScript(delta);
+        if (this.hank.health <= 0 && !this.done ){
+            this.done = true;
+            this.enemies.forEach(enemy => {
+                if (enemy.active || enemy.visible){
+                    this.done = false;
+                }
+            });
+
+            if (this.done){
+                this.endScene();
+                return;
+            }            
+        }
+
+        if (this.done){
             return;
         }
+
+        
+
+        let bos_box_pos = getCameraCoords(current_scene.camera, game.config.width/2, game.config.height - 50);
+        this.boss_box.setPosition(bos_box_pos.x, bos_box_pos.y);
+        //let bos_bar_pos = getCameraCoords(current_scene.camera, game.config.width/2, game.config.height - 50);
+        this.boss_bar.setPosition(bos_box_pos.x-this.boss_box.displayWidth/2, bos_box_pos.y);
+
+        /*if (game_script.reading_script) {
+            game_script.updateScript(delta);
+            return;
+        }*/
         //pause the game
         if (Phaser.Input.Keyboard.JustDown(key_esc)){
             this.paused = !this.paused;
@@ -171,12 +227,9 @@ class level1BossScene extends Phaser.Scene {
             resume();
         }
 
-        //update player 
-        this.player.update(time, delta);
-
-        //update enemies
-        this.doggo.update();
+        
         updateEnemies(time, delta);
+        this.hank.update(time, delta);
 
         //update UI
         //updateUI();
@@ -190,5 +243,17 @@ class level1BossScene extends Phaser.Scene {
             this.player.on_lava = false;
             //console.log("not on lava");
         }
+    }
+
+    endScene(){
+        this.doggo.setDepth(this.player.depth - 0.1);
+        this.boss_bar.setVisible(false);
+        this.boss_box.setVisible(false);
+        this.tweens.add({
+            duration: 3000,
+            targets: this.endRect,
+            alpha: 1,
+            onComplete: function() {console.log("GAME COMPLETE")},
+        })
     }
 }

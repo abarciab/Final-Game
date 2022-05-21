@@ -59,7 +59,8 @@ function initialize(scene){
         enemy3_name: "SHOOTER",
 
         //hank
-        hank_health: 3,
+        hank_health: 8,
+        hank_speed: 100,
     }
 
     scene.cameras.main.setZoom(game_settings.camera_zoom);
@@ -81,6 +82,9 @@ function setupKeys(scene){
     key_esc = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     key_prev = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     key_next = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT); 
+
+    key_1 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE); 
+    key_2 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO); 
 }
 
 function createAnimations() {

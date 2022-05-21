@@ -5,6 +5,7 @@ class titleScene extends Phaser.Scene {
 
     create(){
         current_scene = this;
+        initialize(this);
 
         let UI_scale = 4.86;
 
@@ -137,9 +138,18 @@ class titleScene extends Phaser.Scene {
             this.scene.scene.start("level1IntroScene");
         })
         //this.start_text = this.add.text(game.config.width/2, this.start_button.y, 'S  T  A  R  T', {color: '#FFFFFF', fontSize: '40px'}).setOrigin(0.5);
+
+        setupKeys(this);
+        createAnimations();
     }
 
     update(){
-        
+        if (Phaser.Input.Keyboard.JustDown(key_1)){
+            this.scene.start("level1FightScene");
+        }
+        if (Phaser.Input.Keyboard.JustDown(key_2)){
+            this.scene.start("level1BossScene");
+        }
+
     }
 }
