@@ -72,6 +72,7 @@ class loadingScene extends Phaser.Scene {
         //UI 
         this.load.image('textbox', './assets/textbox.png');
         this.load.image('title background', './assets/UI/title background.png');
+        this.load.image('office background', './assets/UI/intro background.png');
         this.load.image('start button', './assets/UI/start button.png');
         this.load.image('level select button', './assets/UI/level select button.png');
         this.load.image('options button', './assets/UI/options button.png');

@@ -59,7 +59,8 @@ class ScriptReader {
         this.mouse_held = false;
     }
 
-    readNextPart(scene) {
+    readNextPart() {
+        let scene = current_scene;
         if (!this.script_done) {
             this.readScript(scene, this.level, this.part);
         }
