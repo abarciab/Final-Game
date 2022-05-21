@@ -84,9 +84,7 @@ class level1BossScene extends Phaser.Scene {
                 return;
             }
             if (current_scene.player.dashing){
-                current_scene.doggo.setVelocity(0, 0);
-                current_scene.doggo.speed = 0;
-                current_scene.time.delayedCall(1000, function(){current_scene.doggo.speed = game_settings.dog_speed})
+                current_scene.stunDog(800);
                 current_scene.player.doneDashing();
                 current_scene.player.body.setVelocity(0,0);
             } else if (current_scene.doggo.speed > 0 && !current_scene.doggo.has_ball) {
@@ -131,9 +129,7 @@ class level1BossScene extends Phaser.Scene {
     throwBall(){
         current_scene.doggo.has_ball = false;
         current_scene.hank.has_ball = false;
-        current_scene.doggo.setVelocity(0, 0);
-        current_scene.doggo.speed = 0;
-        current_scene.time.delayedCall(1000, function(){current_scene.doggo.speed = game_settings.dog_speed})
+        current_scene.stunDog(500);
 
         //console.log("ball returned to hank");
         current_scene.ball.x = current_scene.hank.x;
@@ -144,6 +140,12 @@ class level1BossScene extends Phaser.Scene {
 
         current_scene.ball.setVisible(true);
         current_scene.ball.setActive(true);
+    }
+
+    stunDog(time){
+        current_scene.doggo.setVelocity(0, 0);
+        current_scene.doggo.speed = 0;
+        current_scene.time.delayedCall(time, function(){current_scene.doggo.speed = game_settings.dog_speed})
     }
 
     /*
