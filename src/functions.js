@@ -168,14 +168,14 @@ function createAnimations() {
     // golem animation
     current_scene.anims.create({
         key: "golem move right",
-        frameRate: 1,
-        frames: current_scene.anims.generateFrameNumbers("golem move right", {start: 0, end: 0}),
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("golem move right", {start: 0, end: 5}),
         repeat: -1
     })
     current_scene.anims.create({
         key: "golem move left",
-        frameRate: 1,
-        frames: current_scene.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
+        frameRate: 12,
+        frames: current_scene.anims.generateFrameNumbers("golem move left", {start: 0, end: 5}),
         repeat: -1
     })
     // shooter animation
