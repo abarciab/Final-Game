@@ -190,6 +190,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
                 break;
         }
+        this.is_dead = false;
         this.curr_speed = this.speed;
         this.bounce_damage = 0;
         this.health = this.base_health;
@@ -227,8 +228,9 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.enemy_sfx["hit"].play();
         this.health -= damage_value;
         this.stunned = true;
-        if (this.health <= 0) {
+        if (this.health <= 0 && !this.is_dead) {
             this.enemy_sfx["dead"].play();
+            this.is_dead = true;
         }
         if (damage_value) {
             this.updateDamageText(damage_value);
@@ -288,7 +290,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             if (this.stun_time < 0){
                 this.setDrag(this.base_drag);
                 this.stunned = false;
-                if (this.health <= 0){
+                if (this.is_dead){
                     this.die();
                     return;
                 }
@@ -353,6 +355,8 @@ class GolemEnemy extends BaseEnemy {
         this.shockwaves = [];
         this.shockwaves.push(current_scene.enemy_shockwaves.borrow(this));
         this.loaded = true;
+        const hitbox_radius = 16;
+        this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
     }
 
     reset(){

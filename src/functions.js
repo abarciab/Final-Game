@@ -182,6 +182,31 @@ function createAnimations() {
         frames: current_scene.anims.generateFrameNumbers("golem move left", {start: 0, end: 5}),
         repeat: -1
     })
+    current_scene.anims.create({
+        key: "golem attack right",
+        frameRate: 16,
+        frames: current_scene.anims.generateFrameNumbers("golem attack right", {start: 0, end: 7}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "golem attack left",
+        frameRate: 16,
+        frames: current_scene.anims.generateFrameNumbers("golem attack left", {start: 0, end: 7}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "golem damage right",
+        frameRate: 16,
+        frames: current_scene.anims.generateFrameNumbers("golem damage right", {start: 0, end: 0}),
+        repeat: -1
+    })
+    current_scene.anims.create({
+        key: "golem damage left",
+        frameRate: 16,
+        frames: current_scene.anims.generateFrameNumbers("golem damage left", {start: 0, end: 0}),
+        repeat: -1
+    })
+    
     // shooter animation
     current_scene.anims.create({
         key: "shooter move right",
