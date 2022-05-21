@@ -12,21 +12,26 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
     }
 
     borrow(new_owner){
-        if (this.num_free <= 0){
-            this.add(new Projectile(0, 0, this.projectile_texture));
-            this.num_free += 1;
+        
+        let project = null;
+        let loopnum = 0;
+        while (project == null){
+            loopnum +=  1;
+            if (this.num_free <= 0 || loopnum == 5){
+                this.add(new Projectile(0, 0, this.projectile_texture));
+                this.num_free += 1;
+            }
+    
+            this.getChildren().forEach(projectile => {
+                if (projectile.owner == null){
+                    project = projectile;
+                    this.num_free -= 1;
+                    return;
+                }
+            });
         }
 
-        let project;
-        this.getChildren().forEach(projectile => {
-            if (projectile.owner == null){
-                project = projectile;
-                return;
-            }
-        });
-
         project.owner = new_owner;
-        this.num_free -= 1;
         return project;
     }
 
@@ -87,21 +92,26 @@ class ShockwaveGroup extends Phaser.Physics.Arcade.Group {
     }
 
     borrow(new_owner){
-        if (this.num_free <= 0){
-            this.add(new Shockwave(0, 0, this.shockwave_texture));
-            this.num_free += 1;
+        let wave = null;
+
+        let loopnum = 0;
+        while (wave == null){
+            loopnum +=  1;
+            if (this.num_free <= 0 || loopnum == 5){
+                this.add(new Shockwave(0, 0, this.shockwave_texture));
+                this.num_free += 1;
+            }
+    
+            this.getChildren().forEach(shockwave => {
+                if (shockwave.owner == null){
+                    wave = shockwave;
+                    this.num_free -= 1;
+                    return;
+                }
+            });
         }
 
-        let wave;
-        this.getChildren().forEach(shockwave => {
-            if (shockwave.owner == null){
-                wave = shockwave;
-                return;
-            }
-        });
-
         wave.owner = new_owner;
-        this.num_free -= 1;
         return wave;
     }
 
@@ -271,6 +281,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     die() {
+        onEnemyDead(this);
         this.x = -100;
         this.y = -100;
         this.setAlpha(1);
@@ -336,14 +347,8 @@ class ChargerEnemy extends BaseEnemy {
     //this enemy will just always move toward the player
     update(time, delta){
         super.update(time, delta);
-        if (this.stunned) return;
-
-        /*const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
-        if (Math.sin(angle) >= 0) 
-            this.last_direction_moved = "right";
-        else 
-            this.last_direction_moved = "left";*/
-            
+        if (this.stunned || this.asleep) return;
+   
         moveTo(this, current_scene.player);
     }
 }
@@ -380,7 +385,7 @@ class GolemEnemy extends BaseEnemy {
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
     update(time, delta){
         super.update(time, delta);
-        if (this.stunned) return;
+        if (this.stunned|| this.asleep) return;
 
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         if (dist <= game_settings.golem_agro_range){
@@ -417,7 +422,6 @@ class GolemEnemy extends BaseEnemy {
             shockwave = this.shockwaves[0];
         }
         
-
         shockwave.reset();
         shockwave.setActive(true).setVisible(true).setDepth(20);
         shockwave.setPosition(this.x, this.y);
@@ -434,7 +438,7 @@ class ShooterEnemy extends BaseEnemy {
         this.projectiles = [];
         this.projectiles.push(current_scene.enemy_projectiles.borrow(this));
         this.loaded = true;
-        this.ammo = 3;
+        this.ammo = game_settings.shooter_ammo;
     }
 
     reset(){
@@ -458,7 +462,7 @@ class ShooterEnemy extends BaseEnemy {
     //this enemy will try to put space between themselves and the player, then shoot
     update(time, delta){
         super.update(time, delta);
-        if (this.stunned) return;
+        if (this.stunned|| this.asleep) return;
 
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         
@@ -468,7 +472,7 @@ class ShooterEnemy extends BaseEnemy {
                 this.fireAmmo(current_scene.player);
                 current_scene.time.delayedCall(game_settings.shooter_reload_time, function () {
                     this.loaded = true;
-                    this.ammo = 3;
+                    this.ammo = game_settings.shooter_ammo;
                 }, null, this);
             }
         }
