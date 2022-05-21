@@ -13,7 +13,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.stunned = false;
         this.current_frame = 0;
 
-        this.speed = game_settings.dog_speed;
+        this.speed = game_settings.hank_speed;
         this.bounce_mod = 0.05;
         this.bounce_drag = 0.001;
         this.health = game_settings.hank_health;
@@ -25,23 +25,30 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.setMass(1.2);
 
         this.has_ball = false;
+
+        this.pickNewDestination();
     }
 
     update(timer, delta) {
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         
-        if (this.stunned) {
-            this.stun_time -= delta/1000;
-            this.setDrag(this.bounce_drag);
-            if (this.stun_time < 0){
-                this.setDrag(this.base_drag);
+        if (this.stun_time > 0) {
+            this.stun_time -= delta;
+            if (this.stun_time <= 0){
                 this.stunned = false;
-                if (this.health <= 0){
-                    this.die();
-                    return;
-                }
-            }
+            } 
+            return;
         }
+
+        if (this.has_ball != true){
+            moveTo(this, this.destination);
+        }
+        if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
+            this.pickNewDestination();
+        }
+
+        //JUST TO SILENCE THE ANIMATION MISSING WARNINGS
+        return;
 
         const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
         if (Math.sin(angle) >= 0) 
@@ -63,12 +70,38 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         if (this.has_ball == false){
             return;
         }
+        this.has_ball = false;
         this.health -= 1;
-        this.setAlpha(this.alpha - 0.3);
+        
+
+        if (this.health > 4){
+                spawnEnemy("CHARGER", this.x + 20, this.y);
+                spawnEnemy("CHARGER", this.x, this.y);
+                spawnEnemy("CHARGER", this.x - 20, this.y);
+        }
+        else if (this.health > 2){
+            let space = 150;
+            spawnEnemy("GOLEM", this.x + space, this.y + space);
+            spawnEnemy("GOLEM", this.x + space, this.y - space);
+            spawnEnemy("GOLEM", this.x - space, this.y + space);
+            spawnEnemy("GOLEM", this.x - space, this.y - space);
+        }
+        else{
+            let space = 500;
+            spawnEnemy("SHOOTER", space, space);
+            spawnEnemy("SHOOTER", game.config.width - space, game.config.height - space);
+            spawnEnemy("SHOOTER", game.config.width - space, space);
+            spawnEnemy("SHOOTER", space, game.config.height - space);
+        }
         if (this.health <= 0){
-            this.has_ball = false;
+            current_scene.ball.setActive(false);
+            current_scene.ball.setVisible(false);
             console.log("HANK HAS BEEN DEFEATED!");
         }
+    }
+
+    pickNewDestination(){
+        this.destination = new Phaser.Math.Vector2(Phaser.Math.Between(0, game.config.width), Phaser.Math.Between(0, game.config.height));
     }
 
 }
