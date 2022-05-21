@@ -106,8 +106,12 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('charger move right', './assets/enemies/charger_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
         this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
-        this.load.spritesheet('golem move left', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
-        this.load.spritesheet('golem move right', './assets/enemies/golem.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
+        this.load.spritesheet('golem move left', './assets/enemies/golem_move_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        this.load.spritesheet('golem move right', './assets/enemies/golem_move_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        this.load.spritesheet('golem attack left', './assets/enemies/golem_attack_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 7});
+        this.load.spritesheet('golem attack right', './assets/enemies/golem_attack_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 7});
+        this.load.spritesheet('golem damage left', './assets/enemies/golem_damage_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
+        this.load.spritesheet('golem damage right', './assets/enemies/golem_damage_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
         this.load.image('shooter', './assets/enemies/shooter.png');
         this.load.spritesheet('shooter move left', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
         this.load.spritesheet('shooter move right', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
@@ -119,6 +123,7 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('dog move right', './assets/enemies/dog_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
 
         //tilemaps
+        this.load.tilemapTiledJSON('demo_map', './assets/tilemaps/demoMap.json');
         this.load.tilemapTiledJSON('bossMap','./assets/tilemaps/level1BossRoom.json');
         this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1Map.json');
 

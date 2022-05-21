@@ -190,6 +190,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
                 break;
         }
+        this.is_dead = false;
         this.curr_speed = this.speed;
         this.bounce_damage = 0;
         this.health = this.base_health;
@@ -227,8 +228,9 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.enemy_sfx["hit"].play();
         this.health -= damage_value;
         this.stunned = true;
-        if (this.health <= 0) {
+        if (this.health <= 0 && !this.is_dead) {
             this.enemy_sfx["dead"].play();
+            this.is_dead = true;
         }
         if (damage_value) {
             this.updateDamageText(damage_value);
@@ -288,7 +290,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             if (this.stun_time < 0){
                 this.setDrag(this.base_drag);
                 this.stunned = false;
-                if (this.health <= 0){
+                if (this.is_dead){
                     this.die();
                     return;
                 }
@@ -297,6 +299,11 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         if (this.anims.isPlaying)
             this.current_frame = this.anims.currentFrame.index-1;
         if (!this.stunned) {
+            const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
+            if (Math.sin(angle) >= 0) 
+                this.last_direction_moved = "right";
+            else 
+                this.last_direction_moved = "left";
             this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
         }
         else if (this.stunned) {
@@ -331,11 +338,11 @@ class ChargerEnemy extends BaseEnemy {
         super.update(time, delta);
         if (this.stunned) return;
 
-        const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
+        /*const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
         if (Math.sin(angle) >= 0) 
             this.last_direction_moved = "right";
         else 
-            this.last_direction_moved = "left";
+            this.last_direction_moved = "left";*/
             
         moveTo(this, current_scene.player);
     }
@@ -344,10 +351,12 @@ class ChargerEnemy extends BaseEnemy {
 class GolemEnemy extends BaseEnemy {
     constructor(x, y, texture){
         super(x, y, texture, "GOLEM");
-        
+        this.setScale(2);
         this.shockwaves = [];
-        //this.shockwaves.push(current_scene.enemy_shockwaves.borrow(this));
+        this.shockwaves.push(current_scene.enemy_shockwaves.borrow(this));
         this.loaded = true;
+        const hitbox_radius = 16;
+        this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
     }
 
     reset(){

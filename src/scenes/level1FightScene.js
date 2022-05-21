@@ -26,7 +26,9 @@ class level1FightScene extends Phaser.Scene {
         this.text_sfx;
         
         //tilemap
-        const map = this.make.tilemap({key: 'level_1_map', tileWidth: 64, tileHeight: 64});
+        //const map = this.make.tilemap({key: 'level_1_map', tileWidth: 64, tileHeight: 64});
+        const map = this.make.tilemap({key: 'demo_map', tileWidth: 64, tileHeight: 64});
+
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
         const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
