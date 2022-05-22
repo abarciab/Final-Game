@@ -333,6 +333,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
 class ChargerEnemy extends BaseEnemy {
     constructor(x, y, texture){
         super(x, y, texture, "CHARGER");
+
         this.setScale(3);
         const hitbox_radius = 6;
         this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
@@ -400,7 +401,7 @@ class GolemEnemy extends BaseEnemy {
             moveTo(this, current_scene.player);
         }
 
-        if (dist <= game_settings.golem_agro_range/2){
+        if (dist <= game_settings.golem_attack_range){
             if (this.loaded){
                 this.loaded = false;
                 this.fire(current_scene.player);
