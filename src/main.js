@@ -1,7 +1,7 @@
 let config = {
     type: Phaser.AUTO,
-    width: 2000,
-    height: 1000,
+    width: 1400,
+    height: 800,
     pixelArt: true, 
     physics: {
         default: "arcade",
@@ -10,7 +10,7 @@ let config = {
             debug: false,
          },
     },
-    scene: [titleScene, level1IntroScene, level1BossScene, level1FightScene],
+    scene: [loadingScene, titleScene, level1IntroScene, level1BossScene, level1FightScene],
 }
 
 //keys and setup

@@ -27,13 +27,13 @@ function initialize(scene){
 
         // charger stats
         charger_speed: 75,
-        charger_health: 60,
+        charger_health: 100,
         charger_bounce_mod: 1,
         charger_bounce_drag: 0.01,
 
         // golem stats
         golem_speed: 30,
-        golem_health: 80,
+        golem_health: 150,
         golem_agro_range: 280,
         golem_attack_range: 140,
         golem_reload_time: 3000,
@@ -47,9 +47,10 @@ function initialize(scene){
         shooter_ammo_spacing: 500,
         shooter_reload_time: 6000,
         shooter_ammo: 3,
-        shooter_min_dist: 10,  //the minimum distance between a shooter enemy and the player before the shooter will fire
+        shooter_min_dist: 2,  //the minimum distance between a shooter enemy and the player before the shooter will fire
         shooter_bounce_mod: 1,
         shooter_bounce_drag: 0.01,
+        shooter_ammo: 1,
 
         enemy_mass: 1,
         enemy_stun_threshold: 10, // speed to where enemy is no longer stunned
@@ -61,7 +62,8 @@ function initialize(scene){
         enemy3_name: "SHOOTER",
 
         //hank
-        hank_health: 3,
+        hank_health: 8,
+        hank_speed: 100,
     }
 
     scene.cameras.main.setZoom(game_settings.camera_zoom);
@@ -83,149 +85,28 @@ function setupKeys(scene){
     key_esc = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     key_prev = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     key_next = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT); 
+
+    key_1 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE); 
+    key_2 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO); 
 }
 
-function createAnimations() {
-    current_scene.anims.create({
-        key: "fran idle left",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("fran idle left", {start: 0, end: 5}),
-        repeat: -1
-    });
-    current_scene.anims.create({
-        key: "fran idle right",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("fran idle right", {start: 0, end: 5}),
-        repeat: -1  
-    });
-    current_scene.anims.create({
-        key: "fran run left",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("fran run left", {start: 0, end: 5}),
-        repeat: -1
-    });
-    current_scene.anims.create({
-        key: "fran run right",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("fran run right", {start: 0, end: 5}),
-        repeat: -1
-    });
-    current_scene.anims.create({
-        key: "fran dash left",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("fran dash left", {start: 0, end: 5}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "fran dash right",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("fran dash right", {start: 0, end: 5}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "fran damage left",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("fran damage left", {start: 0, end: 0}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "fran damage right",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "dash pointer charged",
-        frames: current_scene.anims.generateFrameNumbers("dash pointer charged", {start: 0, end: 3}),
-        frameRate: 4 * (1/game_settings.player_perfect_dash_window),
-        repeat: 0
-    })
-
-    // charger animations
-    current_scene.anims.create({
-        key: "charger move left",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("charger move left", {start: 0, end: 5}),
-        repeat: -1  
-    })
-    current_scene.anims.create({
-        key: "charger move right",
-        frameRate: 12,
-        frames: current_scene.anims.generateFrameNumbers("charger move right", {start: 0, end: 5}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "charger damage left",
-        frameRate: 1,
-        frames: current_scene.anims.generateFrameNumbers("charger damage left", {start: 0, end: 0}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "charger damage right",
-        frameRate: 1,
-        frames: current_scene.anims.generateFrameNumbers("charger damage right", {start: 0, end: 0}),
-        repeat: -1
-    })
-
-    // golem animation
-    current_scene.anims.create({
-        key: "golem move right",
-        frameRate: 1,
-        frames: current_scene.anims.generateFrameNumbers("golem move right", {start: 0, end: 0}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "golem move left",
-        frameRate: 1,
-        frames: current_scene.anims.generateFrameNumbers("golem move left", {start: 0, end: 0}),
-        repeat: -1
-    })
-    // shooter animation
-    current_scene.anims.create({
-        key: "shooter move right",
-        frameRate: 1,
-        frames: current_scene.anims.generateFrameNumbers("shooter move right", {start: 0, end: 0}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "shooter move left",
-        frameRate: 1,
-        frames: current_scene.anims.generateFrameNumbers("shooter move left", {start: 0, end: 0}),
-        repeat: -1
-    })
-    
-    current_scene.anims.create({
-        key: "dog idle left",
-        frameRate: 8,
-        frames: current_scene.anims.generateFrameNumbers("dog idle left", {start: 0, end: 3}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "dog idle right",
-        frameRate: 8,
-        frames: current_scene.anims.generateFrameNumbers("dog idle right", {start: 0, end: 3}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "dog move left",
-        frameRate: 6,
-        frames: current_scene.anims.generateFrameNumbers("dog move left", {start: 0, end: 2}),
-        repeat: -1
-    })
-    current_scene.anims.create({
-        key: "dog move right",
-        frameRate: 6,
-        frames: current_scene.anims.generateFrameNumbers("dog move right", {start: 0, end: 2}),
-        repeat: -1
-    })
-}
-
-function setupDoorsAndButtons(map){
+function setupInteractables(map){
 
     const door_sprites = map.createFromObjects('interact', {name: 'door', key: 'door'});
     const button_sprites = map.createFromObjects('interact', {name: 'button', key:'button'});
+    const vase_sprites = map.createFromObjects('interact', {name: 'vase', key: 'vase'});
+    current_scene.vases = [];
     current_scene.doors = [];
     current_scene.buttons = [];
+
+    for (let i = 0; i < vase_sprites.length; i++) {
+        let new_vase = current_scene.add.rectangle(vase_sprites[i].x, vase_sprites[i].y, vase_sprites[i].displayWidth, vase_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
+        new_vase.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_vase);
+        current_scene.physics.add.existing(new_vase);
+        new_vase.data_sprite = vase_sprites[i];
+        new_vase.data_sprite.setScale(1);
+        current_scene.vases.push(new_vase);
+    }
 
     for(let i = 0; i < door_sprites.length; i++ ){
         let new_door = current_scene.add.rectangle(door_sprites[i].x, door_sprites[i].y, door_sprites[i].displayWidth, door_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
@@ -245,47 +126,144 @@ function setupDoorsAndButtons(map){
 
     current_scene.physics.add.collider(current_scene.player, current_scene.doors);
     current_scene.physics.add.overlap(current_scene.player, current_scene.buttons, function(player, button) {
-        for(let i = 0; i < current_scene.doors.length; i++ ){
-            if (button.data_sprite.data.list.next_level == true){
-                current_scene.scene.start(game_settings.next_scene);
-                return;
-            }
-            if (current_scene.doors[i].data_sprite.data && button.data_sprite.data.list.circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
-                //current_scene.doors[i].data_sprite.setAlpha(0);
-                current_scene.doors[i].data_sprite.x -= 3;
-                let destX = current_scene.doors[i].data_sprite.x + 6
-
-                current_scene.tweens.add({
-                    targets: current_scene.doors[i].data_sprite,
-                    alpha: 0,
-                    scaleY: 0,
-                    duration: 1500,
-                    repeat: 0,
-                    callbackScope: this,
-                    onComplete: function() {current_scene.doors[i].data_sprite.destroy(); current_scene.doors[i].destroy();}
-                });
-
-                current_scene.tweens.add({
-                    targets: current_scene.doors[i].data_sprite,
-                    x: destX-3,
-                    duration: 100,
-                    yoyo: true,
-                    repeat: 15,
-                    callbackScope: this,
-                });
-
-                current_scene.tweens.add({
-                    targets: current_scene.doors[i].data_sprite,
-                    x: destX,
-                    duration: 100,
-                    yoyo: true,
-                    repeat: 15,
-                    callbackScope: this,
-                });
-            }
-        }  
+        if (button.done != true){
+            current_scene.sound.play('pressure plate', {volume: 0.8});
+            activateButton(button);
+        }
+        button.done = true;
         button.setActive(false);      
     })
+    current_scene.physics.add.overlap(current_scene.player, current_scene.vases, function(player, vase){
+        if (player.dashing){
+            if (Phaser.Math.Between(1 ,3) == 2){
+                spawnHealthPickup(vase.data_sprite.x, vase.data_sprite.y);
+            }
+            current_scene.sound.play('vase break', {volume: 0.8});
+            vase.data_sprite.setVisible(false);
+            vase.destroy();
+        }
+    })
+}
+
+
+function setupEnemies(map){
+
+    const enemy1Sprites = map.createFromObjects('enemies', {name: 'enemy_1', key: 'button'});
+    const enemy2Sprites = map.createFromObjects('enemies', {name: 'enemy_2', key:'button'});
+    const enemy3Sprites = map.createFromObjects('enemies', {name: 'enemy_3', key: 'button'});
+
+    for (let i = 0; i < enemy1Sprites.length; i++) {
+        let new_enemy = spawnEnemy(game_settings.enemy1_name, enemy1Sprites[i].x, enemy1Sprites[i].y, true);
+        new_enemy.room = enemy1Sprites[i].data.list.room;
+        if (enemy1Sprites[i].data.list.circuit){
+            new_enemy.circuit = enemy1Sprites[i].data.list.circuit;
+        }
+        new_enemy.asleep = true;
+        enemy1Sprites[i].destroy();
+        current_scene.enemies.push(new_enemy);
+    }
+
+    for (let i = 0; i < enemy2Sprites.length; i++) {
+        let new_enemy = spawnEnemy(game_settings.enemy2_name, enemy2Sprites[i].x, enemy2Sprites[i].y, true);
+        new_enemy.room = enemy2Sprites[i].data.list.room;
+        if (enemy2Sprites[i].data.list.circuit){
+            new_enemy.circuit = enemy2Sprites[i].data.list.circuit;
+        }
+        new_enemy.asleep = true;
+        enemy2Sprites[i].destroy();
+        current_scene.enemies.push(new_enemy);
+    }
+
+    for (let i = 0; i < enemy3Sprites.length; i++) {
+        let new_enemy = spawnEnemy(game_settings.enemy3_name, enemy3Sprites[i].x, enemy3Sprites[i].y, true);
+        new_enemy.room = enemy3Sprites[i].data.list.room;
+        if (enemy3Sprites[i].data.list.circuit){
+            new_enemy.circuit = enemy3Sprites[i].data.list.circuit;
+        }
+        new_enemy.asleep = true;
+        enemy3Sprites[i].destroy();
+        current_scene.enemies.push(new_enemy);
+    }
+}
+
+function onEnemyDead(dead_enemy){
+    let circuit = dead_enemy.circuit;
+    if (!circuit) {return;}
+
+    current_scene.enemies.forEach(enemy => {
+        if (enemy.visible && enemy.active && enemy.circuit == circuit){
+            console.log(enemy);
+            return;
+        }
+    });
+
+    openDoors(circuit);
+    awakenEnemies(circuit)
+}
+
+function openDoors(circuit){
+    console.log(`opening door #${circuit}`);
+    for(let i = 0; i < current_scene.doors.length; i++ ){
+        if (current_scene.doors[i].data_sprite.data && circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
+            current_scene.doors[i].data_sprite.x -= 3;
+            let destX = current_scene.doors[i].data_sprite.x + 6
+
+            current_scene.tweens.add({
+                targets: current_scene.doors[i].data_sprite,
+                alpha: 0,
+                scaleY: 0,
+                duration: 1500,
+                repeat: 0,
+                callbackScope: this,
+                onComplete: function() {current_scene.doors[i].data_sprite.destroy(); current_scene.doors[i].destroy();}
+            });
+
+            current_scene.tweens.add({
+                targets: current_scene.doors[i].data_sprite,
+                x: destX-3,
+                duration: 100,
+                yoyo: true,
+                repeat: 15,
+                callbackScope: this,
+            });
+
+            current_scene.tweens.add({
+                targets: current_scene.doors[i].data_sprite,
+                x: destX,
+                duration: 100,
+                yoyo: true,
+                repeat: 15,
+                callbackScope: this,
+            });
+        }
+    }  
+}
+
+function awakenEnemies(circuit){
+    for (let i = 0; i < current_scene.enemies.length; i++) {
+        if (current_scene.enemies[i].room == circuit){
+            console.log(`awkening ${current_scene.enemies[i].type}`);
+            current_scene.enemies[i].asleep = false;
+        }
+    }
+}
+
+function activateButton(button) {
+    if (button.data_sprite.data.list.circuit == -1){
+        return;
+    }
+
+    if (button.data_sprite.data.list.next_level == true){
+        current_scene.scene.start(game_settings.next_scene);
+        return;
+    }
+
+    let circuit = button.data_sprite.data.list.circuit;
+
+    openDoors(circuit);
+    awakenEnemies(circuit);
+
+    button.data_sprite.data.list.circuit = -1;
 }
 
 function setupTilemapCollisions(layer){
@@ -379,9 +357,9 @@ function playerLavaCollision(player, lava_tile){
 }
 
 function enemyLavaCollision(enemy, lava_tile) {
-    //console.log("enemy hit lava");
-    if (enemy.stunned) {
-        enemy.damage(enemy.bounce_damage-1);
+    if (enemy.stunned && !enemy.hit_lava && !enemy.is_dead) {
+        enemy.damage(enemy.bounce_damage);
+        enemy.hit_lava = true;
     }
 }
 
@@ -403,7 +381,8 @@ function playerProjectileCollision(playerObj, projectile){
     if (current_scene.player.dashing){
         projectile.deflected = true;
         projectile.body.setVelocity(playerObj.body.velocity.x * 1.5, playerObj.body.velocity.y * 1.5);
-        playerObj.body.setVelocity(playerObj.body.velocity.x * 0.9, playerObj.body.velocity.y * 0.9);
+        //playerObj.body.setVelocity(playerObj.body.velocity.x * 0.9, playerObj.body.velocity.y * 0.9);
+        playerObj.body.setVelocity(0,0)
     } else if (!projectile.deflected && projectile.reset){
         projectile.reset();
         playerObj.damage();
@@ -445,6 +424,14 @@ function playerDestructibleCollision(player, destructible){
 }
 
 //utility functions:
+function spawnHealthPickup(x, y){
+    let healthPickup = current_scene.physics.add.sprite(x, y, 'player heart').setDepth(3);
+    healthPickup.body.setVelocity(Phaser.Math.Between(-800, 800), Phaser.Math.Between(-800, 800));
+    healthPickup.setDrag(0.001);
+    healthPickup.setDamping(true);
+    current_scene.pickups.push(healthPickup);
+}
+
 function setRandomPositionOutside(obj){
     let max = 150;
     switch (Phaser.Math.Between(1, 4)){
@@ -482,7 +469,7 @@ function spawnRandomEnemy(){
     }
 }
 
-function spawnEnemy(type, x, y){
+function spawnEnemy(type, x, y, _return){
     let new_enemy = null;
 
     switch(type){
@@ -523,8 +510,14 @@ function spawnEnemy(type, x, y){
             console.log(`invalid enemy type requested: ${type}`);
             return; // to not run final statement
     }
-    current_scene.physics.add.collider(new_enemy, current_scene.collision_rects);
-    current_scene.physics.add.collider(new_enemy, current_scene.lava_rects);
+
+    //current_scene.physics.add.collider(new_enemy, current_scene.collision_rects);
+    //current_scene.physics.add.collider(new_enemy, current_scene.lava_rects);
+    
+    if (_return){
+        return new_enemy;
+    }
+
     current_scene.enemies.push(new_enemy);
 }
 
