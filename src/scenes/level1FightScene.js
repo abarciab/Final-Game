@@ -3,6 +3,7 @@ class level1FightScene extends Phaser.Scene {
         super("level1FightScene");
     }
 
+    
     preload(){
         
     }
