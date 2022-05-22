@@ -107,16 +107,17 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('charger move right', './assets/enemies/charger_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
         this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
-        this.load.spritesheet('golem move left', './assets/enemies/golem_move_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('golem move right', './assets/enemies/golem_move_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
-        this.load.spritesheet('golem attack left', './assets/enemies/golem_attack_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 7});
-        this.load.spritesheet('golem attack right', './assets/enemies/golem_attack_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 7});
+        this.load.spritesheet('golem move left', './assets/enemies/golem_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('golem move right', './assets/enemies/golem_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('golem attack left', './assets/enemies/golem_attack_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 12});
+        this.load.spritesheet('golem attack right', './assets/enemies/golem_attack_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 12});
         this.load.spritesheet('golem damage left', './assets/enemies/golem_damage_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
         this.load.spritesheet('golem damage right', './assets/enemies/golem_damage_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
         this.load.image('shooter', './assets/enemies/shooter.png');
-        this.load.spritesheet('shooter move left', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
-        this.load.spritesheet('shooter move right', './assets/enemies/shooter.png', {frameWidth: 50, frameHeight: 50, start: 0, end: 0});
-
+        this.load.spritesheet('shooter move left', './assets/enemies/shooter_move_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        this.load.spritesheet('shooter move right', './assets/enemies/shooter_move_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
+        this.load.spritesheet('shooter damage left', './assets/enemies/shooter_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
+        this.load.spritesheet('shooter damage right', './assets/enemies/shooter_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
         //doggo
         this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
         this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
@@ -152,8 +153,181 @@ class loadingScene extends Phaser.Scene {
     }
 
     create(){
-
+        this.createAnimations();
     }
+    
+    createAnimations() {
+        current_scene.anims.create({
+            key: "fran idle left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("fran idle left", {start: 0, end: 5}),
+            repeat: -1
+        });
+        current_scene.anims.create({
+            key: "fran idle right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("fran idle right", {start: 0, end: 5}),
+            repeat: -1  
+        });
+        current_scene.anims.create({
+            key: "fran run left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("fran run left", {start: 0, end: 5}),
+            repeat: -1
+        });
+        current_scene.anims.create({
+            key: "fran run right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("fran run right", {start: 0, end: 5}),
+            repeat: -1
+        });
+        current_scene.anims.create({
+            key: "fran dash left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("fran dash left", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "fran dash right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("fran dash right", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "fran damage left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("fran damage left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "fran damage right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("fran damage right", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dash pointer charged",
+            frames: current_scene.anims.generateFrameNumbers("dash pointer charged", {start: 0, end: 3}),
+            frameRate: 4 * (1/0.3),//game_settings.player_perfect_dash_window),
+            repeat: 0
+        })
+
+        // charger animations
+        current_scene.anims.create({
+            key: "charger move left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("charger move left", {start: 0, end: 5}),
+            repeat: -1  
+        })
+        current_scene.anims.create({
+            key: "charger move right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("charger move right", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "charger damage left",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("charger damage left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "charger damage right",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("charger damage right", {start: 0, end: 0}),
+                repeat: -1
+            })
+
+        // golem animation
+        current_scene.anims.create({
+            key: "golem move right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("golem move right", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "golem move left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("golem move left", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "golem attack right",
+            frameRate: 26,
+            frames: current_scene.anims.generateFrameNumbers("golem attack right", {start: 0, end: 12}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "golem attack left",
+            frameRate: 26,
+            frames: current_scene.anims.generateFrameNumbers("golem attack left", {start: 0, end: 12}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "golem damage right",
+            frameRate: 16,
+            frames: current_scene.anims.generateFrameNumbers("golem damage right", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "golem damage left",
+            frameRate: 16,
+            frames: current_scene.anims.generateFrameNumbers("golem damage left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        
+        // shooter animation
+        current_scene.anims.create({
+            key: "shooter move right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("shooter move right", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "shooter move left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("shooter move left", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "shooter damage right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("shooter damage right", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "shooter damage left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("shooter damage left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        
+        current_scene.anims.create({
+            key: "dog idle left",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("dog idle left", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog idle right",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("dog idle right", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog move left",
+            frameRate: 6,
+            frames: current_scene.anims.generateFrameNumbers("dog move left", {start: 0, end: 2}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog move right",
+            frameRate: 6,
+            frames: current_scene.anims.generateFrameNumbers("dog move right", {start: 0, end: 2}),
+            repeat: -1
+        })
+    }
+
 
     update(){
 
