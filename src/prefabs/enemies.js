@@ -305,6 +305,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             if (this.stun_time < 0){
                 this.setDrag(this.base_drag);
                 this.stunned = false;
+                this.hit_lava = false;
                 if (this.is_dead){
                     this.die();
                     return;
@@ -320,6 +321,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             else 
                 this.last_direction_moved = "left";
             this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+            //console.log("shooter move", this.current_frame);
         }
         else if (this.stunned) {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
@@ -437,6 +439,9 @@ class GolemEnemy extends BaseEnemy {
 class ShooterEnemy extends BaseEnemy {
     constructor(x, y, texture){
         super(x, y, texture, "SHOOTER");
+        this.setScale(2);
+        const hitbox_radius = 10;
+        this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
         this.shooting_speed = game_settings.shooter_shooting_speed;
 
         this.projectiles = [];

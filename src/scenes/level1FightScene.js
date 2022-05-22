@@ -3,6 +3,7 @@ class level1FightScene extends Phaser.Scene {
         super("level1FightScene");
     }
 
+    
     preload(){
         
     }
@@ -45,7 +46,6 @@ class level1FightScene extends Phaser.Scene {
 
         //enemy collisions
         this.addColliders();
-        createAnimations();
 
         //UI
         this.pauseLayer = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
@@ -70,7 +70,7 @@ class level1FightScene extends Phaser.Scene {
         //enimies
         this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
         this.physics.add.collider(this.enemies, this.collision_rects);
-        this.physics.add.overlap(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
+        this.physics.add.collider(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
         this.physics.add.overlap(this.player, this.enemy_shockwaves, playerShockwaveCollision.bind(this));
