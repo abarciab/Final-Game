@@ -201,6 +201,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 break;
         }
         this.is_dead = false;
+        this.hit_lava = false;
         this.curr_speed = this.speed;
         this.bounce_damage = 0;
         this.health = this.base_health;
