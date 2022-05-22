@@ -15,7 +15,7 @@ class GameUI {
             this.hearts.push(
                 current_scene.add.image(
                     this.heart_x * (i+1), this.heart_y, "player heart"
-                ).setScale(2)
+                ).setScale(2).setDepth(6)
             );
         }
     }

@@ -18,7 +18,14 @@ class level1FightScene extends Phaser.Scene {
 
         //health pickups
         this.pickups = [];
-        this.physics.add.overlap(this.player, this.pickups, function(player, pickup) {if (player.health < game_settings.player_max_health){pickup.setVisible(false); player.health += 0.5}});
+        this.pickup_sfx = this.sound.add('health pickup'); 
+        this.physics.add.overlap(this.player, this.pickups, function(player, pickup) {
+            if (player.health < game_settings.player_max_health){
+                pickup.setVisible(false); player.health += 0.5;
+                current_scene.pickup_sfx.play({volume: 0.4});
+            }
+        
+        });
 
         //enemies
         this.enemies = [];
@@ -34,6 +41,10 @@ class level1FightScene extends Phaser.Scene {
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const marker_layer = map.createLayer('markers', this.tileset, 0, 0).setScale(game_settings.tilemap_scale).setAlpha(0);
+        const lights_objects = map.createFromObjects('lights', {name: '', key: 'light'});
+        lights_objects.forEach(light => {
+            light.setAlpha(0.45);
+        });
         setupInteractables(map);
         setupEnemies(map);
         this.collision_rects = [];
@@ -50,6 +61,7 @@ class level1FightScene extends Phaser.Scene {
         //UI
         this.pauseLayer = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
         this.paused = false;
+        this.vignette = this.add.sprite(0, 0, 'vignette').setDepth(4).setOrigin(0).setAlpha(0.7).setTint(0x000000);
 
         //updateUI();
         this.game_UI = new GameUI();
@@ -114,5 +126,7 @@ class level1FightScene extends Phaser.Scene {
 
         //update UI
         this.game_UI.update();
+        let vignettePos = getCameraCoords(null, 0, 0);
+        this.vignette.setPosition(vignettePos.x, vignettePos.y);
     }
 }

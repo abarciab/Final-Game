@@ -82,6 +82,7 @@ class loadingScene extends Phaser.Scene {
         this.load.image('player half heart', './assets/player/player_heart_half.png');
         this.load.image('player empty heart', './assets/player/player_heart_empty.png');
         this.load.image('boss health box', './assets/UI/boss health bar.png');
+        this.load.image('vignette', './assets/UI/vignette.png');
 
         //dialogue
         this.load.json('scriptData', './scripts/gameScript.json');
@@ -128,6 +129,7 @@ class loadingScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('demo_map', './assets/tilemaps/demoMap.json');
         this.load.tilemapTiledJSON('bossMap','./assets/tilemaps/level1BossRoom.json');
         this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1map.json');
+        this.load.image('light', './assets/tilemaps/light.png');
 
         //sfx
         this.load.audio('male blip', './assets/sounds/sfx/sfx-blipmale.wav');
@@ -142,8 +144,9 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('enemy dead', './assets/sounds/sfx/enemy_dead.wav');
         this.load.audio('button hover', './assets/sounds/sfx/buttonHover.wav');
         this.load.audio('button click', './assets/sounds/sfx/button click.wav');
-        this.load.audio('vase break', './assets/sounds/sfx/vase breaking.mp3');
+        this.load.audio('vase break', './assets/sounds/sfx/vase breaking.wav');
         this.load.audio('pressure plate', './assets/sounds/sfx/pressure plate.mp3');
+        this.load.audio('health pickup', './assets/sounds/sfx/health pickup.wav');
 
         //music
 

@@ -353,6 +353,7 @@ class ChargerEnemy extends BaseEnemy {
     //this enemy will just always move toward the player
     update(time, delta){
         super.update(time, delta);
+        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
         if (this.stunned || this.asleep) return;
    
         moveTo(this, current_scene.player);
@@ -391,6 +392,7 @@ class GolemEnemy extends BaseEnemy {
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
     update(time, delta){
         super.update(time, delta);
+        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
         if (this.stunned|| this.asleep) return;
 
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
@@ -471,6 +473,7 @@ class ShooterEnemy extends BaseEnemy {
     //this enemy will try to put space between themselves and the player, then shoot
     update(time, delta){
         super.update(time, delta);
+        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
         if (this.stunned|| this.asleep){
             /*if (this.room == 2){
                 console.log(`asleep: ${this.asleep}, room: ${this.room}`);

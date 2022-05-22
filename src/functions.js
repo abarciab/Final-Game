@@ -65,7 +65,7 @@ function initialize(scene){
     }
 
     scene.cameras.main.setZoom(game_settings.camera_zoom);
-    scene.cameras.main.setBackgroundColor('#303030');
+    scene.cameras.main.setBackgroundColor('#000000');
     scene.physics.world.setBounds(0, 0, game.config.width, game.config.height);
     setupKeys(scene);
 }
@@ -188,19 +188,23 @@ function onEnemyDead(dead_enemy){
     let circuit = dead_enemy.circuit;
     if (!circuit) {return;}
 
+    let last = true;
     current_scene.enemies.forEach(enemy => {
-        if (enemy.visible && enemy.active && enemy.circuit == circuit){
-            console.log(enemy);
+        if (enemy != dead_enemy && enemy.visible == true && enemy.active == true && enemy.circuit == circuit){
+            last = false;
             return;
         }
     });
+    if (!last){
+        return;
+    }
 
     openDoors(circuit);
     awakenEnemies(circuit)
 }
 
 function openDoors(circuit){
-    console.log(`opening door #${circuit}`);
+    //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
         if (current_scene.doors[i].data_sprite.data && circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
             current_scene.doors[i].data_sprite.x -= 3;
@@ -240,7 +244,7 @@ function openDoors(circuit){
 function awakenEnemies(circuit){
     for (let i = 0; i < current_scene.enemies.length; i++) {
         if (current_scene.enemies[i].room == circuit){
-            console.log(`awkening ${current_scene.enemies[i].type}`);
+            //console.log(`awkening ${current_scene.enemies[i].type}`);
             current_scene.enemies[i].asleep = false;
         }
     }
