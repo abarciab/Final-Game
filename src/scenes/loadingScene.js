@@ -139,7 +139,8 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('finish charge', './assets/sounds/sfx/finished_charging.wav');
         this.load.audio('enemy hit', './assets/sounds/sfx/enemy_hit.wav');
         this.load.audio('enemy dead', './assets/sounds/sfx/enemy_dead.wav');
-        this.load.audio('button hover', './assets/sounds/sfx/buttonHover.mp3');
+        this.load.audio('button hover', './assets/sounds/sfx/buttonHover.wav');
+        this.load.audio('button click', './assets/sounds/sfx/button click.wav');
         this.load.audio('vase break', './assets/sounds/sfx/vase breaking.mp3');
         this.load.audio('pressure plate', './assets/sounds/sfx/pressure plate.mp3');
 

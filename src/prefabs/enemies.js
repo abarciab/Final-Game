@@ -69,8 +69,11 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
-        if (this.active && (this.x < -50 || this.x > game.config.width + 50 || this.y < 0 || this.y > game.config.height)){
-            this.reset();
+        if (this.active){
+            let camera_pos = getCameraCoords(null, this.x, this.y);
+            if (camera_pos.x < -50 || camera_pos.y < -50 || camera_pos.x > game.config.width + 50 || camera_pos.y > game.config.y + 50){
+                this.reset();
+            }
         }
     }
 }

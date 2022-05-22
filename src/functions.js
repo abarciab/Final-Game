@@ -41,10 +41,10 @@ function initialize(scene){
 
         // shooter stats
         shooter_speed: 50,
-        shooter_health: 70,
+        shooter_health: 115,
         shooter_shooting_speed: 1,
         shooter_ammo_spacing: 500,
-        shooter_reload_time: 6000,
+        shooter_reload_time: 2000,
         shooter_min_dist: 2,  //the minimum distance between a shooter enemy and the player before the shooter will fire
         shooter_bounce_mod: 1,
         shooter_bounce_drag: 0.01,
@@ -528,7 +528,7 @@ function projectileEnemyCollision(enemy, projectile){
 
     if (projectile.deflected){
         projectile.reset();
-        enemy.damage(10);
+        enemy.damage(game_settings.charger_health - 10);
     }
 }
 
@@ -735,6 +735,9 @@ function getMouseCoords() {
 }
 
 function getCameraCoords(camera, offset_x, offset_y) {
+    if (!camera){
+        camera = current_scene.cameras.main;
+    }
     // world view is the coord of top right
     return {
         x: camera.worldView.x + offset_x,
