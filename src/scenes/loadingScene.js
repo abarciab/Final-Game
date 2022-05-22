@@ -331,7 +331,6 @@ class loadingScene extends Phaser.Scene {
         })
     }
 
-
     update(){
 
     }
