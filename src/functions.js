@@ -284,7 +284,11 @@ function setupInteractables(map){
 
     current_scene.physics.add.collider(current_scene.player, current_scene.doors);
     current_scene.physics.add.overlap(current_scene.player, current_scene.buttons, function(player, button) {
-        activateButton(button);
+        if (button.done != true){
+            current_scene.sound.play('pressure plate', {volume: 0.8});
+            activateButton(button);
+        }
+        button.done = true;
         button.setActive(false);      
     })
     current_scene.physics.add.overlap(current_scene.player, current_scene.vases, function(player, vase){
@@ -292,6 +296,7 @@ function setupInteractables(map){
             if (Phaser.Math.Between(1 ,3) == 2){
                 spawnHealthPickup(vase.data_sprite.x, vase.data_sprite.y);
             }
+            current_scene.sound.play('vase break', {volume: 0.8});
             vase.data_sprite.setVisible(false);
             vase.destroy();
         }

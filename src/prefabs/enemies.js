@@ -12,7 +12,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
     }
 
     borrow(new_owner){
-        
+
         let project = null;
         let loopnum = 0;
         while (project == null){
@@ -462,7 +462,12 @@ class ShooterEnemy extends BaseEnemy {
     //this enemy will try to put space between themselves and the player, then shoot
     update(time, delta){
         super.update(time, delta);
-        if (this.stunned|| this.asleep) return;
+        if (this.stunned|| this.asleep){
+            if (this.room == 2){
+                console.log(`asleep: ${this.asleep}, room: ${this.room}`);
+            }
+            return;
+        }
 
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         
