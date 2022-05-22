@@ -155,7 +155,6 @@ class titleScene extends Phaser.Scene {
         //this.start_text = this.add.text(game.config.width/2, this.start_button.y, 'S  T  A  R  T', {color: '#FFFFFF', fontSize: '40px'}).setOrigin(0.5);
 
         setupKeys(this);
-        createAnimations();
     }
 
     update(){
