@@ -464,9 +464,9 @@ class ShooterEnemy extends BaseEnemy {
     update(time, delta){
         super.update(time, delta);
         if (this.stunned|| this.asleep){
-            if (this.room == 2){
+            /*if (this.room == 2){
                 console.log(`asleep: ${this.asleep}, room: ${this.room}`);
-            }
+            }*/
             return;
         }
 
