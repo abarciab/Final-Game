@@ -106,15 +106,21 @@ class titleScene extends Phaser.Scene {
             repeat: -1
         })
 
+        this.blackRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0, 1).setScale(20);
+        this.button_hover_sfx = this.sound.add('button hover'); 
+        let click_vol = 0.2;
         
         this.credits_button.on('pointerover', function(){
+            this.scene.button_hover_sfx.play({volume: click_vol});
             this.scene.credits_button.setTint(0xcccccc);
+
         })
         this.credits_button.on('pointerout', function(){
             this.scene.credits_button.clearTint();
         })
 
         this.options_button.on('pointerover', function(){
+            this.scene.button_hover_sfx.play({volume: click_vol});
             this.scene.options_button.setTint(0xcccccc);
         })
         this.options_button.on('pointerout', function(){
@@ -122,6 +128,7 @@ class titleScene extends Phaser.Scene {
         })
 
         this.level_button.on('pointerover', function(){
+            this.scene.button_hover_sfx.play({volume: click_vol});
             this.scene.level_button.setTint(0xcccccc);
         })
         this.level_button.on('pointerout', function(){
@@ -129,13 +136,21 @@ class titleScene extends Phaser.Scene {
         })
 
         this.start_button.on('pointerover', function(){
+            this.scene.button_hover_sfx.play({volume: click_vol});
             this.scene.start_button.setTint(0xcccccc);
         })
         this.start_button.on('pointerout', function(){
             this.scene.start_button.clearTint();
         })
         this.start_button.on('pointerdown', function(){
-            this.scene.scene.start("level1IntroScene");
+            
+            current_scene.tweens.add({
+                duration: 500,
+                targets: current_scene.blackRect,
+                y: game.config.height,
+                onComplete: function() {current_scene.scene.start("level1IntroScene");},
+            });
+            //this.scene.scene.start("level1IntroScene");
         })
         //this.start_text = this.add.text(game.config.width/2, this.start_button.y, 'S  T  A  R  T', {color: '#FFFFFF', fontSize: '40px'}).setOrigin(0.5);
 

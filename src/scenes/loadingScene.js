@@ -127,7 +127,7 @@ class loadingScene extends Phaser.Scene {
         //tilemaps
         this.load.tilemapTiledJSON('demo_map', './assets/tilemaps/demoMap.json');
         this.load.tilemapTiledJSON('bossMap','./assets/tilemaps/level1BossRoom.json');
-        this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1Map.json');
+        this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1map.json');
 
         //sfx
         this.load.audio('male blip', './assets/sounds/sfx/sfx-blipmale.wav');
@@ -140,6 +140,9 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('finish charge', './assets/sounds/sfx/finished_charging.wav');
         this.load.audio('enemy hit', './assets/sounds/sfx/enemy_hit.wav');
         this.load.audio('enemy dead', './assets/sounds/sfx/enemy_dead.wav');
+        this.load.audio('button hover', './assets/sounds/sfx/buttonHover.mp3');
+        this.load.audio('vase break', './assets/sounds/sfx/vase breaking.mp3');
+        this.load.audio('pressure plate', './assets/sounds/sfx/pressure plate.mp3');
 
         //music
 
