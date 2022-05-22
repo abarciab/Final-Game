@@ -126,7 +126,7 @@ class loadingScene extends Phaser.Scene {
         //tilemaps
         this.load.tilemapTiledJSON('demo_map', './assets/tilemaps/demoMap.json');
         this.load.tilemapTiledJSON('bossMap','./assets/tilemaps/level1BossRoom.json');
-        this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1Map.json');
+        this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1map.json');
 
         //sfx
         this.load.audio('male blip', './assets/sounds/sfx/sfx-blipmale.wav');
