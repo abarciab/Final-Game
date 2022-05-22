@@ -14,7 +14,7 @@ class level1FightScene extends Phaser.Scene {
 
         //player
         this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
-        this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+        //this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
         //health pickups
         this.pickups = [];
@@ -54,7 +54,7 @@ class level1FightScene extends Phaser.Scene {
         setupTilemapCollisions(layer1);
         setupTilemapCollisions(layer2);
         setupTilemapCollisions(marker_layer);
-
+        this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
         //enemy collisions
         this.addColliders();
 
