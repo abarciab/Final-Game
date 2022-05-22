@@ -237,7 +237,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
         if (this.perfect_dash) {
             speed *= 1.5;
-            console.log("perfect dash");
+            //console.log("perfect dash");
         }
         if (speed < this.min_dash_speed) speed = this.min_dash_speed;
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);

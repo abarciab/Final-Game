@@ -69,8 +69,11 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
-        if (this.active && (this.x < -50 || this.x > game.config.width + 50 || this.y < 0 || this.y > game.config.height)){
-            this.reset();
+        if (this.active){
+            let camera_pos = getCameraCoords(null, this.x, this.y);
+            if (camera_pos.x < -50 || camera_pos.y < -50 || camera_pos.x > game.config.width + 50 || camera_pos.y > game.config.y + 50){
+                this.reset();
+            }
         }
     }
 }
@@ -330,6 +333,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
 class ChargerEnemy extends BaseEnemy {
     constructor(x, y, texture){
         super(x, y, texture, "CHARGER");
+
         this.setScale(3);
         const hitbox_radius = 6;
         this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
@@ -350,6 +354,7 @@ class ChargerEnemy extends BaseEnemy {
     //this enemy will just always move toward the player
     update(time, delta){
         super.update(time, delta);
+        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
         if (this.stunned || this.asleep) return;
    
         moveTo(this, current_scene.player);
@@ -388,6 +393,7 @@ class GolemEnemy extends BaseEnemy {
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
     update(time, delta){
         super.update(time, delta);
+        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
         if (this.stunned|| this.asleep) return;
 
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
@@ -395,7 +401,7 @@ class GolemEnemy extends BaseEnemy {
             moveTo(this, current_scene.player);
         }
 
-        if (dist <= game_settings.golem_agro_range/2){
+        if (dist <= game_settings.golem_attack_range){
             if (this.loaded){
                 this.loaded = false;
                 this.fire(current_scene.player);
@@ -468,6 +474,7 @@ class ShooterEnemy extends BaseEnemy {
     //this enemy will try to put space between themselves and the player, then shoot
     update(time, delta){
         super.update(time, delta);
+        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
         if (this.stunned|| this.asleep){
             /*if (this.room == 2){
                 console.log(`asleep: ${this.asleep}, room: ${this.room}`);

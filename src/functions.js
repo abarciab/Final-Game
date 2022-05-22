@@ -35,16 +35,17 @@ function initialize(scene){
         golem_speed: 30,
         golem_health: 150,
         golem_agro_range: 280,
+        golem_attack_range: 140,
         golem_reload_time: 3000,
         golem_bounce_mod: 1,
         golem_bounce_drag: 0.0001,
 
         // shooter stats
         shooter_speed: 50,
-        shooter_health: 70,
+        shooter_health: 115,
         shooter_shooting_speed: 1,
         shooter_ammo_spacing: 500,
-        shooter_reload_time: 6000,
+        shooter_reload_time: 2000,
         shooter_min_dist: 2,  //the minimum distance between a shooter enemy and the player before the shooter will fire
         shooter_bounce_mod: 1,
         shooter_bounce_drag: 0.01,
@@ -65,7 +66,7 @@ function initialize(scene){
     }
 
     scene.cameras.main.setZoom(game_settings.camera_zoom);
-    scene.cameras.main.setBackgroundColor('#303030');
+    scene.cameras.main.setBackgroundColor('#000000');
     scene.physics.world.setBounds(0, 0, game.config.width, game.config.height);
     setupKeys(scene);
 }
@@ -188,19 +189,23 @@ function onEnemyDead(dead_enemy){
     let circuit = dead_enemy.circuit;
     if (!circuit) {return;}
 
+    let last = true;
     current_scene.enemies.forEach(enemy => {
-        if (enemy.visible && enemy.active && enemy.circuit == circuit){
-            console.log(enemy);
+        if (enemy != dead_enemy && enemy.visible == true && enemy.active == true && enemy.circuit == circuit){
+            last = false;
             return;
         }
     });
+    if (!last){
+        return;
+    }
 
     openDoors(circuit);
     awakenEnemies(circuit)
 }
 
 function openDoors(circuit){
-    console.log(`opening door #${circuit}`);
+    //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
         if (current_scene.doors[i].data_sprite.data && circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
             current_scene.doors[i].data_sprite.x -= 3;
@@ -240,7 +245,7 @@ function openDoors(circuit){
 function awakenEnemies(circuit){
     for (let i = 0; i < current_scene.enemies.length; i++) {
         if (current_scene.enemies[i].room == circuit){
-            console.log(`awkening ${current_scene.enemies[i].type}`);
+            //console.log(`awkening ${current_scene.enemies[i].type}`);
             current_scene.enemies[i].asleep = false;
         }
     }
@@ -368,7 +373,7 @@ function projectileEnemyCollision(enemy, projectile){
 
     if (projectile.deflected){
         projectile.reset();
-        enemy.damage(10);
+        enemy.damage(game_settings.charger_health - 10);
     }
 }
 
@@ -575,6 +580,9 @@ function getMouseCoords() {
 }
 
 function getCameraCoords(camera, offset_x, offset_y) {
+    if (!camera){
+        camera = current_scene.cameras.main;
+    }
     // world view is the coord of top right
     return {
         x: camera.worldView.x + offset_x,
