@@ -68,7 +68,7 @@ class level1FightScene extends Phaser.Scene {
         this.game_UI.setPlayerUI();
 
         game_settings.next_scene = `level1BossScene`;
-        game_script.readNextPart(this);
+        //game_script.readNextPart(this);
     }
 
     addColliders() {

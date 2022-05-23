@@ -18,6 +18,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
         while (project == null){
             loopnum +=  1;
             if (this.num_free <= 0 || loopnum == 5){
+                console.log(`adding new projectile. loopnum: ${loopnum}`);
                 this.add(new Projectile(0, 0, this.projectile_texture));
                 this.num_free += 1;
             }
@@ -54,17 +55,21 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     }
 
     reset(){
+        console.log(`reseting projectile. active projectile: ${this.scene.enemy_projectiles.countActive(true)}, inactive: ${this.scene.enemy_projectiles.countActive(false)}`);
         this.setActive(false);
         this.deflected = false;
         this.body.stop();
-        this.setVisible(false);
-        this.setPosition(0,0);
+        this.setVisible(true);
+        this.setPosition(10,0);
         if (this.owner == null){
             this.scene.enemy_projectiles.return(this);
         }
     }
 
     update(){
+        if (!this.active){
+            return;
+        }
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
@@ -137,6 +142,7 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
     }
 
     reset(){
+        console.log(`reseting shockwave. owner: ${this.owner}`);
         this.setActive(false);
         this.body.stop();
         this.setVisible(false);
@@ -149,6 +155,9 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
+        if (!this.active){
+            return;
+        }
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.expanding_width++;
@@ -222,6 +231,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     reset() {
+        console.log(`reseting: ${type}`)
         this.setActive(true);
         this.setVisible(true);
         this.body.setVelocity(0,0);
@@ -419,6 +429,7 @@ class GolemEnemy extends BaseEnemy {
     }
 
     fire(target){
+        console.log("golem firing shockwave");
         let shockwave = null;
         for(let i = 0; i < this.shockwaves.length; i++){
             if (this.shockwaves[i].visible == false){
@@ -501,6 +512,8 @@ class ShooterEnemy extends BaseEnemy {
     }
 
     fire(target){
+        console.log("shooter firing");
+
         let projectile = null;
         for(let i = 0; i < this.projectiles.length; i++){
             if (this.projectiles[i].visible == false){

@@ -1,13 +1,13 @@
 let config = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     width: 1400,
     height: 800,
     pixelArt: true, 
     physics: {
         default: "arcade",
         arcade: { 
-            fps: 60,
-            debug: false,
+            //fps: 60,
+            //debug: true,
          },
     },
     scene: [loadingScene, titleScene, level1IntroScene, level1BossScene, level1FightScene],
