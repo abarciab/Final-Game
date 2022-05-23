@@ -47,9 +47,9 @@ class ScriptReader {
         this.bg_textbox_x = (config.width-this.bg_textbox.displayWidth)/2;
         this.bg_textbox_y = config.height-this.bg_textbox.displayHeight;
 
-        this.text_margins = this.bg_textbox_x * 1.4;
-        this.textbox_y = this.bg_textbox_y * 1.6;
-        this.speaker_y = this.bg_textbox_y * 1.4;
+        this.text_margins = this.bg_textbox.displayWidth * 0.4;
+        this.textbox_y = this.bg_textbox.displayHeight * 0.3;
+        this.speaker_y = this.bg_textbox.displayHeight * 0.2;
         this.textbox_max_height = this.bg_textbox.displayHeight * 0.5;
 
         this.text_width = this.display_textbox.displayWidth / this.display_textbox.text.length;
@@ -88,12 +88,10 @@ class ScriptReader {
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
         if (scene.camera != undefined) {
-            console.log("is camera:", scene.camera.worldView.x, scene.camera.worldView.y);
             this.bg_textbox_x =  (config.width-this.bg_textbox.displayWidth)/2 + scene.camera.worldView.x;
             this.bg_textbox_y = config.height-this.bg_textbox.displayHeight + scene.camera.worldView.y;
         }
         else {
-            console.log("no camera");
             this.bg_textbox_x = (config.width-this.bg_textbox.displayWidth)/2;
             this.bg_textbox_y = config.height-this.bg_textbox.displayHeight;
         }
@@ -196,7 +194,11 @@ class ScriptReader {
                 this.updateLine();
             }
         }
-
+        if (current_scene.camera != undefined) {
+            this.bg_textbox_x =  (config.width-this.bg_textbox.displayWidth)/2 + current_scene.camera.worldView.x;
+            this.bg_textbox_y = config.height-this.bg_textbox.displayHeight + current_scene.camera.worldView.y;
+            this.bg_textbox.setPosition(this.bg_textbox_x, this.bg_textbox_y);
+        }
         this.display_textbox.setText(this.display_line);
     }
 
