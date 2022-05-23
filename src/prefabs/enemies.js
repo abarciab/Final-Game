@@ -70,7 +70,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         if (!this.active){
             return;
         }
-        let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
+        let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
@@ -100,6 +100,7 @@ class ShockwaveGroup extends Phaser.Physics.Arcade.Group {
     }
 
     borrow(new_owner){
+        
         let wave = null;
 
         let loopnum = 0;
@@ -161,9 +162,13 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.expanding_width++;
+        //let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
+        //let pos = new Phaser.Math.Vector2(this.x, this.y);
+        this.expanding_width += 2;
+        console.log(this.expanding_width);
         this.setCircle(this.expanding_width, this.displayWidth/2-this.expanding_width, this.displayHeight/2-this.expanding_width);
 
-        if (this.expanding_width > 100){
+        if (this.expanding_width > 150){
             this.reset();
         }
     }
@@ -188,6 +193,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.last_direction_moved = "right";
         this.type = type;
         this.stunned = false;
+        this.attacked = false;
         this.current_frame = 0;
         switch(this.type) {
             case "CHARGER":
@@ -324,7 +330,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         }
         if (this.anims.isPlaying)
             this.current_frame = this.anims.currentFrame.index-1;
-        if (!this.stunned) {
+        if (!this.stunned && !this.attacked) {
             const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
             if (Math.sin(angle) >= 0) 
                 this.last_direction_moved = "right";
@@ -336,6 +342,10 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         else if (this.stunned) {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
         }
+        else if (this.attacked) {
+            this.anims.play(`${this.type.toLowerCase()} attack ${this.last_direction_moved.toLowerCase()}`, true);
+        }
+        
     }
 
 }
@@ -377,7 +387,7 @@ class GolemEnemy extends BaseEnemy {
         this.setScale(2);
         this.shockwaves = [];
         this.shockwaves.push(current_scene.enemy_shockwaves.borrow(this));
-        this.loaded = true;
+        //this.loaded = true;
         const hitbox_radius = 16;
         this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
     }
@@ -412,13 +422,13 @@ class GolemEnemy extends BaseEnemy {
         }
 
         if (dist <= game_settings.golem_attack_range){
-            if (this.loaded){
-                this.loaded = false;
-                this.fire(current_scene.player);
+            if (!this.attacked){
+                this.attacked = true;
+                this.fire();
                 this.speed = 0;
                 current_scene.time.delayedCall(game_settings.golem_reload_time, function () {
                     this.speed = game_settings.golem_speed;
-                    this.loaded = true;
+                    this.attacked = false;
                 }, null, this);
             }
         }
@@ -428,8 +438,8 @@ class GolemEnemy extends BaseEnemy {
         });
     }
 
-    fire(target){
-        console.log("golem firing shockwave");
+    fire(){
+        //console.log("FIRE!");
         let shockwave = null;
         for(let i = 0; i < this.shockwaves.length; i++){
             if (this.shockwaves[i].visible == false){

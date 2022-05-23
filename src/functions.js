@@ -35,7 +35,7 @@ function initialize(scene){
         golem_speed: 30,
         golem_health: 150,
         golem_agro_range: 280,
-        golem_attack_range: 140,
+        golem_attack_range: 80,
         golem_reload_time: 3000,
         golem_bounce_mod: 1,
         golem_bounce_drag: 0.0001,
@@ -164,11 +164,16 @@ function setupEnemies(map){
 
     for (let i = 0; i < enemy2Sprites.length; i++) {
         let new_enemy = spawnEnemy(game_settings.enemy2_name, enemy2Sprites[i].x, enemy2Sprites[i].y, true);
-        new_enemy.room = enemy2Sprites[i].data.list.room;
-        if (enemy2Sprites[i].data.list.circuit){
-            new_enemy.circuit = enemy2Sprites[i].data.list.circuit;
+        if (enemy2Sprites[i].data != null){
+            if (enemy2Sprites[i].data.list.room){
+                new_enemy.room = enemy2Sprites[i].data.list.room;
+                new_enemy.asleep = true;
+            }
+
+            if (enemy2Sprites[i].data.list.circuit){
+                new_enemy.circuit = enemy2Sprites[i].data.list.circuit;
+            }
         }
-        new_enemy.asleep = true;
         enemy2Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
     }

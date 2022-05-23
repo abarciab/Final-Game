@@ -6,7 +6,7 @@ let config = {
     physics: {
         default: "arcade",
         arcade: { 
-            //fps: 60,
+            fps: 60,
             //debug: true,
          },
     },
