@@ -328,8 +328,12 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         }
-        if (this.anims.isPlaying)
+        if (this.anims.isPlaying
+        && this.anims.currentAnim.key != `${this.type.toLowerCase()} attack left`
+        && this.anims.currentAnim.key != `${this.type.toLowerCase()} attack right`) {
             this.current_frame = this.anims.currentFrame.index-1;
+        }
+
         if (!this.stunned && !this.attacked) {
             const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
             if (Math.sin(angle) >= 0) 
