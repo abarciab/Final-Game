@@ -36,7 +36,10 @@ function initialize(scene){
         golem_health: 150,
         golem_agro_range: 280,
         golem_attack_range: 80,
+        golem_shockwave_start_frame: 5,
+        golem_shockwave_end_frame: 12,
         golem_reload_time: 3000,
+        
         golem_bounce_mod: 1,
         golem_bounce_drag: 0.0001,
 

@@ -328,8 +328,16 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         }
-        if (this.anims.isPlaying)
-            this.current_frame = this.anims.currentFrame.index-1;
+        
+        if (this.anims.isPlaying) {
+            if (this.anims.currentAnim.key != `${this.type.toLowerCase()} attack left`
+            && this.anims.currentAnim.key != `${this.type.toLowerCase()} attack right`) {
+                this.current_frame = this.anims.currentFrame.index-1;
+            } else {
+                this.attack_frame = this.anims.currentFrame.index-1;
+            }
+        }
+
         if (!this.stunned && !this.attacked) {
             const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
             if (Math.sin(angle) >= 0) 
@@ -343,7 +351,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
         }
         else if (this.attacked) {
-            this.anims.play(`${this.type.toLowerCase()} attack ${this.last_direction_moved.toLowerCase()}`, true);
+            this.anims.play({key: `${this.type.toLowerCase()} attack ${this.last_direction_moved.toLowerCase()}`, startFrame: 0}, true);
         }
         
     }
@@ -390,6 +398,9 @@ class GolemEnemy extends BaseEnemy {
         //this.loaded = true;
         const hitbox_radius = 16;
         this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
+        this.loaded = true;
+        this.golem_shockwave_start_frame = 5;
+        this.golem_shockwave_end_frame = 12;
     }
 
     reset(){
@@ -413,23 +424,34 @@ class GolemEnemy extends BaseEnemy {
     //this enemy will only move toward the player if they're close. Otherwise, they'll just stand still
     update(time, delta){
         super.update(time, delta);
-        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
+        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)};
         if (this.stunned|| this.asleep) return;
-
+        if (this.attacked && (this.attack_frame == game_settings.golem_shockwave_end_frame)) {
+            this.attack_frame = 0;
+            this.anims.stop();
+            this.attacked = false;
+            this.speed = game_settings.golem_speed;
+            current_scene.time.delayedCall(game_settings.golem_reload_time, function () {
+                console.log("HI");
+                this.loaded = true;
+            }, null, this);
+        }
+        if (this.attacked && (this.attack_frame == game_settings.golem_shockwave_start_frame)) {
+            this.fire();
+        }
+        //if (this.attacked && (this.current))
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         if (dist <= game_settings.golem_agro_range){
             moveTo(this, current_scene.player);
         }
 
         if (dist <= game_settings.golem_attack_range){
-            if (!this.attacked){
+            if (this.loaded){
+                console.log("TRIED TO ATTACK");
                 this.attacked = true;
-                this.fire();
+                this.loaded = false;
+                //this.fire();
                 this.speed = 0;
-                current_scene.time.delayedCall(game_settings.golem_reload_time, function () {
-                    this.speed = game_settings.golem_speed;
-                    this.attacked = false;
-                }, null, this);
             }
         }
 
@@ -451,9 +473,16 @@ class GolemEnemy extends BaseEnemy {
             this.shockwaves.unshift(this.scene.enemy_shockwaves.borrow(this));
             shockwave = this.shockwaves[0];
         }
-        
-        shockwave.reset();
+        //shockwave.reset();
         shockwave.setActive(true).setVisible(true).setDepth(20);
+        current_scene.tweens.add({
+            targets: shockwave,
+            scaleX: 100,
+            scaleY: 100,
+            ease: 'Linear',
+            duration: 1000,
+            callbackScope: this
+          });
         shockwave.setPosition(this.x, this.y);
     }
 }
