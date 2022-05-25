@@ -470,6 +470,7 @@ class GolemEnemy extends BaseEnemy {
 
     fire(){
         //console.log("FIRE!");
+        current_scene.cameras.main.shake(100, 0.003);
         let shockwave = null;
         for(let i = 0; i < this.shockwaves.length; i++){
             if (this.shockwaves[i].visible == false){
