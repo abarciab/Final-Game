@@ -101,7 +101,7 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('fran damage left', './assets/player/fran_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
 
         //enemies
-        this.load.image('shockwave', './assets/white arrow.png');
+        this.load.image('shockwave', './assets/shockwave.png');
         this.load.image('white arrow', './assets/white arrow.png');
         this.load.image('charger', './assets/enemies/charger.png');
         this.load.spritesheet('charger move left', './assets/enemies/charger_move_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});

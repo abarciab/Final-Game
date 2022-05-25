@@ -14,6 +14,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
     borrow(new_owner){
 
         let project = null;
+
         let loopnum = 0;
         while (project == null){
             loopnum +=  1;
@@ -137,9 +138,10 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
         current_scene.add.existing(this);
 
         this.owner = null;
-        this.expanding_width = this.displayWidth*2;
+        //this.expanding_width = this.displayWidth*2;
         this.setActive(false);
         this.setVisible(false);
+        this.setCircle(this.displayWidth/2);
     }
 
     reset(){
@@ -148,18 +150,20 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
         this.body.stop();
         this.setVisible(false);
         this.setPosition(0,0);
-        this.expanding_width = this.displayWidth;
-        this.setCircle(this.expanding_width);
+        this.scaleX = 1;
+        this.scaleY = 1;
+        //this.expanding_width = this.displayWidth;
+        this.setCircle(this.displayWidth/2);
         if (this.owner == null){
             this.scene.enemy_shockwaves.return(this);
         }
     }
 
-    update(){
+    /*update(){
         if (!this.active){
             return;
         }
-        let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
+        /*let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.expanding_width++;
         //let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
@@ -171,7 +175,10 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
         if (this.expanding_width > 150){
             this.reset();
         }
-    }
+        //this.setCircle(this.displayWidth/2);
+        //this.setCircle(this.displayWidth/2, -this.displayWidth/2 + this.width/2 - 1, -this.displayHeight/2 + this.height/2 - 1);
+        //this.setOffset(this.width/2 - this.displayWidth/2, this.height/2 - this.displayHeight/2);
+    }*/
 }
 
 class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
@@ -415,7 +422,8 @@ class GolemEnemy extends BaseEnemy {
         this.shockwaves.forEach(shockwave => {
             shockwave.owner = null;
             if (shockwave.active == false){
-                this.scene.enemy_shockwaves.return(shockwave);
+                //this.scene.enemy_shockwaves.return(shockwave);
+                current_scene.enemy_shockwaves.return(shockwave);
             }
         });
         super.die();
@@ -432,7 +440,7 @@ class GolemEnemy extends BaseEnemy {
             this.attacked = false;
             this.speed = game_settings.golem_speed;
             current_scene.time.delayedCall(game_settings.golem_reload_time, function () {
-                console.log("HI");
+                //console.log("HI");
                 this.loaded = true;
             }, null, this);
         }
@@ -447,7 +455,7 @@ class GolemEnemy extends BaseEnemy {
 
         if (dist <= game_settings.golem_attack_range){
             if (this.loaded){
-                console.log("TRIED TO ATTACK");
+                //console.log("TRIED TO ATTACK");
                 this.attacked = true;
                 this.loaded = false;
                 //this.fire();
@@ -474,16 +482,18 @@ class GolemEnemy extends BaseEnemy {
             shockwave = this.shockwaves[0];
         }
         //shockwave.reset();
-        shockwave.setActive(true).setVisible(true).setDepth(20);
+        shockwave.setActive(true).setVisible(true).setDepth(20).setPosition(this.x, this.y);
+        //shockwave.setPosition(this.x, this.y);
         current_scene.tweens.add({
             targets: shockwave,
-            scaleX: 100,
-            scaleY: 100,
+            scaleX: game_settings.golem_shockwave_size,
+            scaleY: game_settings.golem_shockwave_size,
             ease: 'Linear',
-            duration: 1000,
-            callbackScope: this
-          });
-        shockwave.setPosition(this.x, this.y);
+            duration: game_settings.golem_shockwave_duration,
+            onComplete: function() {
+                shockwave.reset();
+            }
+        });
     }
 }
 
