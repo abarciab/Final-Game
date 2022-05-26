@@ -19,7 +19,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
         while (project == null){
             loopnum +=  1;
             if (this.num_free <= 0 || loopnum == 5){
-                console.log(`adding new projectile. loopnum: ${loopnum}`);
+                //console.log(`adding new projectile. loopnum: ${loopnum}`);
                 this.add(new Projectile(0, 0, this.projectile_texture));
                 this.num_free += 1;
             }
@@ -56,11 +56,11 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     }
 
     reset(){
-        console.log(`reseting projectile. active projectile: ${this.scene.enemy_projectiles.countActive(true)}, inactive: ${this.scene.enemy_projectiles.countActive(false)}`);
+        //console.log(`reseting projectile. active projectile: ${this.scene.enemy_projectiles.countActive(true)}, inactive: ${this.scene.enemy_projectiles.countActive(false)}`);
         this.setActive(false);
         this.deflected = false;
         this.body.stop();
-        this.setVisible(true);
+        this.setVisible(false);
         this.setPosition(10,0);
         if (this.owner == null){
             this.scene.enemy_projectiles.return(this);
@@ -145,7 +145,7 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
     }
 
     reset(){
-        console.log(`reseting shockwave. owner: ${this.owner}`);
+        //console.log(`reseting shockwave. owner: ${this.owner}`);
         this.setActive(false);
         this.body.stop();
         this.setVisible(false);
@@ -562,16 +562,18 @@ class ShooterEnemy extends BaseEnemy {
     }
 
     fire(target){
-        console.log("shooter firing");
+        //console.log("shooter firing");
 
         let projectile = null;
         for(let i = 0; i < this.projectiles.length; i++){
             if (this.projectiles[i].visible == false){
+                //console.log("reusing an invisible projectile");
                 projectile = this.projectiles[i];
                 break;
             }
         }
         if (projectile == null){
+            //console.log("there are no projectiles that I can use");
             this.projectiles.unshift(this.scene.enemy_projectiles.borrow(this));
             projectile = this.projectiles[0];
         }
