@@ -126,6 +126,9 @@ function setupInteractables(map){
         new_button.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_button);
         current_scene.physics.add.existing(new_button);
         new_button.data_sprite = button_sprites[i];
+        if (new_button.data_sprite.data.list.close_door == true){
+            new_button.data_sprite.setVisible(false);
+        }
         current_scene.buttons.push(new_button);
     }
 
@@ -218,19 +221,42 @@ function onEnemyDead(dead_enemy){
 function openDoors(circuit){
     //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
-        if (current_scene.doors[i].data_sprite.data && circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
-            current_scene.doors[i].data_sprite.x -= 3;
-            let destX = current_scene.doors[i].data_sprite.x + 6
+        if ((current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit) || (current_scene.doors[i].locked == true) ){
 
             current_scene.tweens.add({
                 targets: current_scene.doors[i].data_sprite,
                 alpha: 0,
-                scaleY: 0,
                 duration: 800,
                 repeat: 0,
                 callbackScope: this,
-                onComplete: function() {current_scene.doors[i].data_sprite.destroy(); current_scene.doors[i].destroy();}
+                onComplete: function() {
+                    current_scene.doors[i].body.enable = false; 
+                    current_scene.doors[i].setVisible(false);
+                    current_scene.doors[i].data_sprite.setVisible(false);
+                }
             });
+        }
+    }  
+}
+
+function closeDoors(circuit){
+    console.log(`closing door #${circuit}`);
+    for(let i = 0; i < current_scene.doors.length; i++ ){
+        if (current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit){
+
+            current_scene.tweens.add({
+                targets: current_scene.doors[i].data_sprite,
+                alpha: 1,
+                duration: 200,
+                repeat: 0,
+                callbackScope: this,
+                onComplete: function() {
+                    current_scene.doors[i].body.enable = true; 
+                    current_scene.doors[i].setVisible(true);
+                    current_scene.doors[i].data_sprite.setVisible(true);
+                }
+            });
+            current_scene.doors[i].locked = true;
         }
     }  
 }
@@ -256,8 +282,14 @@ function activateButton(button) {
 
     let circuit = button.data_sprite.data.list.circuit;
 
-    openDoors(circuit);
-    awakenEnemies(circuit);
+    
+    if (button.data_sprite.data.list.close_door == true){
+        closeDoors(circuit);
+    } else{
+        openDoors(circuit);
+        awakenEnemies(circuit);
+    }
+
 
     button.data_sprite.data.list.circuit = -1;
 }
@@ -393,6 +425,7 @@ function playerProjectileCollision(playerObj, projectile){
 function playerEnemyCollision(player, enemy){
     if (enemy.stunned) return;
     if (current_scene.player.dashing){
+        current_scene.cameras.main.shake(200, 0.002);
         player.bouncing = true;
         player.dash_cooldown_timer = player.dash_cooldown_duration;
         enemy.damage(current_scene.player.dash_damage);

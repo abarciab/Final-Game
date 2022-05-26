@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="62" height="42" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="104">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="62" height="42" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="112">
  <editorsettings>
   <export target="level1map.json" format="json"/>
  </editorsettings>
@@ -994,6 +994,48 @@
   <object id="101" name="button" gid="5" x="1310" y="2128" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="6"/>
+   </properties>
+  </object>
+  <object id="104" name="button" gid="5" x="456" y="712" width="184" height="64">
+   <properties>
+    <property name="circuit" type="int" value="0"/>
+    <property name="close_door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="105" name="button" gid="5" x="648" y="1084" width="184" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="close_door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="106" name="button" gid="5" x="1088" y="1572" width="184" height="240">
+   <properties>
+    <property name="circuit" type="int" value="2"/>
+    <property name="close_door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="107" name="button" gid="5" x="582.667" y="1718.67" width="184" height="74.6667">
+   <properties>
+    <property name="circuit" type="int" value="2"/>
+    <property name="close_door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="108" name="button" gid="5" x="1069.33" y="2201.33" width="184" height="220">
+   <properties>
+    <property name="circuit" type="int" value="5"/>
+    <property name="close_door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="109" name="button" gid="5" x="1917.33" y="1630" width="184" height="141.333">
+   <properties>
+    <property name="circuit" type="int" value="6"/>
+    <property name="close_door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="110" name="button" gid="5" x="2464" y="2117.33" width="184" height="202.666">
+   <properties>
+    <property name="circuit" type="int" value="7"/>
+    <property name="close_door" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>
