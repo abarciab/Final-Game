@@ -42,14 +42,14 @@ class ScriptReader {
         this.speaker_font_size = 40;
 
         this.speaker_textbox;
-        this.display_textbox = scene.add.text(this.text_margins, this.textbox_y, "this is a text box").setFontSize(this.font_size).setDepth(10).setVisible(false);
+        this.display_textbox = scene.add.text(0, 0, "this is a text box").setFontSize(this.font_size).setDepth(10).setVisible(false);
         this.bg_textbox = scene.add.image(0, 0, 'textbox').setDepth(9).setScale(10).setOrigin(0, 0).setVisible(false);
         this.bg_textbox_x = (config.width-this.bg_textbox.displayWidth)/2;
         this.bg_textbox_y = config.height-this.bg_textbox.displayHeight;
 
         this.text_margins = this.bg_textbox.displayWidth * 0.4;
-        this.textbox_y = this.bg_textbox.displayHeight * 0.3;
-        this.speaker_y = this.bg_textbox.displayHeight * 0.2;
+        this.textbox_y = config.height * 0.5;
+        this.speaker_y = config.height * 0.4;
         this.textbox_max_height = this.bg_textbox.displayHeight * 0.5;
 
         this.text_width = this.display_textbox.displayWidth / this.display_textbox.text.length;
@@ -87,6 +87,7 @@ class ScriptReader {
         this.display_line = "";
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
+        this.text_margins = this.bg_textbox.displayWidth * 0.2;
         if (scene.camera != undefined) {
             this.bg_textbox_x =  (config.width-this.bg_textbox.displayWidth)/2 + scene.camera.worldView.x;
             this.bg_textbox_y = config.height-this.bg_textbox.displayHeight + scene.camera.worldView.y;
@@ -95,9 +96,6 @@ class ScriptReader {
             this.bg_textbox_x = (config.width-this.bg_textbox.displayWidth)/2;
             this.bg_textbox_y = config.height-this.bg_textbox.displayHeight;
         }
-        this.text_margins = this.bg_textbox_x * 1.4;
-        this.textbox_y = this.bg_textbox_y * 1.6;
-        this.speaker_y = this.bg_textbox_y * 1.4;
 
         this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, "")
         .setFontSize(this.speaker_font_size).setDepth(10);
@@ -194,11 +192,16 @@ class ScriptReader {
                 this.updateLine();
             }
         }
+        let off_x = 0;
+        let off_y = 0;
         if (current_scene.camera != undefined) {
-            this.bg_textbox_x =  (config.width-this.bg_textbox.displayWidth)/2 + current_scene.camera.worldView.x;
-            this.bg_textbox_y = config.height-this.bg_textbox.displayHeight + current_scene.camera.worldView.y;
-            this.bg_textbox.setPosition(this.bg_textbox_x, this.bg_textbox_y);
+            off_x = current_scene.camera.worldView.x;
+            off_y = current_scene.camera.worldView.y;
         }
+        this.bg_textbox.setPosition(this.bg_textbox_x+off_x, this.bg_textbox_y+off_y);
+        this.display_textbox.setPosition(this.text_margins+off_x, this.textbox_y+off_y)
+        this.speaker_textbox.setPosition(this.text_margins+off_x, this.speaker_y+off_y);
+
         this.display_textbox.setText(this.display_line);
     }
 

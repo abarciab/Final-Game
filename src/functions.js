@@ -35,8 +35,13 @@ function initialize(scene){
         golem_speed: 30,
         golem_health: 150,
         golem_agro_range: 280,
-        golem_attack_range: 80,
+        golem_attack_range: 100,
+        golem_shockwave_start_frame: 5,
+        golem_shockwave_end_frame: 12,
+        golem_shockwave_size: 3,
+        golem_shockwave_duration: 300,
         golem_reload_time: 3000,
+        
         golem_bounce_mod: 1,
         golem_bounce_drag: 0.0001,
 
@@ -329,7 +334,8 @@ function resume(){
 
 function playerWallCollision(player, rects) {
     const wall_bounce_mod = 0.3;
-    player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
+    if (player.dashing || player.stunned)
+        player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
 }
 
 function checkPlayerLavaCollision() {
