@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="62" height="42" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="101">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="62" height="42" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="104">
  <editorsettings>
   <export target="level1map.json" format="json"/>
  </editorsettings>
@@ -61,6 +61,14 @@
     <object id="2" x="42.2727" y="-0.181818" width="21.9091" height="64"/>
    </objectgroup>
   </tile>
+  <tile id="11">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="0" width="63.9443" height="63.8646"/>
+   </objectgroup>
+  </tile>
   <tile id="12">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -104,6 +112,14 @@
     <object id="1" x="42.9091" y="-0.0909091" width="21.0909" height="64.1818"/>
    </objectgroup>
   </tile>
+  <tile id="21">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="0" width="64.0239" height="63.7054"/>
+   </objectgroup>
+  </tile>
   <tile id="22">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -130,12 +146,44 @@
     <object id="2" x="21.2617" y="57.0959" width="42.6826" height="6.84833"/>
    </objectgroup>
   </tile>
+  <tile id="26">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="-0.159263" width="63.785" height="63.9443"/>
+   </objectgroup>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0.0796317" width="63.9443" height="63.7054"/>
+   </objectgroup>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="0.159263" width="63.3072" height="63.6257"/>
+   </objectgroup>
+  </tile>
   <tile id="30">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
    <objectgroup draworder="index" id="2">
     <object id="1" x="43.1818" y="0" width="20.8182" height="64"/>
+   </objectgroup>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="0.0796317" width="64.1832" height="63.785"/>
    </objectgroup>
   </tile>
   <tile id="32">
@@ -146,10 +194,50 @@
     <object id="1" x="-0.0909091" y="-0.0909091" width="21" height="63.9091"/>
    </objectgroup>
   </tile>
+  <tile id="33">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="0" width="63.7054" height="64.0239"/>
+   </objectgroup>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="-0.159263" width="63.785" height="64.1832"/>
+   </objectgroup>
+  </tile>
   <tile id="35">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="0.0796317" width="63.785" height="63.785"/>
+   </objectgroup>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="-0.0796317" width="64.1035" height="64.2628"/>
+   </objectgroup>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="0.0796317" width="63.8646" height="63.3868"/>
+   </objectgroup>
   </tile>
   <tile id="40">
    <properties>
@@ -181,6 +269,46 @@
    </properties>
    <objectgroup draworder="index" id="2">
     <object id="1" x="-0.159263" y="0.159263" width="64.2628" height="37.7454"/>
+   </objectgroup>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.159263" y="0.0796317" width="63.785" height="63.785"/>
+   </objectgroup>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.318527" y="0" width="63.5461" height="63.6257"/>
+   </objectgroup>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.398159" y="-0.0796317" width="63.3868" height="63.5461"/>
+   </objectgroup>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="0.0796317" width="63.785" height="63.7054"/>
+   </objectgroup>
+  </tile>
+  <tile id="58">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0.318527" width="63.6257" height="63.3868"/>
    </objectgroup>
   </tile>
   <tile id="60">
@@ -239,15 +367,21 @@
     <object id="1" x="-0.318527" y="40.0547" width="29.4637" height="24.1284"/>
    </objectgroup>
   </tile>
-  <tile id="66">
-   <properties>
-    <property name="lava" type="bool" value="false"/>
-   </properties>
-  </tile>
   <tile id="67">
    <properties>
-    <property name="lava" type="bool" value="false"/>
+    <property name="deadly" type="bool" value="true"/>
    </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="-0.238895" width="63.5461" height="64.1035"/>
+   </objectgroup>
+  </tile>
+  <tile id="68">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="-0.0796317" width="63.6257" height="63.9443"/>
+   </objectgroup>
   </tile>
   <tile id="70">
    <properties>
@@ -733,7 +867,6 @@
     <property name="room" type="int" value="7"/>
    </properties>
   </object>
-  <object id="100" name="enemy_2" gid="6" x="434.667" y="390.667" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="5" name="interact">
   <object id="1" name="door" gid="26" x="470.75" y="632.833" width="152.5" height="32">
@@ -842,7 +975,7 @@
   <object id="53" name="vase" gid="18" x="3497.33" y="1560" width="64" height="64"/>
   <object id="54" name="vase" gid="18" x="3749.33" y="1006.67" width="64" height="64"/>
   <object id="55" name="vase" gid="18" x="3630.67" y="338.667" width="64" height="64"/>
-  <object id="56" name="button" gid="5" x="568.667" y="488.667" width="64" height="64">
+  <object id="56" name="button" gid="5" x="590" y="450" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="0"/>
    </properties>
@@ -856,6 +989,11 @@
   <object id="59" name="door" gid="15" x="2411.67" y="2106" width="32" height="181">
    <properties>
     <property name="circuit" type="int" value="7"/>
+   </properties>
+  </object>
+  <object id="101" name="button" gid="5" x="1310" y="2128" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="6"/>
    </properties>
   </object>
  </objectgroup>

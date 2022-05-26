@@ -108,6 +108,7 @@ function setupInteractables(map){
     }
 
     for(let i = 0; i < door_sprites.length; i++ ){
+        //let new_door = current_scene.physics.add.sprite()
         let new_door = current_scene.add.rectangle(door_sprites[i].x, door_sprites[i].y, door_sprites[i].displayWidth, door_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
         new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
         current_scene.physics.add.existing(new_door);
@@ -220,28 +221,10 @@ function openDoors(circuit){
                 targets: current_scene.doors[i].data_sprite,
                 alpha: 0,
                 scaleY: 0,
-                duration: 1500,
+                duration: 800,
                 repeat: 0,
                 callbackScope: this,
                 onComplete: function() {current_scene.doors[i].data_sprite.destroy(); current_scene.doors[i].destroy();}
-            });
-
-            current_scene.tweens.add({
-                targets: current_scene.doors[i].data_sprite,
-                x: destX-3,
-                duration: 100,
-                yoyo: true,
-                repeat: 15,
-                callbackScope: this,
-            });
-
-            current_scene.tweens.add({
-                targets: current_scene.doors[i].data_sprite,
-                x: destX,
-                duration: 100,
-                yoyo: true,
-                repeat: 15,
-                callbackScope: this,
             });
         }
     }  
@@ -307,6 +290,9 @@ function setupTilemapCollisions(layer){
                     new_rect.setFillStyle(0xFF0000);
                     current_scene.lava_rects.push(new_rect);
                 } else{
+                    if (tile.properties.deadly){
+                        new_rect.deadly = true;
+                    }
                     current_scene.collision_rects.push(new_rect);
                 }                
             }

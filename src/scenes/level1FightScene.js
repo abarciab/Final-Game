@@ -81,7 +81,12 @@ class level1FightScene extends Phaser.Scene {
 
         //enimies
         this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
-        this.physics.add.collider(this.enemies, this.collision_rects);
+        this.physics.add.collider(this.enemies, this.collision_rects, (enemy, collision_rect) => {
+            if (collision_rect.deadly == true){
+                enemy.die();
+            }
+        });
+        
         this.physics.add.collider(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
