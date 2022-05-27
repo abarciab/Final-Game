@@ -32,6 +32,21 @@ class titleScene extends Phaser.Scene {
             });
         })
 
+        this.options = this.add.sprite(game.config.width/2, game.config.height+ 350, 'options').setScale(3.6).setInteractive().setOrigin(0.5).setDepth(1).setVisible(true);
+        this.options.on('pointerdown', function(){
+            this.scene.button_click_sfx.play({volume: click_vol});
+            current_scene.tweens.add({
+                duration: 100,
+                targets: current_scene.grayRect,
+                alpha: 0,
+            });
+            current_scene.tweens.add({
+                duration: 500,
+                targets: current_scene.options,
+                y: game.config.height+ 350,
+            });
+        })
+
 
 
         this.title = this.add.sprite(420, 1000, 'title').setScale(4).setInteractive().setOrigin(0.5);
@@ -149,7 +164,6 @@ class titleScene extends Phaser.Scene {
                 targets: current_scene.credits,
                 y: 410,
             });
-            //this.scene.scene.start("level1IntroScene");
         })
 
         this.options_button.on('pointerover', function(){
@@ -158,6 +172,19 @@ class titleScene extends Phaser.Scene {
         })
         this.options_button.on('pointerout', function(){
             this.scene.options_button.clearTint();
+        })
+        this.options_button.on('pointerdown', function(){
+            this.scene.button_click_sfx.play({volume: click_vol});
+            current_scene.tweens.add({
+                duration: 100,
+                targets: current_scene.grayRect,
+                alpha: 0.4,
+            });
+            current_scene.tweens.add({
+                duration: 500,
+                targets: current_scene.options,
+                y: 410,
+            });
         })
 
         this.level_button.on('pointerover', function(){
