@@ -101,13 +101,13 @@ class level1FightScene extends Phaser.Scene {
             //console.log(projectile);
             projectile.reset();
         });
-        this.physics.add.overlap(this.enemy_projectiles.getChildren(), current_scene.targets, function(projectile, button) {
+        /*this.physics.add.overlap(this.enemy_projectiles.getChildren(), current_scene.targets, function(projectile, button) {
             if (projectile.activated != true){
                 current_scene.sound.play('pressure plate', {volume: 0.8});
                 activateButton(button);
             }
             button.activated = true;
-        })
+        })*/
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
     }
