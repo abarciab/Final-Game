@@ -107,7 +107,7 @@ class titleScene extends Phaser.Scene {
         })
 
         this.blackRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0, 1).setScale(20);
-        this.button_hover_sfx = this.sound.add('button hover'); 
+        this.button_hover_sfx = this.sound.add('button hover 2'); 
         this.button_click_sfx = this.sound.add('button click'); 
         let click_vol = 0.3;
         let hover_vol = 0.3;

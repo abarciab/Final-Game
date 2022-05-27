@@ -12,7 +12,6 @@ class level1IntroScene extends Phaser.Scene {
         pointer = current_scene.input.activePointer;
 
         let UI_scale = 4.86;
-
         this.add.image(game.config.width/2, game.config.height/2, 'office background').setScale(UI_scale).setOrigin(0.5);
 
         this.cameras.main.setBackgroundColor('#303030');        

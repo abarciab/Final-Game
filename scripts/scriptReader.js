@@ -15,6 +15,8 @@ class ScriptReader {
         this.character_variables = this.script_data.CharacterVariables;
         this.speaker_sfx;
         this.speaker_color;
+        this.play_speaker_sfx = true;
+        this.text_sfx_interval = 2;
 
         this.char_update_rate = this.script_data.defaultTextSpeed;
         this.char_update_timer = 0;
@@ -116,6 +118,8 @@ class ScriptReader {
         this.curr_line_index++;
         this.display_line = "";
         this.char_update_rate = this.script_data.defaultTextSpeed;
+        this.text_sfx_interval = 2;
+        this.play_speaker_sfx = true;
         // if the part is done, finish reading for the part and update part/levels and return false
         if (this.curr_line_index >= this.curr_script.length) {
             this.part++; 
@@ -145,7 +149,7 @@ class ScriptReader {
     setText() {
         // if the part is not done, return true to indicate still reading
         this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
-        if (this.curr_speaker in this.character_variables) {
+        if (this.curr_speaker.toLowerCase() in this.character_variables) {
             this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice, {volume: 0.5});
             this.speaker_color = this.character_variables[this.curr_speaker.toLowerCase()].color;
         }
@@ -209,7 +213,8 @@ class ScriptReader {
         if (this.line_paused) return;
         this.checkForCommand();
         this.display_line += this.curr_line[this.curr_char_index];
-        this.speaker_sfx.play();
+        if (this.play_speaker_sfx && this.display_line.length % this.text_sfx_interval == 0)
+            this.speaker_sfx.play();
         this.checkToAddNewline();
         this.curr_char_index++;
 
@@ -270,6 +275,33 @@ class ScriptReader {
                 switch (command.trim()) {
                     case "rate":
                         this.char_update_rate = parseFloat(command_content.trim());
+                        if (this.char_update_rate >= this.script_data.defaultTextSpeed) {
+                            this.text_sfx_interval = 1;
+                        }
+                        else if (this.char_update_rate < this.script_data.defaultTextSpeed) {
+                            this.text_sfx_interval = 2;
+                        }
+                        break;
+                    case "sfx":
+                        let sfx_volume = 1;
+                        switch (command_content.trim()) {
+                            case "bam":
+                                sfx_volume = 0.7;
+                                current_scene.cameras.main.shake(100);
+                                break;
+                            case "door jingle":
+                                sfx_volume = 0.4;
+                                break;
+                            default:
+                                break;
+                        }
+                        current_scene.sound.add(command_content.trim(), {volume: sfx_volume}).play();
+                        break;
+                    case "text_sfx_off":
+                        this.play_speaker_sfx = false;
+                        break;
+                    case "text_sfx_on":
+                        this.play_speaker_sfx = true;
                         break;
                     default:
                         console.log(command,"does not exist");
