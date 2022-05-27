@@ -76,7 +76,9 @@ class loadingScene extends Phaser.Scene {
         this.load.image('start button', './assets/UI/start button.png');
         this.load.image('level select button', './assets/UI/level select button.png');
         this.load.image('options button', './assets/UI/options button.png');
+        this.load.image('options', './assets/UI/options.png');
         this.load.image('credits button', './assets/UI/credits button.png');
+        this.load.image('credits menu', './assets/UI/credits menu.png');
         this.load.image('title', './assets/UI/title.png');
         this.load.image('player heart', './assets/player/player_heart.png');
         this.load.image('player half heart', './assets/player/player_heart_half.png');
@@ -89,6 +91,7 @@ class loadingScene extends Phaser.Scene {
         this.load.json('scriptData', './scripts/gameScript.json');
 
         //fran
+
         this.load.image('dash pointer', './assets/player/dash_pointer.png');
         this.load.spritesheet('dash pointer charged', './assets/player/dash_pointer_charged.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
         this.load.spritesheet('fran idle left', './assets/player/fran_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
@@ -99,7 +102,7 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('fran dash left', './assets/player/fran_dash_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('fran damage right', './assets/player/fran_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
         this.load.spritesheet('fran damage left', './assets/player/fran_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
-
+        this.load.spritesheet('dust cloud', './assets/player/dust_cloud.png', {frameWidth: 16, frameHeight: 16, start: 0, end: 2});
         //enemies
         this.load.image('shockwave', './assets/shockwave.png');
         this.load.image('white arrow', './assets/white arrow.png');
@@ -144,7 +147,7 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('enemy dead', './assets/sounds/sfx/enemy_dead.wav');
         this.load.audio('button hover', './assets/sounds/sfx/buttonHover.wav');
         this.load.audio('button click', './assets/sounds/sfx/button click.wav');
-        this.load.audio('vase break', './assets/sounds/sfx/vase breaking.wav');
+        this.load.audio('vase break', './assets/sounds/sfx/vase breaking.mp3');
         this.load.audio('pressure plate', './assets/sounds/sfx/pressure plate.mp3');
         this.load.audio('health pickup', './assets/sounds/sfx/health pickup.wav');
 
@@ -218,6 +221,12 @@ class loadingScene extends Phaser.Scene {
             frameRate: 4 * (1/0.3),//game_settings.player_perfect_dash_window),
             repeat: 0
         })
+        current_scene.anims.create({
+            key: "dust cloud",
+            frames: current_scene.anims.generateFrameNumbers("dust cloud", {start: 0, end: 2}),
+            frameRate: 6,
+            repeat: 0
+        })
 
         // charger animations
         current_scene.anims.create({
@@ -260,13 +269,13 @@ class loadingScene extends Phaser.Scene {
         })
         current_scene.anims.create({
             key: "golem attack right",
-            frameRate: 26,
+            frameRate: 13,
             frames: current_scene.anims.generateFrameNumbers("golem attack right", {start: 0, end: 12}),
             repeat: -1
         })
         current_scene.anims.create({
             key: "golem attack left",
-            frameRate: 26,
+            frameRate: 13,
             frames: current_scene.anims.generateFrameNumbers("golem attack left", {start: 0, end: 12}),
             repeat: -1
         })

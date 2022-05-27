@@ -114,6 +114,7 @@ function setupInteractables(map){
     }
 
     for(let i = 0; i < door_sprites.length; i++ ){
+        //let new_door = current_scene.physics.add.sprite()
         let new_door = current_scene.add.rectangle(door_sprites[i].x, door_sprites[i].y, door_sprites[i].displayWidth, door_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
         new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
         current_scene.physics.add.existing(new_door);
@@ -126,6 +127,9 @@ function setupInteractables(map){
         new_button.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_button);
         current_scene.physics.add.existing(new_button);
         new_button.data_sprite = button_sprites[i];
+        if (new_button.data_sprite.data.list.close_door == true){
+            new_button.data_sprite.setVisible(false);
+        }
         current_scene.buttons.push(new_button);
     }
 
@@ -218,37 +222,42 @@ function onEnemyDead(dead_enemy){
 function openDoors(circuit){
     //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
-        if (current_scene.doors[i].data_sprite.data && circuit - current_scene.doors[i].data_sprite.data.list.circuit == 0){
-            current_scene.doors[i].data_sprite.x -= 3;
-            let destX = current_scene.doors[i].data_sprite.x + 6
+        if ((current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit) || (current_scene.doors[i].locked == true) ){
 
             current_scene.tweens.add({
                 targets: current_scene.doors[i].data_sprite,
                 alpha: 0,
-                scaleY: 0,
-                duration: 1500,
+                duration: 800,
                 repeat: 0,
                 callbackScope: this,
-                onComplete: function() {current_scene.doors[i].data_sprite.destroy(); current_scene.doors[i].destroy();}
+                onComplete: function() {
+                    current_scene.doors[i].body.enable = false; 
+                    current_scene.doors[i].setVisible(false);
+                    current_scene.doors[i].data_sprite.setVisible(false);
+                }
             });
+        }
+    }  
+}
+
+function closeDoors(circuit){
+    console.log(`closing door #${circuit}`);
+    for(let i = 0; i < current_scene.doors.length; i++ ){
+        if (current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit){
 
             current_scene.tweens.add({
                 targets: current_scene.doors[i].data_sprite,
-                x: destX-3,
-                duration: 100,
-                yoyo: true,
-                repeat: 15,
+                alpha: 1,
+                duration: 200,
+                repeat: 0,
                 callbackScope: this,
+                onComplete: function() {
+                    current_scene.doors[i].body.enable = true; 
+                    current_scene.doors[i].setVisible(true);
+                    current_scene.doors[i].data_sprite.setVisible(true);
+                }
             });
-
-            current_scene.tweens.add({
-                targets: current_scene.doors[i].data_sprite,
-                x: destX,
-                duration: 100,
-                yoyo: true,
-                repeat: 15,
-                callbackScope: this,
-            });
+            current_scene.doors[i].locked = true;
         }
     }  
 }
@@ -274,8 +283,14 @@ function activateButton(button) {
 
     let circuit = button.data_sprite.data.list.circuit;
 
-    openDoors(circuit);
-    awakenEnemies(circuit);
+    
+    if (button.data_sprite.data.list.close_door == true){
+        closeDoors(circuit);
+    } else{
+        openDoors(circuit);
+        awakenEnemies(circuit);
+    }
+
 
     button.data_sprite.data.list.circuit = -1;
 }
@@ -313,6 +328,9 @@ function setupTilemapCollisions(layer){
                     new_rect.setFillStyle(0xFF0000);
                     current_scene.lava_rects.push(new_rect);
                 } else{
+                    if (tile.properties.deadly){
+                        new_rect.deadly = true;
+                    }
                     current_scene.collision_rects.push(new_rect);
                 }                
             }
@@ -349,7 +367,8 @@ function resume(){
 
 function playerWallCollision(player, rects) {
     const wall_bounce_mod = 0.3;
-    player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
+    if (player.dashing || player.stunned)
+        player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
 }
 
 function checkPlayerLavaCollision() {
@@ -407,6 +426,7 @@ function playerProjectileCollision(playerObj, projectile){
 function playerEnemyCollision(player, enemy){
     if (enemy.stunned) return;
     if (current_scene.player.dashing){
+        current_scene.cameras.main.shake(200, 0.002);
         player.bouncing = true;
         player.dash_cooldown_timer = player.dash_cooldown_duration;
         enemy.damage(current_scene.player.dash_damage);

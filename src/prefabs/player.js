@@ -65,6 +65,21 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.current_frame =  0;
         this.scaleX = 3;
         this.scaleY = 3;
+
+        this.dust_clouds = [];
+
+        /*this.particles = current_scene.add.particles('dust cloud');
+        // create particle emitter
+        this.emitter = this.particles.createEmitter({
+            lifespan: 300,
+            scaleX: 2,
+            scaleY: 2
+        });
+        this.particles.setDepth(4);
+        this.emitter.startFollow(this);*/
+
+        this.particles;
+        this.dash_emitter;
     }
 
     update(time, delta){
@@ -79,6 +94,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.chargeDash(delta);
         this.movePlayer(delta);
         this.updateDashPointer();
+        this.updateDustClouds();
 
         // dash damage is speed/dash_speed * dash_damage;
         // given: velocity of player and the angles the two objects are going.
@@ -91,6 +107,17 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
     }
 
+    updateDustClouds() {
+        for (let i = 0; i < this.dust_clouds.length; i++) {
+            if (!this.dust_clouds[i].anims.isPlaying) {
+                this.dust_clouds[i].setVisible(false);
+                this.dust_clouds[i].destroy();
+                this.dust_clouds.splice(i, 1);
+                i--;
+            }
+        }
+    }
+
     updateDashPointer() {
         // set position and angle of dash pointer
         this.dash_pointer.rotation = Phaser.Math.Angle.BetweenPoints(new Phaser.Math.Vector2(this.x, this.y), getMouseCoords());
@@ -99,15 +126,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     doneDashing() {
-        if (this.invincible) {
-            current_scene.enemyCollider.active = false;
-            this.body.bounce.set(0);
-        }
         this.dash_on_cooldown = true;
         this.body.bounce.set(0);
         this.footstep_timer = this.footstep_interval;
         this.dash_cancel_timer = 0;
         this.perfect_dash_timer = 0;
+        this.emitter.stop();
 
         this.perfect_dash = false;
         this.dashing = false;
@@ -209,10 +233,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 // update the speed
                 this.footstep_timer += delta/1000;
                 if (this.footstep_timer >= this.footstep_interval) {
-                    this.footstep_timer = 0;
-                    //this.player_sfx["step"].play();
+                    this.footstep_timer = 0;                    
                     current_scene.sound.add("footstep").play();
-                    //this.step_sfx.play();
+                    this.dust_clouds.push(
+                        current_scene.add.sprite(this.x, this.y+(this.displayHeight*0.2), 'dust cloud').setDepth(4).setScale(2).setAlpha(0.7)
+                    );
+                    this.dust_clouds[this.dust_clouds.length-1].anims.play('dust cloud', true);
                 }
             }
         }
@@ -221,9 +247,6 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     dash(){
         if (this.stunned) {
             return;
-        }
-        if (this.invincible) {
-            current_scene.enemyCollider.active = true;
         }
         this.charge_finished = false;
         if (this.perfect_dash) {
@@ -234,10 +257,24 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
         this.body.bounce.set(game_settings.player_bounce_mod);
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
+        // create the afterimage emitter
+        this.particles = current_scene.add.particles(`fran dash ${this.last_direction_moved.toLowerCase()}`);
+        this.emitter = this.particles.createEmitter({
+            lifespan: 300,
+            alpha: {
+                start: 0.3,
+                end: 0
+            },
+            frequency: 30,
+            scaleX: 3,
+            scaleY: 3
+        });
+        this.particles.setDepth(4);
+        this.emitter.startFollow(this);
+
         let speed = (this.charge_progress/game_settings.player_max_charge_progress)*game_settings.player_dash_speed;
         if (this.perfect_dash) {
             speed *= 1.5;
-            //console.log("perfect dash");
         }
         if (speed < this.min_dash_speed) speed = this.min_dash_speed;
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);
@@ -267,8 +304,11 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.invulnerable = true;
         this.body.bounce.set(game_settings.player_bounce_mod);
         this.player_sfx["charge"].stop();
+        
         this.charge_progress = 0;
         this.charge_finished = false;
+        this.perfect_dash_timer = 0;
+
         this.dash_pointer.setAlpha(0.3);
         const stun_duration = this.stun_duration * 1000;
         this.player_sfx["hit"].play();

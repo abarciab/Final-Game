@@ -17,7 +17,38 @@ class titleScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#FF6666');
 
-        //this.title_text = this.add.text(500, 180, 'H E L L V E T I C A', {color: '#000000', fontSize: '70px', stroke: '#FFFFFF', strokeThickness: 8}).setScale(0.9, 1).setOrigin(0.5);
+        this.credits = this.add.sprite(game.config.width/2, game.config.height+ 350, 'credits menu').setScale(3.6).setInteractive().setOrigin(0.5).setDepth(1).setVisible(true);
+        this.credits.on('pointerdown', function(){
+            this.scene.button_click_sfx.play({volume: click_vol});
+            current_scene.tweens.add({
+                duration: 100,
+                targets: current_scene.grayRect,
+                alpha: 0,
+            });
+            current_scene.tweens.add({
+                duration: 500,
+                targets: current_scene.credits,
+                y: game.config.height+ 350,
+            });
+        })
+
+        this.options = this.add.sprite(game.config.width/2, game.config.height+ 350, 'options').setScale(3.6).setInteractive().setOrigin(0.5).setDepth(1).setVisible(true);
+        this.options.on('pointerdown', function(){
+            this.scene.button_click_sfx.play({volume: click_vol});
+            current_scene.tweens.add({
+                duration: 100,
+                targets: current_scene.grayRect,
+                alpha: 0,
+            });
+            current_scene.tweens.add({
+                duration: 500,
+                targets: current_scene.options,
+                y: game.config.height+ 350,
+            });
+        })
+
+
+
         this.title = this.add.sprite(420, 1000, 'title').setScale(4).setInteractive().setOrigin(0.5);
         this.tweens.add({
             duration: 1000,
@@ -107,6 +138,7 @@ class titleScene extends Phaser.Scene {
         })
 
         this.blackRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0, 1).setScale(20);
+        this.grayRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0, 0).setScale(20).setAlpha(0);
         this.button_hover_sfx = this.sound.add('button hover'); 
         this.button_click_sfx = this.sound.add('button click'); 
         let click_vol = 0.3;
@@ -120,6 +152,19 @@ class titleScene extends Phaser.Scene {
         this.credits_button.on('pointerout', function(){
             this.scene.credits_button.clearTint();
         })
+        this.credits_button.on('pointerdown', function(){
+            this.scene.button_click_sfx.play({volume: click_vol});
+            current_scene.tweens.add({
+                duration: 100,
+                targets: current_scene.grayRect,
+                alpha: 0.4,
+            });
+            current_scene.tweens.add({
+                duration: 500,
+                targets: current_scene.credits,
+                y: 410,
+            });
+        })
 
         this.options_button.on('pointerover', function(){
             this.scene.button_hover_sfx.play({volume: hover_vol});
@@ -127,6 +172,19 @@ class titleScene extends Phaser.Scene {
         })
         this.options_button.on('pointerout', function(){
             this.scene.options_button.clearTint();
+        })
+        this.options_button.on('pointerdown', function(){
+            this.scene.button_click_sfx.play({volume: click_vol});
+            current_scene.tweens.add({
+                duration: 100,
+                targets: current_scene.grayRect,
+                alpha: 0.4,
+            });
+            current_scene.tweens.add({
+                duration: 500,
+                targets: current_scene.options,
+                y: 410,
+            });
         })
 
         this.level_button.on('pointerover', function(){
