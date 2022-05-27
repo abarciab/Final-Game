@@ -23,16 +23,64 @@
                 "location": "overworld",
                 "body": [
                     {
-                        "speaker": "person1",
-                        "text": "Help, I lost my keys!"
+                        "speaker": "",
+                        "text": "{rate:0.1}In a detective's office somewhere..."
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Don't worry I'll find it!"
+                        "text": "Sigh..."
                     },
                     {
-                        "speaker": "person1",
-                        "text": "Oh thank you so much!"
+                        "speaker": "Fran",
+                        "text": "I became a detective since all the movies and books made them seem cool... but this job is {rate:0.2}SO BORING."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "I hope something exciting happens around here sometime soon..."
+                    },
+                    {
+                        "speaker": "",
+                        "text": "{text_sfx_off} {sfx:door jingle} {rate:0}*DING*"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Is that a client?! Maybe god heard my plees and decided to give me something exciting!"
+                    },
+                    {
+                        "speaker": "Old Man",
+                        "text": "Hello I saw a flier for this place... is this Fran's Detective Agency?"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Why yes! Is there anything I can help you with today?{rate:0.5} {rate:0.02}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
+                    },
+                    {
+                        "speaker":"Old Man",
+                        "text": "My poor pooch has ran away while I was taking him on a walk in the forest, and I'm afraid I need help finding him."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "...Oh"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Well, I suppose this is what I should have expected."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Can you tell me what the dog looks like and where in the forest you lost them?"
+                    },
+                    {
+                        "speaker": "Old man",
+                        "text": "Pooch has pointy ears and has a silly high pitched bark that is distinct from other dogs. He ran off around{rate:0.5}... {rate:0.05}here in the forest during our walk"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Great. I suppose I don't have much else to do right now so I might as well start searching now..."
+                    },
+                    {
+                        "speaker": "Old Man",
+                        "text": "Oh thank you so much! I hope pooch is safe, poor boy."
                     }
                 ]
             },
