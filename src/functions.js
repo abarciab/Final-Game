@@ -100,6 +100,7 @@ function setupInteractables(map){
     const door_sprites = map.createFromObjects('interact', {name: 'door', key: 'door'});
     const button_sprites = map.createFromObjects('interact', {name: 'button', key:'button'});
     const vase_sprites = map.createFromObjects('interact', {name: 'vase', key: 'vase'});
+    const target_sprites = map.createFromObjects('interact', {name: 'target', key: 'target'});
     current_scene.vases = [];
     current_scene.doors = [];
     current_scene.buttons = [];
