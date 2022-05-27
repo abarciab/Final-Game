@@ -273,7 +273,7 @@ function awakenEnemies(circuit){
 }
 
 function activateButton(button) {
-    if (button.data_sprite.data.list.circuit == -1){
+    if (!button.data_sprite || button.data_sprite.data.list.circuit == -1){
         return;
     }
 
