@@ -336,21 +336,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             }
             source = source.owner;
             let redirect_multiplier = game_settings.golem_shockwave_power * 10;
-            //console.log(source.owner);
-            console.log(source.body.angle);
             const angle = -Math.atan2(source.x-this.x, source.y-this.y);
-            console.log(angle);
             const vel_x = redirect_multiplier * Math.sin(angle);
-            console.log(vel_x);
             const vel_y = redirect_multiplier * -Math.cos(angle);
-            console.log(vel_y);
-            //const vel_x = redirect_multiplier*(Math.cos(source.body.angle));
-            //const vel_y = redirect_multiplier*(Math.sin(source.body.angle));
             this.setVelocity(vel_x, vel_y);
         }
         else if (redirect && source){
-            console.log(source);
-            console.log(source.body.angle);
             let redirect_multiplier = game_settings.player_walk_speed*4;
             if (source.speed > redirect_multiplier) {
                 redirect_multiplier = source.speed;
