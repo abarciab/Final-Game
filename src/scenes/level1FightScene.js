@@ -20,6 +20,9 @@ class level1FightScene extends Phaser.Scene {
         this.pickups = [];
         this.pickup_sfx = this.sound.add('health pickup'); 
         this.physics.add.overlap(this.player, this.pickups, function(player, pickup) {
+            if (pickup.visible == false){
+                return;
+            }
             if (player.health < game_settings.player_max_health){
                 pickup.setVisible(false); player.health += 0.5;
                 current_scene.pickup_sfx.play({volume: 0.4});
@@ -79,13 +82,14 @@ class level1FightScene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
         this.physics.add.collider(this.pickups, this.collision_rects);
 
-        //enimies
+        //enemies
         this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
         this.physics.add.collider(this.enemies, this.collision_rects, (enemy, collision_rect) => {
             if (collision_rect.deadly == true){
                 enemy.die();
             }
         });
+        this.physics.add.collider(this.enemies, this.doors);
         
         this.physics.add.collider(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
@@ -97,6 +101,13 @@ class level1FightScene extends Phaser.Scene {
             //console.log(projectile);
             projectile.reset();
         });
+        this.physics.add.overlap(this.enemy_projectiles.getChildren(), current_scene.targets, function(projectile, button) {
+            if (projectile.activated != true){
+                current_scene.sound.play('pressure plate', {volume: 0.8});
+                activateButton(button);
+            }
+            button.activated = true;
+        })
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
     }

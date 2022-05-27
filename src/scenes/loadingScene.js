@@ -91,7 +91,6 @@ class loadingScene extends Phaser.Scene {
         this.load.json('scriptData', './scripts/gameScript.json');
 
         //fran
-
         this.load.image('dash pointer', './assets/player/dash_pointer.png');
         this.load.spritesheet('dash pointer charged', './assets/player/dash_pointer_charged.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
         this.load.spritesheet('fran idle left', './assets/player/fran_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
@@ -103,6 +102,7 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('fran damage right', './assets/player/fran_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
         this.load.spritesheet('fran damage left', './assets/player/fran_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
         this.load.spritesheet('dust cloud', './assets/player/dust_cloud.png', {frameWidth: 16, frameHeight: 16, start: 0, end: 2});
+
         //enemies
         this.load.image('shockwave', './assets/shockwave.png');
         this.load.image('white arrow', './assets/white arrow.png');
@@ -122,6 +122,7 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('shooter move right', './assets/enemies/shooter_move_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('shooter damage left', './assets/enemies/shooter_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
         this.load.spritesheet('shooter damage right', './assets/enemies/shooter_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
+
         //doggo
         this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
         this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
@@ -162,6 +163,7 @@ class loadingScene extends Phaser.Scene {
         this.load.image('white square', './assets/player/white square.png');
         this.load.image('white hexagon', './assets/player/white hexagon.png');
         this.load.image('vase', './assets/objects/vase.png');
+        this.load.image('target', './assets/objects/target.png');
         this.load.image('door', './assets/objects/door.png');
         this.load.image('button', './assets/objects/button.png');
         this.load.image('tiles', './assets/tilemaps/tiles.png');     
