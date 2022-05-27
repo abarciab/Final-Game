@@ -40,6 +40,7 @@ function initialize(scene){
         golem_shockwave_end_frame: 12,
         golem_shockwave_size: 3,
         golem_shockwave_duration: 300,
+        golem_shockwave_power: 350,
         golem_reload_time: 3000,
         
         golem_bounce_mod: 1,
@@ -415,8 +416,9 @@ function playerEnemyCollision(player, enemy){
 }
 
 function playerShockwaveCollision(player, shockwave){
+    //console.log(shockwave);
     if (!player.startInvulnerable || !player.invulnerable) {
-        current_scene.player.damage(shockwave, true);
+        current_scene.player.damage(shockwave, true, true);
     }
 }
 
