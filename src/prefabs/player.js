@@ -285,7 +285,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     //damages the player. source and redirect are optional
     //source: what damaged the player
     //redirect: how the player responds to the damage. if false, or not passed, player moves away from damage at a fixed speed. if true, player reverses their own direciton
-    damage(source, redirect){
+    damage(source, redirect, shockwave){
         // if player is invulnerable, cannot take damage
         if (this.invulnerable){
             return;
@@ -330,11 +330,23 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             }, null, this);
         }, null, this);
 
-        if (redirect && source){
+        if (shockwave){
+            if (this.dashing) {
+                this.doneDashing();
+            }
+            source = source.owner;
+            let redirect_multiplier = game_settings.golem_shockwave_power * 10;
+            const angle = -Math.atan2(source.x-this.x, source.y-this.y);
+            const vel_x = redirect_multiplier * Math.sin(angle);
+            const vel_y = redirect_multiplier * -Math.cos(angle);
+            this.setVelocity(vel_x, vel_y);
+        }
+        else if (redirect && source){
             let redirect_multiplier = game_settings.player_walk_speed*4;
             if (source.speed > redirect_multiplier) {
                 redirect_multiplier = source.speed;
             }
+            //console.log(source.body.angle);
             const vel_x = redirect_multiplier*(Math.cos(source.body.angle));
             const vel_y = redirect_multiplier*(Math.sin(source.body.angle));
             this.setVelocity(vel_x, vel_y);
