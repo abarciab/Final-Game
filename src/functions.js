@@ -16,7 +16,7 @@ function initialize(scene){
         player_dash_drag: 0.1,
         player_stun_time: 100,
         player_mass: 0.8,
-        player_bounce_mod: 1,
+        player_bounce_mod: 0.7,
         player_invincible_time: 1,
         player_perfect_dash_window: 0.3,
 
