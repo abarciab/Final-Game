@@ -77,6 +77,7 @@ class loadingScene extends Phaser.Scene {
         this.load.image('level select button', './assets/UI/level select button.png');
         this.load.image('options button', './assets/UI/options button.png');
         this.load.image('credits button', './assets/UI/credits button.png');
+        this.load.image('credits menu', './assets/UI/credits menu.png');
         this.load.image('title', './assets/UI/title.png');
         this.load.image('player heart', './assets/player/player_heart.png');
         this.load.image('player half heart', './assets/player/player_heart_half.png');
@@ -145,7 +146,7 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('enemy dead', './assets/sounds/sfx/enemy_dead.wav');
         this.load.audio('button hover', './assets/sounds/sfx/buttonHover.wav');
         this.load.audio('button click', './assets/sounds/sfx/button click.wav');
-        this.load.audio('vase break', './assets/sounds/sfx/vase breaking.wav');
+        this.load.audio('vase break', './assets/sounds/sfx/vase breaking.mp3');
         this.load.audio('pressure plate', './assets/sounds/sfx/pressure plate.mp3');
         this.load.audio('health pickup', './assets/sounds/sfx/health pickup.wav');
 
