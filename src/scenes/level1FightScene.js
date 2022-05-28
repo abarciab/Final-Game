@@ -14,7 +14,6 @@ class level1FightScene extends Phaser.Scene {
 
         //player
         this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
-        //this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
         this.bg_music = this.sound.add('level', {volume: 0.5});
         this.bg_music.setLoop(true).play();
         //health pickups
@@ -71,11 +70,11 @@ class level1FightScene extends Phaser.Scene {
         this.game_UI.setPlayerUI();
 
         game_settings.next_scene = `level1BossScene`;
-        game_script.readNextPart(this);
+        game_script.readScript(this, 1, 2);
+        
     }
 
     addColliders() {
-
         //player
         this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
         this.physics.add.collider(this.player, this.doors);
@@ -101,13 +100,7 @@ class level1FightScene extends Phaser.Scene {
             //console.log(projectile);
             projectile.reset();
         });
-        /*this.physics.add.overlap(this.enemy_projectiles.getChildren(), current_scene.targets, function(projectile, button) {
-            if (projectile.activated != true){
-                current_scene.sound.play('pressure plate', {volume: 0.8});
-                activateButton(button);
-            }
-            button.activated = true;
-        })*/
+
         this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
     }

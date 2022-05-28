@@ -158,7 +158,6 @@ class ScriptReader {
             this.speaker_color = "#FFFFFF";
         }
 
-
         this.speaker_textbox.setText(this.curr_speaker);
         this.speaker_textbox.setColor(this.speaker_color);
         this.display_textbox.setColor(this.speaker_color);
@@ -287,7 +286,7 @@ class ScriptReader {
                         switch (command_content.trim()) {
                             case "bam":
                                 sfx_volume = 0.7;
-                                current_scene.cameras.main.shake(100);
+                                current_scene.cameras.main.shake(25);
                                 break;
                             case "door jingle":
                                 sfx_volume = 0.4;

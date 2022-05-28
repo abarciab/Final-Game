@@ -409,6 +409,7 @@ class GolemEnemy extends BaseEnemy {
         this.loaded = true;
         this.golem_shockwave_start_frame = 5;
         this.golem_shockwave_end_frame = 12;
+        this.slam_sfx = current_scene.sound.add('enemy slam');
     }
 
     reset(){
@@ -471,6 +472,7 @@ class GolemEnemy extends BaseEnemy {
 
     fire(){
         //console.log("FIRE!");
+        this.slam_sfx.play();
         current_scene.cameras.main.shake(100, 0.003);
         let shockwave = null;
         for(let i = 0; i < this.shockwaves.length; i++){
@@ -513,6 +515,8 @@ class ShooterEnemy extends BaseEnemy {
         this.projectiles.push(current_scene.enemy_projectiles.borrow(this));
         this.loaded = true;
         this.ammo = game_settings.shooter_ammo;
+        this.fire_sfx = current_scene.sound.add('shoot sfx');
+        this.sizzle_sfx = current_scene.sound.add('sizzle', {volume: 0.3}).setLoop(true);
     }
 
     reset(){
@@ -530,6 +534,7 @@ class ShooterEnemy extends BaseEnemy {
                 this.scene.enemy_projectiles.return(projectile);
             }
         });
+        this.sizzle_sfx.stop();
         super.die();
     }
 
@@ -544,8 +549,15 @@ class ShooterEnemy extends BaseEnemy {
             return;
         }
 
+        if (this.active && !this.sizzle_sfx.isPlaying) {
+            this.sizzle_sfx.play();
+        }
         let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
-        
+        if (this.sizzle_sfx.isPlaying) {
+            let vol = ((config.width/2)/dist)/10;
+            if (vol > 0.3) vol = 0.3;
+            this.sizzle_sfx.setVolume(vol);
+        }
         if (dist >= game_settings.shooter_min_dist){
             if (this.loaded){    
                 this.loaded = false;
@@ -564,7 +576,7 @@ class ShooterEnemy extends BaseEnemy {
 
     fire(target){
         //console.log("shooter firing");
-
+        this.fire_sfx.play();
         let projectile = null;
         for(let i = 0; i < this.projectiles.length; i++){
             if (this.projectiles[i].visible == false){

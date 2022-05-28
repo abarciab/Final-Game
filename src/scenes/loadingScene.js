@@ -122,6 +122,11 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('shooter move right', './assets/enemies/shooter_move_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('shooter damage left', './assets/enemies/shooter_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
         this.load.spritesheet('shooter damage right', './assets/enemies/shooter_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
+        this.load.spritesheet('hank idle left', './assets/enemies/hank_idle_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank idle right', './assets/enemies/hank_idle_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank move left', './assets/enemies/hank_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank move right', './assets/enemies/hank_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+
 
         //doggo
         this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
@@ -156,6 +161,9 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('vase break', './assets/sounds/sfx/vase breaking.mp3');
         this.load.audio('pressure plate', './assets/sounds/sfx/pressure plate.mp3');
         this.load.audio('health pickup', './assets/sounds/sfx/health pickup.wav');
+        this.load.audio('shoot sfx', './assets/sounds/sfx/shoot_sfx.wav');
+        this.load.audio('enemy slam', './assets/sounds/sfx/enemy_slam.wav');
+        this.load.audio('sizzle', './assets/sounds/sfx/sizzle.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
@@ -351,6 +359,30 @@ class loadingScene extends Phaser.Scene {
             key: "dog move right",
             frameRate: 6,
             frames: current_scene.anims.generateFrameNumbers("dog move right", {start: 0, end: 2}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank idle left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("hank idle left", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank idle right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("hank idle right", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank move left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("hank move left", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank move right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("hank move right", {start: 0, end: 5}),
             repeat: -1
         })
     }

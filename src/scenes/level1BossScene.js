@@ -54,7 +54,7 @@ class level1BossScene extends Phaser.Scene {
         this.doggo = new Dog(200, 200, 'dog idle right');
 
         //hank
-        this.hank = new Hank1(800, 350, 'white hexagon').setTint(0xa0a0a0).setScale(1.5);
+        this.hank = new Hank1(800, 350, 'hank idle right');
         //this.hank.health = 0;
 
         //enemy collisions

@@ -7,8 +7,9 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.base_drag = 0.05;
         this.setDrag(this.base_drag);
         this.setDamping(true);
+        this.setScale(3);
         this.setCircle(this.width/2);
-        this.type = "HANK1";
+        this.type = "hank";
         this.last_direction_moved = "right";
         this.stunned = false;
         this.current_frame = 0;
@@ -48,7 +49,6 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         }
 
         //JUST TO SILENCE THE ANIMATION MISSING WARNINGS
-        return;
 
         const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
         if (Math.sin(angle) >= 0) 
@@ -59,7 +59,11 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         if (this.anims.isPlaying)
             this.current_frame = this.anims.currentFrame.index-1;
         if (!this.stunned) {
-            this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+            if (this.curr_speed <= 50) {
+                this.anims.play({key: `${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+            }
+            else
+                this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
         }
         else if (this.stunned) {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
