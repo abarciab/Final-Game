@@ -14,7 +14,7 @@ class level1FightScene extends Phaser.Scene {
 
         //player
         this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
-        this.bg_music = this.sound.add('level', {volume: 0.5});
+        this.bg_music = this.sound.add('level', {volume: 0.3});
         this.bg_music.setLoop(true).play();
         //health pickups
         this.pickups = [];
@@ -90,7 +90,7 @@ class level1FightScene extends Phaser.Scene {
         });
         this.physics.add.collider(this.enemies, this.doors);
         
-        this.physics.add.collider(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
+        //this.physics.add.collider(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
         this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
         this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
         this.physics.add.collider(this.player, this.enemy_shockwaves, playerShockwaveCollision.bind(this));

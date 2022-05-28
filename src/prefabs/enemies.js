@@ -48,6 +48,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         super(current_scene, x, y, texture);
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
+        disableCollision(this.body);
 
         this.owner = null;
         this.setActive(false);
@@ -136,6 +137,7 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
         super(current_scene, x, y, texture);
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
+        disableCollision(this.body);
 
         this.owner = null;
         //this.expanding_width = this.displayWidth*2;
@@ -186,6 +188,9 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         super(current_scene, x, y, texture);
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
+        
+        disableCollision(this.body);
+        console.log(this.body);
 
         this.base_drag = 0.05;
         this.setDrag(this.base_drag);
@@ -242,6 +247,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             .setStroke(`#000000`, 4)
             .setDepth(25)
         ];
+
+
     }
 
     reset() {
@@ -319,6 +326,10 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(timer, delta) {
+        if (!this.asleep && this.body.checkCollision.none){
+            enableCollision(this.body);
+        }
+
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         this.bounce_damage = Math.floor((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
 

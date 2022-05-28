@@ -3,10 +3,13 @@ let config = {
     width: 1400,
     height: 800,
     pixelArt: true, 
+    fps: {
+        target: 60,
+        forceSetTimeOut: true
+    },
     physics: {
         default: "arcade",
         arcade: { 
-            fps: 60,
             debug: false,
          },
     },

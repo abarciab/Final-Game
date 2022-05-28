@@ -423,6 +423,22 @@ function playerProjectileCollision(playerObj, projectile){
     }
 }
 
+function disableCollision(body){
+    body.checkCollision.none = true;
+    body.checkCollision.down = false;
+    body.checkCollision.left = false;
+    body.checkCollision.right = false;
+    body.checkCollision.up = false;
+}
+
+function enableCollision(body){
+    body.checkCollision.none = false;
+    body.checkCollision.down = true;
+    body.checkCollision.left = true;
+    body.checkCollision.right = true;
+    body.checkCollision.up = true;
+}
+
 // called after collision
 function playerEnemyCollision(player, enemy){
     if (enemy.stunned) return;
