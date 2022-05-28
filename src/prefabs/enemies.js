@@ -255,6 +255,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     reset() {
+        disableCollision(this.body);
         console.log(`reseting: ${type}`)
         this.setActive(true);
         this.setVisible(true);
@@ -319,6 +320,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     die() {
+        disableCollision(this.body);
         onEnemyDead(this);
         this.x = -100;
         this.y = -100;
