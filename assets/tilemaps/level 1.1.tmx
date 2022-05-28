@@ -775,10 +775,5 @@
     <property name="circuit" type="int" value="3"/>
    </properties>
   </object>
-  <object id="182" name="target" gid="9" x="393.697" y="613.303" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="0"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>

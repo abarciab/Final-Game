@@ -311,7 +311,7 @@
                         {
                          "name":"circuit",
                          "type":"int",
-                         "value":-1
+                         "value":0
                         }],
                  "rotation":0,
                  "type":"",
@@ -704,24 +704,6 @@
                  "width":64,
                  "x":2601.33,
                  "y":1095.33
-                }, 
-                {
-                 "gid":9,
-                 "height":64,
-                 "id":182,
-                 "name":"target",
-                 "properties":[
-                        {
-                         "name":"circuit",
-                         "type":"int",
-                         "value":0
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":393.697,
-                 "y":613.303
                 }],
          "opacity":1,
          "type":"objectgroup",
