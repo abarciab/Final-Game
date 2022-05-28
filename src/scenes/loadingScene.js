@@ -158,6 +158,10 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('health pickup', './assets/sounds/sfx/health pickup.wav');
 
         //music
+        this.load.audio('title', './assets/sounds/music/title.mp3');
+        this.load.audio('cutscene', './assets/sounds/music/cutscene.mp3');
+        this.load.audio('level', './assets/sounds/music/level1.mp3');
+        this.load.audio('boss', './assets/sounds/music/boss.mp3');
 
         //misc
         this.load.image('white square', './assets/player/white square.png');

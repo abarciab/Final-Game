@@ -1,7 +1,7 @@
 {
     "InitialLevel": 1,
     "InitialPart": 1,
-    "defaultTextSpeed": 0.05,
+    "defaultTextSpeed": 0.03,
     "CharacterVariables": {
         "fran": {
             "color": "#FFC0CB",
@@ -52,7 +52,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Why yes! Is there anything I can help you with today?{rate:0.5} {rate:0.02}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
+                        "text": "Why yes! Is there anything I can help you with today?{rate:0.5} {rate:0.01}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
                     },
                     {
                         "speaker":"Old Man",

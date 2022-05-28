@@ -12,6 +12,8 @@ class level1BossScene extends Phaser.Scene {
         this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
         this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
 
+        this.bg_music = this.sound.add('boss', {volume: 0.5});
+        this.bg_music.setLoop(true).play();
         //enemies
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');

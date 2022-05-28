@@ -15,7 +15,8 @@ class level1FightScene extends Phaser.Scene {
         //player
         this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
         //this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
-
+        this.bg_music = this.sound.add('level', {volume: 0.5});
+        this.bg_music.setLoop(true).play();
         //health pickups
         this.pickups = [];
         this.pickup_sfx = this.sound.add('health pickup'); 
@@ -34,7 +35,6 @@ class level1FightScene extends Phaser.Scene {
         this.enemies = [];
         this.enemy_projectiles = new ProjectileGroup('white arrow');
         this.enemy_shockwaves = new ShockwaveGroup('shockwave');
-        this.text_sfx;
         
         //tilemap
         const map = this.make.tilemap({key: 'level_1_map', tileWidth: 64, tileHeight: 64});

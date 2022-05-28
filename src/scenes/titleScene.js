@@ -10,7 +10,8 @@ class titleScene extends Phaser.Scene {
         let UI_scale = 4.86;
 
         this.add.image(game.config.width/2, game.config.height/2, 'title background').setScale(UI_scale).setOrigin(0.5);
-
+        this.bg_music = this.sound.add('title', {volume: 0.5});
+        this.bg_music.setLoop(true).play()
 
         const data = this.cache.json.get('scriptData');
         game_script = new ScriptReader(this, data);
@@ -207,7 +208,10 @@ class titleScene extends Phaser.Scene {
                 duration: 500,
                 targets: current_scene.blackRect,
                 y: game.config.height,
-                onComplete: function() {current_scene.scene.start("level1IntroScene");},
+                onComplete: function() {
+                    current_scene.bg_music.stop();
+                    current_scene.scene.start("level1IntroScene");
+                },
             });
             //this.scene.scene.start("level1IntroScene");
         })
@@ -218,9 +222,11 @@ class titleScene extends Phaser.Scene {
 
     update(){
         if (Phaser.Input.Keyboard.JustDown(key_1)){
+            this.bg_music.stop();
             this.scene.start("level1FightScene");
         }
         if (Phaser.Input.Keyboard.JustDown(key_2)){
+            this.bg_music.stop();
             this.scene.start("level1BossScene");
         }
 
