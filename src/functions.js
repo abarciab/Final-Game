@@ -1,4 +1,4 @@
-
+let current_map = 'level 1.0 map';
 //setup functions:
 function initialize(scene){
     current_scene = scene;
@@ -128,7 +128,7 @@ function setupInteractables(map){
         new_button.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_button);
         current_scene.physics.add.existing(new_button);
         new_button.data_sprite = button_sprites[i];
-        if (new_button.data_sprite.data.list.close_door == true){
+        if (new_button.data_sprite.data.list.close_door == true || new_button.data_sprite.data.list.invisible == true){
             new_button.data_sprite.setVisible(false);
         }
         current_scene.buttons.push(new_button);
@@ -277,8 +277,10 @@ function activateButton(button) {
         return;
     }
 
-    if (button.data_sprite.data.list.next_level == true){
-        current_scene.scene.start(game_settings.next_scene);
+    if (button.data_sprite.data.list.next_level){
+        console.log(`starting level: ${button.data_sprite.data.list.next_level}`);
+        current_map = button.data_sprite.data.list.next_level;
+        current_scene.scene.restart();
         return;
     }
 

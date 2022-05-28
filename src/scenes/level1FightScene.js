@@ -36,7 +36,7 @@ class level1FightScene extends Phaser.Scene {
         this.enemy_shockwaves = new ShockwaveGroup('shockwave');
         
         //tilemap
-        const map = this.make.tilemap({key: 'level_1.0_map', tileWidth: 64, tileHeight: 64});
+        const map = this.make.tilemap({key: current_map, tileWidth: 64, tileHeight: 64});
 
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
         const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
