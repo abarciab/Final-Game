@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="24" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="126">
+ <editorsettings>
+  <export target="level 1-0.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="tiles 1" tilewidth="64" tileheight="64" tilecount="90" columns="10">
+  <image source="tiles.png" width="642" height="576"/>
+  <tile id="0">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="43.1818" y="58.4545" width="20.4545" height="5.45455"/>
+   </objectgroup>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0909091" y="58.0909" width="64.0909" height="5.90909"/>
+   </objectgroup>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0909091" y="57" width="63.9091" height="6.90909"/>
+   </objectgroup>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.272727" y="56.8182" width="20.6364" height="7"/>
+   </objectgroup>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="enemy_2" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="enemy_3" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="enemy_4" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.181818" y="-0.0909091" width="42.4545" height="41"/>
+    <object id="2" x="42.2727" y="-0.181818" width="21.9091" height="64"/>
+   </objectgroup>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="0" width="63.9443" height="63.8646"/>
+   </objectgroup>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.181818" y="-0.272727" width="21.2727" height="64.3636"/>
+    <object id="2" x="21.3636" y="0" width="42.6364" height="40.9091"/>
+   </objectgroup>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.363636" y="-0.181818" width="20.4545" height="39.1818"/>
+   </objectgroup>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="enemy_1" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="player_spawn" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="vase" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="12.9003" y="-0.0796317" width="36.2324" height="63.785"/>
+   </objectgroup>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="42.9091" y="-0.0909091" width="21.0909" height="64.1818"/>
+   </objectgroup>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="0" width="64.0239" height="63.7054"/>
+   </objectgroup>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0909091" y="0" width="21.1818" height="64.0909"/>
+   </objectgroup>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="43.0011" y="0.0796317" width="20.8635" height="63.785"/>
+    <object id="2" x="-0.0796317" y="57.0959" width="42.6826" height="6.68906"/>
+   </objectgroup>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="0.0796317" width="20.4653" height="63.785"/>
+    <object id="2" x="21.2617" y="57.0959" width="42.6826" height="6.84833"/>
+   </objectgroup>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="-0.159263" width="63.785" height="63.9443"/>
+   </objectgroup>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0.0796317" width="63.9443" height="63.7054"/>
+   </objectgroup>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="0.159263" width="63.3072" height="63.6257"/>
+   </objectgroup>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="43.1818" y="0" width="20.8182" height="64"/>
+   </objectgroup>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="0.0796317" width="64.1832" height="63.785"/>
+   </objectgroup>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0909091" y="-0.0909091" width="21" height="63.9091"/>
+   </objectgroup>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="0" width="63.7054" height="64.0239"/>
+   </objectgroup>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="-0.159263" width="63.785" height="64.1832"/>
+   </objectgroup>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="0.0796317" width="63.785" height="63.785"/>
+   </objectgroup>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="-0.0796317" width="64.1035" height="64.2628"/>
+   </objectgroup>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="0.0796317" width="63.8646" height="63.3868"/>
+   </objectgroup>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="43" y="0" width="21" height="39.9091"/>
+   </objectgroup>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0909091" y="-0.181818" width="64.1818" height="39.0909"/>
+   </objectgroup>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="-0.0909091" width="21" height="38.6364"/>
+   </objectgroup>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.159263" y="0.159263" width="64.2628" height="37.7454"/>
+   </objectgroup>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.159263" y="0.0796317" width="63.785" height="63.785"/>
+   </objectgroup>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.318527" y="0" width="63.5461" height="63.6257"/>
+   </objectgroup>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.398159" y="-0.0796317" width="63.3868" height="63.5461"/>
+   </objectgroup>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="0.0796317" width="63.785" height="63.7054"/>
+   </objectgroup>
+  </tile>
+  <tile id="58">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0.318527" width="63.6257" height="63.3868"/>
+   </objectgroup>
+  </tile>
+  <tile id="60">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="5" x="46.0271" y="49.7699" width="17.8375" height="14.0948"/>
+   </objectgroup>
+  </tile>
+  <tile id="61">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.398159" y="41.8863" width="63.8646" height="22.2172"/>
+   </objectgroup>
+  </tile>
+  <tile id="62">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="3">
+    <object id="2" x="0.0796317" y="48.6549" width="19.9876" height="15.6078"/>
+   </objectgroup>
+  </tile>
+  <tile id="63">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="34.7194" y="43.5585" width="29.0656" height="20.2265"/>
+   </objectgroup>
+  </tile>
+  <tile id="64">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="42.5233" width="63.9443" height="21.3413"/>
+   </objectgroup>
+  </tile>
+  <tile id="65">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.318527" y="40.0547" width="29.4637" height="24.1284"/>
+   </objectgroup>
+  </tile>
+  <tile id="67">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="-0.238895" width="63.5461" height="64.1035"/>
+   </objectgroup>
+  </tile>
+  <tile id="68">
+   <properties>
+    <property name="deadly" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="-0.0796317" width="63.6257" height="63.9443"/>
+   </objectgroup>
+  </tile>
+  <tile id="70">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="38.3028" y="-0.238895" width="25.8007" height="63.9443"/>
+   </objectgroup>
+  </tile>
+  <tile id="71">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="0.159263" width="64.0239" height="63.7054"/>
+   </objectgroup>
+  </tile>
+  <tile id="72">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.0796317" y="0.238895" width="27.9507" height="63.7054"/>
+   </objectgroup>
+  </tile>
+  <tile id="76">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.159263" y="0.0796317" width="27.8711" height="63.2276"/>
+    <object id="4" x="27.8711" y="0" width="35.8343" height="35.2768"/>
+   </objectgroup>
+  </tile>
+  <tile id="77">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="-0.0796317" y="0" width="63.785" height="35.7546"/>
+    <object id="2" x="35.8343" y="35.7546" width="27.8711" height="27.8711"/>
+   </objectgroup>
+  </tile>
+  <tile id="80">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="6" x="40.6918" y="-0.159263" width="23.1728" height="26.2784"/>
+   </objectgroup>
+  </tile>
+  <tile id="81">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="63.7054" height="33.0472"/>
+   </objectgroup>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="2" x="-0.0796317" y="0.0796342" width="19.3505" height="20.8635"/>
+   </objectgroup>
+  </tile>
+  <tile id="83">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="33.4453" y="-0.318527" width="30.5786" height="54.4681"/>
+   </objectgroup>
+  </tile>
+  <tile id="84">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.159263" y="-0.0796317" width="63.5461" height="53.6718"/>
+   </objectgroup>
+  </tile>
+  <tile id="85">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0.238895" y="0.0796317" width="28.3489" height="54.7866"/>
+   </objectgroup>
+  </tile>
+  <tile id="86">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="0" y="0" width="28.5081" height="64.3424"/>
+    <object id="2" x="28.9063" y="42.1252" width="34.5602" height="21.2617"/>
+   </objectgroup>
+  </tile>
+  <tile id="87">
+   <properties>
+    <property name="lava" type="bool" value="true"/>
+   </properties>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="35.1972" y="-0.318527" width="28.4285" height="64.1035"/>
+    <object id="3" x="-0.159263" y="41.8066" width="35.1972" height="21.8191"/>
+   </objectgroup>
+  </tile>
+ </tileset>
+ <layer id="1" name="0" width="24" height="24">
+  <data encoding="csv">
+52,52,51,52,51,53,53,52,52,52,52,52,52,52,52,53,52,52,52,52,51,52,52,52,
+51,52,52,51,52,52,52,52,52,52,52,52,52,52,52,51,52,52,52,52,52,52,52,52,
+52,52,52,51,52,51,52,52,53,52,53,52,52,52,53,52,53,52,52,51,52,52,52,52,
+52,52,52,52,52,52,51,52,52,52,52,52,52,53,52,52,52,52,52,52,52,52,52,52,
+52,52,52,51,52,52,52,52,52,52,51,52,52,51,51,52,52,52,52,52,52,52,52,53,
+52,52,52,52,52,52,52,52,52,52,53,52,51,52,52,53,52,52,53,52,53,52,52,51,
+52,51,52,52,52,52,52,53,52,52,51,52,52,52,52,52,52,51,51,52,52,51,52,52,
+52,53,52,52,52,52,52,52,52,52,52,52,52,51,52,52,53,52,52,52,52,52,52,52,
+52,51,52,52,52,52,52,52,52,52,52,53,52,52,52,51,52,53,52,52,52,52,53,52,
+52,52,52,52,52,52,52,52,51,52,52,51,53,52,52,53,52,52,52,52,53,52,53,52,
+51,51,52,52,53,52,52,52,52,52,52,53,52,52,52,52,52,52,52,52,52,52,51,52,
+52,52,52,52,53,52,52,52,52,51,52,52,52,52,53,52,53,51,51,52,52,52,52,52,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="1" width="24" height="24">
+  <data encoding="csv">
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,13,42,42,42,42,42,42,42,42,42,42,64,65,65,65,66,42,42,42,42,42,11,22,
+22,23,0,0,0,0,0,0,0,0,0,0,71,72,72,72,73,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,71,72,72,72,73,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,71,72,72,72,73,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,71,72,72,72,73,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,71,72,72,72,73,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,71,72,72,72,73,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,71,72,72,72,73,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,71,72,72,72,73,0,0,0,0,0,21,22,
+22,25,2,2,2,2,2,2,2,2,2,2,84,85,85,85,86,2,2,2,2,2,24,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22
+</data>
+ </layer>
+ <layer id="3" name="2" width="24" height="24">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,42,42,42,42,42,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="4" name="markers" width="24" height="24" opacity="0.61">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="7" name="lights"/>
+ <objectgroup id="6" name="enemies">
+  <object id="117" name="enemy_1" gid="16" x="1124" y="396" width="64" height="64">
+   <properties>
+    <property name="room" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="119" name="enemy_1" gid="16" x="1198" y="198" width="64" height="64">
+   <properties>
+    <property name="room" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="120" name="enemy_1" gid="16" x="1292" y="320" width="64" height="64">
+   <properties>
+    <property name="room" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="121" name="enemy_1" gid="16" x="1182" y="516" width="64" height="64">
+   <properties>
+    <property name="room" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="123" name="enemy_2" gid="6" x="1353.33" y="541.333" width="64" height="64">
+   <properties>
+    <property name="room" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="124" name="enemy_3" gid="7" x="1156" y="660" width="64" height="64">
+   <properties>
+    <property name="room" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="interact">
+  <object id="122" name="button" gid="5" x="446" y="342" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

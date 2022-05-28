@@ -38,6 +38,7 @@ class ProjectileGroup extends Phaser.Physics.Arcade.Group {
     }
 
     return(projectile){
+        disableCollision(projectile.body);
         projectile.owner = null;
         this.num_free += 1;
     }
@@ -66,11 +67,14 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         if (this.owner == null){
             this.scene.enemy_projectiles.return(this);
         }
+        disableCollision(this.body);
     }
 
     update(){
         if (!this.active){
             return;
+        } else{
+            enableCollision(this.body);
         }
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
         let pos = new Phaser.Math.Vector2(this.x, this.y);
@@ -190,7 +194,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         current_scene.add.existing(this);
         
         disableCollision(this.body);
-        console.log(this.body);
 
         this.base_drag = 0.05;
         this.setDrag(this.base_drag);
