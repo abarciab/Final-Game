@@ -367,7 +367,7 @@ function resume(){
 //COLLISION FUNCTIONS
 
 function playerWallCollision(player, rects) {
-    const wall_bounce_mod = 0.3;
+    const wall_bounce_mod = 0.4;
     if (player.dashing || player.stunned)
         player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
 }
@@ -382,7 +382,7 @@ function checkPlayerLavaCollision() {
 }
 
 function playerLavaCollision(player, lava_tile){
-    current_scene.on_lava = true;
+    player.on_lava = true;
     if (!player.dashing){
         player.setPosition(player.safe_pos.x, player.safe_pos.y);
         player.body.setVelocity(0, 0);

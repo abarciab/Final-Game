@@ -240,6 +240,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             .setFontSize(26)
             .setColor(`#FFFFFF`)
             .setStroke(`#000000`, 4)
+            .setDepth(25)
         ];
     }
 
@@ -281,7 +282,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         for (let i = 0; i < this.damage_text_array.length; i++) {
             if ((this.damage_text_array[i].visible == true) && (i+1 >= this.damage_text_array.length)) {
                 this.damage_text_array.push(current_scene.add.text(0, 0, damage_value));
-                this.damage_text_array[i+1].setFontSize(26);
+                this.damage_text_array[i+1].setFontSize(26).setDepth(25);
                 if (damage_value > game_settings.dash_damage) {
                     this.damage_text_array[i+1].setColor('#FF7F7F');
                 }
