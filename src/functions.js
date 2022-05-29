@@ -1,4 +1,4 @@
-let current_map = 'level 1.2 map';
+let current_map = 'level 1.0 map';
 //setup functions:
 function initialize(scene){
     current_scene = scene;
