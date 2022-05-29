@@ -1,4 +1,4 @@
-let current_map = 'level 1.1 map';
+let current_map = 'level 1.2 map';
 //setup functions:
 function initialize(scene){
     current_scene = scene;
@@ -187,13 +187,15 @@ function setupEnemies(map){
     for (let i = 0; i < enemy2Sprites.length; i++) {
         let new_enemy = spawnEnemy(game_settings.enemy2_name, enemy2Sprites[i].x, enemy2Sprites[i].y, true);
         if (enemy2Sprites[i].data != null){
-            if (enemy2Sprites[i].data.list.room){
+            if (enemy2Sprites[i].data.list.room != null){
                 new_enemy.room = enemy2Sprites[i].data.list.room;
                 new_enemy.asleep = true;
             }
-            if (enemy2Sprites[i].data.list.circuit){
+            if (enemy2Sprites[i].data.list.circuit != null){
                 new_enemy.circuit = enemy2Sprites[i].data.list.circuit;
             }
+        } else{
+            console.log(enemy2Sprites[i].data.list);
         }
 
         enemy2Sprites[i].destroy();

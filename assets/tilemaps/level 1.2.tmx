@@ -730,22 +730,22 @@
   </object>
   <object id="198" name="enemy_2" gid="6" x="1783.33" y="1320.67" width="64" height="64">
    <properties>
-    <property name="room" type="int" value="1"/>
+    <property name="room" type="int" value="2"/>
    </properties>
   </object>
   <object id="199" name="enemy_2" gid="6" x="2002.67" y="1206.67" width="64" height="64">
    <properties>
-    <property name="room" type="int" value="1"/>
+    <property name="room" type="int" value="2"/>
    </properties>
   </object>
   <object id="200" name="enemy_2" gid="6" x="1860" y="1202.67" width="64" height="64">
    <properties>
-    <property name="room" type="int" value="1"/>
+    <property name="room" type="int" value="2"/>
    </properties>
   </object>
   <object id="201" name="enemy_2" gid="6" x="2136" y="1268" width="64" height="64">
    <properties>
-    <property name="room" type="int" value="1"/>
+    <property name="room" type="int" value="2"/>
    </properties>
   </object>
   <object id="203" name="enemy_3" gid="7" x="2436" y="885.333" width="64" height="64">
