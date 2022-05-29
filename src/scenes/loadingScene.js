@@ -165,6 +165,7 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('shoot sfx', './assets/sounds/sfx/shoot_sfx.wav');
         this.load.audio('enemy slam', './assets/sounds/sfx/enemy_slam.wav');
         this.load.audio('sizzle', './assets/sounds/sfx/sizzle.wav');
+        this.load.audio('woof', './assets/sounds/sfx/woof.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');

@@ -20,7 +20,7 @@
     "Script": {
         "level1": {
             "part1": {
-                "location": "overworld",
+                "location": "office",
                 "body": [
                     {
                         "speaker": "",
@@ -85,11 +85,56 @@
                 ]
             },
             "part2": {
+                "location": "forest",
+                "body": [
+                    {
+                        "speaker": "Fran",
+                        "text": "Ugh, this place is a maze. How on earth am I going to find anything in this place?"
+                    },
+                    {
+                        "speaker": "???",
+                        "text": "{sfx:woof} woof!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "!{rate:1} {rate:0.03}That must be the dog!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "I definitely heard the sound coming from{rate: 0.5}...{rate:0.02} this way!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "..."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Surely it's not{rate:0.06}...{rate:0.03} here?{rate:1} {rate:0.03}In this dangerous looking cave?"
+                    },
+                    {
+                        "speaker": "???",
+                        "text": "{sfx:woof} woof!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Ah shoot it is coming from that cave{rate:0.5}...{rate:0.03} {sfx:bam}Ah screw it!{rate:0.5} {rate:0.03}I'm sure it'll just be a quick trip in and out..."
+                    }
+                ]
+            },
+            "part3": {
                 "location": "hell",
                 "body": [
                     {
                         "speaker": "Fran",
-                        "text": "where am I?"
+                        "text": "Wh-where am I??"
+                    },
+                    {
+                        "speaker": "Dog",
+                        "text": "{pan:dog} {sfx:woof}woof!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "{pan:fran} {sfx:bam}H-Hey, come back here!"
                     }
                 ]
             }

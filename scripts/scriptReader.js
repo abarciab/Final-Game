@@ -21,10 +21,13 @@ class ScriptReader {
         this.char_update_rate = this.script_data.defaultTextSpeed;
         this.char_update_timer = 0;
 
+        this.background;
+
         this.reading_script = false;
         this.line_finished = false;
         this.script_done = false;
         this.line_paused = false;
+        this.hide_display = false;
 
         this.level = script_data.InitialLevel;
         this.part = script_data.InitialPart;
@@ -44,8 +47,8 @@ class ScriptReader {
         this.speaker_font_size = 40;
 
         this.speaker_textbox;
-        this.display_textbox = scene.add.text(0, 0, "this is a text box").setFontSize(this.font_size).setDepth(10).setVisible(false);
-        this.bg_textbox = scene.add.image(0, 0, 'textbox').setDepth(9).setScale(10).setOrigin(0, 0).setVisible(false);
+        this.display_textbox = scene.add.text(0, 0, "this is a text box").setFontSize(this.font_size).setDepth(20).setVisible(false);
+        this.bg_textbox = scene.add.image(0, 0, 'textbox').setDepth(19).setScale(10).setOrigin(0, 0).setVisible(false);
         this.bg_textbox_x = (config.width-this.bg_textbox.displayWidth)/2;
         this.bg_textbox_y = config.height-this.bg_textbox.displayHeight;
 
@@ -63,12 +66,19 @@ class ScriptReader {
 
     readNextPart() {
         let scene = current_scene;
-        if (!this.script_done) {
-            this.readScript(scene, this.level, this.part);
+        this.part++; 
+        // if done with parts, move to next level
+        if (!(`part${this.part}` in this.script_sections[`level${this.level}`])) {
+            this.part = 1;
+            this.level++;
+            // if no more levels, finish reading script
+            if (!(`level${this.level}` in this.script_sections)) {
+                console.log("script done/level not in script");
+                this.script_done = true;
+                return;
+            }
         }
-        else {
-            console.log("no more script to read");
-        }
+        this.readScript(scene, this.level, this.part);
     }
 
     readScript(scene, level, part) {
@@ -76,6 +86,7 @@ class ScriptReader {
         this.reading_script = true;
         this.line_paused = false;
         this.mouse_held = true;
+        this.line_finished = false;
 
         this.level = level;
         this.part = part;
@@ -90,23 +101,28 @@ class ScriptReader {
         this.curr_line = this.curr_script[this.curr_line_index].text;
 
         this.text_margins = this.bg_textbox.displayWidth * 0.2;
-        if (scene.camera != undefined) {
-            this.bg_textbox_x =  (config.width-this.bg_textbox.displayWidth)/2 + scene.camera.worldView.x;
-            this.bg_textbox_y = config.height-this.bg_textbox.displayHeight + scene.camera.worldView.y;
-        }
-        else {
-            this.bg_textbox_x = (config.width-this.bg_textbox.displayWidth)/2;
-            this.bg_textbox_y = config.height-this.bg_textbox.displayHeight;
+
+        switch (this.current_location) {
+            case "office":
+                this.background = current_scene.add.image(game.config.width/2, game.config.height/2, 'office background').setScale(4.86).setOrigin(0.5).setDepth(1);
+                break;
+            case "forest":
+                //break;
+            default:
+                if (this.background != undefined) {
+                    this.background.setVisible(false);
+                }
+                break;
         }
 
         this.speaker_textbox = scene.add.text(this.text_margins, this.speaker_y, "")
-        .setFontSize(this.speaker_font_size).setDepth(10);
+        .setFontSize(this.speaker_font_size).setDepth(20);
 
         this.display_textbox = scene.add.text(this.text_margins, this.textbox_y, "")
-        .setFontSize(this.font_size).setDepth(10).setOrigin(0, 0);
+        .setFontSize(this.font_size).setDepth(20).setOrigin(0, 0);
 
         this.bg_textbox = scene.add.image(this.bg_textbox_x, this.bg_textbox_y, 'textbox')
-        .setDepth(9).setScale(10).setOrigin(0, 0);
+        .setDepth(19).setScale(10).setOrigin(0, 0);
 
         this.setText();
     }
@@ -122,19 +138,8 @@ class ScriptReader {
         this.play_speaker_sfx = true;
         // if the part is done, finish reading for the part and update part/levels and return false
         if (this.curr_line_index >= this.curr_script.length) {
-            this.part++; 
             this.curr_line_index = 0;
             this.reading_script = false;
-            // if done with parts, move to next level
-            if (!(`part${this.part}` in this.script_sections[`level${this.level}`])) {
-                this.part = 1;
-                this.level++;
-                // if no more levels, finish reading script
-                if (!(`level${this.level}` in this.script_sections)) {
-                    console.log("script done/level not in script");
-                    this.script_done = true;
-                }
-            }
             this.display_textbox.setVisible(false);
             this.speaker_textbox.setVisible(false);
             this.bg_textbox.setVisible(false);
@@ -165,6 +170,29 @@ class ScriptReader {
 
     updateScript(delta) {
         if (!this.reading_script) return;
+        if (this.hide_display) {
+            this.bg_textbox.setVisible(false);
+            this.display_textbox.setVisible(false);
+            this.speaker_textbox.setVisible(false);
+            this.display_textbox.setVisible(false);
+            return;
+        }
+        else if (!this.bg_textbox.visible) {
+            this.bg_textbox.setVisible(true);
+            this.display_textbox.setVisible(true);
+            this.speaker_textbox.setVisible(true);
+            this.display_textbox.setVisible(true);
+        }
+
+        // check if they hit escape to skip cutscene
+        if (key_esc.isDown) {
+            console.log("skip")
+            this.reading_script = false;
+            this.display_textbox.setVisible(false);
+            this.speaker_textbox.setVisible(false);
+            this.bg_textbox.setVisible(false);
+            return;
+        }
 
         if (!this.mouse_held && pointer.isDown) {
             this.mouse_held = true;
@@ -291,10 +319,38 @@ class ScriptReader {
                             case "door jingle":
                                 sfx_volume = 0.4;
                                 break;
+                            case "woof":
+                                sfx_volume = 0.7;
+                                break;
                             default:
                                 break;
                         }
                         current_scene.sound.add(command_content.trim(), {volume: sfx_volume}).play();
+                        break;
+                    case "pan":
+                        switch (command_content.trim()) {
+                            case "dog":
+                                if (current_scene.dog == undefined) {
+                                    console.log("dog does not exist in current scene");
+                                    break;
+                                }
+                                this.hide_display = true;
+                                panTo(current_scene.cameras.main, current_scene.dog);
+                                
+                                break;
+                            case "hank":
+                                break;
+                            case "fran":
+                                if (current_scene.player == undefined) {
+                                    console.log("player does not exist in current scene");
+                                    break;
+                                }
+                                this.hide_display = true;
+                                panTo(current_scene.cameras.main, current_scene.player);
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case "text_sfx_off":
                         this.play_speaker_sfx = false;
