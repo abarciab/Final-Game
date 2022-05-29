@@ -104,6 +104,15 @@ function setupInteractables(map){
     current_scene.vases = [];
     current_scene.doors = [];
     current_scene.buttons = [];
+    current_scene.targets = [];
+
+    for (let i = 0; i < target_sprites.length; i++) {
+        let new_target = current_scene.add.rectangle(target_sprites[i].x, target_sprites[i].y, target_sprites[i].displayWidth, target_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
+        new_target.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_target);
+        current_scene.physics.add.existing(new_target);
+        new_target.circuit = target_sprites[i].data.list.circuit;
+        current_scene.targets.push(new_target);
+    }
 
     for (let i = 0; i < vase_sprites.length; i++) {
         let new_vase = current_scene.add.rectangle(vase_sprites[i].x, vase_sprites[i].y, vase_sprites[i].displayWidth, vase_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
@@ -164,7 +173,9 @@ function setupEnemies(map){
 
     for (let i = 0; i < enemy1Sprites.length; i++) {
         let new_enemy = spawnEnemy(game_settings.enemy1_name, enemy1Sprites[i].x, enemy1Sprites[i].y, true);
+
         new_enemy.room = enemy1Sprites[i].data.list.room;
+        
         if (enemy1Sprites[i].data.list.circuit){
             new_enemy.circuit = enemy1Sprites[i].data.list.circuit;
         }
@@ -180,22 +191,27 @@ function setupEnemies(map){
                 new_enemy.room = enemy2Sprites[i].data.list.room;
                 new_enemy.asleep = true;
             }
-
             if (enemy2Sprites[i].data.list.circuit){
                 new_enemy.circuit = enemy2Sprites[i].data.list.circuit;
             }
         }
+
         enemy2Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
     }
 
     for (let i = 0; i < enemy3Sprites.length; i++) {
         let new_enemy = spawnEnemy(game_settings.enemy3_name, enemy3Sprites[i].x, enemy3Sprites[i].y, true);
-        new_enemy.room = enemy3Sprites[i].data.list.room;
-        if (enemy3Sprites[i].data.list.circuit){
-            new_enemy.circuit = enemy3Sprites[i].data.list.circuit;
+        if (enemy3Sprites[i].data != null){
+            if (enemy3Sprites[i].data.list.room != null){
+                new_enemy.room = enemy3Sprites[i].data.list.room;
+                new_enemy.asleep = true;
+            }
+            if (enemy3Sprites[i].data.list.circuit != null){
+                new_enemy.circuit = enemy3Sprites[i].data.list.circuit;
+            } 
         }
-        new_enemy.asleep = true;
+
         enemy3Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
     }
@@ -203,18 +219,23 @@ function setupEnemies(map){
 
 function onEnemyDead(dead_enemy){
     let circuit = dead_enemy.circuit;
-    if (!circuit) {return;}
+    console.log(`circuit: ${circuit}, nan: ${isNaN(circuit)}`);
+    if (!circuit && isNaN(circuit)) {console.log("ahhhh"); return; }
 
     let last = true;
     current_scene.enemies.forEach(enemy => {
         if (enemy != dead_enemy && enemy.visible == true && enemy.active == true && enemy.circuit == circuit){
             last = false;
+            
             return;
         }
     });
     if (!last){
+        console.log("more enemies to kill...");
         return;
     }
+    console.log("last enemy killed");
+
 
     openDoors(circuit);
     awakenEnemies(circuit)
@@ -273,29 +294,41 @@ function awakenEnemies(circuit){
 }
 
 function activateButton(button) {
-    if (!button.data_sprite || button.data_sprite.data.list.circuit == -1){
+    if ( (!button.data_sprite || button.data_sprite.data.list.circuit == -1) && button.circuit == null){
+        console.log(`invalid button. null: ${button.circuit == null}`);
+        return;
+    } else if (button.circuit == -1){
         return;
     }
 
-    if (button.data_sprite.data.list.next_level){
+    if (button.circuit == null && button.data_sprite.data.list.next_level){
         console.log(`starting level: ${button.data_sprite.data.list.next_level}`);
         current_map = button.data_sprite.data.list.next_level;
+        current_scene.bg_music.stop();
         current_scene.scene.restart();
         return;
     }
 
-    let circuit = button.data_sprite.data.list.circuit;
+    let circuit
+    if (button.circuit == null){
+        circuit = button.data_sprite.data.list.circuit;
+    } else{
+        circuit = button.circuit;
+    }
 
     
-    if (button.data_sprite.data.list.close_door == true){
+    if (button.circuit == null && button.data_sprite.data.list.close_door == true){
         closeDoors(circuit);
     } else{
         openDoors(circuit);
         awakenEnemies(circuit);
     }
 
-
-    button.data_sprite.data.list.circuit = -1;
+    if (button.circuit == null){
+        button.data_sprite.data.list.circuit = -1;
+    } else{
+        button.circuit = -1;
+    }
 }
 
 function setupTilemapCollisions(layer){

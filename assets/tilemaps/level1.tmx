@@ -4,7 +4,7 @@
   <export target="level1map.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="tiles 1" tilewidth="64" tileheight="64" tilecount="90" columns="10">
-  <image source="tiles.png" width="642" height="576"/>
+  <image source="tiles.png" width="640" height="576"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -729,7 +729,7 @@
     <property name="room" type="int" value="2"/>
    </properties>
   </object>
-  <object id="65" name="enemy_1" gid="16" x="1413" y="1295.33" width="64" height="64">
+  <object id="65" name="enemy_1" gid="16" x="1411" y="1283.33" width="64" height="64">
    <properties>
     <property name="room" type="int" value="2"/>
    </properties>
