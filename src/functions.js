@@ -590,7 +590,7 @@ function spawnEnemy(type, x, y, _return){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ShooterEnemy(x, y, 'shooter');
+                new_enemy = new ShooterEnemy(x, y, 'shooter move right');
             }
             break;
         default: 
