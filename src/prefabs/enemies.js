@@ -58,7 +58,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     }
 
     reset(){
-        //console.log(`reseting projectile. active projectile: ${this.scene.enemy_projectiles.countActive(true)}, inactive: ${this.scene.enemy_projectiles.countActive(false)}`);
+        console.log(`reseting projectile`);
         this.setActive(false);
         this.deflected = false;
         this.body.stop();
@@ -81,8 +81,12 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
 
         if (this.active){
-            let camera_pos = getCameraCoords(null, this.x, this.y);
+            /*let camera_pos = getCameraCoords(null, this.x, this.y);
             if (camera_pos.x < -50 || camera_pos.y < -50 || camera_pos.x > game.config.width + 50 || camera_pos.y > game.config.y + 50){
+                console.log("out fo bounds, reseting");
+                this.reset();
+            }*/
+            if (this.x > current_scene.player.x + game.config.width || this.x < current_scene.player.x - game.config.width || this.y > current_scene.player.y + game.config.height || this.y < current_scene.player.y - game.config.height){
                 this.reset();
             }
         }
@@ -582,7 +586,7 @@ class ShooterEnemy extends BaseEnemy {
     update(time, delta){
         super.update(time, delta);
         if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
-        if (this.stunned|| this.asleep){
+        if (this.stunned|| this.asleep || !this.active){
             /*if (this.room == 2){
                 console.log(`asleep: ${this.asleep}, room: ${this.room}`);
             }*/
@@ -614,7 +618,10 @@ class ShooterEnemy extends BaseEnemy {
     }
 
     fire(target){
-        //console.log("shooter firing");
+        console.log("shooter firing");
+
+
+
         this.fire_sfx.play();
         let projectile = null;
         for(let i = 0; i < this.projectiles.length; i++){

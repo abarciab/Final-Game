@@ -221,8 +221,7 @@ function setupEnemies(map){
 
 function onEnemyDead(dead_enemy){
     let circuit = dead_enemy.circuit;
-    console.log(`circuit: ${circuit}, nan: ${isNaN(circuit)}`);
-    if (!circuit && isNaN(circuit)) {console.log("ahhhh"); return; }
+    if (!circuit && isNaN(circuit)) {return; }
 
     let last = true;
     current_scene.enemies.forEach(enemy => {
@@ -233,10 +232,8 @@ function onEnemyDead(dead_enemy){
         }
     });
     if (!last){
-        console.log("more enemies to kill...");
         return;
     }
-    console.log("last enemy killed");
 
 
     openDoors(circuit);
@@ -265,7 +262,6 @@ function openDoors(circuit){
 }
 
 function closeDoors(circuit){
-    console.log(`closing door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
         if (current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit){
 
