@@ -10,7 +10,7 @@ class titleScene extends Phaser.Scene {
         let UI_scale = 4.86;
 
         this.add.image(game.config.width/2, game.config.height/2, 'title background').setScale(UI_scale).setOrigin(0.5);
-        this.bg_music = this.sound.add('title', {volume: 0.3});
+        this.bg_music = this.sound.add('title', {volume: 0.1});
         this.bg_music.setLoop(true).play()
 
         const data = this.cache.json.get('scriptData');

@@ -14,7 +14,7 @@ class level1FightScene extends Phaser.Scene {
 
         //player
         this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
-        this.bg_music = this.sound.add('level', {volume: 0.3});
+        this.bg_music = this.sound.add('level', {volume: 0.1});
         this.bg_music.setLoop(true).play();
         //health pickups
         this.pickups = [];
