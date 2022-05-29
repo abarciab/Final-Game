@@ -590,7 +590,7 @@ function spawnEnemy(type, x, y, _return){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ShooterEnemy(x, y, 'shooter');
+                new_enemy = new ShooterEnemy(x, y, 'shooter move right');
             }
             break;
         default: 
@@ -672,4 +672,24 @@ function getCameraCoords(camera, offset_x, offset_y) {
         x: camera.worldView.x + offset_x,
         y: camera.worldView.y + offset_y
     }
+}
+
+function panTo(camera, object) {
+    camera.pan(object.x, 
+        object.y, 
+        2000, 
+        'Sine.easeInOut', 
+        true, 
+        (camera, progress) => { 
+            camera.panEffect.destination.x = object.x;
+            camera.panEffect.destination.y = object.y;
+            if (progress == 1) {
+                //current_scene.pan_finished = true;
+                if (game_script.reading_script) {
+                    game_script.hide_display = false;
+                }
+                camera.startFollow(object, true, 0.05, 0.05);
+            }
+        }
+    );
 }
