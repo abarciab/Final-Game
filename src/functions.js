@@ -1,4 +1,4 @@
-let current_map = 'level 1.0 map';
+let current_map = 'level 1.1 map';
 //setup functions:
 function initialize(scene){
     current_scene = scene;
@@ -227,12 +227,15 @@ function onEnemyDead(dead_enemy){
     current_scene.enemies.forEach(enemy => {
         if (enemy != dead_enemy && enemy.visible == true && enemy.active == true && enemy.circuit == circuit){
             last = false;
-            
             return;
         }
     });
     if (!last){
         return;
+    }
+
+    if (Phaser.Math.Between(1, 6) == 1){
+        spawnHealthPickup(dead_enemy.x, dead_enemy.y);
     }
 
 

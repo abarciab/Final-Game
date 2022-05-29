@@ -71,6 +71,9 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
+        if (this.x > current_scene.player.x + game.config.width || this.x < current_scene.player.x - game.config.width || this.y > current_scene.player.y + game.config.height || this.y < current_scene.player.y - game.config.height){
+            this.reset();
+        }
         if (!this.active){
             return;
         } else{
@@ -79,17 +82,6 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
-
-        if (this.active){
-            /*let camera_pos = getCameraCoords(null, this.x, this.y);
-            if (camera_pos.x < -50 || camera_pos.y < -50 || camera_pos.x > game.config.width + 50 || camera_pos.y > game.config.y + 50){
-                console.log("out fo bounds, reseting");
-                this.reset();
-            }*/
-            if (this.x > current_scene.player.x + game.config.width || this.x < current_scene.player.x - game.config.width || this.y > current_scene.player.y + game.config.height || this.y < current_scene.player.y - game.config.height){
-                this.reset();
-            }
-        }
     }
 }
 
