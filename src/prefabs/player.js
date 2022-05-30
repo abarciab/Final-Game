@@ -89,6 +89,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }
+        game_settings.player_curr_health = this.health;
         if (this.dashing && this.speed <= game_settings.player_walk_speed){
             this.doneDashing();
         }
@@ -306,7 +307,6 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
         current_scene.cameras.main.shake(150, 0.003);
         this.health-= 0.5;
-        game_settings.player_curr_health = this.health;
         //console.log(this.health);
         if (this.health <= 0){
             game_settings.player_curr_health = game_settings.player_max_health;
