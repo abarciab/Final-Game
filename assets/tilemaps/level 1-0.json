@@ -357,6 +357,11 @@
                          "value":3
                         }, 
                         {
+                         "name":"invisible",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
                          "name":"room",
                          "type":"int",
                          "value":2
@@ -378,6 +383,11 @@
                          "name":"circuit",
                          "type":"int",
                          "value":3
+                        }, 
+                        {
+                         "name":"invisible",
+                         "type":"bool",
+                         "value":true
                         }, 
                         {
                          "name":"room",

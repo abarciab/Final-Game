@@ -269,6 +269,14 @@ function setupEnemies(map){
             new_enemy.circuit = enemy1Sprites[i].data.list.circuit;
         }
         new_enemy.asleep = true;
+    
+        if (enemy1Sprites[i].data != null){
+            console.log(enemy1Sprites[i].data.list);
+            if (enemy1Sprites[i].data.list.invisible){
+                new_enemy.setVisible(false);
+            }
+        }
+        
         enemy1Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
     }
@@ -283,9 +291,13 @@ function setupEnemies(map){
             if (enemy2Sprites[i].data.list.circuit != null){
                 new_enemy.circuit = enemy2Sprites[i].data.list.circuit;
             }
+            if (enemy2Sprites[i].data.list.invisible == true){
+                new_enemy.setVisible(false);
+            }
         } else{
             console.log(enemy2Sprites[i].data.list);
         }
+       
 
         enemy2Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
@@ -301,7 +313,11 @@ function setupEnemies(map){
             if (enemy3Sprites[i].data.list.circuit != null){
                 new_enemy.circuit = enemy3Sprites[i].data.list.circuit;
             } 
+            if (enemy3Sprites[i].data.list.invisible == true){
+                new_enemy.setVisible(false);
+            }
         }
+        
 
         enemy3Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
@@ -327,9 +343,8 @@ function onEnemyDead(dead_enemy){
         spawnHealthPickup(dead_enemy.x, dead_enemy.y);
     }
 
-
     openDoors(circuit);
-    awakenEnemies(circuit)
+    //awakenEnemies(circuit)
 }
 
 function openDoors(circuit){
@@ -424,9 +439,9 @@ function activateButton(button) {
     
     if (button.circuit == null && button.data_sprite.data.list.close_door == true){
         closeDoors(circuit);
+        awakenEnemies(circuit);
     } else{
         openDoors(circuit);
-        awakenEnemies(circuit);
     }
 
     if (button.circuit == null){
