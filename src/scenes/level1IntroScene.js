@@ -10,9 +10,7 @@ class level1IntroScene extends Phaser.Scene {
     create(){
         current_scene = this;
         setupKeys(this);
-
         pointer = current_scene.input.activePointer;
-        this.blackRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(1, 0).setScale(20).setDepth(15);
         this.bg_music = this.sound.add('cutscene', {volume: 0.5});
         this.bg_music.setLoop(true).play();
         let UI_scale = 4.86;
@@ -21,6 +19,11 @@ class level1IntroScene extends Phaser.Scene {
         this.camera = this.cameras.main.setBackgroundColor('#303030');        
 
         game_script.readScript(this, 1, 1);
+        game_script.hide_display = true;
+        sweepTransition("left", function() {
+            game_script.hide_display = false;
+        })
+
         this.player;
         this.player_move_right = false;
         this.start_part_2 = false;
@@ -35,34 +38,19 @@ class level1IntroScene extends Phaser.Scene {
         }
         else if (game_script.part == 1 && !this.start_part_2) {
             this.start_part_2 = true;
-            current_scene.tweens.add({
-                duration: 700,
-                targets: current_scene.blackRect,
-                x: game.config.width,
-                onComplete: function() {
-                    game_script.readScript(current_scene, 1, 2);
-                    game_script.hide_display = true;
-                    current_scene.tweens.add({
-                        duration: 700,
-                        targets: current_scene.blackRect,
-                        x: 0,
-                        onComplete: function() {
-                            game_script.hide_display = false;
-                        }
-                    });
-                },
+            sweepTransition("right", function() {
+                game_script.readScript(current_scene, 1, 2);
+                game_script.hide_display = true;
+                sweepTransition("left", function() {
+                    game_script.hide_display = false;
+                });
             });
         }
         else if (game_script.part == 2 && !this.start_part_3) {
             this.start_part_3 = true;
-            current_scene.tweens.add({
-                duration: 700,
-                targets: current_scene.blackRect,
-                x: game.config.width,
-                onComplete: function() {
-                    current_scene.bg_music.stop();
-                    current_scene.startPart3();
-                },
+            sweepTransition("right", function() {
+                current_scene.bg_music.stop();
+                current_scene.startPart3();
             });
         }
         else if (game_script.part == 3 && !game_script.reading_script) {
@@ -90,6 +78,7 @@ class level1IntroScene extends Phaser.Scene {
         this.dog = new Dog(game.config.width, game.config.height, 'dog idle left');
         this.player.dash_pointer.setVisible(false);
 
+        current_scene.cameras.main.setBackgroundColor('#000000');
         this.tileset = map.addTilesetImage('tiles 1', 'tiles');
         const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
         const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
@@ -99,15 +88,11 @@ class level1IntroScene extends Phaser.Scene {
         lights_objects.forEach(light => {
             light.setAlpha(0.45);
         });
+        
+
         setupInteractables(map);
         setupTilemapCollisions(marker_layer);
-
-        // tween in
-        current_scene.tweens.add({
-            duration: 700,
-            targets: current_scene.blackRect,
-            x: 0,
-        }); 
+        sweepTransition("left");
 
         this.player.x -= 300;
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05);

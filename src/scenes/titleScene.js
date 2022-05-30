@@ -9,14 +9,14 @@ class titleScene extends Phaser.Scene {
 
         let UI_scale = 4.86;
 
-        this.add.image(game.config.width/2, game.config.height/2, 'title background').setScale(UI_scale).setOrigin(0.5);
+        this.background = this.add.image(game.config.width/2, game.config.height/2, 'title background').setScale(UI_scale).setOrigin(0.5);
         this.bg_music = this.sound.add('title', {volume: 0.1});
         this.bg_music.setLoop(true).play()
 
         const data = this.cache.json.get('scriptData');
         game_script = new ScriptReader(this, data);
 
-        this.cameras.main.setBackgroundColor('#FF6666');
+        this.cameras.main.setBackgroundColor('#000000');
 
         this.credits = this.add.sprite(game.config.width/2, game.config.height+ 350, 'credits menu').setScale(3.6).setInteractive().setOrigin(0.5).setDepth(1).setVisible(true);
         this.credits.on('pointerdown', function(){
@@ -138,7 +138,6 @@ class titleScene extends Phaser.Scene {
             repeat: -1
         })
 
-        this.blackRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(0, 1).setScale(20);
         this.button_hover_sfx = this.sound.add('button hover 2'); 
         this.button_click_sfx = this.sound.add('button click'); 
         let click_vol = 0.3;
@@ -204,7 +203,17 @@ class titleScene extends Phaser.Scene {
         })
         this.start_button.on('pointerdown', function(){
             this.scene.button_click_sfx.play({volume: click_vol});
-            current_scene.tweens.add({
+            sweepTransition("right", function() {
+                current_scene.bg_music.stop();
+                current_scene.background.setVisible(false);
+                current_scene.start_button.setVisible(false);
+                current_scene.level_button.setVisible(false);
+                current_scene.options_button.setVisible(false);
+                current_scene.credits_button.setVisible(false);
+                current_scene.title.setVisible(false);
+                current_scene.scene.start("level1IntroScene");
+            })
+            /*current_scene.tweens.add({
                 duration: 500,
                 targets: current_scene.blackRect,
                 y: game.config.height,
@@ -212,7 +221,7 @@ class titleScene extends Phaser.Scene {
                     current_scene.bg_music.stop();
                     current_scene.scene.start("level1IntroScene");
                 },
-            });
+            });*/
             //this.scene.scene.start("level1IntroScene");
         })
         //this.start_text = this.add.text(game.config.width/2, this.start_button.y, 'S  T  A  R  T', {color: '#FFFFFF', fontSize: '40px'}).setOrigin(0.5);

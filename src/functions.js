@@ -717,3 +717,26 @@ function panTo(camera, object) {
         }
     );
 }
+
+function sweepTransition(dir, func = function() {}) {
+    let target = game.config.width;
+    let rect = current_scene.add.rectangle(0, 0, game.config.width, game.config.height, 0x000000).setOrigin(1, 0).setScale(20).setDepth(15);
+    if (dir.toLowerCase() == "left") {
+        target = 0;
+        rect.x = game.config.width;
+    }
+    else {
+        target = game.config.width;
+        rect.x = 0;
+    }
+    current_scene.tweens.add({
+        duration: 700,
+        targets: rect,
+        x: target,
+        onComplete: function() {
+            func();
+            rect.setVisible(false);
+            rect.destroy();
+        }
+    });
+}

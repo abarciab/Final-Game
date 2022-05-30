@@ -171,7 +171,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "So you took the dog huh?{rate:0.5} {rate:0.03}In that case I guess I just have to beat you up and bring the dog back its rightful owner!"
+                        "text": "So you took the dog huh?{rate:0.5} {rate:0.03}In that case I guess I just have to beat you up and bring the dog back to its rightful owner!"
                     },
                     {
                         "speaker": "Hank",
@@ -187,7 +187,7 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "{rate:0.15} {sfx:bam}H-Hey who said it was mine!?"
+                        "text": "{rate:0.015} {sfx:bam}H-Hey who said it was mine!?"
                     },
                     {
                         "speaker": "Fran",

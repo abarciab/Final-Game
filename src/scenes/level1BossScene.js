@@ -64,6 +64,7 @@ class level1BossScene extends Phaser.Scene {
         this.boss_box = this.add.sprite(0, 0, 'boss health box').setScale(6, 1.5).setDepth(0.1);
         this.boss_bar = this.add.rectangle(0, 0, this.boss_box.displayWidth, this.boss_box.displayHeight, 0xFF0000).setOrigin(0, 0.5);
         this.endRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0xFFFFFF).setScale(50).setAlpha(0);
+        game_script.readScript(this, 1, 4);
     }
 
     addColliders() {
@@ -180,6 +181,10 @@ class level1BossScene extends Phaser.Scene {
         @ delta: number of milliseconds since update was last called
     */
     update(time, delta){
+        if (game_script.reading_script) {
+            game_script.updateScript(delta);
+            return;
+        }
         //update player 
         this.player.update(time, delta);
 
