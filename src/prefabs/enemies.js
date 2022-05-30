@@ -58,7 +58,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     }
 
     reset(){
-        //console.log(`reseting projectile. active projectile: ${this.scene.enemy_projectiles.countActive(true)}, inactive: ${this.scene.enemy_projectiles.countActive(false)}`);
+        console.log(`reseting projectile`);
         this.setActive(false);
         this.deflected = false;
         this.body.stop();
@@ -71,6 +71,9 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
+        if (this.x > current_scene.player.x + game.config.width || this.x < current_scene.player.x - game.config.width || this.y > current_scene.player.y + game.config.height || this.y < current_scene.player.y - game.config.height){
+            this.reset();
+        }
         if (!this.active){
             return;
         } else{
@@ -79,13 +82,6 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
-
-        if (this.active){
-            let camera_pos = getCameraCoords(null, this.x, this.y);
-            if (camera_pos.x < -50 || camera_pos.y < -50 || camera_pos.x > game.config.width + 50 || camera_pos.y > game.config.y + 50){
-                this.reset();
-            }
-        }
     }
 }
 
@@ -202,13 +198,16 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
 
         this.enemy_sfx = {
             "hit": current_scene.sound.add('enemy hit'),
-            "dead":  current_scene.sound.add('enemy dead')
+            "dead":  current_scene.sound.add('enemy dead'),
+            "passive": undefined
         }
+        this.passive_volume;
 
         this.last_direction_moved = "right";
         this.type = type;
         this.stunned = false;
         this.attacked = false;
+        this.player_dist = 0;
         this.current_frame = 0;
         switch(this.type) {
             case "CHARGER":
@@ -216,18 +215,24 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.base_health = game_settings.charger_health;
                 this.bounce_mod = game_settings.charger_bounce_mod;
                 this.bounce_drag = game_settings.charger_bounce_drag;
+                //this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
+                this.passive_volume = 0.3;
                 break;
             case "GOLEM":
                 this.speed = game_settings.golem_speed;
                 this.base_health = game_settings.golem_health;
                 this.bounce_mod = game_settings.golem_bounce_mod;
                 this.bounce_drag = game_settings.golem_bounce_drag;
+                //this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
+                this.passive_volume = 0.3;
                 break;
             case "SHOOTER":
                 this.speed = game_settings.shooter_speed;
                 this.base_health = game_settings.shooter_health;
                 this.bounce_mod = game_settings.shooter_bounce_mod;
                 this.bounce_drag = game_settings.shooter_bounce_drag;
+                this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
+                this.passive_volume = 0.3;
                 break;
             default:
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
@@ -322,6 +327,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     die() {
         disableCollision(this.body);
         onEnemyDead(this);
+        if (this.enemy_sfx["passive"] != undefined)
+            this.enemy_sfx["passive"].stop();
         this.x = -100;
         this.y = -100;
         this.setAlpha(1);
@@ -336,6 +343,19 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         }
         if (!this.asleep && this.body.checkCollision.none){
             enableCollision(this.body);
+        }
+
+        if (this.enemy_sfx["passive"] != undefined) {
+            if (this.active && !this.enemy_sfx["passive"].isPlaying) {
+                this.enemy_sfx["passive"].play();
+            }
+
+            this.player_dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
+            if (this.enemy_sfx["passive"].isPlaying) {
+                let vol = ((config.width/2)/this.player_dist)/10;
+                if (vol > this.passive_volume) vol = this.passive_volume;
+                this.enemy_sfx["passive"].setVolume(vol);
+            }
         }
 
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
@@ -469,12 +489,11 @@ class GolemEnemy extends BaseEnemy {
             this.fire();
         }
         //if (this.attacked && (this.current))
-        let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
-        if (dist <= game_settings.golem_agro_range){
+        if (this.player_dist <= game_settings.golem_agro_range){
             moveTo(this, current_scene.player);
         }
 
-        if (dist <= game_settings.golem_attack_range){
+        if (this.player_dist <= game_settings.golem_attack_range){
             if (this.loaded){
                 //console.log("TRIED TO ATTACK");
                 this.attacked = true;
@@ -535,7 +554,6 @@ class ShooterEnemy extends BaseEnemy {
         this.loaded = true;
         this.ammo = game_settings.shooter_ammo;
         this.fire_sfx = current_scene.sound.add('shoot sfx');
-        this.sizzle_sfx = current_scene.sound.add('sizzle', {volume: 0.3}).setLoop(true);
     }
 
     reset(){
@@ -553,7 +571,6 @@ class ShooterEnemy extends BaseEnemy {
                 this.scene.enemy_projectiles.return(projectile);
             }
         });
-        this.sizzle_sfx.stop();
         super.die();
     }
 
@@ -561,23 +578,22 @@ class ShooterEnemy extends BaseEnemy {
     update(time, delta){
         super.update(time, delta);
         if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
-        if (this.stunned|| this.asleep){
+        if (this.stunned|| this.asleep || !this.active){
             /*if (this.room == 2){
                 console.log(`asleep: ${this.asleep}, room: ${this.room}`);
             }*/
             return;
         }
 
-        if (this.active && !this.sizzle_sfx.isPlaying) {
+        /*if (this.active && !this.sizzle_sfx.isPlaying) {
             this.sizzle_sfx.play();
         }
-        let dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
         if (this.sizzle_sfx.isPlaying) {
-            let vol = ((config.width/2)/dist)/10;
+            let vol = ((config.width/2)/this.player_dist)/10;
             if (vol > 0.3) vol = 0.3;
             this.sizzle_sfx.setVolume(vol);
-        }
-        if (dist >= game_settings.shooter_min_dist){
+        }*/
+        if (this.player_dist >= game_settings.shooter_min_dist){
             if (this.loaded){    
                 this.loaded = false;
                 this.fireAmmo(current_scene.player);
@@ -594,7 +610,10 @@ class ShooterEnemy extends BaseEnemy {
     }
 
     fire(target){
-        //console.log("shooter firing");
+        console.log("shooter firing");
+
+
+
         this.fire_sfx.play();
         let projectile = null;
         for(let i = 0; i < this.projectiles.length; i++){

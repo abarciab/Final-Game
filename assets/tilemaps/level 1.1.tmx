@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="48" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="183">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="48" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="199">
  <editorsettings>
   <export target="level 1-1.json" format="json"/>
  </editorsettings>
@@ -572,9 +572,9 @@
 37,22,13,42,11,22,13,43,0,0,0,0,22,82,82,82,82,78,22,22,61,63,0,0,0,22,61,62,62,62,62,62,62,22,39,38,37,22,23,0,21,22,22,22,22,22,22,39,
 37,13,43,0,41,42,43,0,0,0,0,0,0,0,0,0,0,71,22,64,88,87,62,62,63,22,71,72,72,72,72,72,72,22,39,38,37,22,23,0,21,22,22,58,48,48,48,49,
 30,43,0,0,0,0,0,0,0,0,1,2,3,4,0,0,0,71,65,75,72,72,72,72,76,65,88,72,77,82,82,82,78,22,39,38,37,22,23,0,21,22,22,39,38,38,38,38,
-0,0,0,0,0,0,0,0,0,0,21,22,22,62,62,63,0,81,78,72,77,82,78,72,72,72,77,82,83,0,0,0,71,22,68,28,69,22,23,0,21,22,22,39,38,38,38,38,
-20,2,2,4,0,0,0,0,0,1,24,22,22,72,77,83,0,0,71,72,73,0,71,72,72,72,73,0,0,0,0,0,71,22,22,22,22,22,23,0,31,22,22,68,29,38,38,38,
-37,22,22,25,2,2,4,0,1,24,22,22,22,72,73,0,0,0,71,72,87,62,88,72,72,72,87,62,63,0,0,61,88,22,22,22,13,42,43,0,41,11,22,22,68,29,38,38,
+0,0,0,0,0,0,0,0,0,0,21,22,22,62,62,63,0,81,78,72,77,82,82,82,78,72,77,82,83,0,0,0,71,22,68,28,69,22,23,0,21,22,22,39,38,38,38,38,
+20,2,2,4,0,0,0,0,0,1,24,22,22,72,77,83,0,0,71,72,73,0,0,0,71,72,73,0,0,0,0,0,71,22,22,22,22,22,23,0,31,22,22,68,29,38,38,38,
+37,22,22,25,2,2,4,0,1,24,22,22,22,72,73,0,0,0,71,72,87,62,62,62,88,72,87,62,63,0,0,61,88,22,22,22,13,42,43,0,41,11,22,22,68,29,38,38,
 47,59,22,22,22,22,25,2,24,22,22,22,22,72,73,0,61,62,88,72,72,72,72,72,72,72,72,72,87,62,62,88,22,22,13,42,43,0,0,0,0,41,11,22,22,68,29,38,
 38,47,59,22,22,22,22,22,22,22,22,22,22,72,73,0,71,72,72,72,72,72,72,72,22,22,72,72,72,72,72,72,22,22,23,0,0,0,0,0,0,0,41,11,22,22,68,29,
 38,38,47,59,22,22,22,22,22,22,22,22,22,22,83,0,81,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,13,43,0,0,0,0,0,0,0,0,41,11,22,22,39,
@@ -670,7 +670,7 @@
   </object>
   <object id="170" name="enemy_3" gid="7" x="528.485" y="303.636" width="64" height="64">
    <properties>
-    <property name="circuit" type="int" value="-1"/>
+    <property name="circuit" type="int" value="0"/>
    </properties>
   </object>
   <object id="172" name="enemy_3" gid="7" x="1022.67" y="257.333" width="64" height="64">
@@ -712,7 +712,7 @@
     <property name="room" type="int" value="1"/>
    </properties>
   </object>
-  <object id="179" name="enemy_3" gid="7" x="2822.67" y="1090.67" width="64" height="64">
+  <object id="179" name="enemy_3" gid="7" x="2802.67" y="1087.67" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="3"/>
     <property name="room" type="int" value="2"/>
@@ -767,13 +767,29 @@
    <properties>
     <property name="circuit" type="int" value="5"/>
     <property name="invisible" type="bool" value="true"/>
-    <property name="next_level" value="level 1.0 map"/>
+    <property name="next_level" value="level 1.2 map"/>
    </properties>
   </object>
-  <object id="160" name="target" gid="9" x="2601.33" y="1095.33" width="64" height="64">
+  <object id="160" name="target" gid="9" x="2563.33" y="1088.33" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="3"/>
    </properties>
   </object>
+  <object id="183" name="vase" gid="18" x="408" y="410" width="64" height="64"/>
+  <object id="184" name="vase" gid="18" x="684" y="354" width="64" height="64"/>
+  <object id="185" name="vase" gid="18" x="628" y="1064" width="64" height="64"/>
+  <object id="186" name="vase" gid="18" x="708" y="1050" width="64" height="64"/>
+  <object id="187" name="vase" gid="18" x="1152" y="1038" width="64" height="64"/>
+  <object id="188" name="vase" gid="18" x="1224" y="1040" width="64" height="64"/>
+  <object id="189" name="vase" gid="18" x="1828" y="986" width="64" height="64"/>
+  <object id="190" name="vase" gid="18" x="1760" y="978" width="64" height="64"/>
+  <object id="191" name="vase" gid="18" x="672" y="1390" width="64" height="64"/>
+  <object id="192" name="vase" gid="18" x="1382" y="1398" width="64" height="64"/>
+  <object id="193" name="vase" gid="18" x="1304" y="1396" width="64" height="64"/>
+  <object id="194" name="vase" gid="18" x="2138" y="918" width="64" height="64"/>
+  <object id="195" name="vase" gid="18" x="2214" y="786" width="64" height="64"/>
+  <object id="196" name="vase" gid="18" x="2662" y="800" width="64" height="64"/>
+  <object id="197" name="vase" gid="18" x="2738" y="1398" width="64" height="64"/>
+  <object id="198" name="vase" gid="18" x="2768" y="908" width="64" height="64"/>
  </objectgroup>
 </map>

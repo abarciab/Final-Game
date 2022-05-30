@@ -14,7 +14,7 @@ class level1FightScene extends Phaser.Scene {
 
         //player
         this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
-        this.bg_music = this.sound.add('level', {volume: 0.3});
+        this.bg_music = this.sound.add('level', {volume: 0.1});
         this.bg_music.setLoop(true).play();
         //health pickups
         this.pickups = [];
@@ -70,8 +70,6 @@ class level1FightScene extends Phaser.Scene {
         this.game_UI.setPlayerUI();
 
         game_settings.next_scene = `level1BossScene`;
-        game_script.readScript(this, 1, 2);
-        
     }
 
     addColliders() {
@@ -118,10 +116,6 @@ class level1FightScene extends Phaser.Scene {
         @ delta: number of milliseconds since update was last called
     */
     update(time, delta){
-        if (game_script.reading_script) {
-            game_script.updateScript(delta);
-            return;
-        }
         //pause the game
         if (Phaser.Input.Keyboard.JustDown(key_esc)){
             this.paused = !this.paused;

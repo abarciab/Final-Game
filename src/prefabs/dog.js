@@ -22,6 +22,7 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
         this.stun_time = 0;
         this.setMass(1.2);
         this.setScale(3);
+        this.woof_sfx = current_scene.sound.add('woof', {volume: 0.7});
 
         this.has_ball = false;
     }

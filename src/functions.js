@@ -188,13 +188,15 @@ function setupEnemies(map){
     for (let i = 0; i < enemy2Sprites.length; i++) {
         let new_enemy = spawnEnemy(game_settings.enemy2_name, enemy2Sprites[i].x, enemy2Sprites[i].y, true);
         if (enemy2Sprites[i].data != null){
-            if (enemy2Sprites[i].data.list.room){
+            if (enemy2Sprites[i].data.list.room != null){
                 new_enemy.room = enemy2Sprites[i].data.list.room;
                 new_enemy.asleep = true;
             }
-            if (enemy2Sprites[i].data.list.circuit){
+            if (enemy2Sprites[i].data.list.circuit != null){
                 new_enemy.circuit = enemy2Sprites[i].data.list.circuit;
             }
+        } else{
+            console.log(enemy2Sprites[i].data.list);
         }
 
         enemy2Sprites[i].destroy();
@@ -220,22 +222,22 @@ function setupEnemies(map){
 
 function onEnemyDead(dead_enemy){
     let circuit = dead_enemy.circuit;
-    console.log(`circuit: ${circuit}, nan: ${isNaN(circuit)}`);
-    if (!circuit && isNaN(circuit)) {console.log("ahhhh"); return; }
+    if (!circuit && isNaN(circuit)) {return; }
 
     let last = true;
     current_scene.enemies.forEach(enemy => {
         if (enemy != dead_enemy && enemy.visible == true && enemy.active == true && enemy.circuit == circuit){
             last = false;
-            
             return;
         }
     });
     if (!last){
-        console.log("more enemies to kill...");
         return;
     }
-    console.log("last enemy killed");
+
+    if (Phaser.Math.Between(1, 6) == 1){
+        spawnHealthPickup(dead_enemy.x, dead_enemy.y);
+    }
 
 
     openDoors(circuit);
@@ -264,7 +266,6 @@ function openDoors(circuit){
 }
 
 function closeDoors(circuit){
-    console.log(`closing door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
         if (current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit){
 
@@ -606,7 +607,7 @@ function spawnEnemy(type, x, y, _return){
                 }
             }) 
             if (new_enemy == null){
-                new_enemy = new ShooterEnemy(x, y, 'shooter');
+                new_enemy = new ShooterEnemy(x, y, 'shooter move right');
             }
             break;
         default: 
@@ -688,4 +689,24 @@ function getCameraCoords(camera, offset_x, offset_y) {
         x: camera.worldView.x + offset_x,
         y: camera.worldView.y + offset_y
     }
+}
+
+function panTo(camera, object) {
+    camera.pan(object.x, 
+        object.y, 
+        2000, 
+        'Sine.easeInOut', 
+        true, 
+        (camera, progress) => { 
+            camera.panEffect.destination.x = object.x;
+            camera.panEffect.destination.y = object.y;
+            if (progress == 1) {
+                //current_scene.pan_finished = true;
+                if (game_script.reading_script) {
+                    game_script.hide_display = false;
+                }
+                camera.startFollow(object, true, 0.05, 0.05);
+            }
+        }
+    );
 }

@@ -15,6 +15,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.score = 0;
         this.on_lava = false;
 
+        this.can_move = true;
+
         this.player_sfx = {
             "dash": current_scene.sound.add('player dash'),
             "super dash": current_scene.sound.add('player super dash'),
@@ -90,11 +92,14 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         if (this.dashing && this.speed <= game_settings.player_walk_speed){
             this.doneDashing();
         }
-        this.updateDashCooldown(delta);
-        this.chargeDash(delta);
         this.movePlayer(delta);
-        this.updateDashPointer();
         this.updateDustClouds();
+
+        if (this.can_move) {
+            this.updateDashCooldown(delta);
+            this.chargeDash(delta);
+            this.updateDashPointer();
+        }
 
         // dash damage is speed/dash_speed * dash_damage;
         // given: velocity of player and the angles the two objects are going.
@@ -203,24 +208,28 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.dash_cancel_timer = 0;
         const can_cancel_dash = (this.dash_cancel_timer >= this.dash_cancel_buffer);
         if (!this.dashing || can_cancel_dash) {
-            this.moving = false;
-            if (key_left.isDown && key_right.isDown) {
-                this.setVelocityX(0);
-            }
-            else if (key_left.isDown){
-                this.move("LEFT", delta);
-            }
-            else if (key_right.isDown){
-                this.move("RIGHT", delta);
-            }
-            if (key_up.isDown && key_down.isDown) {
-                this.setVelocityY(0);
-            }
-            else if (key_up.isDown){
-                this.move("UP", delta);
-            }
-            else if (key_down.isDown){
-                this.move("DOWN", delta);
+            // if player is capable of using events
+            if (this.can_move) {
+                this.moving = false;
+                if (key_left.isDown && key_right.isDown) {
+                    this.setVelocityX(0);
+                }
+                else if (key_left.isDown){
+                    this.move("LEFT", delta);
+                }
+                else if (key_right.isDown){
+                    this.move("RIGHT", delta);
+                }
+
+                if (key_up.isDown && key_down.isDown) {
+                    this.setVelocityY(0);
+                }
+                else if (key_up.isDown){
+                    this.move("UP", delta);
+                }
+                else if (key_down.isDown){
+                    this.move("DOWN", delta);
+                }
             }
             if (!this.moving && !this.dashing && !this.stunned) {
                 this.anims.play({key: `fran idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
@@ -230,17 +239,20 @@ class Player extends Phaser.Physics.Arcade.Sprite{
                 this.anims.play(`fran damage ${this.last_direction_moved.toLowerCase()}`, true);
             }
             else {
-                // update the speed
-                this.footstep_timer += delta/1000;
-                if (this.footstep_timer >= this.footstep_interval) {
-                    this.footstep_timer = 0;                    
-                    current_scene.sound.add("footstep").play();
-                    this.dust_clouds.push(
-                        current_scene.add.sprite(this.x, this.y+(this.displayHeight*0.2), 'dust cloud').setDepth(4).setScale(2).setAlpha(0.7)
-                    );
-                    this.dust_clouds[this.dust_clouds.length-1].anims.play('dust cloud', true);
-                }
+                this.updateFootstep(delta);
             }
+        }
+    }
+
+    updateFootstep(delta) {
+        this.footstep_timer += delta/1000;
+        if (this.footstep_timer >= this.footstep_interval) {
+            this.footstep_timer = 0;                    
+            current_scene.sound.add("footstep").play();
+            this.dust_clouds.push(
+                current_scene.add.sprite(this.x, this.y+(this.displayHeight*0.2), 'dust cloud').setDepth(4).setScale(2).setAlpha(0.7)
+            );
+            this.dust_clouds[this.dust_clouds.length-1].anims.play('dust cloud', true);
         }
     }
 

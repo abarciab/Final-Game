@@ -111,13 +111,14 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('charger move right', './assets/enemies/charger_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
         this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
+        
         this.load.spritesheet('golem move left', './assets/enemies/golem_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('golem move right', './assets/enemies/golem_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('golem attack left', './assets/enemies/golem_attack_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 12});
         this.load.spritesheet('golem attack right', './assets/enemies/golem_attack_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 12});
         this.load.spritesheet('golem damage left', './assets/enemies/golem_damage_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
         this.load.spritesheet('golem damage right', './assets/enemies/golem_damage_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
-        this.load.image('shooter', './assets/enemies/shooter.png');
+        
         this.load.spritesheet('shooter move left', './assets/enemies/shooter_move_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('shooter move right', './assets/enemies/shooter_move_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('shooter damage left', './assets/enemies/shooter_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
@@ -126,7 +127,6 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('hank idle right', './assets/enemies/hank_idle_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank move left', './assets/enemies/hank_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank move right', './assets/enemies/hank_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
-
 
         //doggo
         this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
@@ -140,6 +140,7 @@ class loadingScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1map.json');
         this.load.tilemapTiledJSON('level 1.0 map','./assets/tilemaps/level 1-0.json');
         this.load.tilemapTiledJSON('level 1.1 map','./assets/tilemaps/level 1-1.json');
+        this.load.tilemapTiledJSON('level 1.2 map','./assets/tilemaps/level 1-2.json');
         this.load.tilemapTiledJSON('level 1.3 map', './assets/tilemaps/level 1-3.json');
         this.load.image('light', './assets/tilemaps/light.png');
 
@@ -167,6 +168,7 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('shoot sfx', './assets/sounds/sfx/shoot_sfx.wav');
         this.load.audio('enemy slam', './assets/sounds/sfx/enemy_slam.wav');
         this.load.audio('sizzle', './assets/sounds/sfx/sizzle.wav');
+        this.load.audio('woof', './assets/sounds/sfx/woof.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
