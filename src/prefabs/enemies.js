@@ -59,7 +59,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
     }
 
     reset(){
-        console.log(`reseting projectile`);
+        //console.log(`reseting projectile`);
         this.setActive(false);
         this.deflected = false;
         this.body.stop();
@@ -73,6 +73,9 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
 
     update(){
         if (this.x > current_scene.player.x + game.config.width || this.x < current_scene.player.x - game.config.width || this.y > current_scene.player.y + game.config.height || this.y < current_scene.player.y - game.config.height){
+            this.reset();
+        }
+        if (this.owner == null || this.owner.visible == false){
             this.reset();
         }
         if (!this.active){
@@ -345,6 +348,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     update(timer, delta) {
         if (this.asleep){
             return;
+        } else if (this.visible == false){
+            this.setVisible(true);
         }
         if (!this.asleep && this.body.checkCollision.none){
             enableCollision(this.body);
@@ -615,7 +620,7 @@ class ShooterEnemy extends BaseEnemy {
     }
 
     fire(target){
-        console.log("shooter firing");
+        //console.log("shooter firing");
 
 
 

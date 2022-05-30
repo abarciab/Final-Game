@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="48" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="170">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="48" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="171">
  <editorsettings>
   <export target="level 1-0.json" format="json"/>
  </editorsettings>
@@ -49,7 +49,7 @@
   </tile>
   <tile id="7">
    <properties>
-    <property name="enemy_4" type="bool" value="true"/>
+    <property name="dog" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="10">
@@ -602,7 +602,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -632,12 +632,14 @@
   <object id="117" name="enemy_1" gid="16" x="2442" y="1121.33" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
     <property name="room" type="int" value="2"/>
    </properties>
   </object>
   <object id="119" name="enemy_1" gid="16" x="2306" y="1110" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
     <property name="room" type="int" value="2"/>
    </properties>
   </object>
@@ -650,24 +652,28 @@
   <object id="121" name="enemy_1" gid="16" x="2356.67" y="996" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
     <property name="room" type="int" value="2"/>
    </properties>
   </object>
   <object id="133" name="enemy_1" gid="16" x="2174.67" y="997.333" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
     <property name="room" type="int" value="2"/>
    </properties>
   </object>
   <object id="134" name="enemy_1" gid="16" x="2146.67" y="1154.67" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
     <property name="room" type="int" value="2"/>
    </properties>
   </object>
   <object id="135" name="enemy_1" gid="16" x="2289.33" y="1245.33" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
     <property name="room" type="int" value="2"/>
    </properties>
   </object>
@@ -687,6 +693,7 @@
   <object id="137" name="door" gid="26" x="769.333" y="444" width="32" height="128">
    <properties>
     <property name="circuit" type="int" value="0"/>
+    <property name="stay_closed" type="bool" value="true"/>
    </properties>
   </object>
   <object id="138" name="button" gid="5" x="883.667" y="451.333" width="81.3333" height="125.333">

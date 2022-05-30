@@ -33,6 +33,10 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(timer, delta) {
+        if (this.asleep == true){
+            return;
+        }
+        
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         if (this.stun_time > 0) {
             this.stun_time -= delta/1000;

@@ -15,6 +15,7 @@ function initializeLevel(scene) {
     //player
     scene.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
     scene.level_finished = false;
+    
     //health pickups
     scene.pickups = [];
     scene.pickup_sfx = scene.sound.add('health pickup'); 
@@ -23,6 +24,12 @@ function initializeLevel(scene) {
     scene.enemies = [];
     scene.enemy_projectiles = new ProjectileGroup('shooter bullet');
     scene.enemy_shockwaves = new ShockwaveGroup('shockwave');
+
+    // //doggo
+    // scene.doggo = new Dog(200, 200, 'dog idle right');
+    // scene.doggo.asleep = true;
+    // scene.doggo.setVisible(false);
+    // console.log("added doggo to scene");
     
     initMap()
     scene.camera = scene.cameras.main.startFollow(scene.player, true, 0.05, 0.05);
@@ -38,9 +45,12 @@ function initializeLevel(scene) {
     //updateUI();
     scene.game_UI = new GameUI();
     scene.game_UI.setPlayerUI();
+
+    
 }
 
 function initMap() {
+    console.log("init map");
     //tilemap
     const map = current_scene.make.tilemap({key: current_map, tileWidth: 64, tileHeight: 64});
 
@@ -212,6 +222,9 @@ function setupInteractables(map){
         new_button.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_button);
         current_scene.physics.add.existing(new_button);
         new_button.data_sprite = button_sprites[i];
+        if (button_sprites[i].data.list.silent == true){
+            new_button.silent = true;
+        }
         if (new_button.data_sprite.data.list.close_door == true || new_button.data_sprite.data.list.invisible == true){
             new_button.data_sprite.setVisible(false);
         }
@@ -221,7 +234,9 @@ function setupInteractables(map){
     current_scene.physics.add.collider(current_scene.player, current_scene.doors);
     current_scene.physics.add.overlap(current_scene.player, current_scene.buttons, function(player, button) {
         if (button.done != true){
-            current_scene.sound.play('pressure plate', {volume: 0.8});
+            if (button.silent != true){
+                current_scene.sound.play('pressure plate', {volume: 0.8});
+            }
             activateButton(button);
         }
         button.done = true;
@@ -254,6 +269,14 @@ function setupEnemies(map){
             new_enemy.circuit = enemy1Sprites[i].data.list.circuit;
         }
         new_enemy.asleep = true;
+    
+        if (enemy1Sprites[i].data != null){
+            console.log(enemy1Sprites[i].data.list);
+            if (enemy1Sprites[i].data.list.invisible){
+                new_enemy.setVisible(false);
+            }
+        }
+        
         enemy1Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
     }
@@ -268,9 +291,13 @@ function setupEnemies(map){
             if (enemy2Sprites[i].data.list.circuit != null){
                 new_enemy.circuit = enemy2Sprites[i].data.list.circuit;
             }
+            if (enemy2Sprites[i].data.list.invisible == true){
+                new_enemy.setVisible(false);
+            }
         } else{
             console.log(enemy2Sprites[i].data.list);
         }
+       
 
         enemy2Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
@@ -286,7 +313,11 @@ function setupEnemies(map){
             if (enemy3Sprites[i].data.list.circuit != null){
                 new_enemy.circuit = enemy3Sprites[i].data.list.circuit;
             } 
+            if (enemy3Sprites[i].data.list.invisible == true){
+                new_enemy.setVisible(false);
+            }
         }
+        
 
         enemy3Sprites[i].destroy();
         current_scene.enemies.push(new_enemy);
@@ -312,16 +343,17 @@ function onEnemyDead(dead_enemy){
         spawnHealthPickup(dead_enemy.x, dead_enemy.y);
     }
 
-
     openDoors(circuit);
-    awakenEnemies(circuit)
+    //awakenEnemies(circuit)
 }
 
 function openDoors(circuit){
     //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
         if ((current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit) || (current_scene.doors[i].locked == true) ){
-
+            if (current_scene.doors[i].locked && current_scene.doors[i].data_sprite.data.list.stay_closed != null){
+                continue;
+            }
             current_scene.tweens.add({
                 targets: current_scene.doors[i].data_sprite,
                 //alpha: 0,
@@ -409,9 +441,9 @@ function activateButton(button) {
     
     if (button.circuit == null && button.data_sprite.data.list.close_door == true){
         closeDoors(circuit);
+        awakenEnemies(circuit);
     } else{
         openDoors(circuit);
-        awakenEnemies(circuit);
     }
 
     if (button.circuit == null){
@@ -439,6 +471,8 @@ function setupTilemapCollisions(layer){
             current_scene.player.setPosition(tileWorldPos.x, tileWorldPos.y);
         } else if (tile.properties.vase){
             spawnObject("VASE", tileWorldPos.x, tileWorldPos.y);
+        } else if (tile.properties.dog){
+            console.log("HERE IS WHERE THE DOGGO POSITION IS");
         }
 
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
