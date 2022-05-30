@@ -271,7 +271,6 @@ function setupEnemies(map){
         new_enemy.asleep = true;
     
         if (enemy1Sprites[i].data != null){
-            console.log(enemy1Sprites[i].data.list);
             if (enemy1Sprites[i].data.list.invisible){
                 new_enemy.setVisible(false);
             }
@@ -350,8 +349,8 @@ function onEnemyDead(dead_enemy){
 function openDoors(circuit){
     //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
-        if ((current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit) || (current_scene.doors[i].locked == true) ){
-            if (current_scene.doors[i].locked && current_scene.doors[i].data_sprite.data.list.stay_closed != null){
+        if ((current_scene.doors[i].data_sprite.data && current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit) || (current_scene.doors[i].locked == true) ){
+            if (circuit != current_scene.doors[i].data_sprite.data.list.circuit && current_scene.doors[i].data_sprite.data.list.stay_closed != null){
                 continue;
             }
             current_scene.tweens.add({
@@ -362,8 +361,6 @@ function openDoors(circuit){
                 callbackScope: this,
                 onComplete: function() {
                     current_scene.doors[i].body.enable = false; 
-                    
-                    //current_scene.doors[i].data_sprite.setVisible(false);
                     if (current_scene.doors[i].horizontal != true){
                         current_scene.doors[i].data_sprite.setTexture('door down');
                     } else{
