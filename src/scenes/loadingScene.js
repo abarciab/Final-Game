@@ -181,7 +181,11 @@ class loadingScene extends Phaser.Scene {
         this.load.image('vase', './assets/objects/vase.png');
         this.load.image('target', './assets/objects/target.png');
         this.load.image('door', './assets/objects/door.png');
+        this.load.image('door down', './assets/objects/door down.png');
+        this.load.image('hori door', './assets/objects/hori door.png');
+        this.load.image('hori door down', './assets/objects/hori door down.png');
         this.load.image('button', './assets/objects/button.png');
+        this.load.image('button down', './assets/objects/button down.png');
         this.load.image('tiles', './assets/tilemaps/tiles.png');     
     }
 

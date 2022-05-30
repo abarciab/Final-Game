@@ -129,6 +129,13 @@ function setupInteractables(map){
         new_door.body = new Phaser.Physics.Arcade.StaticBody(current_scene.physics.world, new_door);
         current_scene.physics.add.existing(new_door);
         new_door.data_sprite = door_sprites[i];
+        if (new_door.displayHeight < new_door.displayWidth){
+            new_door.horizontal = true;
+            new_door.data_sprite.setTexture('hori door');
+            new_door.data_sprite.setScale(1);
+            //new_door.data_sprite.setDepth(current_scene.player.depth + 1);
+            new_door.data_sprite.setOrigin(0.5, 0);
+        }
         current_scene.doors.push(new_door);
     }
     
@@ -250,14 +257,21 @@ function openDoors(circuit){
 
             current_scene.tweens.add({
                 targets: current_scene.doors[i].data_sprite,
-                alpha: 0,
+                //alpha: 0,
                 duration: 800,
                 repeat: 0,
                 callbackScope: this,
                 onComplete: function() {
                     current_scene.doors[i].body.enable = false; 
-                    current_scene.doors[i].setVisible(false);
-                    current_scene.doors[i].data_sprite.setVisible(false);
+                    
+                    //current_scene.doors[i].data_sprite.setVisible(false);
+                    if (current_scene.doors[i].horizontal != true){
+                        current_scene.doors[i].data_sprite.setTexture('door down');
+                    } else{
+                        current_scene.doors[i].data_sprite.setTexture('hori door down');
+                    }
+                    
+
                 }
             });
         }
@@ -276,7 +290,13 @@ function closeDoors(circuit){
                 callbackScope: this,
                 onComplete: function() {
                     current_scene.doors[i].body.enable = true; 
-                    current_scene.doors[i].setVisible(true);
+                    //current_scene.doors[i].setVisible(true);
+                    if (current_scene.doors[i].horizontal != true){
+                        current_scene.doors[i].data_sprite.setTexture('door');
+                    } else{
+                        current_scene.doors[i].data_sprite.setTexture('hori door');
+                    }
+                    
                     current_scene.doors[i].data_sprite.setVisible(true);
                 }
             });
@@ -326,6 +346,9 @@ function activateButton(button) {
     }
 
     if (button.circuit == null){
+        //console.log("hi");
+        //button.setAlpha(0.5);
+        button.data_sprite.setTexture('button down');
         button.data_sprite.data.list.circuit = -1;
     } else{
         button.circuit = -1;
