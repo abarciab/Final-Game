@@ -5,82 +5,19 @@ class level1BossScene extends Phaser.Scene {
 
     create(){
         //intialize game_settings, current_scene, and setup keys
-        initialize(this);
-        initBoss1();
-
-        //player
-        this.player = new Player(game.config.width/3, game.config.height/2, 'fran idle right');
-        this.camera = this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
-
-        this.bg_music = this.sound.add('boss', {volume: 0.5});
-        this.bg_music.setLoop(true).play();
-        //enemies
-        this.enemies = [];
-        this.enemy_projectiles = new ProjectileGroup('white arrow');
-        this.enemy_shockwaves = new ShockwaveGroup('shockwave');
-        this.text_sfx;
-        
-        //tilemap
-        const map = this.make.tilemap({key: 'bossMap', tileWidth: 64, tileHeight: 64});
-        this.tileset = map.addTilesetImage('tiles 1', 'tiles');
-        const layer0 = map.createLayer('0', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
-        const layer1 = map.createLayer('1', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
-        const layer2 = map.createLayer('2', this.tileset, 0, 0).setScale(game_settings.tilemap_scale);
-        const marker_layer = map.createLayer('markers', this.tileset, 0, 0).setScale(game_settings.tilemap_scale).setAlpha(0);
-        setupInteractables(map);
-        this.collision_rects = [];
-        this.lava_rects = [];
-        this.destructibles = [];
-        setupTilemapCollisions(layer0);
-        setupTilemapCollisions(layer1);
-        setupTilemapCollisions(layer2);
-        setupTilemapCollisions(marker_layer);
-        
-        //UI
-        this.pauseLayer = this.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
-        this.paused = false;
-
-        //updateUI();
-        this.game_UI = new GameUI();
-        this.game_UI.setPlayerUI();
-
-        //doggo
-        this.ball = this.physics.add.sprite(game.config.width/2, game.config.height/2, 'white hexagon').setScale(0.5);
-        this.ball.body.bounce.set(0.5);
-        this.ball.body.setMass(0.1);
-        this.ball.setDrag(0.9);
-        this.ball.setDamping(true);
-        this.ball.deflected = false;
-        this.doggo = new Dog(200, 200, 'dog idle right');
-
-        //hank
-        this.hank = new Hank1(800, 350, 'hank idle right');
-        //this.hank.health = 0;
-
+        current_map = 'bossMap';
+        if (bg_music.key != 'boss') {
+            this.bg_music = this.sound.add('boss', {volume: 0.5});
+            this.bg_music.setLoop(true).play();
+        }
+        initializeLevel(this);
+        //initBoss1();
+        initBossLevel1(this);
         //enemy collisions
         this.addColliders();
-
-        //UI
-        this.boss_box = this.add.sprite(0, 0, 'boss health box').setScale(6, 1.5).setDepth(0.1);
-        this.boss_bar = this.add.rectangle(0, 0, this.boss_box.displayWidth, this.boss_box.displayHeight, 0xFF0000).setOrigin(0, 0.5);
-        this.endRect = this.add.rectangle(0, 0, game.config.width, game.config.height, 0xFFFFFF).setScale(50).setAlpha(0);
-        game_script.readScript(this, 1, 4);
     }
 
     addColliders() {
-        //player
-        this.physics.add.collider(this.player, this.collision_rects, playerWallCollision.bind(this));
-        this.physics.add.collider(this.player, this.doors);
-        this.physics.add.overlap(this.player, this.lava_rects, playerLavaCollision.bind(this));
-        this.physics.add.overlap(this.player, this.destructibles, playerDestructibleCollision.bind(this));
-
-        //enemy
-        this.enemyCollider = this.physics.add.collider(this.player, this.enemies, playerEnemyCollision.bind(this));
-        this.physics.add.overlap(this.player, this.enemy_projectiles, playerProjectileCollision.bind(this));
-        this.physics.add.overlap(this.enemy_projectiles, this.enemies, projectileEnemyCollision.bind(this));
-        this.physics.add.overlap(this.enemies, this.lava_rects, enemyLavaCollision.bind(this));
-        this.physics.add.collider(this.enemies, this.enemies, enemyOnEnemyCollision.bind(this));
-
         //ball and (player/walls)
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
         this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
@@ -181,13 +118,7 @@ class level1BossScene extends Phaser.Scene {
         @ delta: number of milliseconds since update was last called
     */
     update(time, delta){
-        if (game_script.reading_script) {
-            game_script.updateScript(delta);
-            return;
-        }
-        //update player 
-        this.player.update(time, delta);
-
+        updateLevel(time, delta);
         //update enemies
         this.doggo.update(time, delta);
 
@@ -212,44 +143,11 @@ class level1BossScene extends Phaser.Scene {
             return;
         }
 
-        
-
         let bos_box_pos = getCameraCoords(current_scene.camera, game.config.width/2, game.config.height - 50);
         this.boss_box.setPosition(bos_box_pos.x, bos_box_pos.y);
         //let bos_bar_pos = getCameraCoords(current_scene.camera, game.config.width/2, game.config.height - 50);
         this.boss_bar.setPosition(bos_box_pos.x-this.boss_box.displayWidth/2, bos_box_pos.y);
-
-        /*if (game_script.reading_script) {
-            game_script.updateScript(delta);
-            return;
-        }*/
-        //pause the game
-        if (Phaser.Input.Keyboard.JustDown(key_esc)){
-            this.paused = !this.paused;
-        }
-        if (this.paused){
-            pause();
-            return;
-        } else {
-            resume();
-        }
-
-        
-        updateEnemies(time, delta);
         this.hank.update(time, delta);
-
-        //update UI
-        //updateUI();
-        this.game_UI.update();
-
-        if (this.physics.overlap(this.player, this.lava_rects)) {
-            this.player.on_lava = true;
-            //console.log("on lava");
-        }
-        else {
-            this.player.on_lava = false;
-            //console.log("not on lava");
-        }
     }
 
     endScene(){

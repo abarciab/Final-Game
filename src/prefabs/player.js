@@ -9,7 +9,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
 
         this.charge_progress = 0;
         this.dashing = false;
-        this.health = game_settings.player_max_health;
+        this.health = game_settings.player_curr_health;
         this.setDrag(game_settings.player_walk_drag);
         this.setDamping(true);
         this.score = 0;
@@ -94,12 +94,14 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
         this.movePlayer(delta);
         this.updateDustClouds();
+        checkPlayerLavaCollision();
 
         if (this.can_move) {
             this.updateDashCooldown(delta);
             this.chargeDash(delta);
             this.updateDashPointer();
         }
+        else this.dash_pointer.setVisible(false);
 
         // dash damage is speed/dash_speed * dash_damage;
         // given: velocity of player and the angles the two objects are going.
@@ -304,8 +306,10 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         }
         current_scene.cameras.main.shake(150, 0.003);
         this.health-= 0.5;
+        game_settings.player_curr_health = this.health;
         //console.log(this.health);
         if (this.health <= 0){
+            game_settings.player_curr_health = game_settings.player_max_health;
             current_scene.bg_music.stop();
             current_scene.scene.restart();
             this.setPosition(game.config.width/2, game.config.height/2);

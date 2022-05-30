@@ -5,13 +5,12 @@ class titleScene extends Phaser.Scene {
 
     create(){
         current_scene = this;
-        initialize(this);
 
         let UI_scale = 4.86;
 
         this.background = this.add.image(game.config.width/2, game.config.height/2, 'title background').setScale(UI_scale).setOrigin(0.5);
-        this.bg_music = this.sound.add('title', {volume: 0.1});
-        this.bg_music.setLoop(true).play()
+        bg_music = this.sound.add('title', {volume: 0.1});
+        bg_music.setLoop(true).play()
 
         const data = this.cache.json.get('scriptData');
         game_script = new ScriptReader(this, data);
@@ -203,41 +202,98 @@ class titleScene extends Phaser.Scene {
         })
         this.start_button.on('pointerdown', function(){
             this.scene.button_click_sfx.play({volume: click_vol});
-            sweepTransition("right", function() {
-                current_scene.bg_music.stop();
-                current_scene.background.setVisible(false);
-                current_scene.start_button.setVisible(false);
-                current_scene.level_button.setVisible(false);
-                current_scene.options_button.setVisible(false);
-                current_scene.credits_button.setVisible(false);
-                current_scene.title.setVisible(false);
+            sweepTransition("right", true, function() {
+                bg_music.stop();
                 current_scene.scene.start("level1IntroScene");
             })
-            /*current_scene.tweens.add({
-                duration: 500,
-                targets: current_scene.blackRect,
-                y: game.config.height,
-                onComplete: function() {
-                    current_scene.bg_music.stop();
-                    current_scene.scene.start("level1IntroScene");
-                },
-            });*/
-            //this.scene.scene.start("level1IntroScene");
         })
         //this.start_text = this.add.text(game.config.width/2, this.start_button.y, 'S  T  A  R  T', {color: '#FFFFFF', fontSize: '40px'}).setOrigin(0.5);
 
         setupKeys(this);
+        this.initGameSettings();
     }
 
-    update(){
+    update() {
         if (Phaser.Input.Keyboard.JustDown(key_1)){
-            this.bg_music.stop();
+            bg_music.stop();
+            current_map = 'level 1.0 map';
             this.scene.start("level1FightScene");
         }
         if (Phaser.Input.Keyboard.JustDown(key_2)){
-            this.bg_music.stop();
-            this.scene.start("level1BossScene");
+            bg_music.stop();
+            this.scene.start("level1BossIntroScene");
         }
-
+    }
+    initGameSettings() {
+        game_settings = {
+            // player stats
+            dash_damage: 50,
+            player_walk_speed: 350,
+            player_dash_speed: 1000,
+            player_max_charge_progress: 800,
+            player_dash_cooldown: 0.2,
+            player_max_health: 5,
+            player_curr_health: 5,
+            player_walk_drag: 0.0001,
+            player_dash_drag: 0.1,
+            player_stun_time: 100,
+            player_mass: 0.8,
+            player_bounce_mod: 0.7,
+            player_invincible_time: 1,
+            player_perfect_dash_window: 0.3,
+    
+            //misc game vars
+            tilemap_scale: 1,
+            camera_zoom: 1,
+            next_scene: `level1BossScene`,
+    
+            // charger stats
+            charger_speed: 75,
+            charger_health: 100,
+            charger_bounce_mod: 1,
+            charger_bounce_drag: 0.01,
+    
+            // golem stats
+            golem_speed: 30,
+            golem_health: 150,
+            golem_agro_range: 280,
+            golem_attack_range: 100,
+            golem_shockwave_start_frame: 5,
+            golem_shockwave_end_frame: 12,
+            golem_shockwave_size: 3,
+            golem_shockwave_duration: 300,
+            golem_shockwave_power: 350,
+            golem_reload_time: 3000,
+            
+            golem_bounce_mod: 1,
+            golem_bounce_drag: 0.0001,
+    
+            // shooter stats
+            shooter_speed: 50,
+            shooter_health: 115,
+            shooter_shooting_speed: 1,
+            shooter_ammo_spacing: 500,
+            shooter_reload_time: 2000,
+            shooter_min_dist: 2,  //the minimum distance between a shooter enemy and the player before the shooter will fire
+            shooter_bounce_mod: 1,
+            shooter_bounce_drag: 0.01,
+            shooter_ammo: 1,
+    
+            enemy_mass: 1,
+            enemy_stun_threshold: 10, // speed to where enemy is no longer stunned
+            enemy_stun_time: 0.75,
+            enemy_spawn_timer: 8000,
+            //these enemy_name variables are for determining which enemy is spawned when an 'enemy1, enemy2, enemy3', etc tile is found in the tilemap.
+            enemy1_name: "CHARGER",
+            enemy2_name: "GOLEM",
+            enemy3_name: "SHOOTER",
+    
+            //hank
+            hank_health: 8,
+            hank_speed: 100,
+    
+            //dog
+            dog_speed: 250
+        }
     }
 }

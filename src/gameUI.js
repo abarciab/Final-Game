@@ -5,10 +5,8 @@ class GameUI {
     constructor() {
         this.health_x = config.width * 0.05;
         this.health_y = config.height * 0.1;
-        this.max_hearts = current_scene.player.health;
+        this.max_hearts = game_settings.player_max_health;
         this.hearts = [];
-
-        this.health_text = current_scene.add.text(this.health_x, this.health_y, `LIVES: ${current_scene.player.health}`).setVisible(false);
     }
     setPlayerUI() {
         for (let i = 0; i < this.max_hearts; i++) {
