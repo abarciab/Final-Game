@@ -18,16 +18,6 @@ function initializeLevel(scene) {
     //health pickups
     scene.pickups = [];
     scene.pickup_sfx = scene.sound.add('health pickup'); 
-    scene.physics.add.overlap(scene.player, scene.pickups, function(player, pickup) {
-        if (pickup.visible == false){
-            return;
-        }
-        if (player.health < game_settings.player_max_health){
-            pickup.setVisible(false); player.health += 1;
-            current_scene.pickup_sfx.play({volume: 0.4});
-        }
-    
-    });
 
     //enemies
     scene.enemies = [];
@@ -127,6 +117,7 @@ function addColliders(scene) {
     scene.physics.add.collider(scene.player, scene.doors);
     scene.physics.add.overlap(scene.player, scene.lava_rects, playerLavaCollision.bind(scene));
     scene.physics.add.collider(scene.pickups, scene.collision_rects);
+    scene.physics.add.overlap(scene.player, scene.pickups, playerHealthCollision.bind(this));
 
     //enemies
     scene.enemyCollider = scene.physics.add.collider(scene.player, scene.enemies, playerEnemyCollision.bind(scene));
@@ -545,18 +536,33 @@ function projectileEnemyCollision(enemy, projectile){
     }
 }
 
-function playerProjectileCollision(playerObj, projectile){
-    if (!projectile.active || !playerObj.active || playerObj.startInvulnerable || playerObj.invulnerable){
+function playerProjectileCollision(player, projectile){
+    if (!projectile.active || !player.active || player.startInvulnerable || player.invulnerable){
         return;
     }
     if (current_scene.player.dashing){
         projectile.deflected = true;
-        projectile.body.setVelocity(playerObj.body.velocity.x * 1.5, playerObj.body.velocity.y * 1.5);
+        projectile.body.setVelocity(player.body.velocity.x * 1.5, player.body.velocity.y * 1.5);
         //playerObj.body.setVelocity(playerObj.body.velocity.x * 0.9, playerObj.body.velocity.y * 0.9);
-        playerObj.body.setVelocity(0,0)
+        player.body.setVelocity(0,0)
     } else if (!projectile.deflected && projectile.reset){
         projectile.reset();
-        playerObj.damage();
+        player.damage();
+    }
+}
+
+function playerHealthCollision(player, pickup) {
+    if (pickup.visible == false){
+        return;
+    }
+    if (player.health < game_settings.player_max_health){
+        pickup.setVisible(false); 
+        player.health += 1;
+        if (player.health >= game_settings.player_max_health) {
+            player.health = game_settings.player_max_health
+        }
+        game_settings.player_current_health = player.health;
+        current_scene.pickup_sfx.play({volume: 0.4});
     }
 }
 
