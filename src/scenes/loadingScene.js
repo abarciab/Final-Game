@@ -123,6 +123,9 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('shooter move right', './assets/enemies/shooter_move_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('shooter damage left', './assets/enemies/shooter_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
         this.load.spritesheet('shooter damage right', './assets/enemies/shooter_damage_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
+        this.load.spritesheet('shooter bullet', './assets/enemies/shooter_bullet.png', {frameWidth: 16, frameHeight: 8, start: 0, end: 1});
+
+        // hank
         this.load.spritesheet('hank idle left', './assets/enemies/hank_idle_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank idle right', './assets/enemies/hank_idle_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank move left', './assets/enemies/hank_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
@@ -182,7 +185,11 @@ class loadingScene extends Phaser.Scene {
         this.load.image('vase', './assets/objects/vase.png');
         this.load.image('target', './assets/objects/target.png');
         this.load.image('door', './assets/objects/door.png');
+        this.load.image('door down', './assets/objects/door down.png');
+        this.load.image('hori door', './assets/objects/hori door.png');
+        this.load.image('hori door down', './assets/objects/hori door down.png');
         this.load.image('button', './assets/objects/button.png');
+        this.load.image('button down', './assets/objects/button down.png');
         this.load.image('tiles', './assets/tilemaps/tiles.png');     
     }
 
@@ -390,14 +397,11 @@ class loadingScene extends Phaser.Scene {
             frames: current_scene.anims.generateFrameNumbers("hank move right", {start: 0, end: 5}),
             repeat: -1
         })
+        current_scene.anims.create({
+            key: "shooter bullet",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("shooter bullet", {start: 0, end: 1}),
+            repeat: -1
+        })
     }
-
-    update(){
-
-    }
-
-    loadEverything(){
-
-    }
-
 }

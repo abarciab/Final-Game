@@ -40,11 +40,11 @@
                     },
                     {
                         "speaker": "",
-                        "text": "{text_sfx_off} {sfx:door jingle} {rate:0}*DING*"
+                        "text": "{text_sfx_off}{sfx:door jingle}{rate:0}*DING*"
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Is that a client?! Maybe god heard my pleas and decided to give me something exciting!"
+                        "text": "Is that a client?! Maybe god heard my plees and decided to give me something exciting!"
                     },
                     {
                         "speaker": "Old Man",
@@ -52,7 +52,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Why yes! Is there anything I can help you with today?{rate:0.5} {rate:0.01}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
+                        "text": "Why yes! Is there anything I can help you with today?{rate:0.5}{rate:0.01}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
                     },
                     {
                         "speaker":"Old Man",
@@ -93,11 +93,11 @@
                     },
                     {
                         "speaker": "???",
-                        "text": "{sfx:woof} woof!"
+                        "text": "{sfx:woof}woof!"
                     },
                     {
                         "speaker": "Fran",
-                        "text": "!{rate:1} {rate:0.03}That must be the dog!"
+                        "text": "!{rate:1}{rate:0.03}That must be the dog!"
                     },
                     {
                         "speaker": "Fran",
@@ -109,7 +109,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Surely it's not{rate:0.06}...{rate:0.03} here?{rate:1} {rate:0.03}In this dangerous looking cave?"
+                        "text": "Surely it's not{rate:0.06}...{rate:0.03} here?{rate:1}{rate:0.03}In this dangerous looking cave?"
                     },
                     {
                         "speaker": "???",
@@ -117,7 +117,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Ah shoot it is coming from that cave{rate:0.5}...{rate:0.03} {sfx:bam}Ah screw it!{rate:0.5} {rate:0.03}I'm sure it'll just be a quick trip in and out..."
+                        "text": "Ah shoot it is coming from that cave{rate:0.5}...{rate:0.03} {sfx:bam}Ah screw it!{rate:0.5}{rate:0.03} I'm sure it'll just be a quick trip in and out..."
                     }
                 ]
             },
@@ -130,11 +130,163 @@
                     },
                     {
                         "speaker": "Dog",
-                        "text": "{pan:dog} {sfx:woof}woof!"
+                        "text": "{pan:dog}{sfx:woof}woof!"
+                    },
+                    {
+                        "speaker": "hide",
+                        "text": "{action:dog_run_right}{hide:2}{next_line}"
                     },
                     {
                         "speaker": "Fran",
-                        "text": "{pan:fran} {sfx:bam}H-Hey, come back here!"
+                        "text": "{pan:fran}{sfx:bam}H-Hey, come back here!"
+                    }
+                ]
+            },
+            "part4": {
+                "location": "hell",
+                "body": [
+                    {
+                        "speaker": "Fran",
+                        "text": "Ugh, finally caught up to you you dumb mutt..."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Now come here so I can get out of he-"
+                    },
+                    {
+                        "speaker": "Dog",
+                        "text": "{pan:dog}{sfx:woof}woof!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Wh-who are you?"
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "{pan:Hank}Name's Hank{rate:0.5}...{rate:0.03}and that should be my question, what do you think you're doing barging into my home like this??"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "I'm here to take that dog back!"
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "{sfx:bam}You want to take pooch from me?? Over my dead body!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "So you took the dog huh?{rate:0.5}{rate:0.03}In that case I guess I just have to beat you up and bring the dog back to its rightful owner!"
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "Hmm? I see that you've managed to steal my {rate:0.015}limited-edition-magical-girl-transformation-staff{rate:0.03} somehow!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "This thing is yours?!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "...Hold on how come you even have something like this?"
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "{rate:0.015}{sfx:bam}H-Hey who said it was mine!?"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "..."
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "Hmph, no matter, I'll show you what me and pooch can do. Get her pooch!"
+                    },
+                    {
+                        "speaker": "Dog",
+                        "text": "{sfx:woof}woof! woof!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "*Sigh*{rate:0.5}{rate:0.03} here we go..."
+                    }
+                ]
+            },
+            "part5": {
+                "location": "hell",
+                "body": [
+                    {
+                        "speaker": "Fran",
+                        "text": "Phew, that was tough..."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Alright you rowdy mutt, let's finally get you back to your owner."
+                    },
+                    {
+                        "speaker": "Dog",
+                        "text": "{sfx:woof} woof!"
+                    }
+                ]
+            },
+            "part6": {
+                "location": "office",
+                "body": [
+                    {
+                        "speaker": "Fran",
+                        "text": "Hey old man, I got your dog back for you!"
+                    },
+                    {
+                        "speaker": "Old man",
+                        "text": "Huh?"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Man you wouldn't BELIEVE what I had to go through to find old pooch here.{rate:0.5} {rate:0.01}I heard them barking in a dark cave in the forest where I eventually reached HELL of all places, where I found a magical staff that let me tackle my enemies where I had to chase after the dumb dog until I found the perpetrator whole stole pooch and took him down and took pooch with m-"
+                    },
+                    {
+                        "speaker":"Old Man",
+                        "text": "Err, I don't know how to say this..."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Oh you don't have to thank me, I actually kinda had fun exploring the place. Though it might cost you a liiiiiittle extr-"
+                    },
+                    {
+                        "speaker": "Old Man",
+                        "text": "...Pooch actually returned home while you were out looking for him.{rate:0.5}{rate:0.03} The dog you came back with... isn't my pooch."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "..."
+                    },
+                    {
+                        "speaker": "Old Man",
+                        "text": "..."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "So what you're saying is..."
+                    },
+                    {
+                        "speaker": "Old Man",
+                        "text": "Yes that dog is actually..."
+                    }
+                ]
+            },
+            "part7": {
+                "location": "hell",
+                "body": [
+                    {
+                        "speaker": "Hank",
+                        "text": "She took Cerebus..."
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "...{rate:0.015}And my limited-edition-magical-girl-transformation-staff{rate:0.03}..."
+                    },
+                    {
+                        "speaker": "",
+                        "text": "{rate:0.5}THE (BAD) END"
                     }
                 ]
             }
