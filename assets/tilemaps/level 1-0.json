@@ -357,6 +357,11 @@
                          "value":3
                         }, 
                         {
+                         "name":"invisible",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
                          "name":"room",
                          "type":"int",
                          "value":2
@@ -378,6 +383,11 @@
                          "name":"circuit",
                          "type":"int",
                          "value":3
+                        }, 
+                        {
+                         "name":"invisible",
+                         "type":"bool",
+                         "value":true
                         }, 
                         {
                          "name":"room",
@@ -868,6 +878,29 @@
                  "width":64,
                  "x":2666,
                  "y":224
+                }, 
+                {
+                 "gid":5,
+                 "height":64,
+                 "id":170,
+                 "name":"button",
+                 "properties":[
+                        {
+                         "name":"circuit",
+                         "type":"int",
+                         "value":0
+                        }, 
+                        {
+                         "name":"silent",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":416,
+                 "y":492
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -876,7 +909,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":170,
+ "nextobjectid":171,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",

@@ -348,6 +348,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
     update(timer, delta) {
         if (this.asleep){
             return;
+        } else if (this.visible == false){
+            this.setVisible(true);
         }
         if (!this.asleep && this.body.checkCollision.none){
             enableCollision(this.body);
