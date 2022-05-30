@@ -693,6 +693,7 @@
   <object id="137" name="door" gid="26" x="769.333" y="444" width="32" height="128">
    <properties>
     <property name="circuit" type="int" value="0"/>
+    <property name="stay_closed" type="bool" value="true"/>
    </properties>
   </object>
   <object id="138" name="button" gid="5" x="883.667" y="451.333" width="81.3333" height="125.333">
