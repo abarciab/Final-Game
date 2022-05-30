@@ -140,6 +140,7 @@ class loadingScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('level_1_map','./assets/tilemaps/level1map.json');
         this.load.tilemapTiledJSON('level 1.0 map','./assets/tilemaps/level 1-0.json');
         this.load.tilemapTiledJSON('level 1.1 map','./assets/tilemaps/level 1-1.json');
+        this.load.tilemapTiledJSON('level 1.3 map', './assets/tilemaps/level 1-3.json');
         this.load.image('light', './assets/tilemaps/light.png');
 
         //cutscene sfx

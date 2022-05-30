@@ -1,4 +1,4 @@
-let current_map = 'level 1.0 map';
+let current_map = 'level 1.3 map';
 //setup functions:
 function initialize(scene){
     current_scene = scene;
@@ -38,9 +38,10 @@ function initialize(scene){
         golem_attack_range: 100,
         golem_shockwave_start_frame: 5,
         golem_shockwave_end_frame: 12,
-        golem_shockwave_size: 3,
+        golem_shockwave_size: 5,
         golem_shockwave_duration: 300,
         golem_shockwave_power: 350,
+        golem_shockwave_damage: 30,
         golem_reload_time: 3000,
         
         golem_bounce_mod: 1,
@@ -476,6 +477,7 @@ function enableCollision(body){
 
 // called after collision
 function playerEnemyCollision(player, enemy){
+    //console.log(current_scene.enemy_shockwaves);
     if (enemy.stunned) return;
     if (current_scene.player.dashing){
         current_scene.cameras.main.shake(200, 0.002);
@@ -493,6 +495,20 @@ function playerShockwaveCollision(player, shockwave){
         current_scene.player.damage(shockwave, true, true);
     }
 }
+
+/*function enemyShockwaveCollision(enemy, shockwave){
+    console.log(shockwave);
+
+    if (enemy.type != "GOLEM") {
+        let redirect_multiplier = game_settings.golem_shockwave_power * 2;
+        const angle = -Math.atan2(shockwave.owner.x-enemy.x, shockwave.owner.y-enemy.y);
+        const vel_x = redirect_multiplier * Math.sin(angle);
+        const vel_y = redirect_multiplier * -Math.cos(angle);
+        enemy.setVelocity(vel_x, vel_y);
+
+        enemy.damage(game_settings.golem_shockwave_damage, true);
+    }
+}*/
 
 // enemy damages other enemy when it bounces into it
 function enemyOnEnemyCollision(enemy1, enemy2) {
