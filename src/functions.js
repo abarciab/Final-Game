@@ -15,6 +15,7 @@ function initializeLevel(scene) {
     //player
     scene.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
     scene.level_finished = false;
+    
     //health pickups
     scene.pickups = [];
     scene.pickup_sfx = scene.sound.add('health pickup'); 
@@ -23,6 +24,12 @@ function initializeLevel(scene) {
     scene.enemies = [];
     scene.enemy_projectiles = new ProjectileGroup('shooter bullet');
     scene.enemy_shockwaves = new ShockwaveGroup('shockwave');
+
+    // //doggo
+    // scene.doggo = new Dog(200, 200, 'dog idle right');
+    // scene.doggo.asleep = true;
+    // scene.doggo.setVisible(false);
+    // console.log("added doggo to scene");
     
     initMap()
     scene.camera = scene.cameras.main.startFollow(scene.player, true, 0.05, 0.05);
@@ -38,9 +45,12 @@ function initializeLevel(scene) {
     //updateUI();
     scene.game_UI = new GameUI();
     scene.game_UI.setPlayerUI();
+
+    
 }
 
 function initMap() {
+    console.log("init map");
     //tilemap
     const map = current_scene.make.tilemap({key: current_map, tileWidth: 64, tileHeight: 64});
 
@@ -439,6 +449,8 @@ function setupTilemapCollisions(layer){
             current_scene.player.setPosition(tileWorldPos.x, tileWorldPos.y);
         } else if (tile.properties.vase){
             spawnObject("VASE", tileWorldPos.x, tileWorldPos.y);
+        } else if (tile.properties.dog){
+            console.log("HERE IS WHERE THE DOGGO POSITION IS");
         }
 
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }

@@ -1044,7 +1044,7 @@
                  "id":7,
                  "properties":[
                         {
-                         "name":"enemy_4",
+                         "name":"dog",
                          "type":"bool",
                          "value":true
                         }]

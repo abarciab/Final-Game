@@ -49,7 +49,7 @@
   </tile>
   <tile id="7">
    <properties>
-    <property name="enemy_4" type="bool" value="true"/>
+    <property name="dog" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="10">
