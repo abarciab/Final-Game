@@ -483,6 +483,11 @@
                          "name":"circuit",
                          "type":"int",
                          "value":0
+                        }, 
+                        {
+                         "name":"stay_closed",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
