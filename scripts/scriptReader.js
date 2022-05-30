@@ -192,11 +192,14 @@ class ScriptReader {
 
         // check if they hit escape to skip cutscene
         if (key_esc.isDown) {
-            console.log("skip")
             this.reading_script = false;
             this.display_textbox.setVisible(false);
             this.speaker_textbox.setVisible(false);
             this.bg_textbox.setVisible(false);
+            this.char_update_rate = this.script_data.defaultTextSpeed;
+            this.char_update_timer = this.char_update_rate;
+            this.text_sfx_interval = 2;
+            this.play_speaker_sfx = true;
             return;
         }
 

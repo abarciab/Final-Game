@@ -592,7 +592,6 @@ function playerHealthCollision(player, pickup) {
         if (player.health >= game_settings.player_max_health) {
             player.health = game_settings.player_max_health
         }
-        game_settings.player_current_health = player.health;
         current_scene.pickup_sfx.play({volume: 0.4});
     }
 }
