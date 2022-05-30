@@ -50,6 +50,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
         disableCollision(this.body);
+        this.setScale(2);
 
         this.owner = null;
         this.setActive(false);
@@ -78,6 +79,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
             return;
         } else{
             enableCollision(this.body);
+            this.anims.play('shooter bullet', true);
         }
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
         let pos = new Phaser.Math.Vector2(this.x, this.y);
@@ -300,7 +302,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.damage_text_array.push(current_scene.add.text(0, 0, damage_value));
                 this.damage_text_array[i+1].setFontSize(26).setDepth(25);
                 if (damage_value > game_settings.dash_damage) {
-                    this.damage_text_array[i+1].setColor('#FF7F7F');
+                    this.damage_text_array[i+1].setFontSize(34);
+                    this.damage_text_array[i+1].setColor('#FF0000');
                 }
                 else {
                     this.damage_text_array[i+1].setColor('#FFFFFF');
@@ -312,9 +315,11 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             } else if (this.damage_text_array[i].visible == false) {
                 this.damage_text_array[i].setText(damage_value);
                 if (damage_value > game_settings.dash_damage) {
-                    this.damage_text_array[i].setColor('#FF7F7F');
+                    this.damage_text_array[i].setFontSize(34);
+                    this.damage_text_array[i].setColor('#FF0000');
                 }
                 else {
+                    this.damage_text_array[i].setFontSize(26);
                     this.damage_text_array[i].setColor('#FFFFFF');
                 }
                 damageDisplay(this, i);

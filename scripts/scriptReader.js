@@ -17,9 +17,10 @@ class ScriptReader {
         this.speaker_color;
         this.play_speaker_sfx = true;
         this.text_sfx_interval = 2;
+        this.move_next_line = false;
 
         this.char_update_rate = this.script_data.defaultTextSpeed;
-        this.char_update_timer = 0;
+        this.char_update_timer = this.char_update_rate;
 
         this.background;
 
@@ -36,6 +37,7 @@ class ScriptReader {
 
         this.curr_line_index = 0;
         this.curr_char_index = 0;
+        this.hide_duration = 0;
 
         this.current_location = this.script_sections[`level${this.level}`][`part${this.part}`].location;
         this.curr_script = [...this.script_sections[`level${this.level}`][`part${this.part}`].body];
@@ -87,6 +89,7 @@ class ScriptReader {
         this.line_paused = false;
         this.mouse_held = true;
         this.line_finished = false;
+        this.char_update_timer = this.char_update_rate;
 
         this.level = level;
         this.part = part;
@@ -134,6 +137,7 @@ class ScriptReader {
         this.curr_line_index++;
         this.display_line = "";
         this.char_update_rate = this.script_data.defaultTextSpeed;
+        this.char_update_timer = this.char_update_rate;
         this.text_sfx_interval = 2;
         this.play_speaker_sfx = true;
         // if the part is done, finish reading for the part and update part/levels and return false
@@ -170,12 +174,14 @@ class ScriptReader {
 
     updateScript(delta) {
         if (!this.reading_script) return;
-        if (this.hide_display) {
+        if (this.hide_display || this.hide_duration >= 0 || this.curr_speaker.toLowerCase() == "hide") {
+            if (this.hide_duration >= 0) this.hide_duration -= delta/1000;
             this.bg_textbox.setVisible(false);
             this.display_textbox.setVisible(false);
             this.speaker_textbox.setVisible(false);
             this.display_textbox.setVisible(false);
-            return;
+            if (this.hide_display || this.hide_duration >= 0)
+                return;
         }
         else if (!this.bg_textbox.visible) {
             this.bg_textbox.setVisible(true);
@@ -194,6 +200,7 @@ class ScriptReader {
             return;
         }
 
+        // check for mouse being held events
         if (!this.mouse_held && pointer.isDown) {
             this.mouse_held = true;
             if (!this.line_finished && !this.line_paused) {
@@ -213,6 +220,10 @@ class ScriptReader {
         else if (!pointer.isDown) {
             this.mouse_held = false;
         }
+        if (this.move_next_line) {
+            this.nextLine();
+            this.move_next_line = false;
+        }
 
         // if line isn't finished or paused, update the line
         if (!this.line_finished && !this.line_paused) {
@@ -223,12 +234,10 @@ class ScriptReader {
                 this.updateLine();
             }
         }
-        let off_x = 0;
-        let off_y = 0;
-        if (current_scene.camera != undefined) {
-            off_x = current_scene.camera.worldView.x;
-            off_y = current_scene.camera.worldView.y;
-        }
+
+        // set position of elements
+        let off_x = current_scene.cameras.main.worldView.x;
+        let off_y = current_scene.cameras.main.worldView.y;
         this.bg_textbox.setPosition(this.bg_textbox_x+off_x, this.bg_textbox_y+off_y);
         this.display_textbox.setPosition(this.text_margins+off_x, this.textbox_y+off_y)
         this.speaker_textbox.setPosition(this.text_margins+off_x, this.speaker_y+off_y);
@@ -238,13 +247,13 @@ class ScriptReader {
 
     updateLine() {
         if (this.line_paused) return;
-        this.checkForCommand();
-        this.display_line += this.curr_line[this.curr_char_index];
-        if (this.play_speaker_sfx && this.display_line.length % this.text_sfx_interval == 0)
-            this.speaker_sfx.play();
-        this.checkToAddNewline();
-        this.curr_char_index++;
-
+        if (!this.checkForCommand()) {
+            this.display_line += this.curr_line[this.curr_char_index];
+            if (this.play_speaker_sfx && this.display_line.length % this.text_sfx_interval == 0)
+                this.speaker_sfx.play();
+            this.checkToAddNewline();
+            this.curr_char_index++;
+        }
         // if the current line is finished being read
         if (this.curr_char_index >= this.curr_line.length) {
             this.line_finished = true;
@@ -282,7 +291,7 @@ class ScriptReader {
             this.curr_char_index++;
 
             // loop until end of braces is found or reached end of line to find command
-            while (this.curr_line[this.curr_char_index] != '}' || this.curr_char_index >= this.curr_line.length-1) {
+            while (this.curr_line[this.curr_char_index] != '}' || this.curr_char_index >= this.curr_line.length) {
                 if (get_command)
                     command += this.curr_line[this.curr_char_index];
                 else 
@@ -294,10 +303,12 @@ class ScriptReader {
                 }
             }
             // if end of braces was never found, do not try to run any commmand
-            if (this.curr_char_index >= this.curr_line.length-1) {
+            if (this.curr_char_index >= this.curr_line.length) {
                 this.curr_char_index = prev_index;
             }
             else {
+                // if there is a command, incrememnt index by 1 to get past braces
+                let command_ran = true;
                 this.curr_char_index++;
                 switch (command.trim()) {
                     case "rate":
@@ -339,6 +350,12 @@ class ScriptReader {
                                 
                                 break;
                             case "hank":
+                                if (current_scene.hank == undefined) {
+                                    console.log("hank does not exist in current scene");
+                                    break;
+                                }
+                                this.hide_display = true;
+                                panTo(current_scene.cameras.main, current_scene.hank);
                                 break;
                             case "fran":
                                 if (current_scene.player == undefined) {
@@ -352,6 +369,42 @@ class ScriptReader {
                                 break;
                         }
                         break;
+                    case "action":
+                        switch (command_content.trim()) {
+                            case "dog_run_left":
+                                if (current_scene.dog != undefined) {
+                                    this.current_scene.dog.move_dir = "left";
+                                }
+                                break;
+                            case "dog_run_right":
+                                if (current_scene.dog != undefined) {
+                                    console.log("move dog");
+                                    this.current_scene.dog.move_dir = "right";
+                                }
+                                break;
+                            case "dog_run_up":
+                                if (current_scene.dog != undefined) {
+                                    this.current_scene.dog.move_dir = "up";
+                                }
+                                break;
+                            case "dog_run_down":
+                                if (current_scene.dog != undefined) {
+                                    this.current_scene.dog.move_dir = "down";
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    case "hide":
+                        if (command_content.trim() != "")
+                            this.hide_duration = parseFloat(command_content.trim());
+                        break;
+                    case "unhide":
+                        this.hide_duration = 0;
+                        break;
+                    case "next_line":
+                        this.move_next_line = true;
+                        break;
                     case "text_sfx_off":
                         this.play_speaker_sfx = false;
                         break;
@@ -359,11 +412,14 @@ class ScriptReader {
                         this.play_speaker_sfx = true;
                         break;
                     default:
+                        command_ran = false;
                         console.log(command,"does not exist");
                         this.curr_char_index = prev_index;
                         break;
                 }
+                return command_ran;
             }
         }
+        return false;
     }
 }

@@ -40,7 +40,7 @@
                     },
                     {
                         "speaker": "",
-                        "text": "{text_sfx_off} {sfx:door jingle} {rate:0}*DING*"
+                        "text": "{text_sfx_off}{sfx:door jingle}{rate:0}*DING*"
                     },
                     {
                         "speaker": "Fran",
@@ -52,7 +52,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Why yes! Is there anything I can help you with today?{rate:0.5} {rate:0.01}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
+                        "text": "Why yes! Is there anything I can help you with today?{rate:0.5}{rate:0.01}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
                     },
                     {
                         "speaker":"Old Man",
@@ -93,11 +93,11 @@
                     },
                     {
                         "speaker": "???",
-                        "text": "{sfx:woof} woof!"
+                        "text": "{sfx:woof}woof!"
                     },
                     {
                         "speaker": "Fran",
-                        "text": "!{rate:1} {rate:0.03}That must be the dog!"
+                        "text": "!{rate:1}{rate:0.03}That must be the dog!"
                     },
                     {
                         "speaker": "Fran",
@@ -109,7 +109,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Surely it's not{rate:0.06}...{rate:0.03} here?{rate:1} {rate:0.03}In this dangerous looking cave?"
+                        "text": "Surely it's not{rate:0.06}...{rate:0.03} here?{rate:1}{rate:0.03}In this dangerous looking cave?"
                     },
                     {
                         "speaker": "???",
@@ -117,7 +117,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Ah shoot it is coming from that cave{rate:0.5}...{rate:0.03} {sfx:bam}Ah screw it!{rate:0.5} {rate:0.03}I'm sure it'll just be a quick trip in and out..."
+                        "text": "Ah shoot it is coming from that cave{rate:0.5}...{rate:0.03} {sfx:bam}Ah screw it!{rate:0.5}{rate:0.03} I'm sure it'll just be a quick trip in and out..."
                     }
                 ]
             },
@@ -130,11 +130,15 @@
                     },
                     {
                         "speaker": "Dog",
-                        "text": "{pan:dog} {sfx:woof}woof!"
+                        "text": "{pan:dog}{sfx:woof}woof!"
+                    },
+                    {
+                        "speaker": "hide",
+                        "text": "{action:dog_run_right}{hide:2}{next_line}"
                     },
                     {
                         "speaker": "Fran",
-                        "text": "{pan:fran} {sfx:bam}H-Hey, come back here!"
+                        "text": "{pan:fran}{sfx:bam}H-Hey, come back here!"
                     }
                 ]
             },
@@ -151,11 +155,11 @@
                     },
                     {
                         "speaker": "Dog",
-                        "text": "{pan:dog} {sfx:woof}woof!"
+                        "text": "{pan:dog}{sfx:woof}woof!"
                     },
                     {
                         "speaker": "Fran",
-                        "text": "{sfx:bam}Wh-who are you?"
+                        "text": "Wh-who are you?"
                     },
                     {
                         "speaker": "Hank",
@@ -171,11 +175,11 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "So you took the dog huh?{rate:0.5} {rate:0.03}In that case I guess I just have to beat you up and bring the dog back to its rightful owner!"
+                        "text": "So you took the dog huh?{rate:0.5}{rate:0.03}In that case I guess I just have to beat you up and bring the dog back to its rightful owner!"
                     },
                     {
                         "speaker": "Hank",
-                        "text": "Hmm? I see that you've managed to steal my{sfx:bam} {rate:0.015}limited-edition-magical-girl-transformation-staff{rate:0.03} somehow!"
+                        "text": "Hmm? I see that you've managed to steal my {rate:0.015}limited-edition-magical-girl-transformation-staff{rate:0.03} somehow!"
                     },
                     {
                         "speaker": "Fran",
@@ -187,7 +191,7 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "{rate:0.015} {sfx:bam}H-Hey who said it was mine!?"
+                        "text": "{rate:0.015}{sfx:bam}H-Hey who said it was mine!?"
                     },
                     {
                         "speaker": "Fran",
@@ -203,7 +207,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "*Sigh*{rate:0.5} {rate:0.03}here we go..."
+                        "text": "*Sigh*{rate:0.5}{rate:0.03} here we go..."
                     }
                 ]
             },
@@ -249,7 +253,7 @@
                     },
                     {
                         "speaker": "Old Man",
-                        "text": "...Pooch actually returned home while you were out looking for him.{rate:0.5} {rate:0.03}The dog you came back with... isn't my pooch."
+                        "text": "...Pooch actually returned home while you were out looking for him.{rate:0.5}{rate:0.03} The dog you came back with... isn't my pooch."
                     },
                     {
                         "speaker": "Fran",

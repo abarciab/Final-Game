@@ -8,7 +8,8 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.setDrag(this.base_drag);
         this.setDamping(true);
         this.setScale(3);
-        this.setCircle(this.width/2);
+        const hitboxRadius = 16;
+        this.setCircle(hitboxRadius, this.width/2-hitboxRadius, this.height/2-hitboxRadius);
         this.type = "hank";
         this.last_direction_moved = "right";
         this.stunned = false;
