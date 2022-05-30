@@ -351,7 +351,9 @@ function openDoors(circuit){
     //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
         if ((current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit) || (current_scene.doors[i].locked == true) ){
-
+            if (current_scene[i].doors.data_sprite.data.list.stay_closed){
+                continue;
+            }
             current_scene.tweens.add({
                 targets: current_scene.doors[i].data_sprite,
                 //alpha: 0,
