@@ -169,27 +169,6 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
             this.scene.enemy_shockwaves.return(this);
         }
     }
-
-    /*update(){
-        if (!this.active){
-            return;
-        }
-        /*let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y)
-        let pos = new Phaser.Math.Vector2(this.x, this.y);
-        this.expanding_width++;
-        //let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
-        //let pos = new Phaser.Math.Vector2(this.x, this.y);
-        this.expanding_width += 2;
-        console.log(this.expanding_width);
-        this.setCircle(this.expanding_width, this.displayWidth/2-this.expanding_width, this.displayHeight/2-this.expanding_width);
-
-        if (this.expanding_width > 150){
-            this.reset();
-        }
-        //this.setCircle(this.displayWidth/2);
-        //this.setCircle(this.displayWidth/2, -this.displayWidth/2 + this.width/2 - 1, -this.displayHeight/2 + this.height/2 - 1);
-        //this.setOffset(this.width/2 - this.displayWidth/2, this.height/2 - this.displayHeight/2);
-    }*/
 }
 
 class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
@@ -286,12 +265,14 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
 
     reset() {
         disableCollision(this.body);
-        console.log(`reseting: ${type}`)
+        //console.log(`reseting: ${type}`)
         this.setActive(true);
         this.setVisible(true);
         this.body.setVelocity(0,0);
         this.setAlpha(1);
-        this.health = this.base_health;
+        if (this.health != null && this.base_health != null){
+            this.health = this.base_health;
+        }
     }
 
     damage(damage_value) {

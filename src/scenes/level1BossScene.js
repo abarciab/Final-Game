@@ -11,8 +11,9 @@ class level1BossScene extends Phaser.Scene {
             this.bg_music.setLoop(true).play();
         }
         initializeLevel(this);
-        //initBoss1();
+        
         initBossLevel1(this);
+
         //enemy collisions
         this.addColliders();
     }
@@ -21,7 +22,20 @@ class level1BossScene extends Phaser.Scene {
         //ball and (player/walls)
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
         this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
-        this.physics.add.overlap(this.player, this.ball, function() {if (current_scene.player.dashing == true){current_scene.ball.deflected = true} });
+
+        //player and ball
+        this.physics.add.overlap(this.player, this.ball, function() {
+            if (current_scene.ball.deflected){
+                return;
+            }
+            if (current_scene.player.dashing == true){
+                current_scene.ball.deflected = true
+            } else{
+                current_scene.player.has_ball = true;
+                current_scene.ball.setActive(false);
+                current_scene.ball.setVisible(false);
+            }
+        });
         
         //player and dog
         this.physics.add.overlap(this.player, this.doggo, function () {
@@ -34,6 +48,10 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.player.body.setVelocity(0,0);
             } else if (current_scene.doggo.speed > 0 && !current_scene.doggo.has_ball) {
                 current_scene.player.damage(current_scene.doggo);
+                if (current_scene.player.has_ball == true){
+                    current_scene.doggo.has_ball = true;
+                    current_scene.player.has_ball = false;
+                }
             }
         });
 
@@ -126,7 +144,7 @@ class level1BossScene extends Phaser.Scene {
         this.ball.current_speed = Math.sqrt(Math.pow(this.ball.body.velocity.y, 2) + Math.pow(this.ball.body.velocity.x, 2));
 
         if (this.hank.health <= 0 && !this.done ){
-            this.done = true;
+            this.done = true;a
             this.enemies.forEach(enemy => {
                 if (enemy.active || enemy.visible){
                     this.done = false;

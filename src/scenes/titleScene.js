@@ -226,7 +226,7 @@ class titleScene extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(key_3)){
             bg_music.stop();
-            this.scene.start("level1BossIntroScene");
+            this.scene.start("level1BossScene");
         }
     }
     initGameSettings() {
