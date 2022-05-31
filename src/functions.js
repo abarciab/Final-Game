@@ -171,6 +171,7 @@ function setupKeys(scene){
 
     key_1 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE); 
     key_2 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO); 
+    key_3 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
 }
 
 function setupInteractables(map){
@@ -564,6 +565,7 @@ function projectileEnemyCollision(enemy, projectile){
     if (projectile.deflected){
         projectile.reset();
         enemy.damage(game_settings.charger_health - 10);
+        moveAway(enemy, projectile);
     }
 }
 
@@ -616,6 +618,11 @@ function enableCollision(body){
 function playerEnemyCollision(player, enemy){
     if (enemy.stunned) return;
     if (current_scene.player.dashing){
+        if (enemy.type == "DASHER" && enemy.dashing) {
+            current_scene.player.damage(enemy, false, false);
+            current_scene.player.doneDashing();
+            return;
+        }
         current_scene.cameras.main.shake(200, 0.002);
         player.bouncing = true;
         player.dash_cooldown_timer = player.dash_cooldown_duration;
@@ -709,6 +716,17 @@ function spawnEnemy(type, x, y, _return){
                 new_enemy = new ChargerEnemy(x, y, 'charger move right');
             }
             break;
+        case "DASHER":
+            current_scene.enemies.forEach(enemy => {
+                if (enemy.type == type && enemy.active == false){
+                    new_enemy = enemy;
+                    enemy.reset();
+                }
+            })
+            if (new_enemy == null){
+                new_enemy = new DasherEnemy(x, y, 'dasher move right');
+            }
+            break;
         case "GOLEM":
             current_scene.enemies.forEach(enemy => {
                 if (enemy.type == type && enemy.active == false){
@@ -785,9 +803,18 @@ function moveAway(source, target){
     if (!target || !source){
         return;
     }
-    const angle = -Math.atan2(source.x-target.x, source.y-target.y);
-    const vel_x = source.speed * Math.sin(angle);
-    const vel_y = source.speed * -Math.cos(angle);
+    let redirect_multiplier = 100;
+    if (source.speed) {
+        redirect_multiplier = source.speed;
+    }
+    let angle = -Math.atan2(source.x-target.x, source.y-target.y);
+    if (source.move_angle) {
+        angle = source.move_angle;
+    }
+    const vel_x = redirect_multiplier * Math.sin(angle);
+    const vel_y = redirect_multiplier * -Math.cos(angle);
+
+    console.log(source.x, source.y, angle);
     source.setVelocity(-vel_x, -vel_y);
 }
 

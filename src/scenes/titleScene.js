@@ -221,6 +221,11 @@ class titleScene extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(key_2)){
             bg_music.stop();
+            current_map = 'level 1.1 map';
+            this.scene.start("level1FightScene");
+        }
+        if (Phaser.Input.Keyboard.JustDown(key_3)){
+            bg_music.stop();
             this.scene.start("level1BossIntroScene");
         }
     }
@@ -252,6 +257,14 @@ class titleScene extends Phaser.Scene {
             charger_health: 100,
             charger_bounce_mod: 1,
             charger_bounce_drag: 0.01,
+
+            // dasher stats
+            dasher_speed: 75,
+            dasher_dash_speed: 1000,
+            dasher_dash_drag: 0.1,
+            dasher_health: 100,
+            dasher_bounce_mod: 1,
+            dasher_bounce_drag: 0.01,
     
             // golem stats
             golem_speed: 30,

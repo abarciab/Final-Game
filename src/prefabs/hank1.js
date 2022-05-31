@@ -25,6 +25,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.body.bounce.set(this.bounce_mod);
         this.stun_time = 0;
         this.setMass(1.2);
+        this.setDepth(9);
 
         this.has_ball = false;
 

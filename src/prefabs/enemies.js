@@ -51,7 +51,9 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         current_scene.add.existing(this);
         disableCollision(this.body);
         this.setScale(2);
+        this.setMass(0.2);
 
+        this.speed = 0;
         this.owner = null;
         this.setActive(false);
         this.setVisible(false);
@@ -82,10 +84,12 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
             return;
         } else{
             enableCollision(this.body);
+            this.speed = Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
             this.anims.play('shooter bullet', true);
         }
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
         let pos = new Phaser.Math.Vector2(this.x, this.y);
+        this.move_angle = -Math.atan2(targetPoint.x-this.x, targetPoint.y-this.y);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
     }
 }
@@ -207,6 +211,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             "passive": undefined
         }
         this.passive_volume;
+        this.passive_timer;
+        this.passive_interval;
 
         this.last_direction_moved = "right";
         this.type = type;
@@ -222,6 +228,18 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.bounce_drag = game_settings.charger_bounce_drag;
                 //this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
                 this.passive_volume = 0.3;
+                this.passive_timer;
+                this.passive_interval;
+                break;
+            case "DASHER":
+                this.speed = game_settings.dasher_speed;
+                this.base_health = game_settings.dasher_health;
+                this.bounce_mod = game_settings.dasher_bounce_mod;
+                this.bounce_drag = game_settings.dasher_bounce_drag;
+                //this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
+                this.passive_volume = 0.3;
+                this.passive_timer;
+                this.passive_interval;
                 break;
             case "GOLEM":
                 this.speed = game_settings.golem_speed;
@@ -238,6 +256,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.bounce_drag = game_settings.shooter_bounce_drag;
                 this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
                 this.passive_volume = 0.3;
+                this.passive_interval = 0;
+                this.passive_timer = this.passive_interval;
                 break;
             default:
                 console.log("CONSTRUCTOR ERROR: INVALID ENEMY TYPE");
@@ -355,18 +375,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             enableCollision(this.body);
         }
 
-        if (this.enemy_sfx["passive"] != undefined) {
-            if (this.active && !this.enemy_sfx["passive"].isPlaying) {
-                this.enemy_sfx["passive"].play();
-            }
-
-            this.player_dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
-            if (this.enemy_sfx["passive"].isPlaying) {
-                let vol = ((config.width/2)/this.player_dist)/10;
-                if (vol > this.passive_volume) vol = this.passive_volume;
-                this.enemy_sfx["passive"].setVolume(vol);
-            }
-        }
+        this.player_dist = Phaser.Math.Distance.Between(this.x, this.y, current_scene.player.x, current_scene.player.y);
+        this.updateStep(delta);
 
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         this.bounce_damage = Math.floor((this.curr_speed/game_settings.player_dash_speed)*game_settings.dash_damage);
@@ -401,8 +411,16 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.last_direction_moved = "right";
             else 
                 this.last_direction_moved = "left";
-            this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
-            //console.log("shooter move", this.current_frame);
+
+            if (this.type == "DASHER" && this.charging_dash) {
+                this.anims.play(`${this.type.toLowerCase()} charge ${this.last_direction_moved.toLowerCase()}`, true);
+            }
+            else if (this.type == "DASHER" && this.dashing) {
+                this.anims.play(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`, true);
+            }
+            else {
+                this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+            }
         }
         else if (this.stunned) {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
@@ -410,9 +428,25 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         else if (this.attacked) {
             this.anims.play({key: `${this.type.toLowerCase()} attack ${this.last_direction_moved.toLowerCase()}`, startFrame: 0}, true);
         }
-        
     }
 
+    updateStep(delta) {
+        if (this.enemy_sfx["passive"] != undefined) {
+            this.passive_timer -= delta/1000;
+            if (this.passive_timer <= 0) {
+                this.passive_timer = this.passive_interval;
+                if (this.active && !this.enemy_sfx["passive"].isPlaying) {
+                    this.enemy_sfx["passive"].play();
+                }
+
+                if (this.enemy_sfx["passive"].isPlaying) {
+                    let vol = ((config.width/2)/this.player_dist)/10;
+                    if (vol > this.passive_volume) vol = this.passive_volume;
+                    this.enemy_sfx["passive"].setVolume(vol);
+                }
+            }
+        }
+    }
 }
 
 class ChargerEnemy extends BaseEnemy {
@@ -443,6 +477,96 @@ class ChargerEnemy extends BaseEnemy {
         if (this.stunned || this.asleep) return;
    
         moveTo(this, current_scene.player);
+    }
+}
+
+class DasherEnemy extends BaseEnemy {
+    constructor(x, y, texture){
+        super(x, y, texture, "DASHER");
+
+        // variables
+        this.dash_interval = 5;
+        this.dash_timer = 0;
+        this.charging_dash = false;
+        this.dashing = false;
+        this.dash_pos = 0;
+
+        this.charge_dash_interval = 2;
+        this.charge_dash_timer = 0;
+
+        this.end_dash_speed = 50;
+
+        this.setScale(3);
+        const hitbox_radius = 6;
+        this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
+    }
+    reset(){
+        super.reset();
+    }
+    damage(damage_value){
+        super.damage(damage_value);
+        if (this.charging_dash) {
+            this.charging_dash = false;
+            this.charge_dash_timer = 0;
+            this.speed = game_settings.dasher_speed;
+        }
+    }
+
+    die(){
+        super.die();
+    }
+
+    chargeDash(delta) {
+        this.speed = 0;
+        this.charge_dash_timer += delta/1000;
+        if (this.charge_dash_timer >= this.charge_dash_interval) {
+            console.log("done charging");
+            this.charge_dash_timer = 0;
+            //this.setDrag(game_settings.dasher_dash_drag);
+            this.charging_dash = false;
+            this.dashing = true;
+
+            const dash_angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
+            //console.log(dash_angle);
+            const vel_x = game_settings.dasher_dash_speed * Math.sin(dash_angle);
+            const vel_y = game_settings.dasher_dash_speed * -Math.cos(dash_angle);
+            console.log(vel_x, vel_y);
+            this.setVelocity(vel_x, vel_y);
+        }
+    }
+
+    updateDash() {
+        if (this.curr_speed <= this.end_dash_speed) {
+            console.log("done dashing");
+            this.dashing = false;
+            this.speed = game_settings.dasher_speed;
+            this.setDrag(this.base_drag);
+        }
+    }
+    //this enemy will dash towards the player on a cooldown
+    update(time, delta){
+        super.update(time, delta);
+        if (this.asleep){this.setAlpha(0.5)} else {this.setAlpha(1)}
+        if (this.stunned || this.asleep) return;
+   
+        if (!this.charging_dash && !this.dashing) {
+            this.dash_timer += delta/1000;
+            if (this.dash_timer >= this.dash_interval) {
+                this.dash_timer = 0;
+                this.charging_dash = true;
+            }
+            else {
+                moveTo(this, current_scene.player);
+            }
+        }
+        else if (this.charging_dash) {
+            console.log("charging dash");
+            this.chargeDash(delta);
+        }
+        else if (this.dashing) {
+            console.log("dashing");
+            this.updateDash(delta);
+        }
     }
 }
 
@@ -621,9 +745,6 @@ class ShooterEnemy extends BaseEnemy {
 
     fire(target){
         //console.log("shooter firing");
-
-
-
         this.fire_sfx.play();
         let projectile = null;
         for(let i = 0; i < this.projectiles.length; i++){

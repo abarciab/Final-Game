@@ -112,6 +112,13 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         
+        this.load.spritesheet('dasher move left', './assets/enemies/dasher_move_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
+        this.load.spritesheet('dasher move right', './assets/enemies/dasher_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
+        this.load.spritesheet('dasher damage left', './assets/enemies/dasher_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
+        this.load.spritesheet('dasher damage right', './assets/enemies/dasher_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
+        this.load.spritesheet('dasher charge left', './assets/enemies/dasher_charging_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 3});
+        this.load.spritesheet('dasher charge right', './assets/enemies/dasher_charging_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 3});
+
         this.load.spritesheet('golem move left', './assets/enemies/golem_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('golem move right', './assets/enemies/golem_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('golem attack left', './assets/enemies/golem_attack_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 12});
@@ -171,6 +178,7 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('enemy slam', './assets/sounds/sfx/enemy_slam.wav');
         this.load.audio('sizzle', './assets/sounds/sfx/sizzle.wav');
         this.load.audio('woof', './assets/sounds/sfx/woof.wav');
+        this.load.audio('dog step', './assets/sounds/sfx/dog_step.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
@@ -281,8 +289,58 @@ class loadingScene extends Phaser.Scene {
             key: "charger damage right",
             frameRate: 1,
             frames: current_scene.anims.generateFrameNumbers("charger damage right", {start: 0, end: 0}),
-                repeat: -1
-            })
+            repeat: -1
+        })
+
+        // dasher animations
+        current_scene.anims.create({
+            key: "dasher move left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("dasher move left", {start: 0, end: 5}),
+            repeat: -1  
+        })
+        current_scene.anims.create({
+            key: "dasher move right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("dasher move right", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dasher damage left",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("dasher damage left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dasher damage right",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("dasher damage right", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dasher charge left",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("dasher charge left", {start: 0, end: 3}),
+            repeat: -1  
+        })
+        current_scene.anims.create({
+            key: "dasher charge right",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("dasher charge right", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dasher dash left",
+            frameRate: 36,
+            frames: current_scene.anims.generateFrameNumbers("dasher move left", {start: 0, end: 5}),
+            repeat: -1  
+        })
+        current_scene.anims.create({
+            key: "dasher dash right",
+            frameRate: 36,
+            frames: current_scene.anims.generateFrameNumbers("dasher move right", {start: 0, end: 5}),
+            repeat: -1
+        })
 
         // golem animation
         current_scene.anims.create({

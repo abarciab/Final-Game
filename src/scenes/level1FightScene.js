@@ -11,13 +11,9 @@ class level1FightScene extends Phaser.Scene {
             bg_music = this.sound.add('level', {volume: 0.1});
             bg_music.setLoop(true).play();
         }
-        else {
-            console.log('level !=', bg_music.key);
-        }
-
 
         initializeLevel(this);
-
+        spawnEnemy('DASHER', this.player.x, this.player.y, false);
         sweepTransition("left", false);
         game_settings.next_scene = `level1BossScene`;
     }

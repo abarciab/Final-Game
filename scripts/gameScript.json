@@ -56,11 +56,11 @@
                     },
                     {
                         "speaker":"Old Man",
-                        "text": "My poor pooch has ran away while I was taking him on a walk in the forest, and I'm afraid I need help finding him."
+                        "text": "My poor pooch has ran away while I was taking him on a walk in the forest, and I'm afraid I need help finding him..."
                     },
                     {
                         "speaker": "Fran",
-                        "text": "...Oh"
+                        "text": "{rate:0.06}...{rate:0.03}Oh."
                     },
                     {
                         "speaker": "Fran",
@@ -80,7 +80,7 @@
                     },
                     {
                         "speaker": "Old Man",
-                        "text": "Oh thank you so much! I hope pooch is safe, poor boy."
+                        "text": "Oh thank you so much! I hope pooch is safe, poor boy..."
                     }
                 ]
             },
@@ -97,11 +97,11 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "!{rate:1}{rate:0.03}That must be the dog!"
+                        "text": "That must be the dog!"
                     },
                     {
                         "speaker": "Fran",
-                        "text": "I definitely heard the sound coming from{rate: 0.5}...{rate:0.02} this way!"
+                        "text": "I definitely heard the sound coming from{rate: 0.5}...{rate:0.02}this way!"
                     },
                     {
                         "speaker": "Fran",
@@ -155,7 +155,7 @@
                     },
                     {
                         "speaker": "Dog",
-                        "text": "{pan:dog}{sfx:woof}woof!"
+                        "text": "{pan:hank}{sfx:woof}woof!"
                     },
                     {
                         "speaker": "Fran",
