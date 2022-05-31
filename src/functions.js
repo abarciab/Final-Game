@@ -178,6 +178,8 @@ function setupKeys(scene){
     key_1 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE); 
     key_2 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO); 
     key_3 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
+    key_4 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
+    key_5 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
 }
 
 function setupInteractables(map){
@@ -443,6 +445,12 @@ function activateButton(button) {
         console.log(`invalid button. null: ${button.circuit == null}`);
         return;
     } else if (button.circuit == -1){
+        return;
+    }
+
+    if (button.circuit == null && button.data_sprite.data.list.boss){
+        current_scene.bg_music.stop();
+        current_scene.scene.start("level1BossScene");
         return;
     }
 

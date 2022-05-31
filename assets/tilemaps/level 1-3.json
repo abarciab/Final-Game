@@ -1178,7 +1178,7 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":1242.97763197137,
+                 "x":1242.98,
                  "y":750.98
                 }, 
                 {
@@ -1274,6 +1274,11 @@
                  "name":"button",
                  "properties":[
                         {
+                         "name":"boss",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
                          "name":"circuit",
                          "type":"int",
                          "value":5
@@ -1282,11 +1287,6 @@
                          "name":"invisible",
                          "type":"bool",
                          "value":true
-                        }, 
-                        {
-                         "name":"next_level",
-                         "type":"string",
-                         "value":"level 1.0 map"
                         }],
                  "rotation":0,
                  "type":"",
