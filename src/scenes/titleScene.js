@@ -211,6 +211,8 @@ class titleScene extends Phaser.Scene {
 
         setupKeys(this);
         this.initGameSettings();
+
+        //createPauseMenu();
     }
 
     update() {

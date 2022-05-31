@@ -75,6 +75,36 @@ function initMap() {
     setupTilemapCollisions(marker_layer);
 }
 
+let pause_menu = {};
+function createPauseMenu(){
+    console.log("pause menu created");
+    pause_menu.button_hover_sfx = current_scene.sound.add('button hover 2'); 
+    pause_menu.background = current_scene.add.rectangle(0, 0, game.config.width*20, game.config.height*20, 0x000000).setAlpha(0.5);
+    pause_menu.title = current_scene.add.sprite(game.config.width/2, 140, 'start button').setScale(4);
+
+    
+    
+    pause_menu.music_vol = current_scene.add.sprite(game.config.width/2, 370, 'options button').setScale(3);
+    pause_menu.sfx_vol = current_scene.add.sprite(game.config.width/2, 470, 'options button').setScale(3);
+    pause_menu.resume = current_scene.add.sprite(game.config.width/2, 570, 'start button').setScale(3).setInteractive();
+    pause_menu.resume.on('pointerover', function(){
+        pause_menu.button_hover_sfx.play({volume: 0.3});
+        pause_menu.resume.setTint(0xcccccc);
+    })
+    pause_menu.resume.on('pointerout', function(){
+        pause_menu.resume.clearTint();
+    })
+
+    pause_menu.exit = current_scene.add.sprite(game.config.width/2, 670, 'credits button').setScale(3).setInteractive();
+    pause_menu.exit.on('pointerover', function(){
+        pause_menu.button_hover_sfx.play({volume: 0.3});
+        pause_menu.exit.setTint(0xcccccc);
+    })
+    pause_menu.exit.on('pointerout', function(){
+        pause_menu.exit.clearTint();
+    })
+}
+
 function updateLevel(time, delta) {
     //pause the game
     if (Phaser.Input.Keyboard.JustDown(key_esc)){

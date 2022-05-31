@@ -13,9 +13,11 @@ class level1FightScene extends Phaser.Scene {
         }
 
         initializeLevel(this);
-        //spawnEnemy('DASHER', this.player.x, this.player.y, false);
         sweepTransition("left", false);
         game_settings.next_scene = `level1BossScene`;
+
+
+        
     }
     /*
     update: updates scene every frame
