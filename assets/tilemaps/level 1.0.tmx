@@ -265,7 +265,7 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
    <objectgroup draworder="index" id="2">
-    <object id="1" x="-0.0796317" y="-0.0796317" width="9.15765" height="64.0239"/>
+    <object id="2" x="-10.6308" y="-0.2389" width="32.2508" height="64.0239"/>
    </objectgroup>
   </tile>
   <tile id="40">
