@@ -579,6 +579,10 @@ class GolemEnemy extends BaseEnemy {
         this.attacked = false;
         this.anims.stop();
         super.damage(damage_value);
+        this.speed = 0;
+        this.loaded = false;
+        this.attacked = true;
+        this.fired = false;
     }
 
     die(){
