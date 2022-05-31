@@ -499,8 +499,9 @@ class DasherEnemy extends BaseEnemy {
         this.end_dash_speed = 50;
 
         this.setScale(3);
-        const hitbox_radius = 6;
-        this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
+        this.hitbox_radius = 6;
+        this.dash_radius = 10;
+        this.setCircle(this.hitbox_radius, this.width/2-this.hitbox_radius, this.height/2-this.hitbox_radius);
     }
     reset(){
         super.reset();
@@ -522,7 +523,7 @@ class DasherEnemy extends BaseEnemy {
         this.speed = 0;
         this.charge_dash_timer += delta/1000;
         if (this.charge_dash_timer >= this.charge_dash_interval) {
-            console.log("done charging");
+            this.setCircle(this.dash_radius, this.width/2-this.dash_radius, this.height/2-this.dash_radius);
             this.charge_dash_timer = 0;
             //this.setDrag(game_settings.dasher_dash_drag);
             this.charging_dash = false;
@@ -539,7 +540,7 @@ class DasherEnemy extends BaseEnemy {
 
     updateDash() {
         if (this.curr_speed <= this.end_dash_speed) {
-            console.log("done dashing");
+            this.setCircle(this.hitbox_radius, this.width/2-this.hitbox_radius, this.height/2-this.hitbox_radius);
             this.dashing = false;
             this.speed = game_settings.dasher_speed;
             this.setDrag(this.base_drag);
@@ -562,11 +563,9 @@ class DasherEnemy extends BaseEnemy {
             }
         }
         else if (this.charging_dash) {
-            console.log("charging dash");
             this.chargeDash(delta);
         }
         else if (this.dashing) {
-            console.log("dashing");
             this.updateDash(delta);
         }
     }

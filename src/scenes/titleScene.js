@@ -260,7 +260,7 @@ class titleScene extends Phaser.Scene {
 
             // dasher stats
             dasher_speed: 75,
-            dasher_dash_speed: 1000,
+            dasher_dash_speed: 1500,
             dasher_dash_drag: 0.1,
             dasher_health: 100,
             dasher_bounce_mod: 1,
