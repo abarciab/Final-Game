@@ -19,6 +19,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.bounce_mod = 0.05;
         this.bounce_drag = 0.001;
         this.health = game_settings.hank_health;
+        this.boss_scene = false;
         
         this.curr_speed = this.speed;
         this.bounce_damage = 0;
@@ -43,14 +44,13 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
-        if (this.has_ball != true){
-            moveTo(this, this.destination);
+        if (this.boss_scene) {
+            this.moveBossFight();
         }
-        if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
-            this.pickNewDestination();
+        else {
+            
         }
-
-        //JUST TO SILENCE THE ANIMATION MISSING WARNINGS
+        
 
         const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
         if (Math.sin(angle) >= 0) 
@@ -69,6 +69,15 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         }
         else if (this.stunned) {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
+        }
+    }
+
+    moveBossFight() {
+        if (this.has_ball != true){
+            moveTo(this, this.destination);
+        }
+        if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
+            this.pickNewDestination();
         }
     }
 
