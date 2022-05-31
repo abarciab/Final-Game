@@ -105,6 +105,11 @@
     <object id="1" x="12.9003" y="-0.0796317" width="36.2324" height="63.785"/>
    </objectgroup>
   </tile>
+  <tile id="18">
+   <properties>
+    <property name="dasher" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="19">
    <properties>
     <property name="collides" type="bool" value="true"/>

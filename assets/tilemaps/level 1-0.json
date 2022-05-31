@@ -443,6 +443,18 @@
                  "width":64,
                  "x":1356,
                  "y":1302
+                }, 
+                {
+                 "gid":19,
+                 "height":64,
+                 "id":172,
+                 "name":"dasher",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":590,
+                 "y":404
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -929,7 +941,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":172,
+ "nextobjectid":173,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
@@ -1298,6 +1310,15 @@
                  "properties":[
                         {
                          "name":"vase",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":18,
+                 "properties":[
+                        {
+                         "name":"dasher",
                          "type":"bool",
                          "value":true
                         }]
@@ -2356,7 +2377,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":64,
                  "objectgroup":
@@ -2388,8 +2410,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":65,
                  "objectgroup":

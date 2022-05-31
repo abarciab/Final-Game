@@ -260,6 +260,7 @@ function setupEnemies(map){
     const enemy1Sprites = map.createFromObjects('enemies', {name: 'enemy_1', key: 'button'});
     const enemy2Sprites = map.createFromObjects('enemies', {name: 'enemy_2', key:'button'});
     const enemy3Sprites = map.createFromObjects('enemies', {name: 'enemy_3', key: 'button'});
+    const dasherSprites = map.createFromObjects('enemies', {name: 'dasher', key: 'button'});
 
     for (let i = 0; i < enemy1Sprites.length; i++) {
         let new_enemy = spawnEnemy(game_settings.enemy1_name, enemy1Sprites[i].x, enemy1Sprites[i].y, true);
@@ -320,6 +321,26 @@ function setupEnemies(map){
         
 
         enemy3Sprites[i].destroy();
+        current_scene.enemies.push(new_enemy);
+    }
+
+    for (let i = 0; i < dasherSprites.length; i++) {
+        let new_enemy = spawnEnemy("DASHER", dasherSprites[i].x, dasherSprites[i].y, true);
+        if (dasherSprites[i].data != null){
+            if (dasherSprites[i].data.list.room != null){
+                new_enemy.room = dasherSprites[i].data.list.room;
+                new_enemy.asleep = true;
+            }
+            if (dasherSprites[i].data.list.circuit != null){
+                new_enemy.circuit = dasherSprites[i].data.list.circuit;
+            } 
+            if (dasherSprites[i].data.list.invisible == true){
+                new_enemy.setVisible(false);
+            }
+        }
+        
+
+        dasherSprites[i].destroy();
         current_scene.enemies.push(new_enemy);
     }
 }
