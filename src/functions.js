@@ -496,7 +496,7 @@ function setupTilemapCollisions(layer){
         } else if (tile.properties.dog){
             console.log("HERE IS WHERE THE DOGGO POSITION IS");
         } else if (tile.properties.cam_center){
-            game_settings.cam_target = current_scene.add.rectangle(tileWorldPos.x, tileWorldPos.y, 20, 20 ,0xFFFFFF);
+            game_settings.cam_target = current_scene.add.rectangle(tileWorldPos.x, tileWorldPos.y, 20, 20 ,0xFFFFFF).setAlpha(0);
         }
 
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
@@ -599,6 +599,10 @@ function playerProjectileCollision(player, projectile){
     if (!projectile.active || !player.active || player.startInvulnerable || player.invulnerable){
         return;
     }
+    if (projectile.deflected == true){
+        current_scene.player.doneDashing();
+    }
+
     if (current_scene.player.dashing){
         projectile.deflected = true;
         projectile.body.setVelocity(player.body.velocity.x * 1.5, player.body.velocity.y * 1.5);

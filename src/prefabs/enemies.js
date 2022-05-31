@@ -85,6 +85,9 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         } else{
             enableCollision(this.body);
             this.speed = Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
+            if (this.speed < 1){
+                this.reset();
+            }
             this.anims.play('shooter bullet', true);
         }
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);

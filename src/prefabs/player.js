@@ -299,7 +299,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDrag(game_settings.player_dash_drag);
 
         if (this.has_ball == true){
-
+            console.log("threw ball!");
             this.has_ball = false;
             let camPos = getCameraCoords(null, this.dash_pointer.x-50, this.dash_pointer.y-50);
             current_scene.ball.setPosition(camPos.x, camPos.y);
