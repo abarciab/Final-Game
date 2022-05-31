@@ -146,7 +146,7 @@ class Shockwave extends Phaser.Physics.Arcade.Sprite{
         super(current_scene, x, y, texture);
         current_scene.physics.world.enableBody(this);
         current_scene.add.existing(this);
-        disableCollision(this.body);
+        //disableCollision(this.body);
 
         this.owner = null;
         //this.expanding_width = this.displayWidth*2;
@@ -581,6 +581,7 @@ class GolemEnemy extends BaseEnemy {
         const hitbox_radius = 16;
         this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
         this.loaded = true;
+        this.fired = false;
         this.golem_shockwave_start_frame = 5;
         this.golem_shockwave_end_frame = 12;
         this.slam_sfx = current_scene.sound.add('enemy slam');
@@ -591,6 +592,8 @@ class GolemEnemy extends BaseEnemy {
     }
 
     damage(damage_value){
+        this.attacked = false;
+        this.anims.stop();
         super.damage(damage_value);
     }
 
@@ -616,12 +619,13 @@ class GolemEnemy extends BaseEnemy {
             this.attacked = false;
             this.speed = game_settings.golem_speed;
             current_scene.time.delayedCall(game_settings.golem_reload_time, function () {
-                //console.log("HI");
+                this.fired = false;
                 this.loaded = true;
             }, null, this);
         }
-        if (this.attacked && (this.attack_frame == game_settings.golem_shockwave_start_frame)) {
+        if (this.attacked && !this.fired && (this.attack_frame == game_settings.golem_shockwave_start_frame)) {
             this.fire();
+            this.fired = true;
         }
         //if (this.attacked && (this.current))
         if (this.player_dist <= game_settings.golem_agro_range){
