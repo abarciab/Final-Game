@@ -802,7 +802,7 @@
    <properties>
     <property name="circuit" type="int" value="5"/>
     <property name="invisible" type="bool" value="true"/>
-    <property name="next_level" value="level 1.0 map"/>
+    <property name="next_level" value="level 1.3 map"/>
    </properties>
   </object>
   <object id="184" name="door" gid="15" x="2720.83" y="1145.33" width="32" height="176">

@@ -147,6 +147,7 @@ function addColliders(scene) {
     scene.physics.add.overlap(scene.player, scene.destructibles, playerDestructibleCollision.bind(scene));
     scene.physics.add.collider(scene.enemies, scene.enemies, enemyOnEnemyCollision.bind(scene));
     scene.physics.add.collider(scene.player, scene.enemy_shockwaves, playerShockwaveCollision.bind(scene));
+    //scene.physics.add.collider(scene.enemies, scene.enemy_shockwaves, enemyShockwaveCollision.bind(scene));
 
     //projectiles
     scene.physics.add.collider(scene.enemy_projectiles.getChildren(), scene.collision_rects, function(projectile, wall) {
@@ -670,10 +671,11 @@ function playerShockwaveCollision(player, shockwave){
     }
 }
 
-/*function enemyShockwaveCollision(enemy, shockwave){
-    console.log(shockwave);
+function enemyShockwaveCollision(enemy, shockwave){
+    //console.log(enemy);
 
     if (enemy.type != "GOLEM") {
+        console.log("FICOUSGH");
         let redirect_multiplier = game_settings.golem_shockwave_power * 2;
         const angle = -Math.atan2(shockwave.owner.x-enemy.x, shockwave.owner.y-enemy.y);
         const vel_x = redirect_multiplier * Math.sin(angle);
@@ -682,7 +684,7 @@ function playerShockwaveCollision(player, shockwave){
 
         enemy.damage(game_settings.golem_shockwave_damage, true);
     }
-}*/
+}
 
 // enemy damages other enemy when it bounces into it
 function enemyOnEnemyCollision(enemy1, enemy2) {

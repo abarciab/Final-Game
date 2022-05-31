@@ -322,7 +322,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         //console.log(this.health);
         if (this.health <= 0){
             game_settings.player_curr_health = game_settings.player_max_health;
-            current_scene.bg_music.stop();
+            bg_music.stop();
             current_scene.scene.restart();
             this.setPosition(game.config.width/2, game.config.height/2);
             return;
