@@ -20,6 +20,12 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
         this.curr_speed = this.speed;
         this.bounce_damage = 0;
         this.body.bounce.set(this.bounce_mod);
+
+        this.footstep_interval = 0.5;
+        this.footstep_timer = this.footstep_interval;
+        this.step_sfx = current_scene.sound.add('dog step', {volume: 0.7});
+        this.dust_clouds = [];
+
         this.stun_time = 0;
         this.setMass(1.2);
         this.setScale(3);
@@ -61,10 +67,12 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
             if (this.curr_speed >= 10) {
                 this.moving = true;
                 this.anims.play(`${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, true);
+                this.updateFootstep(delta);
             }
             else {
                 this.moving = false;
                 this.anims.play(`${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, true);
+                this.footstep_timer = this.footstep_interval;
             }
         }
     }
@@ -113,6 +121,19 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
                 this.move_dir = "";
                 this.setVelocity(0, 0);
                 break;
+        }
+    }
+    updateFootstep(delta) {
+        this.footstep_timer += delta/1000;
+        if (this.footstep_timer >= this.footstep_interval) {
+            this.footstep_timer = 0;                    
+            current_scene.sound.add("dog step").play();
+            let dust_x = this.x-(this.displayWidth*0.3);
+            if (this.last_direction_moved == "left") dust_x = this.x+(this.displayWidth*0.3);
+            this.dust_clouds.push(
+                current_scene.add.sprite(dust_x, this.y+(this.displayHeight*0.1), 'dust cloud').setDepth(4).setScale(2).setAlpha(0.7)
+            );
+            this.dust_clouds[this.dust_clouds.length-1].anims.play('dust cloud', true);
         }
     }
 }
