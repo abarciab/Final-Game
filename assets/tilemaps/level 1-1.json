@@ -1278,6 +1278,15 @@
                         }]
                 }, 
                 {
+                 "id":18,
+                 "properties":[
+                        {
+                         "name":"dasher",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
                  "id":19,
                  "objectgroup":
                     {
@@ -2331,7 +2340,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":64,
                  "objectgroup":
@@ -2363,8 +2373,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":65,
                  "objectgroup":

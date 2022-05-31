@@ -76,6 +76,107 @@ function initMap() {
     console.log(marker_layer.properties);
 }
 
+//let pause_menu = {};
+function createPauseMenu(){
+    let pause_menu = {};
+
+    console.log("creating pause menu");
+
+    game_settings.music_vol = 0.33;
+    game_settings.sfx_vol = 1;
+    pause_menu.button_hover_sfx = current_scene.sound.add('button hover 2'); 
+    pause_menu.background = current_scene.add.rectangle(0, 0, game.config.width*20, game.config.height*20, 0x000000).setAlpha(0.5);
+    pause_menu.title = current_scene.add.sprite(game.config.width/2, 140, 'pause title').setScale(4);
+    
+    pause_menu.music_vol = current_scene.add.sprite(game.config.width/2, 370, 'music button').setScale(3).setInteractive();
+    pause_menu.music_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 370, 'vol icon low').setScale(2);
+    pause_menu.music_vol.on('pointerover', function(){
+        pause_menu.button_hover_sfx.play({volume: 0.3});
+        pause_menu.music_vol.setTint(0xcccccc);
+    })
+    pause_menu.music_vol.on('pointerout', function(){
+        pause_menu.music_vol.clearTint();
+    })
+    pause_menu.music_vol.on('pointerdown', function(){
+        game_settings.music_vol += 0.33;
+        if (game_settings.music_vol > 1){
+            game_settings.music_vol = 0;
+            pause_menu.music_vol_icon.setTexture('vol icon mute');
+        }
+
+        if (game_settings.music_vol > 0.66){
+            pause_menu.music_vol_icon.setTexture('vol icon high');
+        }
+        else if (game_settings.music_vol > 0.33){
+            pause_menu.music_vol_icon.setTexture('vol icon med');
+        }
+        else if (game_settings.music_vol > 0){
+            pause_menu.music_vol_icon.setTexture('vol icon low');
+        }
+        bg_music.setVolume(0.3 * game_settings.music_vol);
+    })
+    
+
+    pause_menu.sfx_vol = current_scene.add.sprite(game.config.width/2, 470, 'sounds button').setScale(3).setInteractive();
+    pause_menu.sfx_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 470, 'vol icon med').setScale(2);
+    pause_menu.sfx_vol.on('pointerover', function(){
+        pause_menu.button_hover_sfx.play({volume: 0.3});
+        pause_menu.sfx_vol.setTint(0xcccccc);
+    })
+    pause_menu.sfx_vol.on('pointerout', function(){
+        pause_menu.sfx_vol.clearTint();
+    })
+    pause_menu.sfx_vol.on('pointerdown', function(){
+        game_settings.sfx_vol += 0.33;
+        if (game_settings.sfx_vol > 1){
+            game_settings.sfx_vol = 0;
+            pause_menu.sfx_vol_icon.setTexture('vol icon mute');
+        }
+        if (game_settings.sfx_vol > 0.66){
+            pause_menu.sfx_vol_icon.setTexture('vol icon high');
+        }
+        else if (game_settings.sfx_vol > 0.33){
+            pause_menu.sfx_vol_icon.setTexture('vol icon med');
+        }
+        else if (game_settings.sfx_vol > 0){
+            pause_menu.sfx_vol_icon.setTexture('vol icon low');
+        }
+        
+    })
+
+    pause_menu.resume = current_scene.add.sprite(game.config.width/2, 570, 'resume button').setScale(3).setInteractive();
+    pause_menu.resume.on('pointerover', function(){
+        pause_menu.button_hover_sfx.play({volume: 0.3});
+        pause_menu.resume.setTint(0xcccccc);
+    })
+    pause_menu.resume.on('pointerout', function(){
+        pause_menu.resume.clearTint();
+    })
+    pause_menu.resume.on('pointerdown', function(){
+        //resume();
+        current_scene.paused = false;
+    })
+
+    pause_menu.exit = current_scene.add.sprite(game.config.width/2, 670, 'title screen button').setScale(3).setInteractive();
+    pause_menu.exit.on('pointerover', function(){
+        pause_menu.button_hover_sfx.play({volume: 0.3});
+        pause_menu.exit.setTint(0xcccccc);
+    })
+    pause_menu.exit.on('pointerout', function(){
+        pause_menu.exit.clearTint();
+    })
+    pause_menu.exit.on('pointerdown', function(){
+        bg_music.stop();
+        current_scene.scene.start("titleScene");
+    })
+    
+
+    current_scene.pause_menu = pause_menu;
+
+}
+
+
+
 function updateLevel(time, delta) {
     //pause the game
     if (Phaser.Input.Keyboard.JustDown(key_esc)){
@@ -143,6 +244,7 @@ function addColliders(scene) {
     scene.physics.add.overlap(scene.player, scene.destructibles, playerDestructibleCollision.bind(scene));
     scene.physics.add.collider(scene.enemies, scene.enemies, enemyOnEnemyCollision.bind(scene));
     scene.physics.add.collider(scene.player, scene.enemy_shockwaves, playerShockwaveCollision.bind(scene));
+    //scene.physics.add.collider(scene.enemies, scene.enemy_shockwaves, enemyShockwaveCollision.bind(scene));
 
     //projectiles
     scene.physics.add.collider(scene.enemy_projectiles.getChildren(), scene.collision_rects, function(projectile, wall) {
@@ -173,6 +275,8 @@ function setupKeys(scene){
     key_1 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE); 
     key_2 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.TWO); 
     key_3 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
+    key_4 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
+    key_5 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
 }
 
 function setupInteractables(map){
@@ -441,6 +545,12 @@ function activateButton(button) {
         return;
     }
 
+    if (button.circuit == null && button.data_sprite.data.list.boss){
+        current_scene.bg_music.stop();
+        current_scene.scene.start("level1BossScene");
+        return;
+    }
+
     if (button.circuit == null && button.data_sprite.data.list.next_level){
         current_scene.level_finished = true;
         sweepTransition("right", true, function() {
@@ -493,7 +603,7 @@ function setupTilemapCollisions(layer){
                 current_scene.dog.setPosition(tileWorldPos.x, tileWorldPos.y);
             }
         } else if (tile.properties.cam_center){
-            game_settings.cam_target = current_scene.add.rectangle(tileWorldPos.x, tileWorldPos.y, 20, 20 ,0xFFFFFF);
+            game_settings.cam_target = current_scene.add.rectangle(tileWorldPos.x, tileWorldPos.y, 20, 20 ,0xFFFFFF).setAlpha(0);
         }
 
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
@@ -532,7 +642,27 @@ function updateEnemies(time, delta){
 }
 
 function pause(){
-    current_scene.pauseLayer.setVisible(true);
+    current_scene.player.setVisible(false);
+    current_scene.player.dash_pointer.setVisible(false);
+    current_scene.vignette.setVisible(false);
+
+    let pause_menu = current_scene.pause_menu;
+    //current_scene.pauseLayer.setVisible(true);
+
+    let camPos = getCameraCoords(null, 0, 0);
+    let center = camPos.x + game.config.width/2;
+    let top = camPos.y;
+
+    pause_menu.title.setPosition(center, top + 140).setVisible(true);
+    pause_menu.background.setPosition(center, top).setVisible(true);
+    pause_menu.music_vol.setPosition(center, top + 370).setVisible(true);
+    pause_menu.music_vol_icon.setPosition(center + pause_menu.music_vol.displayWidth/3, top + 370).setVisible(true);
+    pause_menu.sfx_vol.setPosition(center, top + 470).setVisible(true);
+    pause_menu.sfx_vol_icon.setPosition(center + pause_menu.music_vol.displayWidth/3, top + 470).setVisible(true);
+    pause_menu.resume.setPosition(center, top + 570).setVisible(true);
+    pause_menu.exit.setPosition(center, top + 670).setVisible(true);
+
+
     current_scene.player.body.stop();
     current_scene.enemies.forEach(enemy => {
         enemy.body.stop();
@@ -541,10 +671,30 @@ function pause(){
         //console.log(`projectiles don't stop correctly on game pause`);
         //projectile.body.stop();
     });
+
+    disableCollision(current_scene.player.body);
 }
 
 function resume(){
-    current_scene.pauseLayer.setVisible(false);
+    if (current_scene.player){
+        current_scene.player.setVisible(true);
+        current_scene.vignette.setVisible(true);
+        current_scene.player.dash_pointer.setVisible(true);
+        enableCollision(current_scene.player.body);
+    }
+    
+    let pause_menu = current_scene.pause_menu;
+
+    pause_menu.background.setVisible(false);
+    pause_menu.music_vol.setVisible(false);
+    pause_menu.music_vol_icon.setVisible(false);
+    pause_menu.sfx_vol.setVisible(false);
+    pause_menu.sfx_vol_icon.setVisible(false);
+    pause_menu.resume.setVisible(false);
+    pause_menu.exit.setVisible(false);
+    pause_menu.title.setVisible(false);
+
+    
 }
 
 //COLLISION FUNCTIONS
@@ -596,6 +746,10 @@ function playerProjectileCollision(player, projectile){
     if (!projectile.active || !player.active || player.startInvulnerable || player.invulnerable){
         return;
     }
+    if (projectile.deflected == true){
+        current_scene.player.doneDashing();
+    }
+
     if (current_scene.player.dashing){
         projectile.deflected = true;
         projectile.body.setVelocity(player.body.velocity.x * 1.5, player.body.velocity.y * 1.5);
@@ -663,10 +817,11 @@ function playerShockwaveCollision(player, shockwave){
     }
 }
 
-/*function enemyShockwaveCollision(enemy, shockwave){
-    console.log(shockwave);
+function enemyShockwaveCollision(enemy, shockwave){
+    //console.log(enemy);
 
     if (enemy.type != "GOLEM") {
+        console.log("FICOUSGH");
         let redirect_multiplier = game_settings.golem_shockwave_power * 2;
         const angle = -Math.atan2(shockwave.owner.x-enemy.x, shockwave.owner.y-enemy.y);
         const vel_x = redirect_multiplier * Math.sin(angle);
@@ -675,7 +830,7 @@ function playerShockwaveCollision(player, shockwave){
 
         enemy.damage(game_settings.golem_shockwave_damage, true);
     }
-}*/
+}
 
 // enemy damages other enemy when it bounces into it
 function enemyOnEnemyCollision(enemy1, enemy2) {

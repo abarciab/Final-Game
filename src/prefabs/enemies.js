@@ -85,6 +85,9 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         } else{
             enableCollision(this.body);
             this.speed = Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
+            if (this.speed < 1){
+                this.reset();
+            }
             this.anims.play('shooter bullet', true);
         }
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
@@ -562,6 +565,7 @@ class GolemEnemy extends BaseEnemy {
         const hitbox_radius = 16;
         this.setCircle(hitbox_radius, this.width/2-hitbox_radius, this.height/2-hitbox_radius);
         this.loaded = true;
+        this.fired = false;
         this.golem_shockwave_start_frame = 5;
         this.golem_shockwave_end_frame = 12;
         this.slam_sfx = current_scene.sound.add('enemy slam');
@@ -572,7 +576,13 @@ class GolemEnemy extends BaseEnemy {
     }
 
     damage(damage_value){
+        this.attacked = false;
+        this.anims.stop();
         super.damage(damage_value);
+        this.speed = 0;
+        this.loaded = false;
+        this.attacked = true;
+        this.fired = false;
     }
 
     die(){
@@ -597,12 +607,13 @@ class GolemEnemy extends BaseEnemy {
             this.attacked = false;
             this.speed = game_settings.golem_speed;
             current_scene.time.delayedCall(game_settings.golem_reload_time, function () {
-                //console.log("HI");
+                this.fired = false;
                 this.loaded = true;
             }, null, this);
         }
-        if (this.attacked && (this.attack_frame == game_settings.golem_shockwave_start_frame)) {
+        if (this.attacked && !this.fired && (this.attack_frame == game_settings.golem_shockwave_start_frame)) {
             this.fire();
+            this.fired = true;
         }
         //if (this.attacked && (this.current))
         if (this.player_dist <= game_settings.golem_agro_range){
