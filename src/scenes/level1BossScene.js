@@ -10,8 +10,14 @@ class level1BossScene extends Phaser.Scene {
             this.bg_music = this.sound.add('boss', {volume: 0.5});
             this.bg_music.setLoop(true).play();
         }
+            
+        scene.dog = new Dog(200, 200, 'dog idle left');
+        scene.dog.boss_scene = true;
+
+        //hank
+        scene.hank = new Hank1(800, 350, 'hank idle right');
+        scene.hank.boss_scene = true;
         initializeLevel(this);
-        
         initBossLevel1(this);
 
         //enemy collisions
@@ -38,7 +44,7 @@ class level1BossScene extends Phaser.Scene {
         });
         
         //player and dog
-        this.physics.add.overlap(this.player, this.doggo, function () {
+        this.physics.add.overlap(this.player, this.dog, function () {
             if (current_scene.hank.health <= 0){
                 return;
             }
@@ -46,23 +52,23 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.stunDog(1500);
                 current_scene.player.doneDashing();
                 current_scene.player.body.setVelocity(0,0);
-            } else if (current_scene.doggo.speed > 0 && !current_scene.doggo.has_ball) {
-                current_scene.player.damage(current_scene.doggo);
+            } else if (current_scene.dog.speed > 0 && !current_scene.dog.has_ball) {
+                current_scene.player.damage(current_scene.dog);
                 if (current_scene.player.has_ball == true){
-                    current_scene.doggo.has_ball = true;
+                    current_scene.dog.has_ball = true;
                     current_scene.player.has_ball = false;
                 }
             }
         });
 
         //ball and dog
-        this.physics.add.overlap(this.doggo, this.ball, function() {
+        this.physics.add.overlap(this.dog, this.ball, function() {
             if (current_scene.ball.deflected == true && current_scene.ball.current_speed > 10){
                 return;
             }
-            if (current_scene.ball.active == true && current_scene.doggo.speed > 0){
+            if (current_scene.ball.active == true && current_scene.dog.speed > 0){
                 current_scene.ball.deflected = false;
-                current_scene.doggo.has_ball = true; 
+                current_scene.dog.has_ball = true; 
                 current_scene.ball.setActive(false).setVisible(false);
             }
         });
@@ -74,11 +80,11 @@ class level1BossScene extends Phaser.Scene {
             }
         });
 
-        //doggo and hank
-        this.physics.add.overlap(this.doggo, this.hank, function() {
-            if (current_scene.hank.health <= 0 || current_scene.doggo.stun_time > 0) { return;}
+        //dog and hank
+        this.physics.add.overlap(this.dog, this.hank, function() {
+            if (current_scene.hank.health <= 0 || current_scene.dog.stun_time > 0) { return;}
             
-            if (current_scene.doggo.has_ball == true){
+            if (current_scene.dog.has_ball == true){
                 if (current_scene.hank.stun_time <= 0){
                     current_scene.hank.stun_time = 800;
                     current_scene.stunDog(2000);
@@ -109,7 +115,7 @@ class level1BossScene extends Phaser.Scene {
     }
 
     throwBall(){
-        current_scene.doggo.has_ball = false;
+        current_scene.dog.has_ball = false;
         current_scene.hank.has_ball = false;
         current_scene.stunDog(500);
 
@@ -125,9 +131,9 @@ class level1BossScene extends Phaser.Scene {
     }
 
     stunDog(time){
-        current_scene.doggo.setVelocity(0, 0);
-        current_scene.doggo.speed = 0;
-        current_scene.time.delayedCall(time, function(){current_scene.doggo.speed = game_settings.dog_speed})
+        current_scene.dog.setVelocity(0, 0);
+        current_scene.dog.speed = 0;
+        current_scene.time.delayedCall(time, function(){current_scene.dog.speed = game_settings.dog_speed})
     }
 
     /*
@@ -138,7 +144,7 @@ class level1BossScene extends Phaser.Scene {
     update(time, delta){
         updateLevel(time, delta);
         //update enemies
-        this.doggo.update(time, delta);
+        this.dog.update(time, delta);
 
         //update ball
         this.ball.current_speed = Math.sqrt(Math.pow(this.ball.body.velocity.y, 2) + Math.pow(this.ball.body.velocity.x, 2));
@@ -169,7 +175,7 @@ class level1BossScene extends Phaser.Scene {
     }
 
     endScene(){
-        this.doggo.setDepth(this.player.depth - 0.1);
+        this.dog.setDepth(this.player.depth - 0.1);
         this.boss_bar.setVisible(false);
         this.boss_box.setVisible(false);
         this.tweens.add({
