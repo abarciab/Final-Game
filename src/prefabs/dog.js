@@ -76,7 +76,13 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
             }
         }
     }
+
     moveDogFight() {
+        if (current_scene.player.has_ball == true){
+            moveTo(this, current_scene.player);
+            return;
+        }
+
         if (current_scene.hank.health <= 0 ){
             if (Phaser.Math.Distance.BetweenPoints(current_scene.player, this) > 100){
                 moveTo(this, current_scene.player);
@@ -94,12 +100,14 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
         if (this.has_ball) {
             move_to_obj = current_scene.hank;
         }
+
         const angle = -Math.atan2(this.x-move_to_obj.x, this.y-move_to_obj.y);
         if (Math.sin(angle) >= 0)
             this.last_direction_moved = "right";
         else 
             this.last_direction_moved = "left";
     }
+
     moveDir(dir) {
         this.move_dir = dir.toLowerCase();
         switch (dir.toLowerCase()) {
@@ -123,6 +131,7 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
                 break;
         }
     }
+
     updateFootstep(delta) {
         this.footstep_timer += delta/1000;
         if (this.footstep_timer >= this.footstep_interval) {
