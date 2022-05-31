@@ -145,6 +145,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dashing = false;
         this.bouncing = false;
         this.setDrag(game_settings.player_walk_drag);
+
+        
         
     }
 
@@ -295,6 +297,16 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);
         this.dashing = true;
         this.setDrag(game_settings.player_dash_drag);
+
+        if (this.has_ball == true){
+
+            this.has_ball = false;
+            let camPos = getCameraCoords(null, this.dash_pointer.x-50, this.dash_pointer.y-50);
+            current_scene.ball.setPosition(camPos.x, camPos.y);
+            current_scene.ball.setActive(true).setVisible(true);
+            current_scene.ball.setVelocity(current_scene.player.body.velocity.x, current_scene.player.body.velocity.y);       
+            current_scene.ball.deflected = true;
+        }
     }
 
     //damages the player. source and redirect are optional

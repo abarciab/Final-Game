@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="26" height="16" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="24" height="14" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="1">
  <editorsettings>
   <export target="level1BossRoom.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" name="tiles 1" tilewidth="64" tileheight="64" tilecount="72" columns="8">
-  <image source="tiles.png" width="512" height="576"/>
+ <tileset firstgid="1" name="tiles 1" tilewidth="64" tileheight="64" tilecount="90" columns="10">
+  <image source="tiles.png" width="640" height="576"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -52,7 +52,12 @@
     <property name="enemy_4" type="bool" value="true"/>
    </properties>
   </tile>
-  <tile id="8">
+  <tile id="9">
+   <properties>
+    <property name="cam_center" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -61,7 +66,7 @@
     <object id="3" x="43" y="0.125" width="20.875" height="63.625"/>
    </objectgroup>
   </tile>
-  <tile id="9">
+  <tile id="11">
    <properties>
     <property name="collides" type="bool" value="false"/>
    </properties>
@@ -69,7 +74,7 @@
     <object id="1" x="0.0796317" y="0" width="64.0239" height="63.9443"/>
    </objectgroup>
   </tile>
-  <tile id="10">
+  <tile id="12">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -78,7 +83,7 @@
     <object id="2" x="21" y="0.25" width="42.875" height="38.5"/>
    </objectgroup>
   </tile>
-  <tile id="11">
+  <tile id="13">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -86,22 +91,22 @@
     <object id="1" x="0.25" y="0.125" width="20.625" height="38.25"/>
    </objectgroup>
   </tile>
-  <tile id="13">
+  <tile id="15">
    <properties>
     <property name="enemy_1" type="bool" value="true"/>
    </properties>
   </tile>
-  <tile id="14">
+  <tile id="16">
    <properties>
     <property name="player_spawn" type="bool" value="true"/>
    </properties>
   </tile>
-  <tile id="15">
+  <tile id="17">
    <properties>
     <property name="vase" type="bool" value="true"/>
    </properties>
   </tile>
-  <tile id="16">
+  <tile id="20">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -109,7 +114,7 @@
     <object id="1" x="44.25" y="0" width="20" height="64.25"/>
    </objectgroup>
   </tile>
-  <tile id="17">
+  <tile id="21">
    <properties>
     <property name="collides" type="bool" value="false"/>
    </properties>
@@ -117,7 +122,7 @@
     <object id="1" x="0.0796317" y="-0.0796317" width="63.8646" height="63.8646"/>
    </objectgroup>
   </tile>
-  <tile id="18">
+  <tile id="22">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -125,7 +130,7 @@
     <object id="1" x="0.25" y="0" width="20.125" height="63.875"/>
    </objectgroup>
   </tile>
-  <tile id="19">
+  <tile id="23">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -134,7 +139,7 @@
     <object id="2" x="0" y="58" width="42.625" height="6"/>
    </objectgroup>
   </tile>
-  <tile id="20">
+  <tile id="24">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -143,7 +148,7 @@
     <object id="2" x="20.375" y="57.875" width="43.625" height="6.375"/>
    </objectgroup>
   </tile>
-  <tile id="24">
+  <tile id="30">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -151,7 +156,7 @@
     <object id="1" x="44.125" y="0" width="19.75" height="63.875"/>
    </objectgroup>
   </tile>
-  <tile id="25">
+  <tile id="31">
    <properties>
     <property name="collides" type="bool" value="false"/>
    </properties>
@@ -159,7 +164,7 @@
     <object id="1" x="-0.0796317" y="-0.0796317" width="64.0239" height="64.1035"/>
    </objectgroup>
   </tile>
-  <tile id="26">
+  <tile id="32">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -167,17 +172,17 @@
     <object id="1" x="-0.125" y="0" width="21.125" height="64"/>
    </objectgroup>
   </tile>
-  <tile id="27">
+  <tile id="33">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
-  <tile id="28">
+  <tile id="34">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
-  <tile id="32">
+  <tile id="40">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -185,7 +190,7 @@
     <object id="1" x="43.875" y="0.125" width="20" height="38.125"/>
    </objectgroup>
   </tile>
-  <tile id="33">
+  <tile id="41">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -193,7 +198,7 @@
     <object id="1" x="0" y="0.125" width="64.125" height="38.625"/>
    </objectgroup>
   </tile>
-  <tile id="34">
+  <tile id="42">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -201,7 +206,7 @@
     <object id="1" x="0" y="0.125" width="20.5" height="38.375"/>
    </objectgroup>
   </tile>
-  <tile id="37">
+  <tile id="45">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -209,7 +214,7 @@
     <object id="1" x="0" y="0" width="64" height="38.375"/>
    </objectgroup>
   </tile>
-  <tile id="48">
+  <tile id="60">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -219,7 +224,7 @@
     <object id="3" x="34.7273" y="52.3636" width="8.90909" height="11.5455"/>
    </objectgroup>
   </tile>
-  <tile id="49">
+  <tile id="61">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -227,7 +232,7 @@
     <object id="1" x="0.0909091" y="39.2727" width="63.8182" height="24.5455"/>
    </objectgroup>
   </tile>
-  <tile id="50">
+  <tile id="62">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -236,7 +241,7 @@
     <object id="2" x="15.0909" y="47.2727" width="13" height="16.7273"/>
    </objectgroup>
   </tile>
-  <tile id="51">
+  <tile id="63">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -244,7 +249,7 @@
     <object id="1" x="34.9091" y="42.4545" width="29" height="21.3636"/>
    </objectgroup>
   </tile>
-  <tile id="52">
+  <tile id="64">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -252,7 +257,7 @@
     <object id="1" x="0.181818" y="41.5455" width="63.8182" height="22.2727"/>
    </objectgroup>
   </tile>
-  <tile id="53">
+  <tile id="65">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -260,7 +265,7 @@
     <object id="1" x="0.181818" y="40.7273" width="29.4545" height="23.2727"/>
    </objectgroup>
   </tile>
-  <tile id="56">
+  <tile id="70">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -268,7 +273,7 @@
     <object id="1" x="33.1818" y="0" width="30.9091" height="63.8182"/>
    </objectgroup>
   </tile>
-  <tile id="57">
+  <tile id="71">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -276,7 +281,7 @@
     <object id="1" x="0.125" y="0" width="63.75" height="64"/>
    </objectgroup>
   </tile>
-  <tile id="58">
+  <tile id="72">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -284,7 +289,7 @@
     <object id="1" x="0.125" y="0" width="30.75" height="64.125"/>
    </objectgroup>
   </tile>
-  <tile id="62">
+  <tile id="76">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -295,7 +300,7 @@
     <object id="4" x="47.1818" y="0" width="17.0909" height="34.2727"/>
    </objectgroup>
   </tile>
-  <tile id="63">
+  <tile id="77">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -306,7 +311,7 @@
     <object id="4" x="36.6364" y="50.0909" width="27.2727" height="13.7273"/>
    </objectgroup>
   </tile>
-  <tile id="64">
+  <tile id="80">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -315,7 +320,7 @@
     <object id="2" x="43.8182" y="23.7273" width="20.2727" height="9.81818"/>
    </objectgroup>
   </tile>
-  <tile id="65">
+  <tile id="81">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -323,7 +328,7 @@
     <object id="1" x="0.0909091" y="0" width="63.8182" height="32.6364"/>
    </objectgroup>
   </tile>
-  <tile id="66">
+  <tile id="82">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -333,7 +338,7 @@
     <object id="5" x="17.0909" y="0.0909091" width="9.81818" height="14.6364"/>
    </objectgroup>
   </tile>
-  <tile id="67">
+  <tile id="83">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -341,7 +346,7 @@
     <object id="1" x="31.3636" y="0.0340909" width="32.6364" height="54.4205"/>
    </objectgroup>
   </tile>
-  <tile id="68">
+  <tile id="84">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -349,7 +354,7 @@
     <object id="1" x="0.0909091" y="0.0681818" width="63.7273" height="53.3864"/>
    </objectgroup>
   </tile>
-  <tile id="69">
+  <tile id="85">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -357,7 +362,7 @@
     <object id="1" x="0.181818" y="0.0909091" width="28.7273" height="55"/>
    </objectgroup>
   </tile>
-  <tile id="70">
+  <tile id="86">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -368,7 +373,7 @@
     <object id="4" x="45.2727" y="40.1818" width="18.7273" height="23.6364"/>
    </objectgroup>
   </tile>
-  <tile id="71">
+  <tile id="87">
    <properties>
     <property name="lava" type="bool" value="true"/>
    </properties>
@@ -380,84 +385,76 @@
    </objectgroup>
   </tile>
  </tileset>
- <layer id="1" name="0" width="26" height="16">
+ <layer id="1" name="0" width="24" height="14">
   <data encoding="csv">
-42,43,42,43,42,41,42,43,42,42,41,42,42,42,42,42,42,41,42,42,42,42,42,41,42,42,
-43,43,42,42,42,42,42,42,42,41,42,43,42,42,42,42,42,42,42,42,42,42,42,42,43,42,
-42,42,41,42,41,43,42,42,42,42,42,42,42,43,42,42,42,42,42,42,42,42,42,42,42,42,
-42,41,42,41,43,42,42,42,42,42,42,42,42,42,41,42,42,42,42,42,41,42,43,42,42,42,
-42,42,42,42,42,41,42,42,42,41,42,42,42,42,42,41,42,42,42,42,42,42,42,41,42,42,
-42,42,42,42,41,42,42,43,41,42,42,42,42,42,43,42,42,42,42,42,42,42,42,42,41,42,
-42,43,42,42,41,42,43,41,42,42,42,42,42,43,42,41,42,42,42,42,42,42,42,42,42,42,
-42,42,42,42,42,42,42,42,43,41,42,43,42,41,41,42,42,42,41,43,42,42,42,43,42,43,
-42,42,42,42,42,43,42,42,42,42,42,43,43,42,42,42,42,42,42,42,42,42,41,42,42,43,
-42,42,42,42,43,42,42,42,42,42,42,42,41,42,42,42,42,42,42,42,42,41,41,43,42,42,
-42,43,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,41,42,41,
-42,43,42,42,42,42,42,42,42,42,42,42,41,42,42,42,42,42,42,42,42,41,42,42,42,42,
-42,42,43,42,42,42,42,42,42,42,42,42,42,42,43,42,43,42,41,42,41,42,42,42,42,42,
-42,41,41,42,42,41,43,42,42,42,42,42,42,42,41,42,42,41,42,42,42,41,41,42,43,42,
-43,42,42,42,42,42,42,41,43,43,43,42,42,42,43,42,42,42,43,42,42,42,43,42,41,43,
-42,42,42,42,42,43,42,42,43,42,42,42,43,42,43,42,41,42,42,42,42,41,42,42,42,42
+52,53,52,53,52,51,52,53,52,52,51,52,52,52,52,52,52,51,52,52,52,52,52,51,
+53,53,52,52,52,52,52,52,52,51,52,53,52,52,52,52,52,52,52,52,52,52,52,52,
+52,52,51,52,51,53,52,52,52,52,52,52,52,53,52,52,52,52,52,52,52,52,52,52,
+52,51,52,51,53,52,52,52,52,52,52,52,52,52,51,52,52,52,52,52,51,52,53,52,
+52,52,52,52,52,51,52,52,52,51,52,52,52,52,52,51,52,52,52,52,52,52,52,51,
+52,52,52,52,51,52,52,53,51,52,52,52,52,52,53,52,52,52,52,52,52,52,52,52,
+52,53,52,52,51,52,53,51,52,52,52,52,52,53,52,51,52,52,52,52,52,52,52,52,
+52,52,52,52,52,52,52,52,53,51,52,53,52,51,51,52,52,52,51,53,52,52,52,53,
+52,52,52,52,52,53,52,52,52,52,52,53,53,52,52,52,52,52,52,52,52,52,51,52,
+52,52,52,52,53,52,52,52,52,52,52,52,51,52,52,52,52,52,52,52,52,51,51,53,
+52,53,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,52,51,
+52,53,52,52,52,52,52,52,52,52,52,52,51,52,52,52,52,52,52,52,52,51,52,52,
+52,52,53,52,52,52,52,52,52,52,52,52,52,52,53,52,53,52,51,52,51,52,52,52,
+52,51,51,52,52,51,53,52,52,52,52,52,52,52,51,52,52,51,52,52,52,51,51,52
 </data>
  </layer>
- <layer id="2" name="1" width="26" height="16">
+ <layer id="2" name="1" width="24" height="14">
   <data encoding="csv">
-18,29,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,26,28,18,
-18,11,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,34,9,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,
-18,21,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,20,18,
-18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18
+22,35,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,22,
+22,13,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,42,11,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,
+22,25,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,24,22,
+22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22
 </data>
  </layer>
- <layer id="3" name="2" width="26" height="16">
+ <layer id="3" name="2" width="24" height="14">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="markers" width="26" height="16">
+ <layer id="4" name="markers" width="24" height="14">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <objectgroup id="5" name="interact"/>
