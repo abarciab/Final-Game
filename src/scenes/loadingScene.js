@@ -189,6 +189,8 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('sizzle', './assets/sounds/sfx/sizzle.wav');
         this.load.audio('woof', './assets/sounds/sfx/woof.wav');
         this.load.audio('dog step', './assets/sounds/sfx/dog_step.wav');
+        this.load.audio('enemy dash', './assets/sounds/sfx/enemy_dash.wav');
+        this.load.audio('enemy charge dash', './assets/sounds/sfx/charge_dash.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
