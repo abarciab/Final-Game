@@ -494,6 +494,8 @@ class DasherEnemy extends BaseEnemy {
         this.charge_dash_interval = 2;
         this.charge_dash_timer = 0;
 
+        this.aggro_range = 500;
+
         this.end_dash_speed = 50;
 
         this.setScale(3);
@@ -551,7 +553,7 @@ class DasherEnemy extends BaseEnemy {
    
         if (!this.charging_dash && !this.dashing) {
             this.dash_timer += delta/1000;
-            if (this.dash_timer >= this.dash_interval) {
+            if (this.dash_timer >= this.dash_interval && this.player_dist <= this.aggro_range) {
                 this.dash_timer = 0;
                 this.charging_dash = true;
             }
