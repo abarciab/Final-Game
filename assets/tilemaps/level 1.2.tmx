@@ -798,7 +798,7 @@
     <property name="circuit" type="int" value="2"/>
    </properties>
   </object>
-  <object id="149" name="button" gid="5" x="3009.81" y="1168.61" width="64" height="197.333">
+  <object id="149" name="button" gid="5" x="2967.81" y="1170.23" width="64" height="197.333">
    <properties>
     <property name="circuit" type="int" value="5"/>
     <property name="invisible" type="bool" value="true"/>

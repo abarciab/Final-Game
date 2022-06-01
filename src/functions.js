@@ -85,8 +85,8 @@ function createPauseMenu(){
     pause_menu.background = current_scene.add.rectangle(0, 0, game.config.width*20, game.config.height*20, 0x000000).setAlpha(0.5);
     pause_menu.title = current_scene.add.sprite(game.config.width/2, 140, 'pause title').setScale(4);
     
-    pause_menu.music_vol = current_scene.add.sprite(game.config.width/2, 370, 'music button').setScale(3).setInteractive();
-    pause_menu.music_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 370, 'vol icon low').setScale(2);
+    pause_menu.music_vol = current_scene.add.sprite(game.config.width/2, 370, 'music button').setScale(3).setDepth(100).setInteractive();
+    pause_menu.music_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 370, 'vol icon low').setScale(2).setDepth(100);
     pause_menu.music_vol.on('pointerover', function(){
         pause_menu.button_hover_sfx.play({volume: 0.3});
         pause_menu.music_vol.setTint(0xcccccc);
@@ -114,8 +114,8 @@ function createPauseMenu(){
     })
     
 
-    pause_menu.sfx_vol = current_scene.add.sprite(game.config.width/2, 470, 'sounds button').setScale(3).setInteractive();
-    pause_menu.sfx_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 470, 'vol icon med').setScale(2);
+    pause_menu.sfx_vol = current_scene.add.sprite(game.config.width/2, 470, 'sounds button').setScale(3).setDepth(100).setInteractive();
+    pause_menu.sfx_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 470, 'vol icon med').setScale(2).setDepth(100);
     pause_menu.sfx_vol.on('pointerover', function(){
         pause_menu.button_hover_sfx.play({volume: 0.3});
         pause_menu.sfx_vol.setTint(0xcccccc);
@@ -141,7 +141,7 @@ function createPauseMenu(){
         
     })
 
-    pause_menu.resume = current_scene.add.sprite(game.config.width/2, 570, 'resume button').setScale(3).setInteractive();
+    pause_menu.resume = current_scene.add.sprite(game.config.width/2, 570, 'resume button').setScale(3).setDepth(100).setInteractive();
     pause_menu.resume.on('pointerover', function(){
         pause_menu.button_hover_sfx.play({volume: 0.3});
         pause_menu.resume.setTint(0xcccccc);
@@ -154,7 +154,7 @@ function createPauseMenu(){
         current_scene.paused = false;
     })
 
-    pause_menu.exit = current_scene.add.sprite(game.config.width/2, 670, 'title screen button').setScale(3).setInteractive();
+    pause_menu.exit = current_scene.add.sprite(game.config.width/2, 670, 'title screen button').setScale(3).setDepth(100).setInteractive();
     pause_menu.exit.on('pointerover', function(){
         pause_menu.button_hover_sfx.play({volume: 0.3});
         pause_menu.exit.setTint(0xcccccc);
@@ -192,6 +192,9 @@ function updateLevel(time, delta) {
         //update enemies
         updateEnemies(time, delta);
     }
+    else {
+        current_scene.player.move("RIGHT");
+    }
     let vignettePos = getCameraCoords(null, 0, 0);
     current_scene.vignette.setPosition(vignettePos.x, vignettePos.y);
 }
@@ -203,7 +206,7 @@ function initBossLevel1(scene) {
     //game_settings.camera_zoom -= 0.1;
     //scene.camera.setZoom(game_settings.camera_zoom);
     //scene.cameras.main.setPosition(game_settings.cam_center.x, game_settings.cam_center.y).setOrigin(0.5);
-    scene.ball = scene.physics.add.sprite(game.config.width/2, game.config.height/2, 'white hexagon').setScale(0.5);
+    scene.ball = scene.physics.add.sprite(game.config.width/2, game.config.height/2, 'ball').setScale(2);
     const hitbox_radius = 20;
     scene.ball.setCircle(hitbox_radius, scene.ball.width/2-hitbox_radius, scene.ball.height/2-hitbox_radius);
     scene.ball.body.bounce.set(0.5);
@@ -551,13 +554,17 @@ function activateButton(button) {
     }
 
     if (button.circuit == null && button.data_sprite.data.list.boss){
-        current_scene.bg_music.stop();
-        current_scene.scene.start("level1BossScene");
+        bg_music.stop();
+        current_scene.scene.start("level1BossIntroScene");
         return;
     }
 
     if (button.circuit == null && button.data_sprite.data.list.next_level){
         current_scene.level_finished = true;
+        current_scene.player.can_move = false;
+        current_scene.player.setVelocity(0, 0);
+        disableCollision(current_scene.player.body);
+        //current_scene.
         sweepTransition("right", true, function() {
             console.log(`starting level: ${button.data_sprite.data.list.next_level}`);
             current_map = button.data_sprite.data.list.next_level;
@@ -566,7 +573,7 @@ function activateButton(button) {
         return;
     }
 
-    let circuit
+    let circuit;
     if (button.circuit == null){
         circuit = button.data_sprite.data.list.circuit;
     } else{
@@ -610,7 +617,8 @@ function setupTilemapCollisions(layer){
         } else if (tile.properties.cam_center){
             game_settings.cam_target = current_scene.add.rectangle(tileWorldPos.x, tileWorldPos.y, 20, 20 ,0xFFFFFF).setAlpha(0);
         } else if (tile.properties.gate){
-            current_scene.gate_positions.push({x: tileWorldPos.x, y: tileWorldPos.y});
+            if (current_scene.gate_positions)
+                current_scene.gate_positions.push({x: tileWorldPos.x, y: tileWorldPos.y});
         }
 
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
@@ -744,7 +752,7 @@ function projectileEnemyCollision(enemy, projectile){
 
     if (projectile.deflected){
         projectile.reset();
-        enemy.damage(game_settings.charger_health - 10);
+        enemy.damage(100);
         moveAway(enemy, projectile);
     }
 }
