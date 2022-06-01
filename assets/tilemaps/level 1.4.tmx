@@ -1126,25 +1126,5 @@
   <object id="536" name="vase" gid="18" x="830" y="512" width="64" height="64"/>
   <object id="537" name="vase" gid="18" x="640" y="512" width="64" height="64"/>
   <object id="538" name="vase" gid="18" x="446" y="514" width="64" height="64"/>
-  <object id="539" name="button" gid="5" x="2585.22" y="218.071" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="13"/>
-   </properties>
-  </object>
-  <object id="540" name="button" gid="5" x="2494.29" y="192.496" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="12"/>
-   </properties>
-  </object>
-  <object id="541" name="button" gid="5" x="2374.09" y="188.646" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="11"/>
-   </properties>
-  </object>
-  <object id="542" name="button" gid="5" x="2246.8" y="169.175" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="10"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>
