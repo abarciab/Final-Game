@@ -42,6 +42,10 @@ class level1IntroScene extends Phaser.Scene {
         else if (game_script.part == 2 && !this.start_part_3) {
             this.start_part_3 = true;
             sweepTransition("right", false, function() {
+                if (game_script.background) {
+                    game_script.background.setVisible(false);
+                    game_script.background.destroy();
+                }
                 bg_music.stop();
                 current_scene.startPart3();
             });

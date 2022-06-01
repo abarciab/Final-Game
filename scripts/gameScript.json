@@ -8,8 +8,12 @@
             "voice": "female blip"
         },
         "hank": {
-            "color": "#FF0000",
+            "color": "#de3c41",
             "voice": "hank blip"
+        },
+        "old man": {
+            "color": "#ADD8E6",
+            "voice": "male blip"
         }
     },
 
@@ -48,7 +52,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Why yes! Is there anything I can help you with today?{rate:0.5}{rate:0.01}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
+                        "text": "Why yes! Is there anything I can help you with today? {rate:0.5}{rate:0.01}Perhaps a murder{rate:0.5}...{rate:0.02} {sfx:bam}Or a phantom thief is on the loose??"
                     },
                     {
                         "speaker":"Old Man",
@@ -105,7 +109,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Surely it's not{rate:0.06}...{rate:0.03} here?{rate:1}{rate:0.03}In this dangerous looking cave?"
+                        "text": "Surely it's not{rate:0.06}...{rate:0.03} here?{rate:1}{rate:0.03} In this dangerous looking cave?"
                     },
                     {
                         "speaker": "???",
@@ -273,7 +277,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Man you wouldn't BELIEVE what I had to go through to find old pooch here.{rate:0.5} {rate:0.01}I heard them barking in a dark cave in the forest where I eventually reached HELL of all places, where I found a magical staff that let me tackle my enemies where I had to chase after the dumb dog until I found the perpetrator whole stole pooch and took him down and took pooch with m-"
+                        "text": "Man you wouldn't BELIEVE what I had to go through to find old pooch here.{rate:0.5} {rate:0.01}I heard them barking in a dark cave in the forest where I eventually reached HELL of all places. Thankfully I brought my magical dash staff I found ages ago while I had to chase after the dumb dog and beat up a buncha enemies until I found the perpetrator who stole pooch. Turns out the staff was his from the past, crazy ri-"
                     },
                     {
                         "speaker":"Old Man",
@@ -294,6 +298,10 @@
                     {
                         "speaker": "Old Man",
                         "text": "..."
+                    },
+                    {
+                        "speaker": "Dog",
+                        "text": "{sfx:woof}woof!"
                     },
                     {
                         "speaker": "Fran",

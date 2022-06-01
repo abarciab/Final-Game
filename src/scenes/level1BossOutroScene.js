@@ -16,6 +16,7 @@ class level1BossOutroScene extends Phaser.Scene {
         //tilemap
         current_map = 'bossMap';
         initMap();
+        this.sound.stopAll();
         this.hank.y = this.dog.y;
         this.hank.x = this.dog.x;
         this.dog.x = this.player.x + 250;
