@@ -723,7 +723,9 @@ function activateButton(button) {
     
     if (button.circuit == null && button.data_sprite.data.list.close_door == true){
         closeDoors(circuit);
-        awakenEnemies(circuit);
+        if (current_scene.enemies != undefined) {
+            awakenEnemies(circuit);
+        }
     } else{
         openDoors(circuit);
     }

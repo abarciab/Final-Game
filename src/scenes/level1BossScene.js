@@ -103,7 +103,7 @@ class level1BossScene extends Phaser.Scene {
         
         //ball and hank
         this.physics.add.overlap(this.ball, this.hank, function() {
-            if (current_scene.hank.charging || current_scene.hank.dashing){
+            if (current_scene.hank.dashing){
                 return;
             }
             if (current_scene.ball.deflected == true){
