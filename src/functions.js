@@ -210,6 +210,8 @@ function setupKeys(scene){
     key_3 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
     key_4 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
     key_5 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
+    key_6 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX);
+
 }
 
 function setupInteractables(map){
