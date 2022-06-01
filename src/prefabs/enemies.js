@@ -520,7 +520,6 @@ class DasherEnemy extends BaseEnemy {
             //console.log(dash_angle);
             const vel_x = game_settings.dasher_dash_speed * Math.sin(dash_angle);
             const vel_y = game_settings.dasher_dash_speed * -Math.cos(dash_angle);
-            console.log(vel_x, vel_y);
             this.setVelocity(vel_x, vel_y);
         }
     }
