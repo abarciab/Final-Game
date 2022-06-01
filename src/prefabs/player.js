@@ -35,6 +35,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.invulnerable = false;
         this.stun_duration = 0.5;
         this.invincible_duration = game_settings.player_invincible_time;
+        this.angle_of_dash = 0;
 
         this.safe_pos = new Phaser.Math.Vector2(this.x, this.y);
         this.bouncing = false;  //this is to let the player cancel their bounce after they hit an enemy
@@ -294,6 +295,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             speed *= 1.5;
         }
         if (speed < this.min_dash_speed) speed = this.min_dash_speed;
+        this.angle_of_dash = -Math.atan2(this.x-getMouseCoords().x, this.y-getMouseCoords().y);
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);
         this.dashing = true;
         this.setDrag(game_settings.player_dash_drag);

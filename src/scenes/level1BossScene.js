@@ -36,13 +36,22 @@ class level1BossScene extends Phaser.Scene {
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
 
         //player and ball
-        this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
+        //this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.player, this.ball, function() {
             if (current_scene.ball.deflected || current_scene.dog.has_ball){
+                if (current_scene.ball.deflected){
+                    current_scene.player.doneDashing();
+                }
                 return;
             }
             if (current_scene.player.dashing == true){
-                current_scene.ball.deflected = true
+                current_scene.ball.deflected = true;
+                const angle = current_scene.player.angle_of_dash;
+                const vel_x = 1000 * Math.sin(angle);
+                const vel_y = 1000 * -Math.cos(angle);
+                //const vel_x = current_scene.ball.body.velocity.x + current_scene.player.body.velocity.x;
+                //const vel_y = current_scene.ball.body.velocity.y + current_scene.player.body.velocity.y;
+                current_scene.ball.setVelocity(vel_x, vel_y);
                 current_scene.ball.dashed = true;
             } else{
                 current_scene.player.has_ball = true;
