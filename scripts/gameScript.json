@@ -139,6 +139,14 @@
                     {
                         "speaker": "Fran",
                         "text": "{pan:fran}{sfx:bam}H-Hey, come back here!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "{show:staff}Hmm? It looks like the dog dropped something..."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "{show:staff}{show:glow}Wh-what's happening???"
                     }
                 ]
             },

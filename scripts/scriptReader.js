@@ -29,6 +29,9 @@ class ScriptReader {
         this.script_done = false;
         this.line_paused = false;
         this.hide_display = false;
+        this.show_image = false;
+        this.display_image;
+        this.display_bg;
 
         this.level = script_data.InitialLevel;
         this.part = script_data.InitialPart;
@@ -86,6 +89,7 @@ class ScriptReader {
     readScript(scene, level, part) {
         this.current_scene = scene;
         this.reading_script = true;
+        this.show_image = false;
         this.line_paused = false;
         this.mouse_held = true;
         this.line_finished = false;
@@ -135,6 +139,7 @@ class ScriptReader {
         this.line_finished = false;
         this.curr_char_index = 0;
         this.curr_line_index++;
+        this.show_image = false;
         this.display_line = "";
         this.char_update_rate = this.script_data.defaultTextSpeed;
         this.char_update_timer = this.char_update_rate;
@@ -398,6 +403,10 @@ class ScriptReader {
                             default:
                                 break;
                         }
+                    case "show":
+                        this.show_image = true;
+                        //this.display_image = current_scene.add.image();
+                        break;
                     case "hide":
                         if (command_content.trim() != "")
                             this.hide_duration = parseFloat(command_content.trim());
