@@ -29,25 +29,57 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.setDepth(9);
 
         this.has_ball = false;
+        this.charging = false;
+        this.dashing = false;
+        this.throwing = false;
+        this.took_damage = false;
+        this.throw = false;
+        this.throwing_frame = 0
+        this.throw_frame = 2;
 
         this.charge_cooldown = game_settings.hank_charge_cooldown;
         this.charges_left = game_settings.hank_num_charges;
         this.throws_left = game_settings.hank_num_throws;       //the number of times hank will throw the ball when mad before charging charges_left times at the player
-
+        
 
         this.pickNewDestination();
     }
 
+    updateThrow() {
+        if (this.throw) {
+            this.stunned = true;
+            if (!this.anims.isPlaying) {
+                this.throw = false;
+                this.stunned = false;
+            }
+        }
+    }
+
+    updateStun(delta) {
+        if (this.stunned) {
+            if (this.stun_time > 0) {
+                this.stun_time -= delta;
+                if (this.stun_time <= 0){
+                    this.stunned = false;
+                } 
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     update(timer, delta) {
-        if (this.charging){
+        this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
+        if (this.dashing){
             return;
         }
         if (this.health <= Math.floor(game_settings.hank_health/2)){
             this.mad = true;
         }
-        //console.log(`chargesleft: ${this.charges_left}, throws left: ${this.throws_left}`);
-
-        this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
+        if (this.throwing) {
+            this.anims.play(`${this.type.toLowerCase()} charge throw ${this.last_direction_moved.toLowerCase()}`, true);
+        }
         
         if (this.stun_time > 0) {
             this.stun_time -= delta;
@@ -57,8 +89,10 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
+        this.updateThrow();
+
         if (this.throws_left > 0){
-            if (this.has_ball != true){
+            if (this.has_ball != true && !this.throwing && !this.throw && !this.took_damage){
                 moveTo(this, this.destination);
             }
             if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
@@ -66,12 +100,16 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             }
         }
         else{
+            this.charging = true;
             this.charge_cooldown -= delta;
+            this.anims.play(`${this.type.toLowerCase()} charge dash ${this.last_direction_moved.toLowerCase()}`, true);
             if (this.charge_cooldown <= 0){
+                this.charging = false;
+                this.dashing = true;
+                this.anims.play(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`, true);
                 this.charges_left -= 1;
-                this.charging = true;
                 this.charge_cooldown = game_settings.hank_charge_cooldown;
-                this.setTint(0xcc0000);
+                //this.setTint(0xcc0000);
                 current_scene.physics.moveToObject(this, current_scene.player, game_settings.hank_charge_speed);
                 this.setDrag(0);
             }
@@ -87,30 +125,32 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             this.charges_left = game_settings.hank_num_charges;
         }
 
-        
-
         const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
         if (Math.sin(angle) >= 0) 
             this.last_direction_moved = "right";
         else 
             this.last_direction_moved = "left";
 
-        if (this.anims.isPlaying)
-            this.current_frame = this.anims.currentFrame.index-1;
-        if (!this.stunned) {
-            if (this.curr_speed <= 50) {
-                this.anims.play({key: `${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
-            }
-            else
-                this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+        if ((!this.charging && !this.dashing && !this.throw) && !this.took_damage && !this.stunned) {
+            this.updateMoveAnim();
         }
-        else if (this.stunned) {
+        else if (this.took_damage) {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
         }
     }
 
+    updateMoveAnim() {
+        if (this.anims.isPlaying)
+            this.current_frame = this.anims.currentFrame.index-1;
+        if (this.curr_speed <= 50) {
+            this.anims.play({key: `${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+        }
+        else
+            this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
+    }
+
     moveBossFight() {
-        if (this.has_ball != true){
+        if (this.has_ball != true && !this.throwing && !this.throw && !this.took_damage){
             moveTo(this, this.destination);
         }
         if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
@@ -124,7 +164,10 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         }
         this.has_ball = false;
         this.health -= 1;
-        
+
+        this.anims.play(`hank damage ${this.last_direction_moved}`, true);
+        //this.took_damage = true;
+        current_scene.time.delayedCall(1500, function(){current_scene.hank.took_damage = false})
 
         if (this.health > 5){
             this.scene.spawnEnemiesAtGate("CHARGER");
