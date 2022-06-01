@@ -15,6 +15,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.score = 0;
         this.on_lava = false;
 
+        this.ball_x_offset = this.displayWidth*0.8;
+        this.ball = current_scene.add.image(this.x, this.y, 'ball').setScale(2).setDepth(6).setVisible(false);
+
         this.can_move = true;
 
         this.player_sfx = {
@@ -85,6 +88,24 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dash_emitter;
     }
 
+    updateBall() {
+        let ball_x = this.x;
+        if (this.last_direction_moved == "LEFT") {
+            ball_x -= this.ball_x_offset;
+        }
+        else {
+            ball_x += this.ball_x_offset;
+        }
+        this.ball.x = ball_x;
+        this.ball.y = this.y;
+        if (this.has_ball) {
+            this.ball.setVisible(true);
+        }
+        else {
+            this.ball.setVisible(false);
+        }
+    }
+
     update(time, delta){
         if (!this.stunned && !this.on_lava){
             this.safe_pos.x = this.x;
@@ -104,6 +125,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.updateDashPointer();
         }
         else this.dash_pointer.setVisible(false);
+
+        this.updateBall();
 
         // dash damage is speed/dash_speed * dash_damage;
         // given: velocity of player and the angles the two objects are going.
@@ -146,9 +169,6 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dashing = false;
         this.bouncing = false;
         this.setDrag(game_settings.player_walk_drag);
-
-        
-        
     }
 
     updateDashCooldown(delta) {

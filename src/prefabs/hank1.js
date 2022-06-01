@@ -36,6 +36,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.throw = false;
         this.throwing_frame = 0
         this.throw_frame = 2;
+        this.dash_sfx = current_scene.sound.add('player super dash', {volume: 1});
 
         this.charge_cooldown = game_settings.hank_charge_cooldown;
         this.charges_left = game_settings.hank_num_charges;
@@ -130,6 +131,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
                 this.charge_cooldown -= delta;
                 this.anims.play(`${this.type.toLowerCase()} charge dash ${this.last_direction_moved.toLowerCase()}`, true);
                 if (this.charge_cooldown <= 0){
+                    this.dash_sfx.play();
                     this.charging = false;
                     this.dashing = true;
                     this.anims.play(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`, true);
