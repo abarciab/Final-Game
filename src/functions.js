@@ -73,7 +73,7 @@ function initMap() {
     setupTilemapCollisions(layer1);
     setupTilemapCollisions(layer2);
     setupTilemapCollisions(marker_layer);
-    console.log(marker_layer.properties);
+    //console.log(marker_layer.properties);
 }
 
 //let pause_menu = {};
