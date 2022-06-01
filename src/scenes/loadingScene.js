@@ -145,8 +145,8 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('hank idle left', './assets/enemies/hank_idle_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank idle right', './assets/enemies/hank_idle_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank move left', './assets/enemies/hank_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
-        this.load.spritesheet('hank move right', './assets/enemies/hank_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
-        this.load.spritesheet('hank throw left', './assets/enemies/hank_throw_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank move right', './assets/enemies/hank_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 4});
+        this.load.spritesheet('hank throw left', './assets/enemies/hank_throw_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 4});
         this.load.spritesheet('hank throw right', './assets/enemies/hank_throw_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank damage left', './assets/enemies/hank_damage_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
         this.load.spritesheet('hank damage right', './assets/enemies/hank_damage_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
@@ -473,21 +473,33 @@ class loadingScene extends Phaser.Scene {
         })
         current_scene.anims.create({
             key: "hank move right",
-            frameRate: 12,
-            frames: current_scene.anims.generateFrameNumbers("hank move right", {start: 0, end: 5}),
+            frameRate: 10,
+            frames: current_scene.anims.generateFrameNumbers("hank move right", {start: 0, end: 4}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank charge throw left",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("hank throw left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank charge throw right",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("hank throw right", {start: 0, end: 0}),
             repeat: -1
         })
         current_scene.anims.create({
             key: "hank throw left",
-            frameRate: 12,
-            frames: current_scene.anims.generateFrameNumbers("hank throw left", {start: 0, end: 5}),
-            repeat: -1
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("hank throw left", {start: 1, end: 4}),
+            repeat: 0
         })
         current_scene.anims.create({
             key: "hank throw right",
-            frameRate: 12,
-            frames: current_scene.anims.generateFrameNumbers("hank throw right", {start: 0, end: 5}),
-            repeat: -1
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("hank throw right", {start: 1, end: 4}),
+            repeat: 0
         })
         current_scene.anims.create({
             key: "hank damage left",
