@@ -7,8 +7,8 @@ class level1BossScene extends Phaser.Scene {
         //intialize game_settings, current_scene, and setup keys
         current_map = 'bossMap';
         if (bg_music.key != 'boss') {
-            this.bg_music = this.sound.add('boss', {volume: 0.5});
-            this.bg_music.setLoop(true).play();
+            bg_music = this.sound.add('boss', {volume: 0.5});
+            bg_music.setLoop(true).play();
         }
         
         initializeLevel(this);
@@ -25,8 +25,6 @@ class level1BossScene extends Phaser.Scene {
 
         //enemy collisions
         this.addColliders();
-
-        createPauseMenu();
     }
 
     addColliders() {

@@ -748,9 +748,9 @@ function playerProjectileCollision(player, projectile){
         current_scene.player.doneDashing();
     }
 
-    if (current_scene.player.dashing){
+    if (player.dashing){
         projectile.deflected = true;
-        projectile.body.setVelocity(player.body.velocity.x * 1.5, player.body.velocity.y * 1.5);
+        projectile.body.setVelocity(projectile.body.velocity.x + player.body.velocity.x, projectile.body.velocity.y + player.body.velocity.y);
         //playerObj.body.setVelocity(playerObj.body.velocity.x * 0.9, playerObj.body.velocity.y * 0.9);
         player.body.setVelocity(0,0)
     } else if (!projectile.deflected && projectile.reset){
