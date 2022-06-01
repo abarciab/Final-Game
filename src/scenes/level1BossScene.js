@@ -27,7 +27,7 @@ class level1BossScene extends Phaser.Scene {
 
         //enemy collisions
         this.addColliders();
-
+        sweepTransition("left", false);
     }
 
     addColliders() {
