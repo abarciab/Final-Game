@@ -199,12 +199,15 @@ function updateLevel(time, delta) {
 }
 
 function initBossLevel1(scene) {
+    //scene.gate_positions = [];
     //scene.cameras.main.stopFollow();
     scene.camera = scene.cameras.main.startFollow(game_settings.cam_target, true, 0.05, 0.05);
     //game_settings.camera_zoom -= 0.1;
     //scene.camera.setZoom(game_settings.camera_zoom);
     //scene.cameras.main.setPosition(game_settings.cam_center.x, game_settings.cam_center.y).setOrigin(0.5);
     scene.ball = scene.physics.add.sprite(game.config.width/2, game.config.height/2, 'white hexagon').setScale(0.5);
+    const hitbox_radius = 20;
+    scene.ball.setCircle(hitbox_radius, scene.ball.width/2-hitbox_radius, scene.ball.height/2-hitbox_radius);
     scene.ball.body.bounce.set(0.5);
     scene.ball.body.setMass(0.1);
     scene.ball.setDrag(0.9);
@@ -604,6 +607,8 @@ function setupTilemapCollisions(layer){
             }
         } else if (tile.properties.cam_center){
             game_settings.cam_target = current_scene.add.rectangle(tileWorldPos.x, tileWorldPos.y, 20, 20 ,0xFFFFFF).setAlpha(0);
+        } else if (tile.properties.gate){
+            current_scene.gate_positions.push({x: tileWorldPos.x, y: tileWorldPos.y});
         }
 
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
