@@ -103,6 +103,7 @@ class level1BossScene extends Phaser.Scene {
                 if (current_scene.hank.stun_time <= 0){
                     current_scene.hank.stun_time = 800;
                     current_scene.stunDog(2000);
+                    current_scene.hank.throwing = true;
                     current_scene.time.delayedCall(700, function(){current_scene.throwBall();})
                 } 
             } 
@@ -117,6 +118,7 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.hank.damage();
                 current_scene.hank.has_ball = false;
                 current_scene.hank.stun_time = 800;
+                current_scene.hank.throwing = true;
                 current_scene.time.delayedCall(700, function(){current_scene.throwBall();});
                 if (current_scene.hank.mad == true){
                     current_scene.hank.throws_left = 0;
@@ -127,8 +129,8 @@ class level1BossScene extends Phaser.Scene {
 
         //hank and wall and lava
         this.physics.add.collider(this.hank, this.collision_rects, function(){
-            if (current_scene.hank.charging == true){
-                current_scene.hank.charging = false;
+            if (current_scene.hank.dashing == true){
+                current_scene.hank.dashing = false;
                 current_scene.hank.clearTint();
                 current_scene.hank.setDrag(current_scene.hank.base_drag);
             } else{
