@@ -127,23 +127,13 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         
 
         if (this.health > 5){
-                spawnEnemy("CHARGER", this.x + 20, this.y);
-                spawnEnemy("CHARGER", this.x, this.y);
-                spawnEnemy("CHARGER", this.x - 20, this.y);
+            this.scene.spawnEnemiesAtGate("CHARGER");
         }
-        else if (this.health > 3){
-            let space = 150;
-            spawnEnemy("GOLEM", this.x + space, this.y + space);
-            spawnEnemy("GOLEM", this.x + space, this.y - space);
-            spawnEnemy("GOLEM", this.x - space, this.y + space);
-            spawnEnemy("GOLEM", this.x - space, this.y - space);
+        else if (this.health > 2){
+            this.scene.spawnEnemiesAtGate("DASHER");
         }
         else{
-            let space = 500;
-            spawnEnemy("SHOOTER", space, space);
-            spawnEnemy("SHOOTER", game.config.width - space, game.config.height - space);
-            spawnEnemy("SHOOTER", game.config.width - space, space);
-            spawnEnemy("SHOOTER", space, game.config.height - space);
+            this.scene.spawnEnemiesAtGate("SHOOTER");
         }
         if (this.health <= 0){
             current_scene.ball.setActive(false);

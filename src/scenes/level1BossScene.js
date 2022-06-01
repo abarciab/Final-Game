@@ -7,10 +7,12 @@ class level1BossScene extends Phaser.Scene {
         //intialize game_settings, current_scene, and setup keys
         current_map = 'bossMap';
         if (bg_music.key != 'boss') {
-            bg_music = this.sound.add('boss', {volume: 0.5});
+            bg_music = this.sound.add('boss', {volume: 0.3 * game_settings.music_vol});
             bg_music.setLoop(true).play();
         }
-        
+
+        this.gate_positions = [];
+
         initializeLevel(this);
         initBossLevel1(this);
 
@@ -46,6 +48,9 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.ball.setVisible(false);
             }
         });
+
+        //player and hank
+        this.physics.add.collider(this.player, this.hank, playerEnemyCollision.bind(this));
         
         //player and dog
         this.physics.add.overlap(this.player, this.dog, function () {
@@ -164,15 +169,24 @@ class level1BossScene extends Phaser.Scene {
         current_scene.time.delayedCall(time, function(){current_scene.dog.speed = game_settings.dog_speed})
     }
 
+    spawnEnemiesAtGate(type){
+        this.gate_positions.forEach(gatePosition => {
+            spawnEnemy(type, gatePosition.x, gatePosition.y);
+        });
+    }
+
     /*
     update: updates scene every frame
         @ time: total time that the game has been running
         @ delta: number of milliseconds since update was last called
     */
     update(time, delta){
-        if (!this.cameras.main.worldView.contains(this.ball.x, this.ball.y)){
+        //1600 1000
+        if (this.ball.x < -200 || this.ball.x > 1600 || this.ball.y < -200 || this.ball.y > 1000){
             this.ball.setPosition(game_settings.cam_target.x, game_settings.cam_target.y);
+            this.ball.setVelocity(0,0);
         }
+
         updateLevel(time, delta);
         //update enemies
         this.dog.update(time, delta);
