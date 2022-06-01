@@ -1822,7 +1822,7 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":1857.35,
+                 "x":1729.35,
                  "y":514.026
                 }, 
                 {
@@ -1834,8 +1834,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":318.326,
-                 "y":509.194
+                 "x":256.326,
+                 "y":511.194
                 }, 
                 {
                  "gid":18,
@@ -1846,8 +1846,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":1089.04,
-                 "y":509.194
+                 "x":1213.04,
+                 "y":515.194
                 }, 
                 {
                  "gid":18,
@@ -2101,78 +2101,6 @@
                 {
                  "gid":5,
                  "height":64,
-                 "id":449,
-                 "name":"button",
-                 "properties":[
-                        {
-                         "name":"circuit",
-                         "type":"int",
-                         "value":10
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":1946,
-                 "y":208
-                }, 
-                {
-                 "gid":5,
-                 "height":64,
-                 "id":450,
-                 "name":"button",
-                 "properties":[
-                        {
-                         "name":"circuit",
-                         "type":"int",
-                         "value":11
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":2108,
-                 "y":240
-                }, 
-                {
-                 "gid":5,
-                 "height":64,
-                 "id":451,
-                 "name":"button",
-                 "properties":[
-                        {
-                         "name":"circuit",
-                         "type":"int",
-                         "value":12
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":2240,
-                 "y":232
-                }, 
-                {
-                 "gid":5,
-                 "height":64,
-                 "id":452,
-                 "name":"button",
-                 "properties":[
-                        {
-                         "name":"circuit",
-                         "type":"int",
-                         "value":13
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":2434,
-                 "y":214
-                }, 
-                {
-                 "gid":5,
-                 "height":64,
                  "id":492,
                  "name":"button",
                  "properties":[
@@ -2251,6 +2179,103 @@
                  "width":64,
                  "x":2590,
                  "y":1056
+                }, 
+                {
+                 "gid":18,
+                 "height":64,
+                 "id":531,
+                 "name":"vase",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":2048,
+                 "y":510
+                }, 
+                {
+                 "gid":18,
+                 "height":64,
+                 "id":532,
+                 "name":"vase",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":2242,
+                 "y":514
+                }, 
+                {
+                 "gid":18,
+                 "height":64,
+                 "id":533,
+                 "name":"vase",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":2430,
+                 "y":510
+                }, 
+                {
+                 "gid":18,
+                 "height":64,
+                 "id":534,
+                 "name":"vase",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":1856,
+                 "y":512
+                }, 
+                {
+                 "gid":18,
+                 "height":64,
+                 "id":535,
+                 "name":"vase",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":1024,
+                 "y":516
+                }, 
+                {
+                 "gid":18,
+                 "height":64,
+                 "id":536,
+                 "name":"vase",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":830,
+                 "y":512
+                }, 
+                {
+                 "gid":18,
+                 "height":64,
+                 "id":537,
+                 "name":"vase",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":640,
+                 "y":512
+                },
+            
+                {
+                 "gid":18,
+                 "height":64,
+                 "id":538,
+                 "name":"vase",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":446,
+                 "y":514
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2259,7 +2284,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":531,
+ "nextobjectid":539,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",
