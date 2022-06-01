@@ -188,6 +188,8 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         this.setDamping(true);
         this.setCircle(this.width/2);
 
+        this.setDepth(4);
+
         this.enemy_sfx = {
             "hit": current_scene.sound.add('enemy hit'),
             "dead":  current_scene.sound.add('enemy dead'),

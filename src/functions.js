@@ -677,8 +677,14 @@ function activateButton(button) {
     }
 
     if (button.circuit == null && button.data_sprite.data.list.boss){
-        bg_music.stop();
-        current_scene.scene.start("level1BossIntroScene");
+        current_scene.level_finished = true;
+        current_scene.player.can_move = false;
+        current_scene.player.setVelocity(0, 0);
+        current_scene.player_wall_collider.active = false;
+        sweepTransition("right", true, function() {
+            bg_music.stop();
+            current_scene.scene.start("level1BossIntroScene");
+        })
         return;
     }
 

@@ -60,7 +60,7 @@ class ScriptReader {
         this.text_margins = this.bg_textbox.displayWidth * 0.4;
         this.textbox_y = config.height * 0.5;
         this.speaker_y = config.height * 0.4;
-        this.textbox_max_height = this.bg_textbox.displayHeight * 0.5;
+        this.textbox_max_height = this.bg_textbox.displayHeight * 0.3;
 
         this.text_width = this.display_textbox.displayWidth / this.display_textbox.text.length;
         this.display_textbox.setText("this is a text box\ntest");
@@ -111,10 +111,19 @@ class ScriptReader {
 
         switch (this.current_location) {
             case "office":
+                if (this.background) {
+                    this.background.setVisible(false);
+                    this.background.destroy();
+                }
                 this.background = current_scene.add.image(game.config.width/2, game.config.height/2, 'office background').setScale(4.86).setOrigin(0.5).setDepth(1);
                 break;
             case "forest":
-                //break;
+                if (this.background) {
+                    this.background.setVisible(false);
+                    this.background.destroy();
+                }
+                this.background = current_scene.add.image(game.config.width/2, game.config.height/2, 'forest background').setScale(4.86).setOrigin(0.5).setDepth(1);
+                break;
             default:
                 if (this.background != undefined) {
                     this.background.setVisible(false);
