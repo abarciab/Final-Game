@@ -815,7 +815,6 @@ function pause(){
 }
 
 function resume(){
-    console.log("resuming");
     if (current_scene.player){
         current_scene.player.setVisible(true);
         current_scene.vignette.setVisible(true);

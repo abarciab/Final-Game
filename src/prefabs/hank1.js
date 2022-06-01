@@ -78,7 +78,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
                 return;
             }
         }
-        if (this.health <= Math.floor(game_settings.hank_health/2)){
+        if (this.health <= 2){
             this.mad = true;
         }
         if (this.throwing) {

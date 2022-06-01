@@ -198,9 +198,17 @@ class level1BossScene extends Phaser.Scene {
     }
 
     spawnEnemiesAtGate(type){
-        for(let i = 0; i <  this.gate_positions.length; i ++){
-            if ((i == 0 || i == 2) && type == "DAHSER"){continue;}
-            spawnEnemy(type, this.gate_positions[i].x, this.gate_positions[i].y);
+        console.log(type == "DASHER");
+        for(let i = 0; i <  this.gate_positions.length; i++){
+            console.log(type);
+            if ((i == 0 || i == 3) && type == "DASHER"){
+                console.log("skipping");
+                continue;
+            }
+            else{
+                console.log(i);
+                spawnEnemy(type, this.gate_positions[i].x, this.gate_positions[i].y);
+            }
         }
     }
 
