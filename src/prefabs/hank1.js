@@ -101,6 +101,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             }
             if (this.health <= 2){
                 this.mad = true;
+                this.throws_left = 0;
             }
             if (this.throwing) {
                 this.anims.play(`${this.type.toLowerCase()} charge throw ${this.last_direction_moved.toLowerCase()}`, true);
