@@ -150,6 +150,10 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('hank throw right', './assets/enemies/hank_throw_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank damage left', './assets/enemies/hank_damage_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
         this.load.spritesheet('hank damage right', './assets/enemies/hank_damage_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
+        this.load.spritesheet('hank charge dash left', './assets/enemies/hank_charge_dash_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
+        this.load.spritesheet('hank charge dash right', './assets/enemies/hank_charge_dash_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
+        this.load.spritesheet('hank dash left', './assets/enemies/hank_dash_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
+        this.load.spritesheet('hank dash right', './assets/enemies/hank_dash_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 3});
         // ball
         this.load.image('ball', './assets/enemies/dog_ball.png');
 
@@ -496,6 +500,30 @@ class loadingScene extends Phaser.Scene {
             frameRate: 1,
             frames: current_scene.anims.generateFrameNumbers("hank damage right", {start: 0, end: 0}),
             repeat: 0
+        })
+        current_scene.anims.create({
+            key: "hank dash left",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("hank dash left", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank dash right",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("hank dash right", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank charge dash left",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("hank charge dash left", {start: 0, end: 0}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank charge dash right",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("hank charge dash right", {start: 0, end: 0}),
+            repeat: -1
         })
 
         current_scene.anims.create({
