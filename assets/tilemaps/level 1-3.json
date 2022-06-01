@@ -1274,11 +1274,6 @@
                  "name":"button",
                  "properties":[
                         {
-                         "name":"boss",
-                         "type":"bool",
-                         "value":true
-                        }, 
-                        {
                          "name":"circuit",
                          "type":"int",
                          "value":5
@@ -1287,6 +1282,11 @@
                          "name":"invisible",
                          "type":"bool",
                          "value":true
+                        }, 
+                        {
+                         "name":"next_level",
+                         "type":"string",
+                         "value":"level 1.4 map"
                         }],
                  "rotation":0,
                  "type":"",
