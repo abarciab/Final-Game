@@ -94,6 +94,13 @@ class loadingScene extends Phaser.Scene {
         this.load.image('player empty heart', './assets/player/player_heart_empty.png');
         this.load.image('boss health box', './assets/UI/boss health bar.png');
         this.load.image('vignette', './assets/UI/vignette.png');
+        this.load.image('level 1 label', './assets/UI/level 1 label.png');
+        this.load.image('level 2 label', './assets/UI/level 2 label.png');
+        this.load.image('level 3 label', './assets/UI/level 3 label.png');
+        this.load.image('level 4 label', './assets/UI/level 4 label.png');
+        this.load.image('level 5 label', './assets/UI/level 5 label.png');
+        this.load.image('boss fight label', './assets/UI/boss fight label.png');
+        this.load.image('back button', './assets/UI/back button.png');
 
         //dialogue
         this.load.json('scriptData', './scripts/gameScript.json');
@@ -177,6 +184,7 @@ class loadingScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('level 1.3 map', './assets/tilemaps/level 1-3.json');
         this.load.tilemapTiledJSON('level 1.4 map', './assets/tilemaps/level 1-4.json');
         this.load.image('light', './assets/tilemaps/light.png');
+        this.load.image('instructions 1', './assets/tilemaps/instructions 1.png');
 
         //cutscene sfx
         this.load.audio('door jingle', './assets/sounds/sfx/door_jingle.wav'); //from https://www.youtube.com/watch?v=QQ2lbJzdWLg

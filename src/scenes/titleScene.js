@@ -173,16 +173,9 @@ class titleScene extends Phaser.Scene {
         })
         this.options_button.on('pointerdown', function(){
             this.scene.button_click_sfx.play({volume: click_vol});
-            current_scene.tweens.add({
-                duration: 100,
-                targets: current_scene.grayRect,
-                alpha: 0.4,
-            });
-            current_scene.tweens.add({
-                duration: 500,
-                targets: current_scene.options,
-                y: 410,
-            });
+            current_scene.pause_menu.title.setAlpha(0);
+            current_scene.pause_menu.exit.setAlpha(0);
+            pause();
         })
 
         this.level_button.on('pointerover', function(){
@@ -191,6 +184,9 @@ class titleScene extends Phaser.Scene {
         })
         this.level_button.on('pointerout', function(){
             this.scene.level_button.clearTint();
+        })
+        this.level_button.on('pointerdown', function(){
+            openLevelSelect();
         })
 
         this.start_button.on('pointerover', function(){
@@ -214,6 +210,9 @@ class titleScene extends Phaser.Scene {
 
         createPauseMenu();
         resume();
+
+        createLevelSelect();
+        closeLevelSelect();
     }
 
     update() {
@@ -244,7 +243,7 @@ class titleScene extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(key_6)){
             bg_music.stop();
-            this.scene.start("level1BossOutroScene");
+            this.scene.start("level1BossScene");
         }
     }
     initGameSettings() {

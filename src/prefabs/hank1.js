@@ -197,10 +197,10 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         //this.took_damage = true;
         current_scene.time.delayedCall(1500, function(){current_scene.hank.took_damage = false})
 
-        if (this.health > 5){
+        if (this.health > 4){
             this.scene.spawnEnemiesAtGate("CHARGER");
         }
-        else if (this.health > 2){
+        else if (this.health > 1){
             this.scene.spawnEnemiesAtGate("DASHER");
         }
         else{

@@ -947,9 +947,9 @@
  <objectgroup id="5" name="interact">
   <object id="149" name="button" gid="5" x="2982.86" y="339.368" width="64" height="197.333">
    <properties>
-    <property name="boss" type="bool" value="true"/>
-    <property name="circuit" type="int" value="5"/>
+    <property name="circuit" value="1"/>
     <property name="invisible" type="bool" value="true"/>
+    <property name="next_level" value="level 1.4 map"/>
    </properties>
   </object>
   <object id="188" name="door" gid="15" x="83.3095" y="354.867" width="153" height="32">

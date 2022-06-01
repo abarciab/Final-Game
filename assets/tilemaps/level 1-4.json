@@ -398,6 +398,11 @@
                  "name":"button",
                  "properties":[
                         {
+                         "name":"boss",
+                         "type":"string",
+                         "value":"level 1.0 map"
+                        }, 
+                        {
                          "name":"circuit",
                          "type":"int",
                          "value":5
@@ -406,11 +411,6 @@
                          "name":"invisible",
                          "type":"bool",
                          "value":true
-                        }, 
-                        {
-                         "name":"next_level",
-                         "type":"string",
-                         "value":"level 1.0 map"
                         }],
                  "rotation":0,
                  "type":"",
@@ -814,8 +814,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":1602.17,
-                 "y":1342.71
+                 "x":1611.50333333333,
+                 "y":1346.71
                 }, 
                 {
                  "gid":18,
@@ -826,8 +826,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":2114.52,
-                 "y":1342.71
+                 "x":2110.52,
+                 "y":1346.71
                 }, 
                 {
                  "gid":18,
@@ -1053,6 +1053,116 @@
                  "width":64,
                  "x":1860,
                  "y":1090
+                }, 
+                {
+                 "gid":5,
+                 "height":64,
+                 "id":449,
+                 "name":"button",
+                 "properties":[
+                        {
+                         "name":"circuit",
+                         "type":"int",
+                         "value":1
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":1136,
+                 "y":1052
+                }, 
+                {
+                 "gid":5,
+                 "height":64,
+                 "id":450,
+                 "name":"button",
+                 "properties":[
+                        {
+                         "name":"circuit",
+                         "type":"int",
+                         "value":3
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":64,
+                 "x":2582.66666666667,
+                 "y":1080.33333333333
+                }, 
+                {
+                 "gid":5,
+                 "height":90,
+                 "id":451,
+                 "name":"button",
+                 "properties":[
+                        {
+                         "name":"circuit",
+                         "type":"int",
+                         "value":11
+                        }, 
+                        {
+                         "name":"invisible",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"silent",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":92,
+                 "x":1210,
+                 "y":1070
+                }, 
+                {
+                 "gid":5,
+                 "height":90,
+                 "id":452,
+                 "name":"button",
+                 "properties":[
+                        {
+                         "name":"circuit",
+                         "type":"int",
+                         "value":13
+                        }, 
+                        {
+                         "name":"invisible",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"silent",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":92,
+                 "x":2568,
+                 "y":1090.33333333333
+                }, 
+                {
+                 "gid":5,
+                 "height":60.666666666667,
+                 "id":453,
+                 "name":"button",
+                 "properties":[
+                        {
+                         "name":"circuit",
+                         "type":"int",
+                         "value":12
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":52,
+                 "x":1875.33333333333,
+                 "y":1344.33333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1061,7 +1171,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":449,
+ "nextobjectid":454,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.4",

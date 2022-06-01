@@ -198,9 +198,9 @@ class level1BossScene extends Phaser.Scene {
     }
 
     spawnEnemiesAtGate(type){
-        this.gate_positions.forEach(gatePosition => {
-            spawnEnemy(type, gatePosition.x, gatePosition.y);
-        });
+        for(let i = 0; i <  this.gate_positions.length; i ++){
+            spawnEnemy(type, this.gate_positions[i].x, this.gate_positions[i].y);
+        }
     }
 
     /*
