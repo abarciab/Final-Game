@@ -326,7 +326,7 @@ class titleScene extends Phaser.Scene {
             hank_charge_cooldown: 1500,
             hank_charge_speed: 1000,
             hank_num_charges: 3,
-            hank_num_throws: 4,
+            hank_num_throws: 3,
     
             //dog
             dog_speed: 330

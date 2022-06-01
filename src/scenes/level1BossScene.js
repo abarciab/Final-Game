@@ -81,7 +81,7 @@ class level1BossScene extends Phaser.Scene {
 
         //ball and dog
         this.physics.add.overlap(this.dog, this.ball, function() {
-            if (current_scene.ball.deflected == true && current_scene.ball.current_speed > 10 && current_scene.ball.dashed != true){
+            if (current_scene.ball.deflected == true && current_scene.ball.current_speed > 10 && current_scene.ball.dashed == true){
                 return;
             }
             if (current_scene.ball.active == true && current_scene.dog.speed > 0){
