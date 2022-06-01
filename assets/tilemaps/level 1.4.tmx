@@ -1096,26 +1096,6 @@
     <property name="close_door" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="449" name="button" gid="5" x="1946" y="208" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="10"/>
-   </properties>
-  </object>
-  <object id="450" name="button" gid="5" x="2108" y="240" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="11"/>
-   </properties>
-  </object>
-  <object id="451" name="button" gid="5" x="2240" y="232" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="12"/>
-   </properties>
-  </object>
-  <object id="452" name="button" gid="5" x="2434" y="214" width="64" height="64">
-   <properties>
-    <property name="circuit" type="int" value="13"/>
-   </properties>
-  </object>
   <object id="492" name="button" gid="5" x="1120" y="1056" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="11"/>
