@@ -33,6 +33,12 @@ class level1BossScene extends Phaser.Scene {
     addColliders() {
         //ball and walls
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
+        // balls and door
+        this.physics.add.collider(this.ball, this.doors);
+        // hank and door
+        this.physics.add.collider(this.hank, this.doors);
+        // dog and door
+        this.physics.add.collider(this.dog, this.doors);
 
         //player and ball
         //this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
@@ -232,7 +238,7 @@ class level1BossScene extends Phaser.Scene {
             this.ball.setVelocity(0,0);
         }
 
-        updateLevel(time, delta);
+        if (!updateLevel(time, delta)) return;
         //update enemies
         this.dog.update(time, delta);
 

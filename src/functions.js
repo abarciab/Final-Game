@@ -294,8 +294,6 @@ function updateLevel(time, delta) {
         
     }
 
-
-
     //update UI
     current_scene.game_UI.update();
     //pause the game
@@ -304,7 +302,7 @@ function updateLevel(time, delta) {
     }
     if (current_scene.paused){
         pause();
-        return;
+        return false;
     } else {
         resume();
     }
@@ -319,6 +317,8 @@ function updateLevel(time, delta) {
     }
     let vignettePos = getCameraCoords(null, 0, 0);
     current_scene.vignette.setPosition(vignettePos.x, vignettePos.y);
+
+    return true;
 }
 
 function initBossLevel1(scene) {
