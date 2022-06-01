@@ -16,9 +16,6 @@ class level1FightScene extends Phaser.Scene {
         initializeLevel(this);
         sweepTransition("left", false);
         game_settings.next_scene = `level1BossScene`;
-
-
-        createPauseMenu();
     }
     /*
     update: updates scene every frame

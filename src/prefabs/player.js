@@ -61,7 +61,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setMass(game_settings.player_mass);
         
         // hitbox is circle
-        const hitboxRadius = 6;
+        const hitboxRadius = 8;
         this.setCircle(hitboxRadius, this.width/2-hitboxRadius, this.height/2-hitboxRadius);
 
         this.current_frame =  0;

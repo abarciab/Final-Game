@@ -45,8 +45,7 @@ function initializeLevel(scene) {
     //updateUI();
     scene.game_UI = new GameUI();
     scene.game_UI.setPlayerUI();
-
-    
+    createPauseMenu();
 }
 
 function initMap() {
@@ -168,14 +167,15 @@ function createPauseMenu(){
         current_scene.scene.start("titleScene");
     })
     
-
     current_scene.pause_menu = pause_menu;
-
+    current_scene.paused = false;
 }
 
 
 
 function updateLevel(time, delta) {
+    //update UI
+    current_scene.game_UI.update();
     //pause the game
     if (Phaser.Input.Keyboard.JustDown(key_esc)){
         current_scene.paused = !current_scene.paused;
@@ -192,8 +192,6 @@ function updateLevel(time, delta) {
         //update enemies
         updateEnemies(time, delta);
     }
-    //update UI
-    current_scene.game_UI.update();
     let vignettePos = getCameraCoords(null, 0, 0);
     current_scene.vignette.setPosition(vignettePos.x, vignettePos.y);
 }

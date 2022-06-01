@@ -148,6 +148,8 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('hank move right', './assets/enemies/hank_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank throw left', './assets/enemies/hank_throw_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank throw right', './assets/enemies/hank_throw_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank damage left', './assets/enemies/hank_damage_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
+        this.load.spritesheet('hank damage right', './assets/enemies/hank_damage_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
         // ball
         this.load.image('ball', './assets/enemies/dog_ball.png');
 
@@ -482,6 +484,18 @@ class loadingScene extends Phaser.Scene {
             frameRate: 12,
             frames: current_scene.anims.generateFrameNumbers("hank throw right", {start: 0, end: 5}),
             repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank damage left",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("hank damage left", {start: 0, end: 0}),
+            repeat: 0
+        })
+        current_scene.anims.create({
+            key: "hank damage right",
+            frameRate: 1,
+            frames: current_scene.anims.generateFrameNumbers("hank damage right", {start: 0, end: 0}),
+            repeat: 0
         })
 
         current_scene.anims.create({
