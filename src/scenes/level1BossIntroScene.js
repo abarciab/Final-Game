@@ -5,12 +5,12 @@ class level1BossIntroScene extends Phaser.Scene {
 
     create() {
         initializeScene(this);
-
         this.player = new Player(0, 0, 'fran idle right');
-        this.dog = new Dog(200, 200, 'dog idle right');
+        this.player.can_move = false;
+
+        this.dog = new Dog(0, 0, 'dog idle right');
         //hank
         this.hank = new Hank1(800, 350, 'hank idle right');
-        this.player.can_move = false;
         
         //tilemap
         current_map = 'bossMap';
@@ -55,6 +55,10 @@ class level1BossIntroScene extends Phaser.Scene {
         }
         if (this.dog != undefined) {
             this.dog.update(timer, delta);
+            this.dog.last_direction_moved = "LEFT";
+        }
+        if (this.hank != undefined) {
+            this.hank.update(timer, delta);
         }
     }
 }

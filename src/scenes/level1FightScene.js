@@ -4,11 +4,12 @@ class level1FightScene extends Phaser.Scene {
     }
 
     create(){
+        
         //intialize game_settings, current_scene, and setup keys
         //if (bg_music)
         if (bg_music.key != 'level') {
             console.log("play");
-            bg_music = this.sound.add('level', {volume: 0.1});
+            bg_music = this.sound.add('level', {volume: 0.5 * game_settings.music_vol});
             bg_music.setLoop(true).play();
         }
 
@@ -17,7 +18,7 @@ class level1FightScene extends Phaser.Scene {
         game_settings.next_scene = `level1BossScene`;
 
 
-        
+        createPauseMenu();
     }
     /*
     update: updates scene every frame

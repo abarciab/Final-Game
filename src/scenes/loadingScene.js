@@ -78,6 +78,15 @@ class loadingScene extends Phaser.Scene {
         this.load.image('options button', './assets/UI/options button.png');
         this.load.image('options', './assets/UI/options.png');
         this.load.image('credits button', './assets/UI/credits button.png');
+        this.load.image('pause title', './assets/UI/pause title.png');
+        this.load.image('vol icon high', './assets/UI/vol icon high.png');
+        this.load.image('vol icon med', './assets/UI/vol icon med.png');
+        this.load.image('vol icon low', './assets/UI/vol icon low.png');
+        this.load.image('vol icon mute', './assets/UI/vol icon mute.png');
+        this.load.image('music button', './assets/UI/music button.png');
+        this.load.image('title screen button', './assets/UI/title screen button.png');
+        this.load.image('sounds button', './assets/UI/sounds button.png');
+        this.load.image('resume button', './assets/UI/resume button.png');
         this.load.image('credits menu', './assets/UI/credits menu.png');
         this.load.image('title', './assets/UI/title.png');
         this.load.image('player heart', './assets/player/player_heart.png');
@@ -111,21 +120,21 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('charger move right', './assets/enemies/charger_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
         this.load.spritesheet('charger damage left', './assets/enemies/charger_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         this.load.spritesheet('charger damage right', './assets/enemies/charger_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
-        
+        //dasher
         this.load.spritesheet('dasher move left', './assets/enemies/dasher_move_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
         this.load.spritesheet('dasher move right', './assets/enemies/dasher_move_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 5});
         this.load.spritesheet('dasher damage left', './assets/enemies/dasher_damage_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         this.load.spritesheet('dasher damage right', './assets/enemies/dasher_damage_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 0});
         this.load.spritesheet('dasher charge left', './assets/enemies/dasher_charging_left.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 3});
         this.load.spritesheet('dasher charge right', './assets/enemies/dasher_charging_right.png', {frameWidth: 32, frameHeight: 32, start: 0, end: 3});
-
+        //golem
         this.load.spritesheet('golem move left', './assets/enemies/golem_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('golem move right', './assets/enemies/golem_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('golem attack left', './assets/enemies/golem_attack_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 12});
         this.load.spritesheet('golem attack right', './assets/enemies/golem_attack_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 12});
         this.load.spritesheet('golem damage left', './assets/enemies/golem_damage_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
         this.load.spritesheet('golem damage right', './assets/enemies/golem_damage_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 0});
-        
+        //shooter
         this.load.spritesheet('shooter move left', './assets/enemies/shooter_move_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('shooter move right', './assets/enemies/shooter_move_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 5});
         this.load.spritesheet('shooter damage left', './assets/enemies/shooter_damage_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 0});
@@ -137,6 +146,10 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('hank idle right', './assets/enemies/hank_idle_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank move left', './assets/enemies/hank_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank move right', './assets/enemies/hank_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank throw left', './assets/enemies/hank_throw_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank throw right', './assets/enemies/hank_throw_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        // ball
+        this.load.image('ball', './assets/enemies/dog_ball.png');
 
         //doggo
         this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
@@ -181,6 +194,8 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('sizzle', './assets/sounds/sfx/sizzle.wav');
         this.load.audio('woof', './assets/sounds/sfx/woof.wav');
         this.load.audio('dog step', './assets/sounds/sfx/dog_step.wav');
+        this.load.audio('enemy dash', './assets/sounds/sfx/enemy_dash.wav');
+        this.load.audio('enemy charge dash', './assets/sounds/sfx/charge_dash.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
@@ -456,6 +471,19 @@ class loadingScene extends Phaser.Scene {
             frames: current_scene.anims.generateFrameNumbers("hank move right", {start: 0, end: 5}),
             repeat: -1
         })
+        current_scene.anims.create({
+            key: "hank throw left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("hank throw left", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank throw right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("hank throw right", {start: 0, end: 5}),
+            repeat: -1
+        })
+
         current_scene.anims.create({
             key: "shooter bullet",
             frameRate: 8,

@@ -1940,14 +1940,14 @@
                      "objects":[
                             {
                              "height":64.0239,
-                             "id":1,
+                             "id":2,
                              "name":"",
                              "rotation":0,
                              "type":"",
                              "visible":true,
-                             "width":9.15765,
-                             "x":-0.0796317,
-                             "y":-0.0796317
+                             "width":32.2508,
+                             "x":-10.6308124673386,
+                             "y":-0.238900354609925
                             }],
                      "opacity":1,
                      "type":"objectgroup",

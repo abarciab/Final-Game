@@ -80,12 +80,13 @@ class level1IntroScene extends Phaser.Scene {
 
         this.player = new Player(game.config.width/2, game.config.height/2, 'fran idle right');
         this.player.can_move = false;
-        this.dog = new Dog(game.config.width*1.7, game.config.height*1.7, 'dog idle left');
+        //this.dog = new Dog(game.config.width*1.7, game.config.height*1.7, 'dog idle left');
+        this.dog = new Dog(0, 0, 'dog idle left');
 
         initMap();
         sweepTransition("left", false);
 
-        this.dog.y = this.player.y+100;
+        //this.dog.y = this.player.y+100;
         this.player.x -= 300;
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
         this.player_move_right = true;
