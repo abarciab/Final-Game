@@ -17,7 +17,6 @@ class level1BossScene extends Phaser.Scene {
         initializeLevel(this);
         initBossLevel1(this);
 
-
         this.dog = new Dog(200, 200, 'dog idle left');
         this.dog.boss_scene = true;
 
@@ -55,6 +54,7 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.ball.dashed = true;
             } else{
                 current_scene.player.has_ball = true;
+                current_scene.sound.add('dog ball pickup').play();
                 current_scene.ball.setActive(false);
                 disableCollision(current_scene.ball.body);
                 current_scene.ball.setVisible(false);
@@ -79,7 +79,6 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.player.damage(current_scene.dog);
                 if (current_scene.player.has_ball == true){
                     current_scene.dog.has_ball = true;
-                    current_scene.sound.add('dog ball pickup').play();
                     current_scene.player.has_ball = false;
                 }
             }
