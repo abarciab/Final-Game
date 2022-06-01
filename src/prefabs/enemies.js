@@ -490,7 +490,7 @@ class DasherEnemy extends BaseEnemy {
 
         this.aggro_range = 500;
 
-        this.end_dash_speed = 50;
+        this.end_dash_speed = game_settings.dasher_speed;
 
         this.setScale(3);
         this.hitbox_radius = 6;

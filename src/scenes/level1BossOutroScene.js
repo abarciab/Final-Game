@@ -7,6 +7,7 @@ class level1BossOutroScene extends Phaser.Scene {
         initializeScene(this);
         this.player = new Player(0, 0, 'fran idle right');
         this.player.can_move = false;
+        disableCollision(this.player.body);
 
         this.dog = new Dog(0, 0, 'dog idle right');
         //hank
@@ -16,6 +17,7 @@ class level1BossOutroScene extends Phaser.Scene {
         //tilemap
         current_map = 'bossMap';
         initMap();
+        this.doors;
         this.sound.stopAll();
         this.hank.y = this.dog.y;
         this.hank.x = this.dog.x;

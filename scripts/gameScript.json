@@ -142,7 +142,7 @@
                     },
                     {
                         "speaker": "hide",
-                        "text": "{action:dog_run_right}{hide:1}{next_line}"
+                        "text": "{action:dog_run_right}{open_door:4}{hide:1}{close_door:4}{next_line}"
                     },
                     {
                         "speaker": "Fran",
@@ -228,7 +228,7 @@
                 "body": [
                     {
                         "speaker": "Hank",
-                        "text": "{pan:hank}Ugh..."
+                        "text": "{pan:hank}{open_door:1}Ugh..."
                     },
                     {
                         "speaker": "Fran",

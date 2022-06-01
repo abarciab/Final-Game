@@ -386,6 +386,12 @@ class ScriptReader {
                                 break;
                         }
                         break;
+                    case "open_door":
+                        openDoors(parseInt(command_content.trim()));
+                        break;
+                    case "close_door":
+                        closeDoors(parseInt(command_content.trim()));
+                        break
                     case "action":
                         switch (command_content.trim()) {
                             case "fran_run_left":
