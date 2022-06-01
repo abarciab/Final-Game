@@ -230,9 +230,9 @@ class level1BossScene extends Phaser.Scene {
         }
 
         let bos_box_pos = getCameraCoords(current_scene.camera, game.config.width/2, game.config.height - 50);
-        this.boss_box.setPosition(bos_box_pos.x, bos_box_pos.y);
-        //let bos_bar_pos = getCameraCoords(current_scene.camera, game.config.width/2, game.config.height - 50);
-        this.boss_bar.setPosition(bos_box_pos.x-this.boss_box.displayWidth/2, bos_box_pos.y);
+
+        this.boss_bar.setPosition(bos_box_pos.x-this.boss_box.displayWidth/2, bos_box_pos.y).setDepth(current_scene.player.depth + 2);
+        this.boss_box.setPosition(bos_box_pos.x, bos_box_pos.y).setDepth(current_scene.player.depth + 2.1);
         this.hank.update(time, delta);
     }
 
