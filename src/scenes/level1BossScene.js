@@ -43,6 +43,7 @@ class level1BossScene extends Phaser.Scene {
             }
             if (current_scene.player.dashing == true){
                 current_scene.ball.deflected = true
+                current_scene.ball.dashed = true;
             } else{
                 current_scene.player.has_ball = true;
                 current_scene.ball.setActive(false);
@@ -73,7 +74,7 @@ class level1BossScene extends Phaser.Scene {
 
         //ball and dog
         this.physics.add.overlap(this.dog, this.ball, function() {
-            if (current_scene.ball.deflected == true && current_scene.ball.current_speed > 10){
+            if (current_scene.ball.deflected == true && current_scene.ball.current_speed > 10 && current_scene.ball.dashed != true){
                 return;
             }
             if (current_scene.ball.active == true && current_scene.dog.speed > 0){
@@ -85,7 +86,11 @@ class level1BossScene extends Phaser.Scene {
         
         //ball and hank
         this.physics.add.overlap(this.ball, this.hank, function() {
+            if (current_scene.hank.charging){
+                return;
+            }
             if (current_scene.ball.deflected == true){
+                current_scene.ball.dashed = false;
                 current_scene.hankCatchBall();
             }
         });
@@ -142,28 +147,23 @@ class level1BossScene extends Phaser.Scene {
     }
 
     throwBall(){
-        current_scene.hank.throwing = false;
-        console.log("not throwing");
-        current_scene.hank.throw = true;
         current_scene.dog.has_ball = false;
-        current_scene.hank.has_ball = false;
         current_scene.stunDog(500);
+        
+        current_scene.hank.has_ball = false;
 
-        current_scene.hank.anims.play(`${current_scene.hank.type.toLowerCase()} throw ${current_scene.hank.last_direction_moved.toLowerCase()}`, true);
-        //console.log("ball returned to hank");
         current_scene.ball.x = current_scene.hank.x;
         current_scene.ball.y = current_scene.hank.y;
         current_scene.ball.speed = 400;
+
         let spread = 400;
         let ball_target = {x: this.player.x + Phaser.Math.Between(-spread, spread), y: this.player.y + Phaser.Math.Between(-spread, spread)};
         moveTo(current_scene.ball, ball_target);
-        //current_scene.ball.body.setVelocity(-100, 600);
 
         current_scene.ball.setVisible(true);
         current_scene.ball.setActive(true);
 
         if (current_scene.hank.mad == true){
-            //console.log(`hank is mad and threw ball. decrementing throws`);
             current_scene.hank.throws_left -= 1;
             if (current_scene.hank.throws_left <= 0){
                 current_scene.hank.charges_left = game_settings.hank_num_charges;

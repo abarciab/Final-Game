@@ -328,7 +328,7 @@ class titleScene extends Phaser.Scene {
             hank_num_throws: 2,
     
             //dog
-            dog_speed: 380
+            dog_speed: 330
         }
     }
 }

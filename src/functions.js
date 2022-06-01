@@ -452,6 +452,12 @@ function setupEnemies(map){
 }
 
 function onEnemyDead(dead_enemy){
+    if (Phaser.Math.Between(1, 6) == 1){
+        console.log("spawnign pickup!");
+        spawnHealthPickup(dead_enemy.x, dead_enemy.y);
+    }
+
+
     let circuit = dead_enemy.circuit;
     if (!circuit && isNaN(circuit)) {return; }
 
@@ -466,9 +472,7 @@ function onEnemyDead(dead_enemy){
         return;
     }
 
-    if (Phaser.Math.Between(1, 6) == 1){
-        spawnHealthPickup(dead_enemy.x, dead_enemy.y);
-    }
+    
 
     openDoors(circuit);
     //awakenEnemies(circuit)
@@ -797,6 +801,12 @@ function enableCollision(body){
 // called after collision
 function playerEnemyCollision(player, enemy){
     //console.log(current_scene.enemy_shockwaves);
+    if (enemy.charging == true){
+        enemy.charging = false;
+        enemy.clearTint();
+    }
+
+
     if (enemy.stunned) return;
     if (current_scene.player.dashing){
         player.bouncing = true;
