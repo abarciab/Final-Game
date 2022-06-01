@@ -573,7 +573,7 @@ function activateButton(button) {
         return;
     }
 
-    let circuit
+    let circuit;
     if (button.circuit == null){
         circuit = button.data_sprite.data.list.circuit;
     } else{
