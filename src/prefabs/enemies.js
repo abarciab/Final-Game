@@ -93,6 +93,7 @@ class Projectile extends Phaser.Physics.Arcade.Sprite{
         let targetPoint = new Phaser.Math.Vector2(this.x + this.body.velocity.x, this.y + this.body.velocity.y);
         let pos = new Phaser.Math.Vector2(this.x, this.y);
         this.move_angle = -Math.atan2(targetPoint.x-this.x, targetPoint.y-this.y);
+        //console.log(this.move_angle);
         this.rotation = Phaser.Math.Angle.BetweenPoints(pos, targetPoint);
     }
 }
@@ -228,8 +229,10 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.base_health = game_settings.golem_health;
                 this.bounce_mod = game_settings.golem_bounce_mod;
                 this.bounce_drag = game_settings.golem_bounce_drag;
-                //this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
-                this.passive_volume = 0.3;
+                this.enemy_sfx["passive"] = current_scene.sound.add('wing beat').setLoop(true);
+                this.passive_volume = 0.5;
+                this.passive_interval = 0.05;
+                this.passive_timer = this.passive_interval;
                 break;
             case "SHOOTER":
                 this.speed = game_settings.shooter_speed;
@@ -403,19 +406,22 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.anims.play(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`, true);
             }
             else {
+                if (this.enemy_sfx["passive"] != undefined && this.type != "SHOOTER" && this.enemy_sfx["passive"].isPaused) this.enemy_sfx["passive"].play();
                 this.anims.play({key: `${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
             }
         }
         else if (this.stunned) {
+            if (this.type == "GOLEM") this.enemy_sfx["passive"].pause();
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
         }
         else if (this.attacked) {
+            this.enemy_sfx["passive"].pause();
             this.anims.play({key: `${this.type.toLowerCase()} attack ${this.last_direction_moved.toLowerCase()}`, startFrame: 0}, true);
         }
     }
 
     updateStep(delta) {
-        if (this.enemy_sfx["passive"] != undefined) {
+        if (this.enemy_sfx["passive"] != undefined && !this.enemy_sfx["passive"].isPaused) {
             this.passive_timer -= delta/1000;
             if (this.passive_timer <= 0) {
                 this.passive_timer = this.passive_interval;
@@ -607,6 +613,7 @@ class GolemEnemy extends BaseEnemy {
         if (this.attacked && (this.attack_frame == game_settings.golem_shockwave_end_frame)) {
             this.attack_frame = 0;
             this.anims.stop();
+            if (this.enemy_sfx["passive"].isPaused) this.enemy_sfx["passive"].play();
             this.attacked = false;
             this.speed = game_settings.golem_speed;
             current_scene.time.delayedCall(game_settings.golem_reload_time, function () {
@@ -695,12 +702,12 @@ class ShooterEnemy extends BaseEnemy {
     }
 
     die(){
-        this.projectiles.forEach(projectile => {
+        /*this.projectiles.forEach(projectile => {
             projectile.owner = null;
             if (projectile.active == false){
                 this.scene.enemy_projectiles.return(projectile);
             }
-        });
+        });*/
         super.die();
     }
 

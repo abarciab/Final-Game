@@ -79,7 +79,6 @@ function initMap() {
 function createPauseMenu(){
     let pause_menu = {};
 
-    game_settings.music_vol = 0.33;
     game_settings.sfx_vol = 1;
     pause_menu.button_hover_sfx = current_scene.sound.add('button hover 2'); 
     pause_menu.background = current_scene.add.rectangle(0, 0, game.config.width*20, game.config.height*20, 0x000000).setAlpha(0.5);
@@ -164,6 +163,7 @@ function createPauseMenu(){
     })
     pause_menu.exit.on('pointerdown', function(){
         bg_music.stop();
+        current_scene.sound.stopAll();
         current_scene.scene.start("titleScene");
     })
     
@@ -210,7 +210,7 @@ function initBossLevel1(scene) {
     const hitbox_radius = 20;
     scene.ball.setCircle(hitbox_radius, scene.ball.width/2-hitbox_radius, scene.ball.height/2-hitbox_radius);
     scene.ball.body.bounce.set(0.5);
-    scene.ball.body.setMass(0.1);
+    scene.ball.body.setMass(0.6);
     scene.ball.setDrag(0.9);
     scene.ball.setDamping(true);
     scene.ball.deflected = false;
@@ -227,7 +227,7 @@ function initBossLevel1(scene) {
 
 function addColliders(scene) {
     //player
-    scene.physics.add.collider(scene.player, scene.collision_rects, playerWallCollision.bind(scene));
+    scene.player_wall_collider = scene.physics.add.collider(scene.player, scene.collision_rects, playerWallCollision.bind(scene));
     scene.physics.add.collider(scene.player, scene.doors);
     scene.physics.add.overlap(scene.player, scene.lava_rects, playerLavaCollision.bind(scene));
     scene.physics.add.collider(scene.pickups, scene.collision_rects);
@@ -344,7 +344,7 @@ function setupInteractables(map){
     current_scene.physics.add.collider(current_scene.player, current_scene.doors);
     current_scene.physics.add.overlap(current_scene.player, current_scene.buttons, function(player, button) {
         if (button.done != true){
-            if (button.silent != true){
+            if (button.silent != true && button.data_sprite.visible){
                 current_scene.sound.play('pressure plate', {volume: 0.8});
             }
             activateButton(button);
@@ -496,6 +496,8 @@ function openDoors(circuit){
                 callbackScope: this,
                 onComplete: function() {
                     current_scene.doors[i].body.enable = false; 
+                    current_scene.sound.add('door open', {volume: 1}).play();
+                    current_scene.cameras.main.shake(150, 0.003);
                     if (current_scene.doors[i].horizontal != true){
                         current_scene.doors[i].data_sprite.setTexture('door down');
                     } else{
@@ -522,6 +524,8 @@ function closeDoors(circuit){
                 onComplete: function() {
                     current_scene.doors[i].body.enable = true; 
                     //current_scene.doors[i].setVisible(true);
+                    current_scene.sound.add('door close', {volume: 1}).play();
+                    current_scene.cameras.main.shake(150, 0.003);
                     if (current_scene.doors[i].horizontal != true){
                         current_scene.doors[i].data_sprite.setTexture('door');
                     } else{
@@ -563,7 +567,8 @@ function activateButton(button) {
         current_scene.level_finished = true;
         current_scene.player.can_move = false;
         current_scene.player.setVelocity(0, 0);
-        disableCollision(current_scene.player.body);
+        //disableCollision(current_scene.player.body);
+        current_scene.player_wall_collider.active = false;
         //current_scene.
         sweepTransition("right", true, function() {
             console.log(`starting level: ${button.data_sprite.data.list.next_level}`);
@@ -753,7 +758,7 @@ function projectileEnemyCollision(enemy, projectile){
     if (projectile.deflected){
         projectile.reset();
         enemy.damage(100);
-        moveAway(enemy, projectile);
+        moveAway(projectile, enemy);
     }
 }
 
@@ -859,6 +864,10 @@ function enemyOnEnemyCollision(enemy1, enemy2) {
     if (enemy2.stunned && !enemy1.stunned) {
         enemy1.damage(enemy2.bounce_damage);
     }
+}
+
+function ballOnEnemyCollision(ball, enemy) {
+    enemy.damage(50);
 }
 
 function playerDestructibleCollision(player, destructible){
@@ -1022,10 +1031,17 @@ function moveAway(source, target){
     let angle = -Math.atan2(source.x-target.x, source.y-target.y);
     if (source.move_angle) {
         angle = source.move_angle;
+        redirect_multiplier = 300;
+        const vel_x = redirect_multiplier * Math.sin(angle);
+        const vel_y = redirect_multiplier * -Math.cos(angle);
+        target.setVelocity(-vel_x, -vel_y);
     }
-    const vel_x = redirect_multiplier * Math.sin(angle);
-    const vel_y = redirect_multiplier * -Math.cos(angle);
-    source.setVelocity(-vel_x, -vel_y);
+    else {
+        const vel_x = redirect_multiplier * Math.sin(angle);
+        const vel_y = redirect_multiplier * -Math.cos(angle);
+        source.setVelocity(-vel_x, -vel_y);
+    }
+    
 }
 
 function getMouseCoords() {

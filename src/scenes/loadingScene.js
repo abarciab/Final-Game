@@ -162,6 +162,10 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
         this.load.spritesheet('dog move left', './assets/enemies/dog_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
         this.load.spritesheet('dog move right', './assets/enemies/dog_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+        this.load.spritesheet('dog ball idle left', './assets/enemies/dog_ball_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        this.load.spritesheet('dog ball idle right', './assets/enemies/dog_ball_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        this.load.spritesheet('dog ball move left', './assets/enemies/dog_ball_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+        this.load.spritesheet('dog ball move right', './assets/enemies/dog_ball_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
 
         //tilemaps
         this.load.tilemapTiledJSON('demo_map', './assets/tilemaps/demoMap.json');
@@ -179,8 +183,9 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('bam', './assets/sounds/sfx/bam.wav');
 
         //sfx
-        this.load.audio('male blip', './assets/sounds/sfx/sfx-blipmale.wav');
-        this.load.audio('female blip', './assets/sounds/sfx/sfx-blipfemale.wav');
+        this.load.audio('male blip', './assets/sounds/sfx/male_blip.wav');
+        this.load.audio('female blip', './assets/sounds/sfx/fran_blip.wav');
+        this.load.audio('hank blip', './assets/sounds/sfx/hank_blip.wav');
         this.load.audio('player hit', './assets/sounds/sfx/player_hit.wav');
         this.load.audio('player dash', './assets/sounds/sfx/player_dash2.wav');
         this.load.audio('player super dash', './assets/sounds/sfx/player_super_dash.wav');
@@ -202,6 +207,12 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('dog step', './assets/sounds/sfx/dog_step.wav');
         this.load.audio('enemy dash', './assets/sounds/sfx/enemy_dash.wav');
         this.load.audio('enemy charge dash', './assets/sounds/sfx/charge_dash.wav');
+        this.load.audio('throw', './assets/sounds/sfx/throw.wav');
+        this.load.audio('hank hit', './assets/sounds/sfx/hank_hit.wav');
+        this.load.audio('dog ball pickup', './assets/sounds/sfx/dog_ball_pickup.wav');
+        this.load.audio('door close', './assets/sounds/sfx/door_close.wav');
+        this.load.audio('door open', './assets/sounds/sfx/door_open.wav');
+        this.load.audio('wing beat', './assets/sounds/sfx/wing_beat.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
@@ -451,6 +462,30 @@ class loadingScene extends Phaser.Scene {
             key: "dog move right",
             frameRate: 6,
             frames: current_scene.anims.generateFrameNumbers("dog move right", {start: 0, end: 2}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog ball idle left",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("dog ball idle left", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog ball idle right",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("dog ball idle right", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog ball move left",
+            frameRate: 6,
+            frames: current_scene.anims.generateFrameNumbers("dog ball move left", {start: 0, end: 2}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog ball move right",
+            frameRate: 6,
+            frames: current_scene.anims.generateFrameNumbers("dog ball move right", {start: 0, end: 2}),
             repeat: -1
         })
         current_scene.anims.create({

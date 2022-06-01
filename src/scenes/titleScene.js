@@ -9,7 +9,7 @@ class titleScene extends Phaser.Scene {
         let UI_scale = 4.86;
 
         this.background = this.add.image(game.config.width/2, game.config.height/2, 'title background').setScale(UI_scale).setOrigin(0.5);
-        bg_music = this.sound.add('title', {volume: 0.1});
+        bg_music = this.sound.add('title', {volume: 0.3});
         bg_music.setLoop(true).play()
 
         const data = this.cache.json.get('scriptData');
@@ -244,11 +244,13 @@ class titleScene extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(key_6)){
             bg_music.stop();
-            this.scene.start("level1BossIntroScene");
+            this.scene.start("level1BossOutroScene");
         }
     }
     initGameSettings() {
         game_settings = {
+            music_vol: 0.66,
+
             // player stats
             dash_damage: 50,
             player_walk_speed: 350,
@@ -301,7 +303,7 @@ class titleScene extends Phaser.Scene {
     
             // shooter stats
             shooter_speed: 50,
-            shooter_health: 115,
+            shooter_health: 100,
             shooter_shooting_speed: 1,
             shooter_ammo_spacing: 500,
             shooter_reload_time: 2000,

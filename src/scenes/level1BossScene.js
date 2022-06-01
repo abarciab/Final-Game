@@ -6,6 +6,7 @@ class level1BossScene extends Phaser.Scene {
     create(){
         //intialize game_settings, current_scene, and setup keys
         current_map = 'bossMap';
+        console.log(bg_music.key);
         if (bg_music.key != 'boss') {
             bg_music = this.sound.add('boss', {volume: 0.3 * game_settings.music_vol});
             bg_music.setLoop(true).play();
@@ -46,12 +47,15 @@ class level1BossScene extends Phaser.Scene {
             } else{
                 current_scene.player.has_ball = true;
                 current_scene.ball.setActive(false);
+                disableCollision(current_scene.ball.body);
                 current_scene.ball.setVisible(false);
             }
         });
 
         //player and hank
-        this.physics.add.collider(this.player, this.hank, playerEnemyCollision.bind(this));
+        this.physics.add.collider(this.player, this.hank, function() {
+            current_scene.player.damage(current_scene.hank, false, false);
+        });
         
         //player and dog
         this.physics.add.overlap(this.player, this.dog, function () {
@@ -66,10 +70,14 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.player.damage(current_scene.dog);
                 if (current_scene.player.has_ball == true){
                     current_scene.dog.has_ball = true;
+                    current_scene.sound.add('dog ball pickup').play();
                     current_scene.player.has_ball = false;
                 }
             }
         });
+
+        // ball and enemy
+        this.physics.add.collider(this.ball, this.enemies, ballOnEnemyCollision.bind(this));
 
         //ball and dog
         this.physics.add.overlap(this.dog, this.ball, function() {
@@ -79,7 +87,9 @@ class level1BossScene extends Phaser.Scene {
             if (current_scene.ball.active == true && current_scene.dog.speed > 0){
                 current_scene.ball.deflected = false;
                 current_scene.dog.has_ball = true; 
+                current_scene.sound.add('dog ball pickup').play();
                 current_scene.ball.setActive(false).setVisible(false);
+                disableCollision(current_scene.ball.body);
             }
         });
         
@@ -144,6 +154,7 @@ class level1BossScene extends Phaser.Scene {
     hankCatchBall(){
         current_scene.hank.has_ball = true;
         current_scene.ball.setActive(false);
+        disableCollision(current_scene.ball.body);
         current_scene.ball.setVisible(false);
     }
 
@@ -153,6 +164,8 @@ class level1BossScene extends Phaser.Scene {
         current_scene.hank.throw = true;
         current_scene.dog.has_ball = false;
         current_scene.stunDog(500);
+
+        current_scene.sound.add('throw', {volume: 0.7}).play();
         
         current_scene.hank.has_ball = false;
 
@@ -160,14 +173,15 @@ class level1BossScene extends Phaser.Scene {
         //console.log("ball returned to hank");
         current_scene.ball.x = current_scene.hank.x;
         current_scene.ball.y = current_scene.hank.y;
-        current_scene.ball.speed = 400;
+        current_scene.ball.speed = 1000;
 
-        let spread = 400;
+        let spread = 0;
         let ball_target = {x: this.player.x + Phaser.Math.Between(-spread, spread), y: this.player.y + Phaser.Math.Between(-spread, spread)};
         moveTo(current_scene.ball, ball_target);
 
         current_scene.ball.setVisible(true);
         current_scene.ball.setActive(true);
+        enableCollision(current_scene.ball.body);
 
         if (current_scene.hank.mad == true){
             current_scene.hank.throws_left -= 1;

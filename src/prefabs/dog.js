@@ -35,6 +35,8 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
         this.moving = false;
         this.move_dir = "";
 
+        this.bark = true;
+
         this.has_ball = false;
     }
 
@@ -58,6 +60,9 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
         }
         if (this.boss_scene) {
             this.moveDogFight();
+            if (this.bark) {
+                this.dogBark();
+            }
         }
         else {
             this.moveDir(this.move_dir);
@@ -66,15 +71,30 @@ class Dog extends Phaser.Physics.Arcade.Sprite {
         if (!this.stunned) {
             if (this.curr_speed >= 10) {
                 this.moving = true;
-                this.anims.play(`${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, true);
+                if (this.has_ball)
+                    this.anims.play(`${this.type.toLowerCase()} ball move ${this.last_direction_moved.toLowerCase()}`, true);
+                else 
+                    this.anims.play(`${this.type.toLowerCase()} move ${this.last_direction_moved.toLowerCase()}`, true);
                 this.updateFootstep(delta);
             }
             else {
                 this.moving = false;
-                this.anims.play(`${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, true);
+                if (this.has_ball)
+                    this.anims.play(`${this.type.toLowerCase()} ball idle ${this.last_direction_moved.toLowerCase()}`, true);
+                else
+                    this.anims.play(`${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, true);
                 this.footstep_timer = this.footstep_interval;
             }
         }
+    }
+
+    dogBark() {
+        this.bark = false;
+        const bark_interval = Math.ceil(Math.random() * (3000-1000))+1000;
+        current_scene.sound.add('woof', {volume: 0.7}).play();
+        current_scene.time.delayedCall(bark_interval, function(){ 
+            current_scene.dog.bark = true;
+        })
     }
 
     moveDogFight() {

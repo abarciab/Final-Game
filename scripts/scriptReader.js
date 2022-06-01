@@ -164,11 +164,11 @@ class ScriptReader {
         // if the part is not done, return true to indicate still reading
         this.curr_speaker = this.curr_script[this.curr_line_index].speaker;
         if (this.curr_speaker.toLowerCase() in this.character_variables) {
-            this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice, {volume: 0.5});
+            this.speaker_sfx = current_scene.sound.add(this.character_variables[this.curr_speaker.toLowerCase()].voice, {volume: 0.8});
             this.speaker_color = this.character_variables[this.curr_speaker.toLowerCase()].color;
         }
         else {
-            this.speaker_sfx = current_scene.sound.add("male blip", {volume: 0.5});
+            this.speaker_sfx = current_scene.sound.add("male blip", {volume: 0.8});
             this.speaker_color = "#FFFFFF";
         }
 
@@ -379,25 +379,33 @@ class ScriptReader {
                         break;
                     case "action":
                         switch (command_content.trim()) {
+                            case "fran_run_left":
+                                if (current_scene.player_move_left != undefined)
+                                    current_scene.player_move_left = true;
+                                break;
+                            case "fran_run_right": 
+                                if (current_scene.player_move_left != right)
+                                    current_scene.player_move_left = true;
+                                break;
                             case "dog_run_left":
                                 if (current_scene.dog != undefined) {
-                                    this.current_scene.dog.move_dir = "left";
+                                    current_scene.dog.move_dir = "left";
                                 }
                                 break;
                             case "dog_run_right":
                                 if (current_scene.dog != undefined) {
                                     console.log("move dog");
-                                    this.current_scene.dog.move_dir = "right";
+                                    current_scene.dog.move_dir = "right";
                                 }
                                 break;
                             case "dog_run_up":
                                 if (current_scene.dog != undefined) {
-                                    this.current_scene.dog.move_dir = "up";
+                                    current_scene.dog.move_dir = "up";
                                 }
                                 break;
                             case "dog_run_down":
                                 if (current_scene.dog != undefined) {
-                                    this.current_scene.dog.move_dir = "down";
+                                    current_scene.dog.move_dir = "down";
                                 }
                                 break;
                             default:

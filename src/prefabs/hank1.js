@@ -134,7 +134,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
                     this.anims.play(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`, true);
                     this.charges_left -= 1;
                     this.charge_cooldown = game_settings.hank_charge_cooldown;
-                    //this.setTint(0xcc0000);
+                    this.setTint(0xcc0000);
                     current_scene.physics.moveToObject(this, current_scene.player, game_settings.hank_charge_speed);
                     this.setDrag(0);
                 }
@@ -191,6 +191,8 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.has_ball = false;
         this.health -= 1;
 
+        current_scene.sound.add('hank hit').play();
+        current_scene.cameras.main.shake(100, 0.003);
         this.anims.play(`hank damage ${this.last_direction_moved}`, true);
         //this.took_damage = true;
         current_scene.time.delayedCall(1500, function(){current_scene.hank.took_damage = false})
@@ -208,6 +210,9 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             current_scene.ball.setActive(false);
             current_scene.ball.setVisible(false);
             console.log("HANK HAS BEEN DEFEATED!");
+
+            bg_music.stop();
+            current_scene.scene.start("level1BossOutroScene");
         }
     }
 
