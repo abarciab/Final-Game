@@ -7,13 +7,9 @@
             "color": "#FFC0CB",
             "voice": "female blip"
         },
-        "person1": {
-            "color": "#ADD8E6",
-            "voice": "male blip"
-        },
-        "default": {
-            "color": "white",
-            "voice": "make"
+        "hank": {
+            "color": "#FF0000",
+            "voice": "hank blip"
         }
     },
 
@@ -118,6 +114,14 @@
                     {
                         "speaker": "Fran",
                         "text": "Ah shoot it is coming from that cave{rate:0.5}...{rate:0.03} {sfx:bam}Ah screw it!{rate:0.5}{rate:0.03} I'm sure it'll just be a quick trip in and out..."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Thankfully I brought this magical dashing staff I found in these woods ages ago in case I run into any danger."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Welp, here goes nothing!"
                     }
                 ]
             },
@@ -139,6 +143,10 @@
                     {
                         "speaker": "Fran",
                         "text": "{pan:fran}{sfx:bam}H-Hey, come back here!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "...Well, I guess I got what I wanted. Ugh."
                     }
                 ]
             },
@@ -159,11 +167,11 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Wh-who are you?"
+                        "text": "{sfx:bam}Wh-who are you?"
                     },
                     {
                         "speaker": "Hank",
-                        "text": "{pan:Hank}Name's Hank{rate:0.5}...{rate:0.03}and that should be my question, what do you think you're doing barging into my home like this??"
+                        "text": "Name's Hank{rate:0.5}...{rate:0.03}and that should be my question, what do you think you're doing barging into my home like this??"
                     },
                     {
                         "speaker": "Fran",
@@ -179,11 +187,11 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "Hmm? I see that you've managed to steal my {rate:0.015}limited-edition-magical-girl-transformation-staff{rate:0.03} somehow!"
+                        "text": "Hmm?! H-how do you have my {rate:0.015}limited edition magical girl transformation staff{rate:0.03} that I lost years ago?!"
                     },
                     {
                         "speaker": "Fran",
-                        "text": "This thing is yours?!"
+                        "text": "That's what this thing is?! No wonder my hair suddenly turned pink after I found it...I've had it in my garage for ages!"
                     },
                     {
                         "speaker": "Fran",
@@ -199,7 +207,7 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "Hmph, no matter, I'll show you what me and pooch can do. Get her pooch!"
+                        "text": "Hmph, no matter, I'll show you what me and pooch can do. Let's play some fetch boy!"
                     },
                     {
                         "speaker": "Dog",
@@ -215,8 +223,12 @@
                 "location": "hell",
                 "body": [
                     {
+                        "speaker": "Hank",
+                        "text": "{pan:hank}Ugh..."
+                    },
+                    {
                         "speaker": "Fran",
-                        "text": "Phew, that was tough..."
+                        "text": "Ugh, I'm never playing fetch again..."
                     },
                     {
                         "speaker": "Fran",
@@ -225,6 +237,26 @@
                     {
                         "speaker": "Dog",
                         "text": "{sfx:woof} woof!"
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "Y{sfx:bam}-you can't take pooch from me..."
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Hmph, he isn't even yours to begin with!"
+                    },
+                    {
+                        "speaker": "Fran",
+                        "text": "Catch you later old man, try not to steal anymore dogs and maybe I won't have to beat your brains out next time I see you."
+                    },
+                    {
+                        "speaker": "",
+                        "text": "{rate:0}{sfx:woof}{action:fran_run_left}{action:dog_run_left}{hide:1}{next_line}"
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "{pan:hank}Urgh..."
                     }
                 ]
             },
@@ -269,7 +301,7 @@
                     },
                     {
                         "speaker": "Old Man",
-                        "text": "Yes that dog is actually..."
+                        "text": "...Who's dog did you steal?"
                     }
                 ]
             },
@@ -282,11 +314,15 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "...{rate:0.015}And my limited-edition-magical-girl-transformation-staff{rate:0.03}..."
+                        "text": "And didn't even give back my {rate:0.015}limited edition magical girl transformation staff{rate:0.03}..."
+                    },
+                    {
+                        "speaker": "Hank",
+                        "text": "What a demon..."
                     },
                     {
                         "speaker": "",
-                        "text": "{rate:0.5}THE (BAD) END"
+                        "text": "{rate:0.5}THE END!"
                     }
                 ]
             }

@@ -13,7 +13,7 @@ let config = {
             debug: false,
         },
     },
-    scene: [loadingScene, titleScene, level1IntroScene, level1BossIntroScene, level1BossScene, level1FightScene],
+    scene: [loadingScene, titleScene, level1IntroScene, level1BossIntroScene, level1BossOutroScene, level1BossScene, level1FightScene],
 }
 
 //keys and setup

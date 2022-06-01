@@ -6,6 +6,7 @@ class level1BossScene extends Phaser.Scene {
     create(){
         //intialize game_settings, current_scene, and setup keys
         current_map = 'bossMap';
+        console.log(bg_music.key);
         if (bg_music.key != 'boss') {
             bg_music = this.sound.add('boss', {volume: 0.3 * game_settings.music_vol});
             bg_music.setLoop(true).play();
@@ -31,14 +32,13 @@ class level1BossScene extends Phaser.Scene {
     }
 
     addColliders() {
-        //ball and (player/walls)
+        //ball and walls
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
-        //this.physics.add.collider(this.ball, this.enemies, function() {current_scene.ball.deflected = false})
 
         //player and ball
         this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.player, this.ball, function() {
-            if (current_scene.ball.deflected){
+            if (current_scene.ball.deflected || current_scene.dog.has_ball){
                 return;
             }
             if (current_scene.player.dashing == true){
@@ -47,12 +47,15 @@ class level1BossScene extends Phaser.Scene {
             } else{
                 current_scene.player.has_ball = true;
                 current_scene.ball.setActive(false);
+                disableCollision(current_scene.ball.body);
                 current_scene.ball.setVisible(false);
             }
         });
 
         //player and hank
-        this.physics.add.collider(this.player, this.hank, playerEnemyCollision.bind(this));
+        this.physics.add.collider(this.player, this.hank, function() {
+            current_scene.player.damage(current_scene.hank, false, false);
+        });
         
         //player and dog
         this.physics.add.overlap(this.player, this.dog, function () {
@@ -67,10 +70,14 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.player.damage(current_scene.dog);
                 if (current_scene.player.has_ball == true){
                     current_scene.dog.has_ball = true;
+                    current_scene.sound.add('dog ball pickup').play();
                     current_scene.player.has_ball = false;
                 }
             }
         });
+
+        // ball and enemy
+        this.physics.add.collider(this.ball, this.enemies, ballOnEnemyCollision.bind(this));
 
         //ball and dog
         this.physics.add.overlap(this.dog, this.ball, function() {
@@ -80,13 +87,15 @@ class level1BossScene extends Phaser.Scene {
             if (current_scene.ball.active == true && current_scene.dog.speed > 0){
                 current_scene.ball.deflected = false;
                 current_scene.dog.has_ball = true; 
+                current_scene.sound.add('dog ball pickup').play();
                 current_scene.ball.setActive(false).setVisible(false);
+                disableCollision(current_scene.ball.body);
             }
         });
         
         //ball and hank
         this.physics.add.overlap(this.ball, this.hank, function() {
-            if (current_scene.hank.charging){
+            if (current_scene.hank.charging || current_scene.hank.dashing){
                 return;
             }
             if (current_scene.ball.deflected == true){
@@ -114,12 +123,14 @@ class level1BossScene extends Phaser.Scene {
                 //console.log("dog damaged hank");
                 current_scene.ball.deflected = false;
                 current_scene.boss_bar.displayWidth -= 144.75;
-                current_scene.stunDog(2000);
+                current_scene.stunDog(3000);
                 current_scene.hank.damage();
-                current_scene.hank.has_ball = false;
-                current_scene.hank.stun_time = 800;
-                current_scene.hank.throwing = true;
-                current_scene.time.delayedCall(700, function(){current_scene.throwBall();});
+                current_scene.hank.stun_time = 1000;
+                current_scene.time.delayedCall(700, function(){
+                    current_scene.hank.throwing = true;
+                    current_scene.hank.has_ball = false;
+                });
+                current_scene.time.delayedCall(800, function(){current_scene.throwBall();});
                 if (current_scene.hank.mad == true){
                     current_scene.hank.throws_left = 0;
                     current_scene.hank.charges_left = game_settings.hank_num_charges;
@@ -143,15 +154,18 @@ class level1BossScene extends Phaser.Scene {
     hankCatchBall(){
         current_scene.hank.has_ball = true;
         current_scene.ball.setActive(false);
+        disableCollision(current_scene.ball.body);
         current_scene.ball.setVisible(false);
     }
 
     throwBall(){
+        console.log("throw ball!");
         current_scene.hank.throwing = false;
-        console.log("not throwing");
         current_scene.hank.throw = true;
         current_scene.dog.has_ball = false;
         current_scene.stunDog(500);
+
+        current_scene.sound.add('throw', {volume: 0.7}).play();
         
         current_scene.hank.has_ball = false;
 
@@ -159,14 +173,15 @@ class level1BossScene extends Phaser.Scene {
         //console.log("ball returned to hank");
         current_scene.ball.x = current_scene.hank.x;
         current_scene.ball.y = current_scene.hank.y;
-        current_scene.ball.speed = 400;
+        current_scene.ball.speed = 1000;
 
-        let spread = 400;
+        let spread = 0;
         let ball_target = {x: this.player.x + Phaser.Math.Between(-spread, spread), y: this.player.y + Phaser.Math.Between(-spread, spread)};
         moveTo(current_scene.ball, ball_target);
 
         current_scene.ball.setVisible(true);
         current_scene.ball.setActive(true);
+        enableCollision(current_scene.ball.body);
 
         if (current_scene.hank.mad == true){
             current_scene.hank.throws_left -= 1;
@@ -183,9 +198,18 @@ class level1BossScene extends Phaser.Scene {
     }
 
     spawnEnemiesAtGate(type){
-        this.gate_positions.forEach(gatePosition => {
-            spawnEnemy(type, gatePosition.x, gatePosition.y);
-        });
+        console.log(type == "DASHER");
+        for(let i = 0; i <  this.gate_positions.length; i++){
+            console.log(type);
+            if ((i == 0 || i == 3) && type == "DASHER"){
+                console.log("skipping");
+                continue;
+            }
+            else{
+                console.log(i);
+                spawnEnemy(type, this.gate_positions[i].x, this.gate_positions[i].y);
+            }
+        }
     }
 
     /*
@@ -229,9 +253,9 @@ class level1BossScene extends Phaser.Scene {
         }
 
         let bos_box_pos = getCameraCoords(current_scene.camera, game.config.width/2, game.config.height - 50);
-        this.boss_box.setPosition(bos_box_pos.x, bos_box_pos.y);
-        //let bos_bar_pos = getCameraCoords(current_scene.camera, game.config.width/2, game.config.height - 50);
-        this.boss_bar.setPosition(bos_box_pos.x-this.boss_box.displayWidth/2, bos_box_pos.y);
+
+        this.boss_bar.setPosition(bos_box_pos.x-this.boss_box.displayWidth/2, bos_box_pos.y).setDepth(current_scene.player.depth + 2);
+        this.boss_box.setPosition(bos_box_pos.x, bos_box_pos.y).setDepth(current_scene.player.depth + 2.1);
         this.hank.update(time, delta);
     }
 

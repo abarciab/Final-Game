@@ -10,11 +10,13 @@ class level1BossIntroScene extends Phaser.Scene {
 
         this.dog = new Dog(0, 0, 'dog idle right');
         //hank
-        this.hank = new Hank1(800, 350, 'hank idle right');
+        this.hank = new Hank1(1000, 350, 'hank idle right');
         
         //tilemap
         current_map = 'bossMap';
         initMap();
+        this.hank.y = this.dog.y;
+        this.hank.x = this.dog.x+300;
 
         this.player.x -= 300;
         this.player.moving = true;

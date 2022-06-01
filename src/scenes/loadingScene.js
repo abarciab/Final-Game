@@ -94,6 +94,13 @@ class loadingScene extends Phaser.Scene {
         this.load.image('player empty heart', './assets/player/player_heart_empty.png');
         this.load.image('boss health box', './assets/UI/boss health bar.png');
         this.load.image('vignette', './assets/UI/vignette.png');
+        this.load.image('level 1 label', './assets/UI/level 1 label.png');
+        this.load.image('level 2 label', './assets/UI/level 2 label.png');
+        this.load.image('level 3 label', './assets/UI/level 3 label.png');
+        this.load.image('level 4 label', './assets/UI/level 4 label.png');
+        this.load.image('level 5 label', './assets/UI/level 5 label.png');
+        this.load.image('boss fight label', './assets/UI/boss fight label.png');
+        this.load.image('back button', './assets/UI/back button.png');
 
         //dialogue
         this.load.json('scriptData', './scripts/gameScript.json');
@@ -162,6 +169,10 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('dog idle right', './assets/enemies/dog_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
         this.load.spritesheet('dog move left', './assets/enemies/dog_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
         this.load.spritesheet('dog move right', './assets/enemies/dog_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+        this.load.spritesheet('dog ball idle left', './assets/enemies/dog_ball_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        this.load.spritesheet('dog ball idle right', './assets/enemies/dog_ball_idle_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
+        this.load.spritesheet('dog ball move left', './assets/enemies/dog_ball_run_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
+        this.load.spritesheet('dog ball move right', './assets/enemies/dog_ball_run_right.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 2});
 
         //tilemaps
         this.load.tilemapTiledJSON('demo_map', './assets/tilemaps/demoMap.json');
@@ -173,14 +184,23 @@ class loadingScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('level 1.3 map', './assets/tilemaps/level 1-3.json');
         this.load.tilemapTiledJSON('level 1.4 map', './assets/tilemaps/level 1-4.json');
         this.load.image('light', './assets/tilemaps/light.png');
+        this.load.image('instructions 1', './assets/UI/instructions 1.png');
+        this.load.image('instructions 2', './assets/UI/instructions 2.png');
+        this.load.image('instructions 3', './assets/UI/instructions 3.png');
+        this.load.image('instructions 4', './assets/UI/instructions 4.png');
+        this.load.image('instructions 5', './assets/UI/instructions 5.png');
+        this.load.image('instructions 6', './assets/UI/instructions 6.png');
+        this.load.image('instructions 7', './assets/UI/instructions 7.png');
+
 
         //cutscene sfx
         this.load.audio('door jingle', './assets/sounds/sfx/door_jingle.wav'); //from https://www.youtube.com/watch?v=QQ2lbJzdWLg
         this.load.audio('bam', './assets/sounds/sfx/bam.wav');
 
         //sfx
-        this.load.audio('male blip', './assets/sounds/sfx/sfx-blipmale.wav');
-        this.load.audio('female blip', './assets/sounds/sfx/sfx-blipfemale.wav');
+        this.load.audio('male blip', './assets/sounds/sfx/male_blip.wav');
+        this.load.audio('female blip', './assets/sounds/sfx/fran_blip.wav');
+        this.load.audio('hank blip', './assets/sounds/sfx/hank_blip.wav');
         this.load.audio('player hit', './assets/sounds/sfx/player_hit.wav');
         this.load.audio('player dash', './assets/sounds/sfx/player_dash2.wav');
         this.load.audio('player super dash', './assets/sounds/sfx/player_super_dash.wav');
@@ -202,6 +222,12 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('dog step', './assets/sounds/sfx/dog_step.wav');
         this.load.audio('enemy dash', './assets/sounds/sfx/enemy_dash.wav');
         this.load.audio('enemy charge dash', './assets/sounds/sfx/charge_dash.wav');
+        this.load.audio('throw', './assets/sounds/sfx/throw.wav');
+        this.load.audio('hank hit', './assets/sounds/sfx/hank_hit.wav');
+        this.load.audio('dog ball pickup', './assets/sounds/sfx/dog_ball_pickup.wav');
+        this.load.audio('door close', './assets/sounds/sfx/door_close.wav');
+        this.load.audio('door open', './assets/sounds/sfx/door_open.wav');
+        this.load.audio('wing beat', './assets/sounds/sfx/wing_beat.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
@@ -451,6 +477,30 @@ class loadingScene extends Phaser.Scene {
             key: "dog move right",
             frameRate: 6,
             frames: current_scene.anims.generateFrameNumbers("dog move right", {start: 0, end: 2}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog ball idle left",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("dog ball idle left", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog ball idle right",
+            frameRate: 8,
+            frames: current_scene.anims.generateFrameNumbers("dog ball idle right", {start: 0, end: 3}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog ball move left",
+            frameRate: 6,
+            frames: current_scene.anims.generateFrameNumbers("dog ball move left", {start: 0, end: 2}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "dog ball move right",
+            frameRate: 6,
+            frames: current_scene.anims.generateFrameNumbers("dog ball move right", {start: 0, end: 2}),
             repeat: -1
         })
         current_scene.anims.create({

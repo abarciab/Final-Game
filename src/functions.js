@@ -79,14 +79,13 @@ function initMap() {
 function createPauseMenu(){
     let pause_menu = {};
 
-    game_settings.music_vol = 0.33;
     game_settings.sfx_vol = 1;
     pause_menu.button_hover_sfx = current_scene.sound.add('button hover 2'); 
     pause_menu.background = current_scene.add.rectangle(0, 0, game.config.width*20, game.config.height*20, 0x000000).setAlpha(0.5);
     pause_menu.title = current_scene.add.sprite(game.config.width/2, 140, 'pause title').setScale(4);
     
-    pause_menu.music_vol = current_scene.add.sprite(game.config.width/2, 370, 'music button').setScale(3).setInteractive();
-    pause_menu.music_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 370, 'vol icon low').setScale(2);
+    pause_menu.music_vol = current_scene.add.sprite(game.config.width/2, 370, 'music button').setScale(3).setDepth(100).setInteractive();
+    pause_menu.music_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 370, 'vol icon low').setScale(2).setDepth(100);
     pause_menu.music_vol.on('pointerover', function(){
         pause_menu.button_hover_sfx.play({volume: 0.3});
         pause_menu.music_vol.setTint(0xcccccc);
@@ -114,8 +113,8 @@ function createPauseMenu(){
     })
     
 
-    pause_menu.sfx_vol = current_scene.add.sprite(game.config.width/2, 470, 'sounds button').setScale(3).setInteractive();
-    pause_menu.sfx_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 470, 'vol icon med').setScale(2);
+    pause_menu.sfx_vol = current_scene.add.sprite(game.config.width/2, 470, 'sounds button').setScale(3).setDepth(100).setInteractive();
+    pause_menu.sfx_vol_icon = current_scene.add.sprite(game.config.width/2 + pause_menu.music_vol.displayWidth/3, 470, 'vol icon med').setScale(2).setDepth(100);
     pause_menu.sfx_vol.on('pointerover', function(){
         pause_menu.button_hover_sfx.play({volume: 0.3});
         pause_menu.sfx_vol.setTint(0xcccccc);
@@ -141,7 +140,7 @@ function createPauseMenu(){
         
     })
 
-    pause_menu.resume = current_scene.add.sprite(game.config.width/2, 570, 'resume button').setScale(3).setInteractive();
+    pause_menu.resume = current_scene.add.sprite(game.config.width/2, 570, 'resume button').setScale(3).setDepth(100).setInteractive();
     pause_menu.resume.on('pointerover', function(){
         pause_menu.button_hover_sfx.play({volume: 0.3});
         pause_menu.resume.setTint(0xcccccc);
@@ -150,11 +149,11 @@ function createPauseMenu(){
         pause_menu.resume.clearTint();
     })
     pause_menu.resume.on('pointerdown', function(){
-        //resume();
+        resume();
         current_scene.paused = false;
     })
 
-    pause_menu.exit = current_scene.add.sprite(game.config.width/2, 670, 'title screen button').setScale(3).setInteractive();
+    pause_menu.exit = current_scene.add.sprite(game.config.width/2, 670, 'title screen button').setScale(3).setDepth(100).setInteractive();
     pause_menu.exit.on('pointerover', function(){
         pause_menu.button_hover_sfx.play({volume: 0.3});
         pause_menu.exit.setTint(0xcccccc);
@@ -164,11 +163,125 @@ function createPauseMenu(){
     })
     pause_menu.exit.on('pointerdown', function(){
         bg_music.stop();
+        current_scene.sound.stopAll();
         current_scene.scene.start("titleScene");
     })
     
     current_scene.pause_menu = pause_menu;
     current_scene.paused = false;
+}
+
+function createLevelSelect(){
+    let level_select = current_scene.level_select = {};
+    level_select.background = current_scene.add.rectangle(0, 0, game.config.width*20, game.config.height*20, 0x000000).setAlpha(0.5);
+    let top = 100;
+    level_select.level1 = current_scene.add.sprite(game.config.width/2, top, 'level 1 label').setInteractive().setScale(3);
+        level_select.level1.on('pointerover', () => {
+            level_select.level1.setTint(0xcccccc);
+        })
+        level_select.level1.on('pointerout', () => {
+            level_select.level1.clearTint();
+        })
+        level_select.level1.on('pointerdown', () => {
+            bg_music.stop();
+            current_map = 'level 1.0 map';
+            current_scene.scene.start("level1FightScene");
+        })
+
+    level_select.level2 = current_scene.add.sprite(game.config.width/2, top + 100, 'level 2 label').setInteractive().setScale(3);
+        level_select.level2.on('pointerover', () => {
+            level_select.level2.setTint(0xcccccc);
+        })
+        level_select.level2.on('pointerout', () => {
+            level_select.level2.clearTint();
+        })
+        level_select.level2.on('pointerdown', () => {
+            bg_music.stop();
+            current_map = 'level 1.1 map';
+            current_scene.scene.start("level1FightScene");
+        })
+    level_select.level3 = current_scene.add.sprite(game.config.width/2, top + 200, 'level 3 label').setInteractive().setScale(3);
+        level_select.level3.on('pointerover', () => {
+            level_select.level3.setTint(0xcccccc);
+        })
+        level_select.level3.on('pointerout', () => {
+            level_select.level3.clearTint();
+        })
+        level_select.level3.on('pointerdown', () => {
+            bg_music.stop();
+            current_map = 'level 1.2 map';
+            current_scene.scene.start("level1FightScene");
+        })
+    level_select.level4 = current_scene.add.sprite(game.config.width/2, top + 300, 'level 4 label').setInteractive().setScale(3);
+        level_select.level4.on('pointerover', () => {
+            level_select.level4.setTint(0xcccccc);
+        })
+        level_select.level4.on('pointerout', () => {
+            level_select.level4.clearTint();
+        })
+        level_select.level4.on('pointerdown', () => {
+            bg_music.stop();
+            current_map = 'level 1.3 map';
+            current_scene.scene.start("level1FightScene");
+        })
+    level_select.level5 = current_scene.add.sprite(game.config.width/2, top + 400, 'level 5 label').setInteractive().setScale(3);
+        level_select.level5.on('pointerover', () => {
+            level_select.level5.setTint(0xcccccc);
+        })
+        level_select.level5.on('pointerout', () => {
+            level_select.level5.clearTint();
+        })
+        level_select.level5.on('pointerdown', () => {
+            bg_music.stop();
+            current_map = 'level 1.4 map';
+            current_scene.scene.start("level1FightScene");
+        })
+    level_select.bossFight = current_scene.add.sprite(game.config.width/2, top + 500, 'boss fight label').setInteractive().setScale(3);
+        level_select.bossFight.on('pointerover', () => {
+            level_select.bossFight.setTint(0xcccccc);
+        })
+        level_select.bossFight.on('pointerout', () => {
+            level_select.bossFight.clearTint();
+        })
+        level_select.bossFight.on('pointerdown', () => {
+            bg_music.stop();
+            current_scene.scene.start("level1BossScene");
+        })
+
+    level_select.back = current_scene.add.sprite(game.config.width/2, top + 620, 'back button').setInteractive().setScale(3);
+        level_select.back.on('pointerover', () => {
+            level_select.back.setTint(0xcccccc);
+        })
+        level_select.back.on('pointerout', () => {
+            level_select.back.clearTint();
+        })
+        level_select.back.on('pointerdown', () => {
+            closeLevelSelect();
+        })
+}
+
+function openLevelSelect(){
+    let ls = current_scene.level_select;
+    ls.background.setVisible(true);
+    ls.level1.setVisible(true);
+    ls.level2.setVisible(true);
+    ls.level3.setVisible(true);
+    ls.level4.setVisible(true);
+    ls.level5.setVisible(true);
+    ls.bossFight.setVisible(true);
+    ls.back.setVisible(true);
+}
+
+function closeLevelSelect(){
+    let ls = current_scene.level_select;
+    ls.background.setVisible(false);
+    ls.level1.setVisible(false);
+    ls.level2.setVisible(false);
+    ls.level3.setVisible(false);
+    ls.level4.setVisible(false);
+    ls.level5.setVisible(false);
+    ls.bossFight.setVisible(false);
+    ls.back.setVisible(false);
 }
 
 
@@ -206,11 +319,11 @@ function initBossLevel1(scene) {
     //game_settings.camera_zoom -= 0.1;
     //scene.camera.setZoom(game_settings.camera_zoom);
     //scene.cameras.main.setPosition(game_settings.cam_center.x, game_settings.cam_center.y).setOrigin(0.5);
-    scene.ball = scene.physics.add.sprite(game.config.width/2, game.config.height/2, 'white hexagon').setScale(0.5);
+    scene.ball = scene.physics.add.sprite(game.config.width/2, game.config.height/2, 'ball').setScale(2);
     const hitbox_radius = 20;
     scene.ball.setCircle(hitbox_radius, scene.ball.width/2-hitbox_radius, scene.ball.height/2-hitbox_radius);
     scene.ball.body.bounce.set(0.5);
-    scene.ball.body.setMass(0.1);
+    scene.ball.body.setMass(0.6);
     scene.ball.setDrag(0.9);
     scene.ball.setDamping(true);
     scene.ball.deflected = false;
@@ -227,7 +340,7 @@ function initBossLevel1(scene) {
 
 function addColliders(scene) {
     //player
-    scene.physics.add.collider(scene.player, scene.collision_rects, playerWallCollision.bind(scene));
+    scene.player_wall_collider = scene.physics.add.collider(scene.player, scene.collision_rects, playerWallCollision.bind(scene));
     scene.physics.add.collider(scene.player, scene.doors);
     scene.physics.add.overlap(scene.player, scene.lava_rects, playerLavaCollision.bind(scene));
     scene.physics.add.collider(scene.pickups, scene.collision_rects);
@@ -289,10 +402,16 @@ function setupInteractables(map){
     const button_sprites = map.createFromObjects('interact', {name: 'button', key:'button'});
     const vase_sprites = map.createFromObjects('interact', {name: 'vase', key: 'vase'});
     const target_sprites = map.createFromObjects('interact', {name: 'target', key: 'target'});
+    const instruction_sprites = map.createFromObjects('interact', {name: 'instructions', key: 'target'});
     current_scene.vases = [];
     current_scene.doors = [];
     current_scene.buttons = [];
     current_scene.targets = [];
+
+    for (let i = 0; i < instruction_sprites.length; i++) {
+        current_scene.add.sprite(instruction_sprites[i].x, instruction_sprites[i].y, instruction_sprites[i].data.list.label).setDepth(current_scene.player.depth-1).setScale(1.8);
+        instruction_sprites[i].destroy();
+    }
 
     for (let i = 0; i < target_sprites.length; i++) {
         let new_target = current_scene.add.rectangle(target_sprites[i].x, target_sprites[i].y, target_sprites[i].displayWidth, target_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);
@@ -344,7 +463,7 @@ function setupInteractables(map){
     current_scene.physics.add.collider(current_scene.player, current_scene.doors);
     current_scene.physics.add.overlap(current_scene.player, current_scene.buttons, function(player, button) {
         if (button.done != true){
-            if (button.silent != true){
+            if (button.silent != true && button.data_sprite.visible){
                 current_scene.sound.play('pressure plate', {volume: 0.8});
             }
             activateButton(button);
@@ -455,7 +574,7 @@ function setupEnemies(map){
 }
 
 function onEnemyDead(dead_enemy){
-    if (Phaser.Math.Between(1, 6) == 1){
+    if (Phaser.Math.Between(1, 7) == 1){
         console.log("spawnign pickup!");
         spawnHealthPickup(dead_enemy.x, dead_enemy.y);
     }
@@ -496,6 +615,8 @@ function openDoors(circuit){
                 callbackScope: this,
                 onComplete: function() {
                     current_scene.doors[i].body.enable = false; 
+                    current_scene.sound.add('door open', {volume: 1}).play();
+                    current_scene.cameras.main.shake(150, 0.003);
                     if (current_scene.doors[i].horizontal != true){
                         current_scene.doors[i].data_sprite.setTexture('door down');
                     } else{
@@ -522,6 +643,8 @@ function closeDoors(circuit){
                 onComplete: function() {
                     current_scene.doors[i].body.enable = true; 
                     //current_scene.doors[i].setVisible(true);
+                    current_scene.sound.add('door close', {volume: 1}).play();
+                    current_scene.cameras.main.shake(150, 0.003);
                     if (current_scene.doors[i].horizontal != true){
                         current_scene.doors[i].data_sprite.setTexture('door');
                     } else{
@@ -563,7 +686,8 @@ function activateButton(button) {
         current_scene.level_finished = true;
         current_scene.player.can_move = false;
         current_scene.player.setVelocity(0, 0);
-        disableCollision(current_scene.player.body);
+        //disableCollision(current_scene.player.body);
+        current_scene.player_wall_collider.active = false;
         //current_scene.
         sweepTransition("right", true, function() {
             console.log(`starting level: ${button.data_sprite.data.list.next_level}`);
@@ -617,7 +741,8 @@ function setupTilemapCollisions(layer){
         } else if (tile.properties.cam_center){
             game_settings.cam_target = current_scene.add.rectangle(tileWorldPos.x, tileWorldPos.y, 20, 20 ,0xFFFFFF).setAlpha(0);
         } else if (tile.properties.gate){
-            current_scene.gate_positions.push({x: tileWorldPos.x, y: tileWorldPos.y});
+            if (current_scene.gate_positions)
+                current_scene.gate_positions.push({x: tileWorldPos.x, y: tileWorldPos.y});
         }
 
         if (!collisionGroup || collisionGroup.objects.length === 0) { return; }
@@ -656,10 +781,22 @@ function updateEnemies(time, delta){
 }
 
 function pause(){
-    current_scene.player.setVisible(false);
-    current_scene.player.dash_pointer.setVisible(false);
-    current_scene.vignette.setVisible(false);
-
+    if (current_scene.player){
+        current_scene.player.setVisible(false);
+        current_scene.player.dash_pointer.setVisible(false);
+        current_scene.vignette.setVisible(false);
+        current_scene.player.body.stop();
+        current_scene.enemies.forEach(enemy => {
+            enemy.body.stop();
+        });
+        current_scene.enemy_projectiles.getChildren().forEach(projectile => {
+            //console.log(`projectiles don't stop correctly on game pause`);
+            //projectile.body.stop();
+        });
+    
+        disableCollision(current_scene.player.body);
+    }
+    
     let pause_menu = current_scene.pause_menu;
     //current_scene.pauseLayer.setVisible(true);
 
@@ -675,18 +812,6 @@ function pause(){
     pause_menu.sfx_vol_icon.setPosition(center + pause_menu.music_vol.displayWidth/3, top + 470).setVisible(true);
     pause_menu.resume.setPosition(center, top + 570).setVisible(true);
     pause_menu.exit.setPosition(center, top + 670).setVisible(true);
-
-
-    current_scene.player.body.stop();
-    current_scene.enemies.forEach(enemy => {
-        enemy.body.stop();
-    });
-    current_scene.enemy_projectiles.getChildren().forEach(projectile => {
-        //console.log(`projectiles don't stop correctly on game pause`);
-        //projectile.body.stop();
-    });
-
-    disableCollision(current_scene.player.body);
 }
 
 function resume(){
@@ -751,8 +876,8 @@ function projectileEnemyCollision(enemy, projectile){
 
     if (projectile.deflected){
         projectile.reset();
-        enemy.damage(game_settings.charger_health - 10);
-        moveAway(enemy, projectile);
+        enemy.damage(100);
+        moveAway(projectile, enemy);
     }
 }
 
@@ -858,6 +983,10 @@ function enemyOnEnemyCollision(enemy1, enemy2) {
     if (enemy2.stunned && !enemy1.stunned) {
         enemy1.damage(enemy2.bounce_damage);
     }
+}
+
+function ballOnEnemyCollision(ball, enemy) {
+    enemy.damage(50);
 }
 
 function playerDestructibleCollision(player, destructible){
@@ -1021,10 +1150,17 @@ function moveAway(source, target){
     let angle = -Math.atan2(source.x-target.x, source.y-target.y);
     if (source.move_angle) {
         angle = source.move_angle;
+        redirect_multiplier = 300;
+        const vel_x = redirect_multiplier * Math.sin(angle);
+        const vel_y = redirect_multiplier * -Math.cos(angle);
+        target.setVelocity(-vel_x, -vel_y);
     }
-    const vel_x = redirect_multiplier * Math.sin(angle);
-    const vel_y = redirect_multiplier * -Math.cos(angle);
-    source.setVelocity(-vel_x, -vel_y);
+    else {
+        const vel_x = redirect_multiplier * Math.sin(angle);
+        const vel_y = redirect_multiplier * -Math.cos(angle);
+        source.setVelocity(-vel_x, -vel_y);
+    }
+    
 }
 
 function getMouseCoords() {

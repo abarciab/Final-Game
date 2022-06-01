@@ -299,7 +299,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDrag(game_settings.player_dash_drag);
 
         if (this.has_ball == true){
-            console.log("threw ball!");
+            enableCollision(current_scene.ball.body);
             this.has_ball = false;
             let camPos = getCameraCoords(null, this.dash_pointer.x-50, this.dash_pointer.y-50);
             current_scene.ball.setPosition(camPos.x, camPos.y);
@@ -325,6 +325,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.health = 5;
             if (bg_music != null){
                 bg_music.stop();
+                bg_music.play();
             }
             current_scene.scene.restart();
             this.setPosition(game.config.width/2, game.config.height/2);

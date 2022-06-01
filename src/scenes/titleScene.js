@@ -9,7 +9,7 @@ class titleScene extends Phaser.Scene {
         let UI_scale = 4.86;
 
         this.background = this.add.image(game.config.width/2, game.config.height/2, 'title background').setScale(UI_scale).setOrigin(0.5);
-        bg_music = this.sound.add('title', {volume: 0.1});
+        bg_music = this.sound.add('title', {volume: 0.3});
         bg_music.setLoop(true).play()
 
         const data = this.cache.json.get('scriptData');
@@ -173,16 +173,9 @@ class titleScene extends Phaser.Scene {
         })
         this.options_button.on('pointerdown', function(){
             this.scene.button_click_sfx.play({volume: click_vol});
-            current_scene.tweens.add({
-                duration: 100,
-                targets: current_scene.grayRect,
-                alpha: 0.4,
-            });
-            current_scene.tweens.add({
-                duration: 500,
-                targets: current_scene.options,
-                y: 410,
-            });
+            current_scene.pause_menu.title.setAlpha(0);
+            current_scene.pause_menu.exit.setAlpha(0);
+            pause();
         })
 
         this.level_button.on('pointerover', function(){
@@ -191,6 +184,9 @@ class titleScene extends Phaser.Scene {
         })
         this.level_button.on('pointerout', function(){
             this.scene.level_button.clearTint();
+        })
+        this.level_button.on('pointerdown', function(){
+            openLevelSelect();
         })
 
         this.start_button.on('pointerover', function(){
@@ -214,6 +210,9 @@ class titleScene extends Phaser.Scene {
 
         createPauseMenu();
         resume();
+
+        createLevelSelect();
+        closeLevelSelect();
     }
 
     update() {
@@ -249,6 +248,8 @@ class titleScene extends Phaser.Scene {
     }
     initGameSettings() {
         game_settings = {
+            music_vol: 0.66,
+
             // player stats
             dash_damage: 50,
             player_walk_speed: 350,
@@ -301,7 +302,7 @@ class titleScene extends Phaser.Scene {
     
             // shooter stats
             shooter_speed: 50,
-            shooter_health: 115,
+            shooter_health: 100,
             shooter_shooting_speed: 1,
             shooter_ammo_spacing: 500,
             shooter_reload_time: 2000,
@@ -320,12 +321,12 @@ class titleScene extends Phaser.Scene {
             enemy3_name: "SHOOTER",
     
             //hank
-            hank_health: 8,
+            hank_health: 6,
             hank_speed: 100,
             hank_charge_cooldown: 1500,
             hank_charge_speed: 1000,
             hank_num_charges: 3,
-            hank_num_throws: 2,
+            hank_num_throws: 4,
     
             //dog
             dog_speed: 330
