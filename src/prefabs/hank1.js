@@ -71,6 +71,29 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
 
     update(timer, delta) {
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
+        if (this.dashing){
+            if (this.curr_speed <= 50){
+                this.dashing = false;
+            } else{
+                return;
+            }
+        }
+        if (this.health <= Math.floor(game_settings.hank_health/2)){
+            this.mad = true;
+        }
+        if (this.throwing) {
+            this.anims.play(`${this.type.toLowerCase()} charge throw ${this.last_direction_moved.toLowerCase()}`, true);
+        }
+        
+        if (this.stun_time > 0) {
+            this.stun_time -= delta;
+            if (this.stun_time <= 0){
+                this.stunned = false;
+            } 
+            return;
+        }
+
+        this.updateThrow();
 
         if (this.boss_scene) {
             if (this.dashing){ 
@@ -143,8 +166,8 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
     }
 
     updateMoveAnim() {
-        if (this.anims.isPlaying)
-            this.current_frame = this.anims.currentFrame.index-1;
+        // if (this.anims.isPlaying)
+        //     this.current_frame = this.anims.currentFrame.index-1;
         if (this.curr_speed <= 50) {
             this.anims.play({key: `${this.type.toLowerCase()} idle ${this.last_direction_moved.toLowerCase()}`, startFrame: this.current_frame}, true);
         }
