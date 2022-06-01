@@ -287,6 +287,15 @@ function closeLevelSelect(){
 
 
 function updateLevel(time, delta) {
+    if (Phaser.Input.Keyboard.JustDown(key_r)){
+        game_settings.player_curr_health = game_settings.player_max_health;
+        current_scene.player.health = 5;
+        current_scene.scene.restart();
+        
+    }
+
+
+
     //update UI
     current_scene.game_UI.update();
     //pause the game
@@ -394,6 +403,7 @@ function setupKeys(scene){
     key_5 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
     key_6 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX);
 
+    key_r = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 }
 
 function setupInteractables(map){
@@ -409,7 +419,7 @@ function setupInteractables(map){
     current_scene.targets = [];
 
     for (let i = 0; i < instruction_sprites.length; i++) {
-        current_scene.add.sprite(instruction_sprites[i].x, instruction_sprites[i].y, instruction_sprites[i].data.list.label).setDepth(current_scene.player.depth-1).setScale(1.8);
+        current_scene.add.sprite(instruction_sprites[i].x, instruction_sprites[i].y, instruction_sprites[i].data.list.label).setDepth(current_scene.player.depth-4).setScale(1.8);
         instruction_sprites[i].destroy();
     }
 
