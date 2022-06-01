@@ -27,6 +27,7 @@ class level1BossScene extends Phaser.Scene {
 
         //enemy collisions
         this.addColliders();
+
     }
 
     addColliders() {
@@ -148,7 +149,9 @@ class level1BossScene extends Phaser.Scene {
         current_scene.ball.x = current_scene.hank.x;
         current_scene.ball.y = current_scene.hank.y;
         current_scene.ball.speed = 400;
-        moveTo(current_scene.ball, current_scene.player);
+        let spread = 400;
+        let ball_target = {x: this.player.x + Phaser.Math.Between(-spread, spread), y: this.player.y + Phaser.Math.Between(-spread, spread)};
+        moveTo(current_scene.ball, ball_target);
         //current_scene.ball.body.setVelocity(-100, 600);
 
         current_scene.ball.setVisible(true);
