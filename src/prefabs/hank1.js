@@ -30,10 +30,23 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
 
         this.has_ball = false;
 
+        this.charge_cooldown = game_settings.hank_charge_cooldown;
+        this.charges_left = game_settings.hank_num_charges;
+        this.throws_left = game_settings.hank_num_throws;       //the number of times hank will throw the ball when mad before charging charges_left times at the player
+
+
         this.pickNewDestination();
     }
 
     update(timer, delta) {
+        if (this.charging){
+            return;
+        }
+        if (this.health <= Math.floor(game_settings.hank_health/2)){
+            this.mad = true;
+        }
+        //console.log(`chargesleft: ${this.charges_left}, throws left: ${this.throws_left}`);
+
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         
         if (this.stun_time > 0) {
@@ -44,12 +57,36 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             return;
         }
 
-        if (this.boss_scene) {
-            this.moveBossFight();
+        if (this.throws_left > 0){
+            if (this.has_ball != true){
+                moveTo(this, this.destination);
+            }
+            if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
+                this.pickNewDestination();
+            }
         }
-        else {
-            
+        else{
+            this.charge_cooldown -= delta;
+            if (this.charge_cooldown <= 0){
+                this.charges_left -= 1;
+                this.charging = true;
+                this.charge_cooldown = game_settings.hank_charge_cooldown;
+                this.setTint(0xcc0000);
+                current_scene.physics.moveToObject(this, current_scene.player, game_settings.hank_charge_speed);
+                this.setDrag(0);
+            }
+            if (this.charges_left <= 0){
+                //console.log('hank is all out of charges, resetting throws');
+                this.throws_left = game_settings.hank_num_throws;
+            }
         }
+
+        if (this.mad == true && this.throws_left <= 0 && this.charges_left <= 0){
+            //console.log(`hank is out of throws, reseting charges`);
+            this.throws_left = 0;
+            this.charges_left = game_settings.hank_num_charges;
+        }
+
         
 
         const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
@@ -89,12 +126,12 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.health -= 1;
         
 
-        if (this.health > 4){
+        if (this.health > 5){
                 spawnEnemy("CHARGER", this.x + 20, this.y);
                 spawnEnemy("CHARGER", this.x, this.y);
                 spawnEnemy("CHARGER", this.x - 20, this.y);
         }
-        else if (this.health > 2){
+        else if (this.health > 3){
             let space = 150;
             spawnEnemy("GOLEM", this.x + space, this.y + space);
             spawnEnemy("GOLEM", this.x + space, this.y - space);

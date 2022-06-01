@@ -239,6 +239,11 @@ class titleScene extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(key_5)){
             bg_music.stop();
+            current_map = 'level 1.4 map';
+            this.scene.start("level1FightScene");
+        }
+        if (Phaser.Input.Keyboard.JustDown(key_6)){
+            bg_music.stop();
             this.scene.start("level1BossScene");
         }
     }
@@ -317,6 +322,10 @@ class titleScene extends Phaser.Scene {
             //hank
             hank_health: 8,
             hank_speed: 100,
+            hank_charge_cooldown: 1500,
+            hank_charge_speed: 1000,
+            hank_num_charges: 3,
+            hank_num_throws: 2,
     
             //dog
             dog_speed: 250
