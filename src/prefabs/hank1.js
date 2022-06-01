@@ -99,7 +99,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             if (this.dashing){ 
                 return;
             }
-            if (this.health <= Math.floor(game_settings.hank_health/2)){
+            if (this.health <= 2){
                 this.mad = true;
             }
             if (this.throwing) {
@@ -197,10 +197,10 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         //this.took_damage = true;
         current_scene.time.delayedCall(1500, function(){current_scene.hank.took_damage = false})
 
-        if (this.health > 4){
+        if (this.health >= 4){
             this.scene.spawnEnemiesAtGate("CHARGER");
         }
-        else if (this.health > 1){
+        else if (this.health >= 2){
             this.scene.spawnEnemiesAtGate("DASHER");
         }
         else{

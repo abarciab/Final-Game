@@ -178,8 +178,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":639.66,
-                 "y":831.71
+                 "x":609.35696969697,
+                 "y":1001.40696969697
                 }, 
                 {
                  "gid":19,
@@ -201,8 +201,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":642.076,
-                 "y":1028.64
+                 "x":451.166909090909,
+                 "y":822.579393939394
                 }, 
                 {
                  "gid":19,
@@ -230,29 +230,6 @@
                 {
                  "gid":19,
                  "height":64,
-                 "id":434,
-                 "name":"dasher",
-                 "properties":[
-                        {
-                         "name":"circuit",
-                         "type":"int",
-                         "value":0
-                        }, 
-                        {
-                         "name":"room",
-                         "type":"int",
-                         "value":-2
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":642.076,
-                 "y":1279.91
-                }, 
-                {
-                 "gid":19,
-                 "height":64,
                  "id":435,
                  "name":"dasher",
                  "properties":[
@@ -270,8 +247,8 @@
                  "type":"",
                  "visible":true,
                  "width":64,
-                 "x":419.8,
-                 "y":1277.5
+                 "x":486.466666666667,
+                 "y":1253.25757575758
                 }, 
                 {
                  "gid":7,
