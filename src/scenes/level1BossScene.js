@@ -31,14 +31,13 @@ class level1BossScene extends Phaser.Scene {
     }
 
     addColliders() {
-        //ball and (player/walls)
+        //ball and walls
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
-        //this.physics.add.collider(this.ball, this.enemies, function() {current_scene.ball.deflected = false})
 
         //player and ball
         this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.player, this.ball, function() {
-            if (current_scene.ball.deflected){
+            if (current_scene.ball.deflected || current_scene.dog.has_ball){
                 return;
             }
             if (current_scene.player.dashing == true){
@@ -86,7 +85,7 @@ class level1BossScene extends Phaser.Scene {
         
         //ball and hank
         this.physics.add.overlap(this.ball, this.hank, function() {
-            if (current_scene.hank.charging){
+            if (current_scene.hank.charging || current_scene.hank.dashing){
                 return;
             }
             if (current_scene.ball.deflected == true){
@@ -114,12 +113,14 @@ class level1BossScene extends Phaser.Scene {
                 //console.log("dog damaged hank");
                 current_scene.ball.deflected = false;
                 current_scene.boss_bar.displayWidth -= 144.75;
-                current_scene.stunDog(2000);
+                current_scene.stunDog(3000);
                 current_scene.hank.damage();
-                current_scene.hank.has_ball = false;
-                current_scene.hank.stun_time = 800;
-                current_scene.hank.throwing = true;
-                current_scene.time.delayedCall(700, function(){current_scene.throwBall();});
+                current_scene.hank.stun_time = 1000;
+                current_scene.time.delayedCall(700, function(){
+                    current_scene.hank.throwing = true;
+                    current_scene.hank.has_ball = false;
+                });
+                current_scene.time.delayedCall(800, function(){current_scene.throwBall();});
                 if (current_scene.hank.mad == true){
                     current_scene.hank.throws_left = 0;
                     current_scene.hank.charges_left = game_settings.hank_num_charges;
@@ -147,8 +148,8 @@ class level1BossScene extends Phaser.Scene {
     }
 
     throwBall(){
+        console.log("throw ball!");
         current_scene.hank.throwing = false;
-        console.log("not throwing");
         current_scene.hank.throw = true;
         current_scene.dog.has_ball = false;
         current_scene.stunDog(500);

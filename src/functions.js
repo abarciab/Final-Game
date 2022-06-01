@@ -452,7 +452,7 @@ function setupEnemies(map){
 }
 
 function onEnemyDead(dead_enemy){
-    if (Phaser.Math.Between(1, 6) == 1){
+    if (Phaser.Math.Between(1, 7) == 1){
         console.log("spawnign pickup!");
         spawnHealthPickup(dead_enemy.x, dead_enemy.y);
     }
