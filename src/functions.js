@@ -79,8 +79,6 @@ function initMap() {
 function createPauseMenu(){
     let pause_menu = {};
 
-    console.log("creating pause menu");
-
     game_settings.music_vol = 0.33;
     game_settings.sfx_vol = 1;
     pause_menu.button_hover_sfx = current_scene.sound.add('button hover 2'); 
@@ -224,7 +222,7 @@ function initBossLevel1(scene) {
     //UI
     scene.boss_box = scene.add.sprite(0, 0, 'boss health box').setScale(6, 1.5).setDepth(0.1);
     scene.boss_bar = scene.add.rectangle(0, 0, scene.boss_box.displayWidth, scene.boss_box.displayHeight, 0xFF0000).setOrigin(0, 0.5);
-    scene.endRect = scene.add.rectangle(0, 0, game.config.width, game.config.height, 0xFFFFFF).setScale(50).setAlpha(0);
+    scene.endRect = scene.add.rectangle(0, 0, game.config.width, game.config.height, 0xFFFFFF).setScale(50).setAlpha(0).setDepth(current_scene.player.depth-0.01);
 }
 
 function addColliders(scene) {
@@ -1009,8 +1007,6 @@ function moveAway(source, target){
     }
     const vel_x = redirect_multiplier * Math.sin(angle);
     const vel_y = redirect_multiplier * -Math.cos(angle);
-
-    console.log(source.x, source.y, angle);
     source.setVelocity(-vel_x, -vel_y);
 }
 

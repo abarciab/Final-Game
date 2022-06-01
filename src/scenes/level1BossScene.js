@@ -16,22 +16,18 @@ class level1BossScene extends Phaser.Scene {
 
         //enemy collisions
         this.addColliders();
+
+        createPauseMenu();
     }
 
     addColliders() {
         //ball and (player/walls)
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
-        this.physics.add.collider(this.ball, this.enemies, function() {current_scene.ball.deflected = false})
-
-
-
-
-        
+        //this.physics.add.collider(this.ball, this.enemies, function() {current_scene.ball.deflected = false})
 
         //player and ball
         this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.player, this.ball, function() {
-            console.log("player ball collision!");
             if (current_scene.ball.deflected){
                 return;
             }
@@ -93,6 +89,9 @@ class level1BossScene extends Phaser.Scene {
                 } 
             } 
             else if (current_scene.hank.has_ball){
+                if (current_scene.hank.throws_left <= 0){
+                    return;
+                }
                 console.log("dog damaged hank");
                 current_scene.ball.deflected = false;
                 current_scene.boss_bar.displayWidth -= 144.75;
@@ -100,12 +99,24 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.hank.damage();
                 current_scene.hank.has_ball = false;
                 current_scene.hank.stun_time = 800;
-                current_scene.time.delayedCall(700, function(){current_scene.throwBall();})
+                current_scene.time.delayedCall(700, function(){current_scene.throwBall();});
+                if (current_scene.hank.mad == true){
+                    current_scene.hank.throws_left = 0;
+                    current_scene.hank.charges_left = game_settings.hank_num_charges;
+                }
             }
         })
 
         //hank and wall and lava
-        this.physics.add.collider(this.hank, this.collision_rects, function(){current_scene.hank.pickNewDestination()});
+        this.physics.add.collider(this.hank, this.collision_rects, function(){
+            if (current_scene.hank.charging == true){
+                current_scene.hank.charging = false;
+                current_scene.hank.clearTint();
+                current_scene.hank.setDrag(current_scene.hank.base_drag);
+            } else{
+                current_scene.hank.pickNewDestination()
+            }
+        });
         this.physics.add.collider(this.hank, this.lava_rects, function(){current_scene.hank.pickNewDestination()});
     }
 
@@ -116,6 +127,7 @@ class level1BossScene extends Phaser.Scene {
     }
 
     throwBall(){
+        
         current_scene.doggo.has_ball = false;
         current_scene.hank.has_ball = false;
         current_scene.stunDog(500);
@@ -129,6 +141,14 @@ class level1BossScene extends Phaser.Scene {
 
         current_scene.ball.setVisible(true);
         current_scene.ball.setActive(true);
+
+        if (current_scene.hank.mad == true){
+            console.log(`hank is mad and threw ball. decrementing throws`);
+            current_scene.hank.throws_left -= 1;
+            if (current_scene.hank.throws_left <= 0){
+                current_scene.hank.charges_left = game_settings.hank_num_charges;
+            }
+        }
     }
 
     stunDog(time){
@@ -154,7 +174,10 @@ class level1BossScene extends Phaser.Scene {
         this.ball.current_speed = Math.sqrt(Math.pow(this.ball.body.velocity.y, 2) + Math.pow(this.ball.body.velocity.x, 2));
 
         if (this.hank.health <= 0 && !this.done ){
-            this.done = true;a
+            this.hank.setVisible(false);
+            this.ball.setVisible(false);
+            
+            this.done = true;
             this.enemies.forEach(enemy => {
                 if (enemy.active || enemy.visible){
                     this.done = false;
@@ -179,6 +202,8 @@ class level1BossScene extends Phaser.Scene {
     }
 
     endScene(){
+        this.vignette.setVisible(false);
+        
         this.doggo.setDepth(this.player.depth - 0.1);
         this.boss_bar.setVisible(false);
         this.boss_box.setVisible(false);
