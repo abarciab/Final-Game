@@ -71,58 +71,61 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
 
     update(timer, delta) {
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
-        if (this.dashing){
-            return;
-        }
-        if (this.health <= Math.floor(game_settings.hank_health/2)){
-            this.mad = true;
-        }
-        if (this.throwing) {
-            this.anims.play(`${this.type.toLowerCase()} charge throw ${this.last_direction_moved.toLowerCase()}`, true);
-        }
-        
-        if (this.stun_time > 0) {
-            this.stun_time -= delta;
-            if (this.stun_time <= 0){
-                this.stunned = false;
-            } 
-            return;
-        }
 
-        this.updateThrow();
+        if (this.boss_scene) {
+            if (this.dashing){ 
+                return;
+            }
+            if (this.health <= Math.floor(game_settings.hank_health/2)){
+                this.mad = true;
+            }
+            if (this.throwing) {
+                this.anims.play(`${this.type.toLowerCase()} charge throw ${this.last_direction_moved.toLowerCase()}`, true);
+            }
+            
+            if (this.stun_time > 0) {
+                this.stun_time -= delta;
+                if (this.stun_time <= 0){
+                    this.stunned = false;
+                } 
+                return;
+            }
 
-        if (this.throws_left > 0){
-            if (this.has_ball != true && !this.throwing && !this.throw && !this.took_damage){
-                moveTo(this, this.destination);
-            }
-            if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
-                this.pickNewDestination();
-            }
-        }
-        else{
-            this.charging = true;
-            this.charge_cooldown -= delta;
-            this.anims.play(`${this.type.toLowerCase()} charge dash ${this.last_direction_moved.toLowerCase()}`, true);
-            if (this.charge_cooldown <= 0){
-                this.charging = false;
-                this.dashing = true;
-                this.anims.play(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`, true);
-                this.charges_left -= 1;
-                this.charge_cooldown = game_settings.hank_charge_cooldown;
-                //this.setTint(0xcc0000);
-                current_scene.physics.moveToObject(this, current_scene.player, game_settings.hank_charge_speed);
-                this.setDrag(0);
-            }
-            if (this.charges_left <= 0){
-                //console.log('hank is all out of charges, resetting throws');
-                this.throws_left = game_settings.hank_num_throws;
-            }
-        }
+            this.updateThrow();
 
-        if (this.mad == true && this.throws_left <= 0 && this.charges_left <= 0){
-            //console.log(`hank is out of throws, reseting charges`);
-            this.throws_left = 0;
-            this.charges_left = game_settings.hank_num_charges;
+            if (this.throws_left > 0){
+                if (this.has_ball != true && !this.throwing && !this.throw && !this.took_damage){
+                    moveTo(this, this.destination);
+                }
+                if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
+                    this.pickNewDestination();
+                }
+            }
+            else{
+                this.charging = true;
+                this.charge_cooldown -= delta;
+                this.anims.play(`${this.type.toLowerCase()} charge dash ${this.last_direction_moved.toLowerCase()}`, true);
+                if (this.charge_cooldown <= 0){
+                    this.charging = false;
+                    this.dashing = true;
+                    this.anims.play(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`, true);
+                    this.charges_left -= 1;
+                    this.charge_cooldown = game_settings.hank_charge_cooldown;
+                    //this.setTint(0xcc0000);
+                    current_scene.physics.moveToObject(this, current_scene.player, game_settings.hank_charge_speed);
+                    this.setDrag(0);
+                }
+                if (this.charges_left <= 0){
+                    //console.log('hank is all out of charges, resetting throws');
+                    this.throws_left = game_settings.hank_num_throws;
+                }
+            }
+
+            if (this.mad == true && this.throws_left <= 0 && this.charges_left <= 0){
+                //console.log(`hank is out of throws, reseting charges`);
+                this.throws_left = 0;
+                this.charges_left = game_settings.hank_num_charges;
+            }
         }
 
         const angle = -Math.atan2(this.x-current_scene.player.x, this.y-current_scene.player.y);
