@@ -402,10 +402,16 @@ function setupInteractables(map){
     const button_sprites = map.createFromObjects('interact', {name: 'button', key:'button'});
     const vase_sprites = map.createFromObjects('interact', {name: 'vase', key: 'vase'});
     const target_sprites = map.createFromObjects('interact', {name: 'target', key: 'target'});
+    const instruction_sprites = map.createFromObjects('interact', {name: 'instructions', key: 'target'});
     current_scene.vases = [];
     current_scene.doors = [];
     current_scene.buttons = [];
     current_scene.targets = [];
+
+    for (let i = 0; i < instruction_sprites.length; i++) {
+        current_scene.add.sprite(instruction_sprites[i].x, instruction_sprites[i].y, instruction_sprites[i].data.list.label).setDepth(current_scene.player.depth-1).setScale(1.8);
+        instruction_sprites[i].destroy();
+    }
 
     for (let i = 0; i < target_sprites.length; i++) {
         let new_target = current_scene.add.rectangle(target_sprites[i].x, target_sprites[i].y, target_sprites[i].displayWidth, target_sprites[i].displayHeight, 0xFFFFFF).setOrigin(0.5).setAlpha(0);

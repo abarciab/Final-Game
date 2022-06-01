@@ -184,7 +184,14 @@ class loadingScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('level 1.3 map', './assets/tilemaps/level 1-3.json');
         this.load.tilemapTiledJSON('level 1.4 map', './assets/tilemaps/level 1-4.json');
         this.load.image('light', './assets/tilemaps/light.png');
-        this.load.image('instructions 1', './assets/tilemaps/instructions 1.png');
+        this.load.image('instructions 1', './assets/UI/instructions 1.png');
+        this.load.image('instructions 2', './assets/UI/instructions 2.png');
+        this.load.image('instructions 3', './assets/UI/instructions 3.png');
+        this.load.image('instructions 4', './assets/UI/instructions 4.png');
+        this.load.image('instructions 5', './assets/UI/instructions 5.png');
+        this.load.image('instructions 6', './assets/UI/instructions 6.png');
+        this.load.image('instructions 7', './assets/UI/instructions 7.png');
+
 
         //cutscene sfx
         this.load.audio('door jingle', './assets/sounds/sfx/door_jingle.wav'); //from https://www.youtube.com/watch?v=QQ2lbJzdWLg
