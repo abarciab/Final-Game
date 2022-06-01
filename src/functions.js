@@ -73,6 +73,7 @@ function initMap() {
     setupTilemapCollisions(layer1);
     setupTilemapCollisions(layer2);
     setupTilemapCollisions(marker_layer);
+    console.log(marker_layer.properties);
 }
 
 //let pause_menu = {};
@@ -209,11 +210,6 @@ function initBossLevel1(scene) {
     scene.ball.setDrag(0.9);
     scene.ball.setDamping(true);
     scene.ball.deflected = false;
-    scene.doggo = new Dog(200, 200, 'dog idle right');
-    scene.doggo.boss_scene = true;
-
-    //hank
-    scene.hank = new Hank1(800, 350, 'hank idle right');
     //this.hank.health = 0;
 
     //enemy collisions
@@ -279,6 +275,8 @@ function setupKeys(scene){
     key_3 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.THREE);
     key_4 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
     key_5 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
+    key_6 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX);
+
 }
 
 function setupInteractables(map){
@@ -592,7 +590,6 @@ function setupTilemapCollisions(layer){
     layer.forEachTile(function (tile){
         var tileWorldPos = layer.tileToWorldXY(tile.x, tile.y);
         var collisionGroup = current_scene.tileset.getTileCollisionGroup(tile.index);
-
         if (tile.properties.enemy_1){
             spawnEnemy(game_settings.enemy1_name, tileWorldPos.x, tileWorldPos.y);
         } else if (tile.properties.enemy_2){
@@ -602,7 +599,9 @@ function setupTilemapCollisions(layer){
         } else if (tile.properties.player_spawn){
             current_scene.player.setPosition(tileWorldPos.x, tileWorldPos.y);
         } else if (tile.properties.dog){
-            console.log("HERE IS WHERE THE DOGGO POSITION IS");
+            if (current_scene.dog != undefined) {
+                current_scene.dog.setPosition(tileWorldPos.x, tileWorldPos.y);
+            }
         } else if (tile.properties.cam_center){
             game_settings.cam_target = current_scene.add.rectangle(tileWorldPos.x, tileWorldPos.y, 20, 20 ,0xFFFFFF).setAlpha(0);
         }

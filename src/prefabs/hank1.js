@@ -19,6 +19,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.bounce_mod = 0.05;
         this.bounce_drag = 0.001;
         this.health = game_settings.hank_health;
+        this.boss_scene = false;
         
         this.curr_speed = this.speed;
         this.bounce_damage = 0;
@@ -44,7 +45,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         if (this.health <= Math.floor(game_settings.hank_health/2)){
             this.mad = true;
         }
-        console.log(`chargesleft: ${this.charges_left}, throws left: ${this.throws_left}`);
+        //console.log(`chargesleft: ${this.charges_left}, throws left: ${this.throws_left}`);
 
         this.curr_speed =  Math.sqrt(Math.pow(this.body.velocity.y, 2) + Math.pow(this.body.velocity.x, 2));
         
@@ -75,13 +76,13 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
                 this.setDrag(0);
             }
             if (this.charges_left <= 0){
-                console.log('hank is all out of charges, resetting throws');
+                //console.log('hank is all out of charges, resetting throws');
                 this.throws_left = game_settings.hank_num_throws;
             }
         }
 
         if (this.mad == true && this.throws_left <= 0 && this.charges_left <= 0){
-            console.log(`hank is out of throws, reseting charges`);
+            //console.log(`hank is out of throws, reseting charges`);
             this.throws_left = 0;
             this.charges_left = game_settings.hank_num_charges;
         }
@@ -105,6 +106,15 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         }
         else if (this.stunned) {
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
+        }
+    }
+
+    moveBossFight() {
+        if (this.has_ball != true){
+            moveTo(this, this.destination);
+        }
+        if (Phaser.Math.Distance.BetweenPoints(this, this.destination) < 10){
+            this.pickNewDestination();
         }
     }
 

@@ -224,7 +224,7 @@ class titleScene extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(key_2)){
             bg_music.stop();
-            current_map = 'level 1.1 map';
+            current_map = 'level 1.3 map';
             this.scene.start("level1FightScene");
         }
         if (Phaser.Input.Keyboard.JustDown(key_3)){
@@ -238,6 +238,11 @@ class titleScene extends Phaser.Scene {
             this.scene.start("level1FightScene");
         }
         if (Phaser.Input.Keyboard.JustDown(key_5)){
+            bg_music.stop();
+            current_map = 'level 1.4 map';
+            this.scene.start("level1FightScene");
+        }
+        if (Phaser.Input.Keyboard.JustDown(key_6)){
             bg_music.stop();
             this.scene.start("level1BossScene");
         }

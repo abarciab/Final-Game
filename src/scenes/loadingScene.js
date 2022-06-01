@@ -146,6 +146,10 @@ class loadingScene extends Phaser.Scene {
         this.load.spritesheet('hank idle right', './assets/enemies/hank_idle_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank move left', './assets/enemies/hank_move_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
         this.load.spritesheet('hank move right', './assets/enemies/hank_move_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank throw left', './assets/enemies/hank_throw_left.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        this.load.spritesheet('hank throw right', './assets/enemies/hank_throw_right.png', {frameWidth: 64, frameHeight: 64, start: 0, end: 5});
+        // ball
+        this.load.image('ball', './assets/enemies/dog_ball.png');
 
         //doggo
         this.load.spritesheet('dog idle left', './assets/enemies/dog_idle_left.png', {frameWidth: 48, frameHeight: 48, start: 0, end: 3});
@@ -161,6 +165,7 @@ class loadingScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('level 1.1 map','./assets/tilemaps/level 1-1.json');
         this.load.tilemapTiledJSON('level 1.2 map','./assets/tilemaps/level 1-2.json');
         this.load.tilemapTiledJSON('level 1.3 map', './assets/tilemaps/level 1-3.json');
+        this.load.tilemapTiledJSON('level 1.4 map', './assets/tilemaps/level 1-4.json');
         this.load.image('light', './assets/tilemaps/light.png');
 
         //cutscene sfx
@@ -189,6 +194,8 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('sizzle', './assets/sounds/sfx/sizzle.wav');
         this.load.audio('woof', './assets/sounds/sfx/woof.wav');
         this.load.audio('dog step', './assets/sounds/sfx/dog_step.wav');
+        this.load.audio('enemy dash', './assets/sounds/sfx/enemy_dash.wav');
+        this.load.audio('enemy charge dash', './assets/sounds/sfx/charge_dash.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
@@ -464,6 +471,19 @@ class loadingScene extends Phaser.Scene {
             frames: current_scene.anims.generateFrameNumbers("hank move right", {start: 0, end: 5}),
             repeat: -1
         })
+        current_scene.anims.create({
+            key: "hank throw left",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("hank throw left", {start: 0, end: 5}),
+            repeat: -1
+        })
+        current_scene.anims.create({
+            key: "hank throw right",
+            frameRate: 12,
+            frames: current_scene.anims.generateFrameNumbers("hank throw right", {start: 0, end: 5}),
+            repeat: -1
+        })
+
         current_scene.anims.create({
             key: "shooter bullet",
             frameRate: 8,

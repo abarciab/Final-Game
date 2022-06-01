@@ -134,7 +134,7 @@
                     },
                     {
                         "speaker": "hide",
-                        "text": "{action:dog_run_right}{hide:2}{next_line}"
+                        "text": "{action:dog_run_right}{hide:1}{next_line}"
                     },
                     {
                         "speaker": "Fran",

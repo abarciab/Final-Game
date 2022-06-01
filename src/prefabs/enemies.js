@@ -469,14 +469,16 @@ class DasherEnemy extends BaseEnemy {
         super(x, y, texture, "DASHER");
 
         // variables
-        this.dash_interval = 5;
+        this.dash_interval = 2;
         this.dash_timer = 0;
         this.charging_dash = false;
         this.dashing = false;
         this.dash_pos = 0;
 
-        this.charge_dash_interval = 2;
+        this.charge_dash_interval = 1;
         this.charge_dash_timer = 0;
+        this.enemy_sfx["charge dash"] = current_scene.sound.add('enemy charge dash');
+        this.enemy_sfx["dash"] = current_scene.sound.add('enemy dash');
 
         this.aggro_range = 500;
 
@@ -509,6 +511,7 @@ class DasherEnemy extends BaseEnemy {
         if (this.charge_dash_timer >= this.charge_dash_interval) {
             this.setCircle(this.dash_radius, this.width/2-this.dash_radius, this.height/2-this.dash_radius);
             this.charge_dash_timer = 0;
+            this.enemy_sfx["dash"].play();
             //this.setDrag(game_settings.dasher_dash_drag);
             this.charging_dash = false;
             this.dashing = true;
@@ -517,7 +520,6 @@ class DasherEnemy extends BaseEnemy {
             //console.log(dash_angle);
             const vel_x = game_settings.dasher_dash_speed * Math.sin(dash_angle);
             const vel_y = game_settings.dasher_dash_speed * -Math.cos(dash_angle);
-            console.log(vel_x, vel_y);
             this.setVelocity(vel_x, vel_y);
         }
     }
@@ -539,6 +541,7 @@ class DasherEnemy extends BaseEnemy {
         if (!this.charging_dash && !this.dashing) {
             this.dash_timer += delta/1000;
             if (this.dash_timer >= this.dash_interval && this.player_dist <= this.aggro_range) {
+                this.enemy_sfx["charge dash"].play();
                 this.dash_timer = 0;
                 this.charging_dash = true;
             }
