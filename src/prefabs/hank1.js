@@ -166,7 +166,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.health -= 1;
 
         this.anims.play(`hank damage ${this.last_direction_moved}`, true);
-        this.took_damage = true;
+        //this.took_damage = true;
         current_scene.time.delayedCall(1500, function(){current_scene.hank.took_damage = false})
 
         if (this.health > 5){

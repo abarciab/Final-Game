@@ -147,11 +147,16 @@ class level1BossScene extends Phaser.Scene {
     }
 
     throwBall(){
+        current_scene.hank.throwing = false;
+        console.log("not throwing");
+        current_scene.hank.throw = true;
         current_scene.dog.has_ball = false;
         current_scene.stunDog(500);
         
         current_scene.hank.has_ball = false;
 
+        current_scene.hank.anims.play(`${current_scene.hank.type.toLowerCase()} throw ${current_scene.hank.last_direction_moved.toLowerCase()}`, true);
+        //console.log("ball returned to hank");
         current_scene.ball.x = current_scene.hank.x;
         current_scene.ball.y = current_scene.hank.y;
         current_scene.ball.speed = 400;
