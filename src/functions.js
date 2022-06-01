@@ -799,14 +799,12 @@ function playerEnemyCollision(player, enemy){
     //console.log(current_scene.enemy_shockwaves);
     if (enemy.stunned) return;
     if (current_scene.player.dashing){
+        player.bouncing = true;
+        player.dash_cooldown_timer = player.dash_cooldown_duration;
         if (enemy.type == "DASHER" && enemy.dashing) {
-            current_scene.player.damage(enemy, false, false);
-            current_scene.player.doneDashing();
             return;
         }
         current_scene.cameras.main.shake(200, 0.002);
-        player.bouncing = true;
-        player.dash_cooldown_timer = player.dash_cooldown_duration;
         enemy.damage(current_scene.player.dash_damage);
     } else {
         current_scene.player.damage(enemy, true);
