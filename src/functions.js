@@ -192,6 +192,9 @@ function updateLevel(time, delta) {
         //update enemies
         updateEnemies(time, delta);
     }
+    else {
+        current_scene.player.move("RIGHT");
+    }
     let vignettePos = getCameraCoords(null, 0, 0);
     current_scene.vignette.setPosition(vignettePos.x, vignettePos.y);
 }
@@ -551,13 +554,17 @@ function activateButton(button) {
     }
 
     if (button.circuit == null && button.data_sprite.data.list.boss){
-        current_scene.bg_music.stop();
-        current_scene.scene.start("level1BossScene");
+        bg_music.stop();
+        current_scene.scene.start("level1BossIntroScene");
         return;
     }
 
     if (button.circuit == null && button.data_sprite.data.list.next_level){
         current_scene.level_finished = true;
+        current_scene.player.can_move = false;
+        current_scene.player.setVelocity(0, 0);
+        disableCollision(current_scene.player.body);
+        //current_scene.
         sweepTransition("right", true, function() {
             console.log(`starting level: ${button.data_sprite.data.list.next_level}`);
             current_map = button.data_sprite.data.list.next_level;
