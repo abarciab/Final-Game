@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="48" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="454">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="48" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="531">
  <editorsettings>
   <export target="level 1-4.json" format="json"/>
  </editorsettings>
@@ -580,18 +580,18 @@
 37,22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,22,39,
 37,22,23,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,0,1,2,4,0,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,0,21,22,39,
 37,22,23,0,21,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,23,0,21,22,23,0,21,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,23,0,21,22,39,
-37,22,23,0,41,42,42,42,42,42,42,11,22,13,42,42,42,42,42,42,43,0,21,22,62,62,62,65,65,65,65,65,65,65,65,2684354582,13,42,42,42,42,42,42,43,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,77,82,82,82,82,82,82,82,82,82,78,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,0,0,0,0,0,0,0,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,61,62,62,62,62,62,63,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,72,72,72,72,73,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,77,82,78,72,73,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,73,0,71,72,73,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,87,62,88,72,73,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,72,72,72,72,73,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,81,82,82,82,82,82,83,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,0,0,0,0,0,0,0,0,71,2684354582,23,0,0,0,0,0,0,0,0,21,22,39,
-37,22,25,2,2,2,2,2,2,2,2,24,22,25,2,2,2,2,2,2,2,2,24,22,87,62,62,62,62,62,62,62,62,62,88,2684354582,25,2,2,2,2,2,2,2,2,24,22,39,
+37,22,23,0,41,42,42,42,42,42,42,11,22,13,42,42,42,42,42,42,43,0,21,22,62,62,62,65,65,65,65,65,65,65,65,2684354582,62,62,62,62,62,62,62,62,62,62,22,39,
+37,22,23,54,0,0,0,0,0,0,0,21,22,23,0,0,54,0,0,54,0,0,21,22,77,82,82,82,82,82,82,82,82,82,78,2684354582,77,82,82,82,82,82,82,82,82,78,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,0,0,0,0,0,0,0,0,71,2684354582,73,0,0,54,0,0,54,0,0,71,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,54,0,0,0,0,0,0,54,21,22,73,0,61,62,62,62,62,62,63,0,71,2684354582,73,0,0,0,0,0,0,0,0,71,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,72,72,72,72,73,0,71,2684354582,73,0,0,0,0,0,0,0,0,71,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,77,82,78,72,73,0,71,2684354582,73,0,0,0,0,0,0,0,0,71,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,73,0,71,72,73,0,71,2684354582,73,0,0,0,0,0,0,0,0,71,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,54,21,22,73,0,71,72,87,62,88,72,73,0,71,2684354582,73,0,0,0,0,0,0,0,0,71,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,71,72,72,72,72,72,73,0,71,2684354582,73,0,0,0,0,0,0,0,0,71,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,54,0,0,0,0,0,0,0,21,22,73,0,81,82,82,82,82,82,83,0,71,2684354582,73,0,0,0,54,0,54,0,0,71,22,39,
+37,22,23,0,0,0,0,0,0,0,0,21,22,23,0,0,0,0,0,0,0,0,21,22,73,0,0,0,0,0,0,0,0,0,71,2684354582,73,0,0,0,0,0,0,0,0,71,22,39,
+37,22,25,2,2,2,2,2,2,2,2,24,22,25,2,2,54,2,2,54,2,2,24,22,87,62,62,62,62,62,62,62,62,62,88,2684354582,87,62,62,62,62,62,62,62,62,88,22,39,
 37,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,39,
 47,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,48,49
 </data>
@@ -608,18 +608,18 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,41,42,42,42,42,42,42,42,11,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,41,42,42,42,42,42,42,42,11,0,13,42,42,42,42,42,42,43,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,54,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,54,0,0,0,0,0,0,0,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,54,0,21,0,23,0,0,0,0,0,0,0,0,21,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2,0,0,0,0,23,0,0,0,0,0,0,0,0,0,21,0,25,2,2,2,2,2,2,2,2,24,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -652,15 +652,28 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="7" name="lights"/>
+ <objectgroup id="7" name="lights">
+  <object id="454" gid="57" x="1650" y="1334" width="228" height="532"/>
+  <object id="455" gid="57" x="1890" y="1324" width="242" height="526"/>
+  <object id="456" gid="57" x="1618" y="1008" width="546" height="216"/>
+  <object id="457" gid="57" x="1650" y="1290" width="484" height="212"/>
+  <object id="462" gid="57" x="1550" y="1487" width="32" height="948"/>
+  <object id="463" gid="57" x="2202" y="1423" width="24" height="742"/>
+  <object id="464" gid="57" x="1464" y="1419" width="842" height="48"/>
+  <object id="465" gid="57" x="1426" y="767" width="918" height="114"/>
+  <object id="527" gid="57" x="2309" y="1475" width="42" height="864"/>
+  <object id="528" gid="57" x="2216" y="1412" width="796" height="46"/>
+  <object id="529" gid="57" x="2900" y="1407" width="24" height="742"/>
+  <object id="530" gid="57" x="2260" y="763" width="750" height="112"/>
+ </objectgroup>
  <objectgroup id="6" name="enemies">
-  <object id="423" name="dasher" gid="19" x="609.357" y="1001.41" width="64" height="64">
+  <object id="423" name="dasher" gid="19" x="639.357" y="835.41" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="0"/>
     <property name="room" type="int" value="-2"/>
    </properties>
   </object>
-  <object id="432" name="dasher" gid="19" x="451.167" y="822.579" width="64" height="64">
+  <object id="432" name="dasher" gid="19" x="643.167" y="1058.58" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="0"/>
     <property name="room" type="int" value="-2"/>
@@ -672,7 +685,7 @@
     <property name="room" type="int" value="-2"/>
    </properties>
   </object>
-  <object id="435" name="dasher" gid="19" x="486.467" y="1253.26" width="64" height="64">
+  <object id="435" name="dasher" gid="19" x="644.467" y="1279.26" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="0"/>
     <property name="room" type="int" value="-2"/>
@@ -703,6 +716,249 @@
     <property name="circuit" type="int" value="2"/>
     <property name="invisible" type="bool" value="true"/>
     <property name="room" type="int" value="-4"/>
+   </properties>
+  </object>
+  <object id="466" name="dasher" gid="19" x="422" y="1280" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="0"/>
+    <property name="room" type="int" value="-2"/>
+   </properties>
+  </object>
+  <object id="467" name="enemy_1" gid="16" x="998" y="742" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="468" name="enemy_1" gid="16" x="864" y="864" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="471" name="enemy_1" gid="16" x="868" y="982" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="473" name="enemy_1" gid="16" x="862" y="1118" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="475" name="enemy_1" gid="16" x="866" y="1220" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="477" name="enemy_1" gid="16" x="940" y="1400" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="479" name="enemy_1" gid="16" x="1124" y="744" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="481" name="enemy_1" gid="16" x="1250" y="742" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="482" name="enemy_1" gid="16" x="1378" y="802" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="483" name="enemy_1" gid="16" x="1376" y="928" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="485" name="enemy_1" gid="16" x="1376" y="1056" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="487" name="enemy_1" gid="16" x="1380" y="1186" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="488" name="enemy_1" gid="16" x="1302" y="1398" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="490" name="enemy_1" gid="16" x="1122" y="1398" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="494" name="enemy_2" gid="6" x="1124" y="1320" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="495" name="enemy_2" gid="6" x="1312" y="1052" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="496" name="enemy_2" gid="6" x="928" y="1056" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="497" name="enemy_2" gid="6" x="1122" y="810" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="500" name="enemy_3" gid="7" x="2428" y="1372" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="501" name="enemy_3" gid="7" x="2590" y="1372" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="502" name="enemy_3" gid="7" x="2752" y="1370" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="503" name="enemy_2" gid="6" x="2672" y="1322" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="504" name="enemy_2" gid="6" x="2812" y="1312" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="505" name="enemy_2" gid="6" x="2496" y="1324" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="506" name="enemy_1" gid="16" x="1378" y="1306" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="507" name="enemy_1" gid="16" x="866" y="1318" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="1"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-3"/>
+   </properties>
+  </object>
+  <object id="508" name="dasher" gid="19" x="2530" y="812" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="509" name="dasher" gid="19" x="2370" y="896" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="510" name="dasher" gid="19" x="2638" y="810" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="511" name="dasher" gid="19" x="2820" y="896" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="513" name="enemy_2" gid="6" x="2366" y="1326" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="515" name="enemy_1" gid="16" x="196" y="769" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="0"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-2"/>
+   </properties>
+  </object>
+  <object id="516" name="enemy_1" gid="16" x="2428" y="1260" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="518" name="enemy_1" gid="16" x="2748" y="1262" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="522" name="enemy_1" gid="16" x="2752" y="832" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="524" name="enemy_1" gid="16" x="2438" y="832" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="3"/>
+    <property name="invisible" type="bool" value="true"/>
+    <property name="room" type="int" value="-5"/>
    </properties>
   </object>
  </objectgroup>
@@ -743,16 +999,19 @@
   <object id="378" name="door" gid="15" x="1299.25" y="609" width="153" height="32">
    <properties>
     <property name="circuit" type="int" value="1"/>
+    <property name="stay_closed" type="bool" value="true"/>
    </properties>
   </object>
   <object id="379" name="door" gid="15" x="1554.35" y="609" width="153" height="32">
    <properties>
     <property name="circuit" type="int" value="2"/>
+    <property name="stay_closed" type="bool" value="true"/>
    </properties>
   </object>
   <object id="381" name="door" gid="15" x="2771.06" y="609" width="153" height="32">
    <properties>
     <property name="circuit" type="int" value="3"/>
+    <property name="stay_closed" type="bool" value="true"/>
    </properties>
   </object>
   <object id="383" name="button" gid="5" x="194.371" y="539.27" width="64" height="64">
@@ -794,17 +1053,13 @@
    </properties>
   </object>
   <object id="392" name="vase" gid="18" x="2623.23" y="511.61" width="64" height="64"/>
-  <object id="394" name="vase" gid="18" x="2367.13" y="511.61" width="64" height="64"/>
-  <object id="396" name="vase" gid="18" x="2113.45" y="511.61" width="64" height="64"/>
   <object id="398" name="vase" gid="18" x="1857.35" y="514.026" width="64" height="64"/>
   <object id="400" name="vase" gid="18" x="318.326" y="509.194" width="64" height="64"/>
-  <object id="402" name="vase" gid="18" x="576.843" y="509.194" width="64" height="64"/>
-  <object id="404" name="vase" gid="18" x="835.359" y="511.61" width="64" height="64"/>
   <object id="406" name="vase" gid="18" x="1089.04" y="509.194" width="64" height="64"/>
   <object id="408" name="vase" gid="18" x="1611.5" y="1346.71" width="64" height="64"/>
   <object id="409" name="vase" gid="18" x="2110.52" y="1346.71" width="64" height="64"/>
-  <object id="410" name="vase" gid="18" x="2328.47" y="1400.71" width="64" height="64"/>
-  <object id="411" name="vase" gid="18" x="2857.59" y="1400.71" width="64" height="64"/>
+  <object id="410" name="vase" gid="18" x="2350.47" y="1370.71" width="64" height="64"/>
+  <object id="411" name="vase" gid="18" x="2831.59" y="1364.71" width="64" height="64"/>
   <object id="412" name="vase" gid="18" x="1386.22" y="1400.71" width="64" height="64"/>
   <object id="413" name="vase" gid="18" x="857.104" y="1400.71" width="64" height="64"/>
   <object id="414" name="vase" gid="18" x="683.149" y="1400.71" width="64" height="64"/>
@@ -812,7 +1067,7 @@
   <object id="418" name="vase" gid="18" x="680.733" y="745.966" width="64" height="64"/>
   <object id="419" name="vase" gid="18" x="854.688" y="748.382" width="64" height="64"/>
   <object id="420" name="vase" gid="18" x="2116.1" y="828.382" width="64" height="64"/>
-  <object id="421" name="vase" gid="18" x="2330.89" y="748.382" width="64" height="64"/>
+  <object id="421" name="vase" gid="18" x="2352.89" y="808.382" width="64" height="64"/>
   <object id="429" name="button" gid="5" x="149.619" y="809.71" width="160.642" height="131.649">
    <properties>
     <property name="circuit" type="int" value="0"/>
@@ -857,6 +1112,28 @@
    </properties>
   </object>
   <object id="452" name="button" gid="5" x="2434" y="214" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="13"/>
+   </properties>
+  </object>
+  <object id="492" name="button" gid="5" x="1120" y="1056" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="11"/>
+   </properties>
+  </object>
+  <object id="493" name="button" gid="5" x="1120" y="1058" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="-3"/>
+    <property name="close_door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="498" name="button" gid="5" x="2592" y="1058" width="64" height="64">
+   <properties>
+    <property name="circuit" type="int" value="-5"/>
+    <property name="close_door" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="499" name="button" gid="5" x="2590" y="1056" width="64" height="64">
    <properties>
     <property name="circuit" type="int" value="13"/>
    </properties>
