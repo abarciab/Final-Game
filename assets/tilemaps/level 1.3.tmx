@@ -945,7 +945,7 @@
   </object>
  </objectgroup>
  <objectgroup id="5" name="interact">
-  <object id="149" name="button" gid="5" x="2994.66" y="341.334" width="64" height="197.333">
+  <object id="149" name="button" gid="5" x="2982.86" y="339.368" width="64" height="197.333">
    <properties>
     <property name="boss" type="bool" value="true"/>
     <property name="circuit" type="int" value="5"/>
