@@ -111,10 +111,24 @@ class pauseScene extends Phaser.Scene {
             pause_scene.pause_menu.exit.clearTint();
         })
         this.pause_menu.exit.on('pointerdown', function(){
-            bg_music.stop();
-            current_scene.sound.stopAll();
-            pause_scene.scene.stop();
-            current_scene.scene.start("titleScene");
+            let target = game.config.width;
+            let rect = pause_scene.add.rectangle(0, 0, game.config.width, game.config.height+100, 0x000000).setOrigin(1, 0).setScale(20).setDepth(101);
+                //target = current_scene.cameras.main.worldView.x;
+                //rect.x = game.config.width+current_scene.cameras.main.worldView.x;
+            target = game.config.width+pause_scene.cameras.main.worldView.x;
+            rect.x = pause_scene.cameras.main.worldView.x;    
+            pause_scene.tweens.add({
+                duration: 700,
+                targets: rect,
+                x: target,
+                onComplete: function() {
+                    bg_music.stop();
+                    current_scene.sound.stopAll();
+                    pause_scene.scene.stop();
+                    //sweepTransition("left", true);
+                    current_scene.scene.start("titleScene");
+                }
+            });
         })
     }
 }
