@@ -26,12 +26,6 @@ function initializeLevel(scene) {
     scene.enemies = [];
     scene.enemy_projectiles = new ProjectileGroup('shooter bullet');
     scene.enemy_shockwaves = new ShockwaveGroup('shockwave');
-
-    // //doggo
-    // scene.doggo = new Dog(200, 200, 'dog idle right');
-    // scene.doggo.asleep = true;
-    // scene.doggo.setVisible(false);
-    // console.log("added doggo to scene");
     
     initMap()
     scene.camera = scene.cameras.main.startFollow(scene.player, true, 0.05, 0.05);
@@ -73,10 +67,8 @@ function initMap() {
     setupTilemapCollisions(layer1);
     setupTilemapCollisions(layer2);
     setupTilemapCollisions(marker_layer);
-    //console.log(marker_layer.properties);
 }
 
-//let pause_menu = {};
 function createPauseMenu(){
     let pause_menu = {};
 
@@ -588,7 +580,6 @@ function setupEnemies(map){
 
 function onEnemyDead(dead_enemy){
     if (Phaser.Math.Between(1, 7) == 1){
-        console.log("spawnign pickup!");
         spawnHealthPickup(dead_enemy.x, dead_enemy.y);
     }
 
@@ -614,7 +605,6 @@ function onEnemyDead(dead_enemy){
 }
 
 function openDoors(circuit){
-    //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
         if ((current_scene.doors[i].data_sprite.data && current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit) || (current_scene.doors[i].locked == true) ){
             if (circuit != current_scene.doors[i].data_sprite.data.list.circuit && current_scene.doors[i].data_sprite.data.list.stay_closed != null){
@@ -675,7 +665,6 @@ function closeDoors(circuit){
 function awakenEnemies(circuit){
     for (let i = 0; i < current_scene.enemies.length; i++) {
         if (current_scene.enemies[i].room == circuit){
-            //console.log(`awkening ${current_scene.enemies[i].type}`);
             current_scene.enemies[i].asleep = false;
         }
     }
@@ -709,7 +698,12 @@ function activateButton(button) {
         current_scene.player_wall_collider.active = false;
         //current_scene.
         sweepTransition("right", true, function() {
-            console.log(`starting level: ${button.data_sprite.data.list.next_level}`);
+            if (current_scene.enemies != undefined) {
+                current_scene.enemies.forEach(enemy => {
+                    if (enemy.enemy_sfx["passive"] != undefined && enemy.enemy_sfx["passive"].isPlaying) 
+                        enemy.enemy_sfx["passive"].stop();
+                })
+            }
             current_map = button.data_sprite.data.list.next_level;
             current_scene.scene.restart();
         })
@@ -734,8 +728,6 @@ function activateButton(button) {
     }
 
     if (button.circuit == null){
-        //console.log("hi");
-        //button.setAlpha(0.5);
         button.data_sprite.setTexture('button down');
         button.data_sprite.data.list.circuit = -1;
     } else{
@@ -811,7 +803,6 @@ function pause(){
             enemy.body.stop();
         });
         current_scene.enemy_projectiles.getChildren().forEach(projectile => {
-            //console.log(`projectiles don't stop correctly on game pause`);
             //projectile.body.stop();
         });
     
@@ -864,7 +855,6 @@ function playerWallCollision(player, rects) {
     if (rects.deadly) {
         player.in_wall = true;
         player.setPosition(player.safe_pos.x, player.safe_pos.y);
-        console.log("IN WALL");
     }
     player.hit_wall = true;
     if (player.dashing || player.stunned)
@@ -972,7 +962,6 @@ function enableCollision(body){
 
 // called after collision
 function playerEnemyCollision(player, enemy){
-    //console.log(current_scene.enemy_shockwaves);
     if (enemy.charging == true){
         enemy.charging = false;
         enemy.clearTint();
@@ -994,17 +983,13 @@ function playerEnemyCollision(player, enemy){
 }
 
 function playerShockwaveCollision(player, shockwave){
-    //console.log(shockwave);
     if (!player.startInvulnerable || !player.invulnerable) {
         current_scene.player.damage(shockwave, true, true);
     }
 }
 
 function enemyShockwaveCollision(enemy, shockwave){
-    //console.log(enemy);
-
     if (enemy.type != "GOLEM") {
-        console.log("FICOUSGH");
         let redirect_multiplier = game_settings.golem_shockwave_power * 2;
         const angle = -Math.atan2(shockwave.owner.x-enemy.x, shockwave.owner.y-enemy.y);
         const vel_x = redirect_multiplier * Math.sin(angle);
@@ -1031,9 +1016,6 @@ function ballOnEnemyCollision(ball, enemy) {
 
 function playerDestructibleCollision(player, destructible){
     if (player.dashing){
-        console.log("old",player.body.velocity);
-        player.setVelocity(player.body.velocity.x*0.4, player.body.velocity.y*0.4);
-        console.log("new",player.body.velocity);
         destructible.setAlpha(0);
     }
 }
@@ -1138,9 +1120,6 @@ function spawnEnemy(type, x, y, _return){
             console.log(`invalid enemy type requested: ${type}`);
             return; // to not run final statement
     }
-
-    //current_scene.physics.add.collider(new_enemy, current_scene.collision_rects);
-    //current_scene.physics.add.collider(new_enemy, current_scene.lava_rects);
     
     if (_return){
         return new_enemy;

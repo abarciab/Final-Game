@@ -84,7 +84,6 @@ class level1BossOutroScene extends Phaser.Scene {
         }
 
         if (this.player_move_left) {
-            console.log("move");
             this.player.move("LEFT", delta);
         }
         if (this.player != undefined) {

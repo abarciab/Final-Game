@@ -273,7 +273,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
 
     reset() {
         disableCollision(this.body);
-        //console.log(`reseting: ${type}`)
         this.setActive(true);
         this.setVisible(true);
         this.body.setVelocity(0,0);

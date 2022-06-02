@@ -6,24 +6,18 @@ class pauseScene extends Phaser.Scene {
         this.pause_menu = {};
         pause_scene = this;
         this.createPauseMenu();
-        console.log("create");
         this.esc_key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         this.scene.moveAbove(current_scene);
     }
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.esc_key)) {
-            console.log("resume");
             current_scene.paused = false;
             this.scene.resume(current_scene);
             this.scene.stop();
         }
         this.updatePause();
-        //this.pause_menu.title.update();
-        //this.pause_menu.music_vol.update();
     }
     updatePause() {
-        //let pause_menu = current_scene.pause_menu;
-    //current_scene.pauseLayer.setVisible(true);
         current_scene.cameras.main.setScroll(current_scene.cam_pos_x, current_scene.cam_pos_y);
     }
     createPauseMenu(){

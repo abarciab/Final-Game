@@ -30,7 +30,6 @@ class level1BossIntroScene extends Phaser.Scene {
             game_script.readScript(this, 1, 4);
         }, null, this);
 
-        console.log("read script");
         this.start_level = false;
         this.player_move = false;
         this.open_door = true;
