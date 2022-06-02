@@ -164,6 +164,7 @@ class level1BossScene extends Phaser.Scene {
     }
 
     hankCatchBall(){
+        current_scene.sound.add('hank catch').play();
         current_scene.hank.has_ball = true;
         current_scene.ball.setActive(false);
         disableCollision(current_scene.ball.body);

@@ -219,7 +219,7 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('shoot sfx', './assets/sounds/sfx/shoot_sfx.wav');
         this.load.audio('enemy slam', './assets/sounds/sfx/enemy_slam.wav');
         this.load.audio('sizzle', './assets/sounds/sfx/sizzle.wav');
-        this.load.audio('woof', './assets/sounds/sfx/woof.wav');
+        this.load.audio('woof', './assets/sounds/sfx/woof2.wav');
         this.load.audio('dog step', './assets/sounds/sfx/dog_step.wav');
         this.load.audio('enemy dash', './assets/sounds/sfx/enemy_dash.wav');
         this.load.audio('enemy charge dash', './assets/sounds/sfx/charge_dash.wav');
@@ -229,6 +229,8 @@ class loadingScene extends Phaser.Scene {
         this.load.audio('door close', './assets/sounds/sfx/door_close.wav');
         this.load.audio('door open', './assets/sounds/sfx/door_open.wav');
         this.load.audio('wing beat', './assets/sounds/sfx/wing_beat.wav');
+        this.load.audio('hank catch', './assets/sounds/sfx/hank_catch.wav');
+        this.load.audio('roll', './assets/sounds/sfx/roll.wav');
 
         //music
         this.load.audio('title', './assets/sounds/music/title.mp3');
