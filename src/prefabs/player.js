@@ -292,11 +292,13 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             return;
         }
         this.charge_finished = false;
-        if (this.perfect_dash) {
-            this.player_sfx["super dash"].play();
-        }
-        else {
-            this.player_sfx["dash"].play();
+        if (!this.has_ball) {
+            if (this.perfect_dash) {
+                this.player_sfx["super dash"].play();
+            }
+            else {
+                this.player_sfx["dash"].play();
+            }
         }
         this.body.bounce.set(game_settings.player_bounce_mod);
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
@@ -326,6 +328,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setDrag(game_settings.player_dash_drag);
 
         if (this.has_ball == true){
+            current_scene.sound.add('throw', {volume: 0.7}).play();
             enableCollision(current_scene.ball.body);
             this.has_ball = false;
             let camPos = getCameraCoords(null, this.dash_pointer.x-50, this.dash_pointer.y-50);
