@@ -10,7 +10,7 @@ let config = {
     physics: {
         default: "arcade",
         arcade: { 
-            debug: false,
+            debug: true,
         },
     },
     scene: [loadingScene, titleScene, level1IntroScene, level1BossIntroScene, level1BossOutroScene, level1BossScene, level1FightScene],

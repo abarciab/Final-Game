@@ -15,6 +15,9 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.score = 0;
         this.on_lava = false;
 
+        this.in_wall = false;
+        this.hit_wall = false;
+
         this.ball_x_offset = this.displayWidth*0.8;
         this.ball = current_scene.add.image(this.x, this.y, 'ball').setScale(2).setDepth(6).setVisible(false);
 
@@ -107,10 +110,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(time, delta){
-        if (!this.stunned && !this.on_lava){
+        if (!this.stunned && !this.on_lava && !this.hit_wall && !this.in_wall){
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }
+        this.hit_wall = false;
+        this.in_wall = false;
         game_settings.player_curr_health = this.health;
         if (this.dashing && this.speed <= game_settings.player_walk_speed){
             this.doneDashing();

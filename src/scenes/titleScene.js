@@ -218,7 +218,7 @@ class titleScene extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(key_1)){
             bg_music.stop();
-            //current_map = 'level 1.0 map';
+            current_map = 'level 1.0 map';
             this.scene.start("level1FightScene");
         }
         if (Phaser.Input.Keyboard.JustDown(key_2)){

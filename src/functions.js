@@ -350,10 +350,13 @@ function initBossLevel1(scene) {
 function addColliders(scene) {
     //player
     scene.player_wall_collider = scene.physics.add.collider(scene.player, scene.collision_rects, playerWallCollision.bind(scene));
+    scene.physics.add.overlap(scene.player, scene.collision_rects, checkInWall.bind(scene));
     scene.physics.add.collider(scene.player, scene.doors);
     scene.physics.add.overlap(scene.player, scene.lava_rects, playerLavaCollision.bind(scene));
     scene.physics.add.collider(scene.pickups, scene.collision_rects);
-    scene.physics.add.overlap(scene.player, scene.pickups, playerHealthCollision.bind(this));
+    scene.physics.add.overlap(scene.player, scene.pickups, playerHealthCollision.bind(scene));
+    scene.physics.add.overlap(scene.player, scene.destructibles, playerDestructibleCollision.bind(scene));
+    scene.physics.add.collider(scene.player, scene.enemy_shockwaves, playerShockwaveCollision.bind(scene));
 
     //enemies
     scene.enemyCollider = scene.physics.add.collider(scene.player, scene.enemies, playerEnemyCollision.bind(scene));
@@ -363,11 +366,8 @@ function addColliders(scene) {
         }
     });
     scene.physics.add.collider(scene.enemies, scene.doors);
-    
     scene.physics.add.collider(scene.enemies, scene.lava_rects, enemyLavaCollision.bind(scene));
-    scene.physics.add.overlap(scene.player, scene.destructibles, playerDestructibleCollision.bind(scene));
     scene.physics.add.collider(scene.enemies, scene.enemies, enemyOnEnemyCollision.bind(scene));
-    scene.physics.add.collider(scene.player, scene.enemy_shockwaves, playerShockwaveCollision.bind(scene));
     //scene.physics.add.collider(scene.enemies, scene.enemy_shockwaves, enemyShockwaveCollision.bind(scene));
 
     //projectiles
@@ -858,6 +858,12 @@ function resume(){
 
 function playerWallCollision(player, rects) {
     const wall_bounce_mod = 0.4;
+    if (rects.deadly) {
+        player.in_wall = true;
+        player.setPosition(player.safe_pos.x, player.safe_pos.y);
+        console.log("IN WALL");
+    }
+    player.hit_wall = true;
     if (player.dashing || player.stunned)
         player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
 }
@@ -868,6 +874,16 @@ function checkPlayerLavaCollision() {
     }
     else {
         current_scene.player.on_lava = false;
+    }
+}
+
+function checkInWall(player, rects) {
+    if (rects.deadly) {
+        player.in_wall = true;
+        player.setPosition(player.safe_pos.x, player.safe_pos.y);
+    }
+    else {
+        player.in_wall = false;
     }
 }
 
@@ -929,6 +945,9 @@ function playerHealthCollision(player, pickup) {
             player.health = game_settings.player_max_health
         }
         current_scene.pickup_sfx.play({volume: 0.4});
+    }
+    else {
+        pickup.setVelocity(player.body.velocity.x * 0.5, player.body.velocity.y * 0.5);
     }
 }
 
@@ -1009,6 +1028,9 @@ function ballOnEnemyCollision(ball, enemy) {
 
 function playerDestructibleCollision(player, destructible){
     if (player.dashing){
+        console.log("old",player.body.velocity);
+        player.setVelocity(player.body.velocity.x*0.4, player.body.velocity.y*0.4);
+        console.log("new",player.body.velocity);
         destructible.setAlpha(0);
     }
 }
@@ -1016,6 +1038,8 @@ function playerDestructibleCollision(player, destructible){
 //utility functions:
 function spawnHealthPickup(x, y){
     let healthPickup = current_scene.physics.add.sprite(x, y, 'player heart').setDepth(3);
+    //healthPickup.body.setMass(0.3);
+    healthPickup.setCircle(healthPickup.displayWidth/2);
     healthPickup.body.setVelocity(Phaser.Math.Between(-800, 800), Phaser.Math.Between(-800, 800));
     healthPickup.setDrag(0.001);
     healthPickup.setDamping(true);
