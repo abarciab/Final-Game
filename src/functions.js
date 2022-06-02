@@ -4,6 +4,8 @@ function initializeScene(scene) {
     
     scene.cameras.main.setZoom(game_settings.camera_zoom);
     scene.cameras.main.setBackgroundColor('#000000');
+    scene.cam_pos_x = getCameraCoords(null, 0, 0).x;
+    scene.cam_pos_y = getCameraCoords(null, 0, 0).y;
     scene.physics.world.setBounds(0, 0, game.config.width, game.config.height);
     setupKeys(scene);
 }
@@ -39,13 +41,12 @@ function initializeLevel(scene) {
 
     //UI
     scene.pauseLayer = scene.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
-    scene.paused = false;
-    scene.vignette = scene.add.sprite(0, 0, 'vignette').setDepth(4).setOrigin(0).setAlpha(0.7).setTint(0x000000);
+    scene.vignette = scene.add.sprite(0, 0, 'vignette').setDepth(6).setOrigin(0).setAlpha(0.7).setTint(0x000000)    ;
 
     //updateUI();
     scene.game_UI = new GameUI();
     scene.game_UI.setPlayerUI();
-    createPauseMenu();
+    //createPauseMenu();
 }
 
 function initMap() {
@@ -168,7 +169,6 @@ function createPauseMenu(){
     })
     
     current_scene.pause_menu = pause_menu;
-    current_scene.paused = false;
 }
 
 function createLevelSelect(){
@@ -291,21 +291,23 @@ function updateLevel(time, delta) {
         game_settings.player_curr_health = game_settings.player_max_health;
         current_scene.player.health = 5;
         current_scene.scene.restart();
-        
     }
-
     //update UI
     current_scene.game_UI.update();
+    current_scene.cam_pos_x = getCameraCoords(null, 0, 0).x;
+    current_scene.cam_pos_y = getCameraCoords(null, 0, 0).y;
     //pause the game
     if (Phaser.Input.Keyboard.JustDown(key_esc)){
-        current_scene.paused = !current_scene.paused;
+        //current_scene.paused = !current_scene.paused;
+        current_scene.scene.launch('pauseScene');
+        current_scene.scene.pause();
     }
-    if (current_scene.paused){
-        pause();
+    /*if (current_scene.paused){
+        //pause();
         return false;
     } else {
-        resume();
-    }
+        //resume();
+    }*/
     if (!current_scene.level_finished) {
         //update player 
         current_scene.player.update(time, delta);
@@ -402,6 +404,7 @@ function setupKeys(scene){
     key_4 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
     key_5 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
     key_6 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX);
+    key_7 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEVEN);
 
     key_r = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 }

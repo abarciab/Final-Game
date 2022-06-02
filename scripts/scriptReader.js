@@ -391,7 +391,24 @@ class ScriptReader {
                         break;
                     case "close_door":
                         closeDoors(parseInt(command_content.trim()));
-                        break
+                        break;
+                    case "transition":
+                        switch (command_content.trim()) {
+                            case "cave":
+                                this.hide_display = true;
+                                let script = this;
+                                sweepTransition("right", false, function() {
+                                    script.background.setVisible(false);
+                                    script.background.destroy(); 
+                                    script.background = current_scene.add.image(game.config.width/2, game.config.height/2, 'title background').setScale(4.86).setOrigin(0.5);
+                                    sweepTransition("left", false, function() {
+                                        script.hide_display = false
+                                    });
+                                });
+                                break;
+                            default:
+                                break;
+                            }
                     case "action":
                         switch (command_content.trim()) {
                             case "fran_run_left":

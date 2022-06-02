@@ -243,6 +243,10 @@ class titleScene extends Phaser.Scene {
         }
         if (Phaser.Input.Keyboard.JustDown(key_6)){
             bg_music.stop();
+            this.scene.start("level1BossIntroScene");
+        }
+        if (Phaser.Input.Keyboard.JustDown(key_7)){
+            bg_music.stop();
             this.scene.start("level1BossOutroScene");
         }
     }

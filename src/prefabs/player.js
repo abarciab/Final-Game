@@ -359,7 +359,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             return;
         }
 
-        current_scene.enemyCollider.active = false;
+        //current_scene.enemyCollider.active = false;
         this.stunned = true;
         this.invulnerable = true;
         this.body.bounce.set(game_settings.player_bounce_mod);

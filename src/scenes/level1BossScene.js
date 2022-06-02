@@ -238,7 +238,7 @@ class level1BossScene extends Phaser.Scene {
             this.ball.setVelocity(0,0);
         }
 
-        if (!updateLevel(time, delta)) return;
+        updateLevel(time, delta);
         //update enemies
         this.dog.update(time, delta);
 
@@ -246,8 +246,8 @@ class level1BossScene extends Phaser.Scene {
         this.ball.current_speed = Math.sqrt(Math.pow(this.ball.body.velocity.y, 2) + Math.pow(this.ball.body.velocity.x, 2));
 
         if (this.hank.health <= 0 && !this.done ){
-            this.hank.setVisible(false);
-            this.ball.setVisible(false);
+            //this.hank.setVisible(false);
+            //this.ball.setVisible(false);
             
             this.done = true;
             this.enemies.forEach(enemy => {

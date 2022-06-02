@@ -288,9 +288,9 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         //bounces the player out of the enemy if they're stuck
         if (current_scene.player.invulnerable){
             current_scene.player.damage(this);
-            if (current_scene.player.invincible) {
+            /*if (current_scene.player.invincible) {
                 damage_value = 0;
-            }
+            }*/
             //return;
         }
         this.enemy_sfx["hit"].play();
