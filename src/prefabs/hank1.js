@@ -36,11 +36,13 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
         this.throw = false;
         this.throwing_frame = 0
         this.throw_frame = 2;
+        this.dash_sfx = current_scene.sound.add('player super dash', {volume: 1});
 
         this.charge_cooldown = game_settings.hank_charge_cooldown;
         this.charges_left = game_settings.hank_num_charges;
         this.throws_left = game_settings.hank_num_throws;       //the number of times hank will throw the ball when mad before charging charges_left times at the player
-        
+        this.particles;
+        this.emitter;
 
         this.pickNewDestination();
     }
@@ -118,6 +120,7 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             this.updateThrow();
 
             if (this.throws_left > 0){
+                if (this.emitter != undefined) this.emitter.stop();
                 if (this.has_ball != true && !this.throwing && !this.throw && !this.took_damage){
                     moveTo(this, this.destination);
                 }
@@ -128,14 +131,31 @@ class Hank1 extends Phaser.Physics.Arcade.Sprite {
             else{
                 this.charging = true;
                 this.charge_cooldown -= delta;
+                if (this.emitter != undefined) this.emitter.stop();
                 this.anims.play(`${this.type.toLowerCase()} charge dash ${this.last_direction_moved.toLowerCase()}`, true);
                 if (this.charge_cooldown <= 0){
+                    this.dash_sfx.play();
+                    this.particles = current_scene.add.particles(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`);
+                    this.emitter = this.particles.createEmitter({
+                        lifespan: 300,
+                        //tint: '0xcc0000',
+                        alpha: {
+                            start: 0.3,
+                            end: 0
+                        },
+                        frequency: 30,
+                        scaleX: 3,
+                        scaleY: 3
+                    });
+                    this.particles.setDepth(4);
+                    this.emitter.startFollow(this);
+
                     this.charging = false;
                     this.dashing = true;
                     this.anims.play(`${this.type.toLowerCase()} dash ${this.last_direction_moved.toLowerCase()}`, true);
                     this.charges_left -= 1;
                     this.charge_cooldown = game_settings.hank_charge_cooldown;
-                    this.setTint(0xcc0000);
+                    //this.setTint(0xcc0000);
                     current_scene.physics.moveToObject(this, current_scene.player, game_settings.hank_charge_speed);
                     this.setDrag(0);
                 }

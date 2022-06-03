@@ -13,13 +13,13 @@ let config = {
             debug: false,
         },
     },
-    scene: [loadingScene, titleScene, level1IntroScene, level1BossIntroScene, level1BossOutroScene, level1BossScene, level1FightScene],
+    scene: [loadingScene, titleScene, pauseScene, level1IntroScene, level1BossIntroScene, level1BossOutroScene, level1BossScene, level1FightScene],
 }
 
 //keys and setup
 let key_left, key_right, key_up, key_down, key_next, key_prev, key_space, key_esc;
 let game_settings;
-let current_scene;
+let current_scene, pause_scene;
 let current_map;
 let bg_music;
 let pointer;

@@ -22,7 +22,6 @@ class level1BossIntroScene extends Phaser.Scene {
         this.player.moving = true;
         this.player_move_right = true;
         this.move_dog = false;
-
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
         current_scene.time.delayedCall(2000, function () {
             current_scene.player_move_right = false;
@@ -31,9 +30,9 @@ class level1BossIntroScene extends Phaser.Scene {
             game_script.readScript(this, 1, 4);
         }, null, this);
 
-        console.log("read script");
         this.start_level = false;
         this.player_move = false;
+        this.open_door = true;
     }
     update(timer, delta) {
         if (game_script.reading_script) {

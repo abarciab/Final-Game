@@ -15,6 +15,12 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.score = 0;
         this.on_lava = false;
 
+        this.in_wall = false;
+        this.hit_wall = false;
+
+        this.ball_x_offset = this.displayWidth*0.8;
+        this.ball = current_scene.add.image(this.x, this.y, 'ball').setScale(2).setDepth(6).setVisible(false);
+
         this.can_move = true;
 
         this.player_sfx = {
@@ -35,6 +41,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.invulnerable = false;
         this.stun_duration = 0.5;
         this.invincible_duration = game_settings.player_invincible_time;
+        this.angle_of_dash = 0;
 
         this.safe_pos = new Phaser.Math.Vector2(this.x, this.y);
         this.bouncing = false;  //this is to let the player cancel their bounce after they hit an enemy
@@ -84,11 +91,31 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dash_emitter;
     }
 
+    updateBall() {
+        let ball_x = this.x;
+        if (this.last_direction_moved == "LEFT") {
+            ball_x -= this.ball_x_offset;
+        }
+        else {
+            ball_x += this.ball_x_offset;
+        }
+        this.ball.x = ball_x;
+        this.ball.y = this.y;
+        if (this.has_ball) {
+            this.ball.setVisible(true);
+        }
+        else {
+            this.ball.setVisible(false);
+        }
+    }
+
     update(time, delta){
-        if (!this.stunned && !this.on_lava){
+        if (!this.stunned && !this.on_lava && !this.hit_wall && !this.in_wall){
             this.safe_pos.x = this.x;
             this.safe_pos.y = this.y;
         }
+        this.hit_wall = false;
+        this.in_wall = false;
         game_settings.player_curr_health = this.health;
         if (this.dashing && this.speed <= game_settings.player_walk_speed){
             this.doneDashing();
@@ -103,6 +130,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.updateDashPointer();
         }
         else this.dash_pointer.setVisible(false);
+
+        this.updateBall();
 
         // dash damage is speed/dash_speed * dash_damage;
         // given: velocity of player and the angles the two objects are going.
@@ -145,9 +174,6 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.dashing = false;
         this.bouncing = false;
         this.setDrag(game_settings.player_walk_drag);
-
-        
-        
     }
 
     updateDashCooldown(delta) {
@@ -266,11 +292,13 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             return;
         }
         this.charge_finished = false;
-        if (this.perfect_dash) {
-            this.player_sfx["super dash"].play();
-        }
-        else {
-            this.player_sfx["dash"].play();
+        if (!this.has_ball) {
+            if (this.perfect_dash) {
+                this.player_sfx["super dash"].play();
+            }
+            else {
+                this.player_sfx["dash"].play();
+            }
         }
         this.body.bounce.set(game_settings.player_bounce_mod);
         this.anims.play(`fran dash ${this.last_direction_moved.toLowerCase()}`, true);
@@ -294,11 +322,13 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             speed *= 1.5;
         }
         if (speed < this.min_dash_speed) speed = this.min_dash_speed;
+        this.angle_of_dash = -Math.atan2(this.x-getMouseCoords().x, this.y-getMouseCoords().y);
         current_scene.physics.moveToObject(this, getMouseCoords(), speed);
         this.dashing = true;
         this.setDrag(game_settings.player_dash_drag);
 
         if (this.has_ball == true){
+            current_scene.sound.add('throw', {volume: 0.7}).play();
             enableCollision(current_scene.ball.body);
             this.has_ball = false;
             let camPos = getCameraCoords(null, this.dash_pointer.x-50, this.dash_pointer.y-50);
@@ -332,7 +362,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             return;
         }
 
-        current_scene.enemyCollider.active = false;
+        //current_scene.enemyCollider.active = false;
         this.stunned = true;
         this.invulnerable = true;
         this.body.bounce.set(game_settings.player_bounce_mod);

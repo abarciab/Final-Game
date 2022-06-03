@@ -44,7 +44,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Is that a client?! Maybe god heard my plees and decided to give me something exciting!"
+                        "text": "Is that a client?! Maybe god heard my pleas and decided to give me something exciting!"
                     },
                     {
                         "speaker": "Old Man",
@@ -56,7 +56,7 @@
                     },
                     {
                         "speaker":"Old Man",
-                        "text": "My poor pooch has ran away while I was taking him on a walk in the forest, and I'm afraid I need help finding him..."
+                        "text": "My poor pooch ran away while I was taking him on a walk in the forest, and I'm afraid I need help finding him..."
                     },
                     {
                         "speaker": "Fran",
@@ -105,7 +105,7 @@
                     },
                     {
                         "speaker": "Fran",
-                        "text": "..."
+                        "text": "{transition:cave}..."
                     },
                     {
                         "speaker": "Fran",
@@ -142,7 +142,7 @@
                     },
                     {
                         "speaker": "hide",
-                        "text": "{action:dog_run_right}{hide:1}{next_line}"
+                        "text": "{action:dog_run_right}{open_door:4}{hide:1}{close_door:4}{next_line}"
                     },
                     {
                         "speaker": "Fran",
@@ -183,7 +183,7 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "{sfx:bam}You want to take pooch from me?? Over my dead body!"
+                        "text": "{sfx:bam}You want to take Cerebus from me?? Over my dead body!"
                     },
                     {
                         "speaker": "Fran",
@@ -211,7 +211,7 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "Hmph, no matter, I'll show you what me and pooch can do. Let's play some fetch boy!"
+                        "text": "Hmph, no matter, I'll show you what me and Cerebus can do. Let's play some fetch boy!"
                     },
                     {
                         "speaker": "Dog",
@@ -228,11 +228,11 @@
                 "body": [
                     {
                         "speaker": "Hank",
-                        "text": "{pan:hank}Ugh..."
+                        "text": "{pan:hank}{open_door:1}Urgh..."
                     },
                     {
                         "speaker": "Fran",
-                        "text": "Ugh, I'm never playing fetch again..."
+                        "text": "God I'm never playing fetch again..."
                     },
                     {
                         "speaker": "Fran",
@@ -244,7 +244,7 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "Y{sfx:bam}-you can't take pooch from me..."
+                        "text": "Y{sfx:bam}-you can't take Cerebus from me..."
                     },
                     {
                         "speaker": "Fran",
@@ -309,7 +309,7 @@
                     },
                     {
                         "speaker": "Old Man",
-                        "text": "...Who's dog did you steal?"
+                        "text": "...Whose dog did you steal?"
                     }
                 ]
             },
@@ -322,7 +322,7 @@
                     },
                     {
                         "speaker": "Hank",
-                        "text": "And didn't even give back my {rate:0.015}limited edition magical girl transformation staff{rate:0.03}..."
+                        "text": "And she didn't even give back my {rate:0.015}limited edition magical girl transformation staff{rate:0.03}..."
                     },
                     {
                         "speaker": "Hank",
@@ -330,7 +330,7 @@
                     },
                     {
                         "speaker": "",
-                        "text": "{rate:0.5}THE END!"
+                        "text": "{rate:0.5}THE END!\n{rate:0.03}Thanks for playing our game!"
                     }
                 ]
             }

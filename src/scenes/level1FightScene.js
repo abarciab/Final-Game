@@ -7,9 +7,7 @@ class level1FightScene extends Phaser.Scene {
         
         //intialize game_settings, current_scene, and setup keys
         //if (bg_music)
-        console.log(bg_music.key);
         if (bg_music.key != 'level') {
-            console.log("play");
             bg_music = this.sound.add('level', {volume: 0.5 * game_settings.music_vol});
             bg_music.setLoop(true).play();
         }

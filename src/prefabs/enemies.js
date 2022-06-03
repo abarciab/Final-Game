@@ -211,20 +211,20 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
                 this.base_health = game_settings.charger_health;
                 this.bounce_mod = game_settings.charger_bounce_mod;
                 this.bounce_drag = game_settings.charger_bounce_drag;
-                //this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
-                this.passive_volume = 0.3;
-                this.passive_timer;
-                this.passive_interval;
+                this.enemy_sfx["passive"] = current_scene.sound.add('roll').setLoop(true);
+                this.passive_volume = 0.2;
+                this.passive_interval = 0;
+                this.passive_timer = this.passive_interval;
                 break;
             case "DASHER":
                 this.speed = game_settings.dasher_speed;
                 this.base_health = game_settings.dasher_health;
                 this.bounce_mod = game_settings.dasher_bounce_mod;
                 this.bounce_drag = game_settings.dasher_bounce_drag;
-                //this.enemy_sfx["passive"] = current_scene.sound.add('sizzle').setLoop(true);
-                this.passive_volume = 0.3;
-                this.passive_timer;
-                this.passive_interval;
+                this.enemy_sfx["passive"] = current_scene.sound.add('roll').setLoop(true);
+                this.passive_volume = 0.2;
+                this.passive_interval = 0;
+                this.passive_timer = this.passive_interval;
                 break;
             case "GOLEM":
                 this.speed = game_settings.golem_speed;
@@ -273,7 +273,6 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
 
     reset() {
         disableCollision(this.body);
-        //console.log(`reseting: ${type}`)
         this.setActive(true);
         this.setVisible(true);
         this.body.setVelocity(0,0);
@@ -288,9 +287,9 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
         //bounces the player out of the enemy if they're stuck
         if (current_scene.player.invulnerable){
             current_scene.player.damage(this);
-            if (current_scene.player.invincible) {
+            /*if (current_scene.player.invincible) {
                 damage_value = 0;
-            }
+            }*/
             //return;
         }
         this.enemy_sfx["hit"].play();
@@ -413,7 +412,7 @@ class BaseEnemy extends Phaser.Physics.Arcade.Sprite {
             }
         }
         else if (this.stunned) {
-            if (this.type == "GOLEM") this.enemy_sfx["passive"].pause();
+            if (this.type != "SHOOTER") this.enemy_sfx["passive"].pause();
             this.anims.play(`${this.type.toLowerCase()} damage ${this.last_direction_moved.toLowerCase()}`, true);
         }
         else if (this.attacked) {
@@ -490,7 +489,7 @@ class DasherEnemy extends BaseEnemy {
 
         this.aggro_range = 500;
 
-        this.end_dash_speed = 50;
+        this.end_dash_speed = game_settings.dasher_speed;
 
         this.setScale(3);
         this.hitbox_radius = 6;

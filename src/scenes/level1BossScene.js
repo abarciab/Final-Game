@@ -6,7 +6,6 @@ class level1BossScene extends Phaser.Scene {
     create(){
         //intialize game_settings, current_scene, and setup keys
         current_map = 'bossMap';
-        console.log(bg_music.key);
         if (bg_music.key != 'boss') {
             bg_music = this.sound.add('boss', {volume: 0.3 * game_settings.music_vol});
             bg_music.setLoop(true).play();
@@ -16,7 +15,6 @@ class level1BossScene extends Phaser.Scene {
 
         initializeLevel(this);
         initBossLevel1(this);
-
 
         this.dog = new Dog(200, 200, 'dog idle left');
         this.dog.boss_scene = true;
@@ -28,24 +26,40 @@ class level1BossScene extends Phaser.Scene {
 
         //enemy collisions
         this.addColliders();
-
+        sweepTransition("left", false);
     }
 
     addColliders() {
         //ball and walls
         this.physics.add.collider(this.ball, this.collision_rects, function() {current_scene.ball.deflected = false})
+        // balls and door
+        this.physics.add.collider(this.ball, this.doors);
+        // hank and door
+        this.physics.add.collider(this.hank, this.doors);
+        // dog and door
+        this.physics.add.collider(this.dog, this.doors);
 
         //player and ball
-        this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
+        //this.physics.add.overlap(this.player, this.ball, playerProjectileCollision.bind(this));
         this.physics.add.overlap(this.player, this.ball, function() {
             if (current_scene.ball.deflected || current_scene.dog.has_ball){
+                if (current_scene.ball.deflected){
+                    current_scene.player.doneDashing();
+                }
                 return;
             }
             if (current_scene.player.dashing == true){
-                current_scene.ball.deflected = true
+                current_scene.ball.deflected = true;
+                const angle = current_scene.player.angle_of_dash;
+                const vel_x = 1000 * Math.sin(angle);
+                const vel_y = 1000 * -Math.cos(angle);
+                //const vel_x = current_scene.ball.body.velocity.x + current_scene.player.body.velocity.x;
+                //const vel_y = current_scene.ball.body.velocity.y + current_scene.player.body.velocity.y;
+                current_scene.ball.setVelocity(vel_x, vel_y);
                 current_scene.ball.dashed = true;
             } else{
                 current_scene.player.has_ball = true;
+                current_scene.sound.add('dog ball pickup').play();
                 current_scene.ball.setActive(false);
                 disableCollision(current_scene.ball.body);
                 current_scene.ball.setVisible(false);
@@ -70,7 +84,6 @@ class level1BossScene extends Phaser.Scene {
                 current_scene.player.damage(current_scene.dog);
                 if (current_scene.player.has_ball == true){
                     current_scene.dog.has_ball = true;
-                    current_scene.sound.add('dog ball pickup').play();
                     current_scene.player.has_ball = false;
                 }
             }
@@ -95,7 +108,7 @@ class level1BossScene extends Phaser.Scene {
         
         //ball and hank
         this.physics.add.overlap(this.ball, this.hank, function() {
-            if (current_scene.hank.charging || current_scene.hank.dashing){
+            if (current_scene.hank.dashing){
                 return;
             }
             if (current_scene.ball.deflected == true){
@@ -120,7 +133,6 @@ class level1BossScene extends Phaser.Scene {
                 if (current_scene.hank.throws_left <= 0){
                     return;
                 }
-                //console.log("dog damaged hank");
                 current_scene.ball.deflected = false;
                 current_scene.boss_bar.displayWidth -= 144.75;
                 current_scene.stunDog(3000);
@@ -152,6 +164,7 @@ class level1BossScene extends Phaser.Scene {
     }
 
     hankCatchBall(){
+        current_scene.sound.add('hank catch').play();
         current_scene.hank.has_ball = true;
         current_scene.ball.setActive(false);
         disableCollision(current_scene.ball.body);
@@ -159,7 +172,6 @@ class level1BossScene extends Phaser.Scene {
     }
 
     throwBall(){
-        console.log("throw ball!");
         current_scene.hank.throwing = false;
         current_scene.hank.throw = true;
         current_scene.dog.has_ball = false;
@@ -170,7 +182,6 @@ class level1BossScene extends Phaser.Scene {
         current_scene.hank.has_ball = false;
 
         current_scene.hank.anims.play(`${current_scene.hank.type.toLowerCase()} throw ${current_scene.hank.last_direction_moved.toLowerCase()}`, true);
-        //console.log("ball returned to hank");
         current_scene.ball.x = current_scene.hank.x;
         current_scene.ball.y = current_scene.hank.y;
         current_scene.ball.speed = 1000;
@@ -198,15 +209,11 @@ class level1BossScene extends Phaser.Scene {
     }
 
     spawnEnemiesAtGate(type){
-        console.log(type == "DASHER");
         for(let i = 0; i <  this.gate_positions.length; i++){
-            console.log(type);
             if ((i == 0 || i == 3) && type == "DASHER"){
-                console.log("skipping");
                 continue;
             }
             else{
-                console.log(i);
                 spawnEnemy(type, this.gate_positions[i].x, this.gate_positions[i].y);
             }
         }
@@ -232,8 +239,8 @@ class level1BossScene extends Phaser.Scene {
         this.ball.current_speed = Math.sqrt(Math.pow(this.ball.body.velocity.y, 2) + Math.pow(this.ball.body.velocity.x, 2));
 
         if (this.hank.health <= 0 && !this.done ){
-            this.hank.setVisible(false);
-            this.ball.setVisible(false);
+            //this.hank.setVisible(false);
+            //this.ball.setVisible(false);
             
             this.done = true;
             this.enemies.forEach(enemy => {
@@ -243,7 +250,6 @@ class level1BossScene extends Phaser.Scene {
             });
 
             if (this.done){
-                this.endScene();
                 return;
             }            
         }
@@ -257,19 +263,5 @@ class level1BossScene extends Phaser.Scene {
         this.boss_bar.setPosition(bos_box_pos.x-this.boss_box.displayWidth/2, bos_box_pos.y).setDepth(current_scene.player.depth + 2);
         this.boss_box.setPosition(bos_box_pos.x, bos_box_pos.y).setDepth(current_scene.player.depth + 2.1);
         this.hank.update(time, delta);
-    }
-
-    endScene(){
-        this.vignette.setVisible(false);
-        
-        this.dog.setDepth(this.player.depth - 0.1);
-        this.boss_bar.setVisible(false);
-        this.boss_box.setVisible(false);
-        this.tweens.add({
-            duration: 3000,
-            targets: this.endRect,
-            alpha: 1,
-            onComplete: function() {console.log("GAME COMPLETE")},
-        })
     }
 }

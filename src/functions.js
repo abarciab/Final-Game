@@ -4,6 +4,8 @@ function initializeScene(scene) {
     
     scene.cameras.main.setZoom(game_settings.camera_zoom);
     scene.cameras.main.setBackgroundColor('#000000');
+    scene.cam_pos_x = getCameraCoords(null, 0, 0).x;
+    scene.cam_pos_y = getCameraCoords(null, 0, 0).y;
     scene.physics.world.setBounds(0, 0, game.config.width, game.config.height);
     setupKeys(scene);
 }
@@ -24,12 +26,6 @@ function initializeLevel(scene) {
     scene.enemies = [];
     scene.enemy_projectiles = new ProjectileGroup('shooter bullet');
     scene.enemy_shockwaves = new ShockwaveGroup('shockwave');
-
-    // //doggo
-    // scene.doggo = new Dog(200, 200, 'dog idle right');
-    // scene.doggo.asleep = true;
-    // scene.doggo.setVisible(false);
-    // console.log("added doggo to scene");
     
     initMap()
     scene.camera = scene.cameras.main.startFollow(scene.player, true, 0.05, 0.05);
@@ -40,12 +36,12 @@ function initializeLevel(scene) {
     //UI
     scene.pauseLayer = scene.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
     scene.paused = false;
-    scene.vignette = scene.add.sprite(0, 0, 'vignette').setDepth(4).setOrigin(0).setAlpha(0.7).setTint(0x000000).setScale(1.1);
+    scene.vignette = scene.add.sprite(0, 0, 'vignette').setDepth(6).setOrigin(0).setAlpha(0.7).setTint(0x000000).setScale(1.1);
 
     //updateUI();
     scene.game_UI = new GameUI();
     scene.game_UI.setPlayerUI();
-    createPauseMenu();
+    //createPauseMenu();
 }
 
 function initMap() {
@@ -72,10 +68,8 @@ function initMap() {
     setupTilemapCollisions(layer1);
     setupTilemapCollisions(layer2);
     setupTilemapCollisions(marker_layer);
-    //console.log(marker_layer.properties);
 }
 
-//let pause_menu = {};
 function createPauseMenu(){
     let pause_menu = {};
 
@@ -168,7 +162,6 @@ function createPauseMenu(){
     })
     
     current_scene.pause_menu = pause_menu;
-    current_scene.paused = false;
 }
 
 function createLevelSelect(){
@@ -287,18 +280,27 @@ function closeLevelSelect(){
 
 
 function updateLevel(time, delta) {
+    if (Phaser.Input.Keyboard.JustDown(key_r)){
+        game_settings.player_curr_health = game_settings.player_max_health;
+        current_scene.player.health = 5;
+        current_scene.scene.restart();
+    }
     //update UI
     current_scene.game_UI.update();
+    current_scene.cam_pos_x = getCameraCoords(null, 0, 0).x;
+    current_scene.cam_pos_y = getCameraCoords(null, 0, 0).y;
     //pause the game
     if (Phaser.Input.Keyboard.JustDown(key_esc)){
-        current_scene.paused = !current_scene.paused;
+        //current_scene.paused = !current_scene.paused;
+        current_scene.scene.launch('pauseScene');
+        current_scene.scene.pause();
     }
-    if (current_scene.paused){
-        pause();
-        return;
+    /*if (current_scene.paused){
+        //pause();
+        return false;
     } else {
-        resume();
-    }
+        //resume();
+    }*/
     if (!current_scene.level_finished) {
         //update player 
         current_scene.player.update(time, delta);
@@ -310,6 +312,8 @@ function updateLevel(time, delta) {
     }
     let vignettePos = getCameraCoords(null, 0, 0);
     current_scene.vignette.setPosition(vignettePos.x, vignettePos.y);
+
+    return true;
 }
 
 function initBossLevel1(scene) {
@@ -341,10 +345,13 @@ function initBossLevel1(scene) {
 function addColliders(scene) {
     //player
     scene.player_wall_collider = scene.physics.add.collider(scene.player, scene.collision_rects, playerWallCollision.bind(scene));
+    scene.physics.add.overlap(scene.player, scene.collision_rects, checkInWall.bind(scene));
     scene.physics.add.collider(scene.player, scene.doors);
     scene.physics.add.overlap(scene.player, scene.lava_rects, playerLavaCollision.bind(scene));
     scene.physics.add.collider(scene.pickups, scene.collision_rects);
-    scene.physics.add.overlap(scene.player, scene.pickups, playerHealthCollision.bind(this));
+    scene.physics.add.overlap(scene.player, scene.pickups, playerHealthCollision.bind(scene));
+    scene.physics.add.overlap(scene.player, scene.destructibles, playerDestructibleCollision.bind(scene));
+    scene.physics.add.collider(scene.player, scene.enemy_shockwaves, playerShockwaveCollision.bind(scene));
 
     //enemies
     scene.enemyCollider = scene.physics.add.collider(scene.player, scene.enemies, playerEnemyCollision.bind(scene));
@@ -354,11 +361,8 @@ function addColliders(scene) {
         }
     });
     scene.physics.add.collider(scene.enemies, scene.doors);
-    
     scene.physics.add.collider(scene.enemies, scene.lava_rects, enemyLavaCollision.bind(scene));
-    scene.physics.add.overlap(scene.player, scene.destructibles, playerDestructibleCollision.bind(scene));
     scene.physics.add.collider(scene.enemies, scene.enemies, enemyOnEnemyCollision.bind(scene));
-    scene.physics.add.collider(scene.player, scene.enemy_shockwaves, playerShockwaveCollision.bind(scene));
     //scene.physics.add.collider(scene.enemies, scene.enemy_shockwaves, enemyShockwaveCollision.bind(scene));
 
     //projectiles
@@ -393,7 +397,9 @@ function setupKeys(scene){
     key_4 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR);
     key_5 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.FIVE);
     key_6 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SIX);
+    key_7 = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SEVEN);
 
+    key_r = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 }
 
 function setupInteractables(map){
@@ -409,7 +415,7 @@ function setupInteractables(map){
     current_scene.targets = [];
 
     for (let i = 0; i < instruction_sprites.length; i++) {
-        current_scene.add.sprite(instruction_sprites[i].x, instruction_sprites[i].y, instruction_sprites[i].data.list.label).setDepth(current_scene.player.depth-1).setScale(1.8);
+        current_scene.add.sprite(instruction_sprites[i].x, instruction_sprites[i].y, instruction_sprites[i].data.list.label).setDepth(current_scene.player.depth-4).setScale(1.8);
         instruction_sprites[i].destroy();
     }
 
@@ -575,7 +581,6 @@ function setupEnemies(map){
 
 function onEnemyDead(dead_enemy){
     if (Phaser.Math.Between(1, 7) == 1){
-        console.log("spawnign pickup!");
         spawnHealthPickup(dead_enemy.x, dead_enemy.y);
     }
 
@@ -601,7 +606,6 @@ function onEnemyDead(dead_enemy){
 }
 
 function openDoors(circuit){
-    //console.log(`opening door #${circuit}`);
     for(let i = 0; i < current_scene.doors.length; i++ ){
         if ((current_scene.doors[i].data_sprite.data && current_scene.doors[i].data_sprite.data && circuit == current_scene.doors[i].data_sprite.data.list.circuit) || (current_scene.doors[i].locked == true) ){
             if (circuit != current_scene.doors[i].data_sprite.data.list.circuit && current_scene.doors[i].data_sprite.data.list.stay_closed != null){
@@ -662,7 +666,6 @@ function closeDoors(circuit){
 function awakenEnemies(circuit){
     for (let i = 0; i < current_scene.enemies.length; i++) {
         if (current_scene.enemies[i].room == circuit){
-            //console.log(`awkening ${current_scene.enemies[i].type}`);
             current_scene.enemies[i].asleep = false;
         }
     }
@@ -696,7 +699,12 @@ function activateButton(button) {
         current_scene.player_wall_collider.active = false;
         //current_scene.
         sweepTransition("right", true, function() {
-            console.log(`starting level: ${button.data_sprite.data.list.next_level}`);
+            if (current_scene.enemies != undefined) {
+                current_scene.enemies.forEach(enemy => {
+                    if (enemy.enemy_sfx["passive"] != undefined && enemy.enemy_sfx["passive"].isPlaying) 
+                        enemy.enemy_sfx["passive"].stop();
+                })
+            }
             current_map = button.data_sprite.data.list.next_level;
             current_scene.scene.restart();
         })
@@ -713,14 +721,14 @@ function activateButton(button) {
     
     if (button.circuit == null && button.data_sprite.data.list.close_door == true){
         closeDoors(circuit);
-        awakenEnemies(circuit);
+        if (current_scene.enemies != undefined) {
+            awakenEnemies(circuit);
+        }
     } else{
         openDoors(circuit);
     }
 
     if (button.circuit == null){
-        //console.log("hi");
-        //button.setAlpha(0.5);
         button.data_sprite.setTexture('button down');
         button.data_sprite.data.list.circuit = -1;
     } else{
@@ -796,7 +804,6 @@ function pause(){
             enemy.body.stop();
         });
         current_scene.enemy_projectiles.getChildren().forEach(projectile => {
-            //console.log(`projectiles don't stop correctly on game pause`);
             //projectile.body.stop();
         });
     
@@ -846,6 +853,11 @@ function resume(){
 
 function playerWallCollision(player, rects) {
     const wall_bounce_mod = 0.4;
+    if (rects.deadly) {
+        player.in_wall = true;
+        player.setPosition(player.safe_pos.x, player.safe_pos.y);
+    }
+    player.hit_wall = true;
     if (player.dashing || player.stunned)
         player.body.setVelocity(player.body.velocity.x*wall_bounce_mod, player.body.velocity.y*wall_bounce_mod);
 }
@@ -856,6 +868,16 @@ function checkPlayerLavaCollision() {
     }
     else {
         current_scene.player.on_lava = false;
+    }
+}
+
+function checkInWall(player, rects) {
+    if (rects.deadly) {
+        player.in_wall = true;
+        player.setPosition(player.safe_pos.x, player.safe_pos.y);
+    }
+    else {
+        player.in_wall = false;
     }
 }
 
@@ -918,6 +940,9 @@ function playerHealthCollision(player, pickup) {
         }
         current_scene.pickup_sfx.play({volume: 0.4});
     }
+    else {
+        pickup.setVelocity(player.body.velocity.x * 0.5, player.body.velocity.y * 0.5);
+    }
 }
 
 function disableCollision(body){
@@ -938,7 +963,6 @@ function enableCollision(body){
 
 // called after collision
 function playerEnemyCollision(player, enemy){
-    //console.log(current_scene.enemy_shockwaves);
     if (enemy.charging == true){
         enemy.charging = false;
         enemy.clearTint();
@@ -960,17 +984,13 @@ function playerEnemyCollision(player, enemy){
 }
 
 function playerShockwaveCollision(player, shockwave){
-    //console.log(shockwave);
     if (!player.startInvulnerable || !player.invulnerable) {
         current_scene.player.damage(shockwave, true, true);
     }
 }
 
 function enemyShockwaveCollision(enemy, shockwave){
-    //console.log(enemy);
-
     if (enemy.type != "GOLEM") {
-        console.log("FICOUSGH");
         let redirect_multiplier = game_settings.golem_shockwave_power * 2;
         const angle = -Math.atan2(shockwave.owner.x-enemy.x, shockwave.owner.y-enemy.y);
         const vel_x = redirect_multiplier * Math.sin(angle);
@@ -1004,6 +1024,8 @@ function playerDestructibleCollision(player, destructible){
 //utility functions:
 function spawnHealthPickup(x, y){
     let healthPickup = current_scene.physics.add.sprite(x, y, 'player heart').setDepth(3);
+    //healthPickup.body.setMass(0.3);
+    healthPickup.setCircle(healthPickup.displayWidth/2);
     healthPickup.body.setVelocity(Phaser.Math.Between(-800, 800), Phaser.Math.Between(-800, 800));
     healthPickup.setDrag(0.001);
     healthPickup.setDamping(true);
@@ -1099,9 +1121,6 @@ function spawnEnemy(type, x, y, _return){
             console.log(`invalid enemy type requested: ${type}`);
             return; // to not run final statement
     }
-
-    //current_scene.physics.add.collider(new_enemy, current_scene.collision_rects);
-    //current_scene.physics.add.collider(new_enemy, current_scene.lava_rects);
     
     if (_return){
         return new_enemy;
