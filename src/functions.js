@@ -35,7 +35,8 @@ function initializeLevel(scene) {
 
     //UI
     scene.pauseLayer = scene.add.sprite(game.config.width/2, game.config.height/2, 'white square').setTint(0x010101).setAlpha(0.3).setScale(20,20).setOrigin(0.5).setDepth(5).setVisible(false);
-    scene.vignette = scene.add.sprite(0, 0, 'vignette').setDepth(6).setOrigin(0).setAlpha(0.7).setTint(0x000000)    ;
+    scene.paused = false;
+    scene.vignette = scene.add.sprite(0, 0, 'vignette').setDepth(6).setOrigin(0).setAlpha(0.7).setTint(0x000000).setScale(1.1);
 
     //updateUI();
     scene.game_UI = new GameUI();
